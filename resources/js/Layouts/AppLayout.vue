@@ -5,6 +5,7 @@ import DropdownLink from '@/Components/DropdownLink.vue';
 import sideMenueLink from '@/Components/sideMenueLink.vue';
 import SsubMenue from '@/Components/SsubMenue.vue';
 import appLogo from '@/Components/ApplicationLogo.vue';
+import appLogo2 from '@/Components/AuthenticationCardLogo.vue';
 
 defineProps({
     title: String,
@@ -41,7 +42,8 @@ const logout = () => {
 };
 
 // custom vue coding
-const bulean = ref(false);
+
+const topmenu = ref(true);
 const sidemenu = ref(false);
 const setup = ref(false);
 const user = ref(false);
@@ -55,6 +57,7 @@ if (window.location.pathname.startsWith('/admin/user')) {
 
 if (screen.width > 640) {
     sidemenu.value = ref(true);
+    topmenu.value = false;
 }
 
 const sidemenuChange = () => {
@@ -79,6 +82,7 @@ const userOpenClose = () => {
         user.value = true;
     }
 }
+console.log(topmenu.value)
 const userMenu = ref(false);
 
 </script>
@@ -87,11 +91,11 @@ const userMenu = ref(false);
 
     <div>
         <Head :title="title" />
-        <!-- <div class="fixed w-full text-center text-3xl bg-[#0edda2]">
+        <div class="fixed w-full sm:hidden text-center text-3xl bg-[#0edda2]">
             <h1 v-if="$page.props.auth.user.id == 1" class="font-extrabold p-3">Super Admin</h1>
             <h1 v-else class="font-extrabold p-3">{{ ($page.props.auth.user.word ? $page.props.auth.user.word.union ? $page.props.auth.user.word.name + "নং" + $page.props.auth.user.word.union.name : "Super Admin" : 'Super Admin')}}</h1>
-        </div> -->
-        <nav class="fixed top-0 z-50 w-full bg-[#0edda2] border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+        </div>
+        <nav class="fixed top-0 max-sm:top-14 z-50 w-full max-sm:bg-white bg-[#0edda2] border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
             <div class="px-3 py-3 lg:px-5 lg:pl-3">
                 <div class="flex items-center justify-between">
                     <div class="flex items-center justify-start ">
@@ -105,14 +109,17 @@ const userMenu = ref(false);
                                 </path>
                             </svg>
                         </button>
-                        <a href="#" class="flex ml-2 md:mr-24">
+                        <a v-if="!topmenu" href="#" class="flex ml-2  md:mr-24">
                             <appLogo class="block w-auto" />
                         </a>
                     </div>
 
-                    <div class="text-center text-3xl">
+                    <div class="text-center text-3xl max-sm:hidden">
                         <h1 v-if="$page.props.auth.user.id == 1" class="font-extrabold p-3">Super Admin</h1>
                         <h1 v-else class="font-extrabold p-3">{{ ($page.props.auth.user.word ? $page.props.auth.user.word.union ? $page.props.auth.user.word.name + "নং" + $page.props.auth.user.word.union.name : "Super Admin" : 'Super Admin')}}</h1>
+                    </div>
+                    <div v-if="topmenu" class="flex items-center justify-start text-3xl hidden max-sm:block">
+                        <appLogo2 class="block w-auto" />
                     </div>
                     <div class="flex items-center">
                         <div class="flex items-center ml-3">
@@ -158,7 +165,7 @@ const userMenu = ref(false);
 
     <aside id="logo-sidebar"
 
-        class="fixed top-[85px] left-0 z-40 w-64 h-screen transition-transform bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700 "
+        class="fixed top-[85px] max-sm:top-[128px] left-0 z-40 w-64 h-screen transition-transform bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700 "
         :class="[sidemenu ? 'block' : '-translate-x-full']"
          aria-label="Sidebar">
         <div class="h-full pb-4 overflow-y-auto bg-white dark:bg-gray-800">
