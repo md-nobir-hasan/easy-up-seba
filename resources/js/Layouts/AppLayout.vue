@@ -8,6 +8,7 @@ import appLogo from '@/Components/ApplicationLogo.vue';
 
 defineProps({
     title: String,
+    user: String,
 });
 
 //========= frontend validation ============
@@ -17,7 +18,6 @@ const ncheck = (nmodule) => {
     let checked = false;
     usePage().props.permissions.forEach(function (val, key) {
         if (val.module.name == nmodule && val.role_id == nuser.role_id) {
-            console.log(val);
             checked = true;
         }
     })
@@ -42,6 +42,7 @@ const logout = () => {
 
 // custom vue coding
 const bulean = ref(false);
+const sidemenu = ref(false);
 const setup = ref(false);
 const user = ref(false);
 
@@ -53,13 +54,15 @@ if (window.location.pathname.startsWith('/admin/user')) {
 }
 
 if (screen.width > 640) {
-    bulean.value = ref(true);
+    sidemenu.value = ref(true);
 }
-const bulChange = () => {
-    if (bulean.value) {
-        bulean.value = false;
+
+const sidemenuChange = () => {
+
+    if (sidemenu.value) {
+        sidemenu.value = false;
     } else {
-        bulean.value = true;
+        sidemenu.value = true;
     }
 }
 const openClose = () => {
@@ -77,26 +80,22 @@ const userOpenClose = () => {
     }
 }
 const userMenu = ref(false);
-// const userMenueChange = () =>{
-
-// }
 
 </script>
 
 <template>
+
     <div>
-
         <Head :title="title" />
-
-        <!-- <Banner /> -->
-
-
-        <nav class="fixed top-0 z-50 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+        <div class="fixed w-full text-center text-3xl bg-[#0edda2]">
+            <h1 class="font-extrabold p-3">{{ $page.props.auth.user.word.name + " নং "+$page.props.auth.user.word.union.name}}</h1>
+        </div>
+        <nav class="fixed top-14 z-50 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
             <div class="px-3 py-3 lg:px-5 lg:pl-3">
                 <div class="flex items-center justify-between">
-                    <div class="flex items-center justify-start">
-                        <button @click="bulChange" type="button"
-                            class="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg smphp ar:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
+                    <div class="flex items-center justify-start ">
+                        <button @click="sidemenuChange" type="button"
+                            class="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg smphp sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
                             <span class="sr-only">Open sidebar</span>
                             <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -115,7 +114,7 @@ const userMenu = ref(false);
                                 <div>
                                   <button @click="userMenu == true ? userMenu= false : userMenu= true" type="button" class="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" aria-expanded="false" data-dropdown-toggle="dropdown-user">
                                     <span class="sr-only">Open user menu</span>
-                                    <img class="w-8 h-8 rounded-full h-3" src="default/images/human.webp" alt="user photo">
+                                    <img class="w-8 h-8 rounded-full h-3" src="/default/images/human.webp" alt="user photo">
                                   </button>
                                 </div>
                                 <div :class="[userMenu ? 'block' : 'hidden']" class="z-50 absolute top-10 right-0 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600" id="dropdown-user">
@@ -152,8 +151,10 @@ const userMenu = ref(false);
         </nav>
 
     <aside id="logo-sidebar"
-        class="fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform  bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700 "
-        :class="[bulean ? '' : '-translate-x-full']" aria-label="Sidebar">
+
+        class="fixed top-32 left-0 z-40 w-64 h-screen transition-transform bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700 "
+        :class="[sidemenu ? 'block' : '-translate-x-full']"
+         aria-label="Sidebar">
         <div class="h-full pb-4 overflow-y-auto bg-white dark:bg-gray-800">
             <ul>
                 <li>
@@ -182,7 +183,7 @@ const userMenu = ref(false);
                                 d="M3 5a2 2 0 012-2h1a1 1 0 010 2H5v7h2l1 2h4l1-2h2V5h-1a1 1 0 110-2h1a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V5z">
                             </path>
                         </svg>
-                        <span class="flex-1 ml-3 whitespace-nowrap">setup
+                        <span class="flex-1 ml-3 whitespace-nowrap cursor-pointer">setup
                         </span>
                         <svg v-if="setup" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" class="h-3 ml-auto ml-2">
                             <path
@@ -272,14 +273,14 @@ const userMenu = ref(false);
             </li>
             <li @click="userOpenClose" v-if="ncheck('Menu User')">
                 <a :class="{'active':$page.url.startsWith('/admin/user')}"
-                    class="flex items-center p-2 text-base mx-2 font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                    class="flex  items-center p-2 text-base mx-2 font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
                     <svg aria-hidden="true"
                         class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                         fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
                             clip-rule="evenodd"></path>
                     </svg>
-                    <span class="flex-1 ml-3 whitespace-nowrap">User Managment
+                    <span class="flex-1 ml-3 whitespace-nowrap cursor-pointer">User Managment
                     </span>
                     <svg v-if="setup" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" class="h-3 ml-auto ml-2">
                         <path
@@ -316,57 +317,6 @@ const userMenu = ref(false);
                         <span class="ml-3">User</span>
                     </SsubMenue>
                 </span>
-            </li>
-            <li>
-                <a href="#"
-                    class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
-                    <svg aria-hidden="true"
-                        class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-                        fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-                            clip-rule="evenodd"></path>
-                    </svg>
-                    <span class="flex-1 ml-3 whitespace-nowrap">Users</span>
-                </a>
-            </li>
-            <li>
-                <a
-                    class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
-                    <svg aria-hidden="true"
-                        class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-                        fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd"
-                            d="M10 2a4 4 0 00-4 4v1H5a1 1 0 00-.994.89l-1 9A1 1 0 004 18h12a1 1 0 00.994-1.11l-1-9A1 1 0 0015 7h-1V6a4 4 0 00-4-4zm2 5V6a2 2 0 10-4 0v1h4zm-6 3a1 1 0 112 0 1 1 0 01-2 0zm7-1a1 1 0 100 2 1 1 0 000-2z"
-                            clip-rule="evenodd"></path>
-                    </svg>
-                    <span class="flex-1 ml-3 whitespace-nowrap">Products</span>
-                </a>
-            </li>
-            <li>
-                <a href="#"
-                    class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
-                    <svg aria-hidden="true"
-                        class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-                        fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd"
-                            d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z"
-                            clip-rule="evenodd"></path>
-                    </svg>
-                    <span class="flex-1 ml-3 whitespace-nowrap">Sign In</span>
-                </a>
-            </li>
-            <li>
-                <a href="#"
-                    class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
-                    <svg aria-hidden="true"
-                        class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-                        fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd"
-                            d="M5 4a3 3 0 00-3 3v6a3 3 0 003 3h10a3 3 0 003-3V7a3 3 0 00-3-3H5zm-1 9v-1h5v2H5a1 1 0 01-1-1zm7 1h4a1 1 0 001-1v-1h-5v2zm0-4h5V8h-5v2zM9 8H4v2h5V8z"
-                            clip-rule="evenodd"></path>
-                    </svg>
-                    <span class="flex-1 ml-3 whitespace-nowrap">Sign Up</span>
-                </a>
             </li>
         </ul>
     </div>

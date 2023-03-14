@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('show_pass');
             $table->text('address')->nullable();
             $table->unsignedBigInteger('role_id');
+            $table->unsignedBigInteger('word_id');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
@@ -31,6 +32,8 @@ return new class extends Migration
             $table->timestamps();
         });
         Schema::table('users', function (Blueprint $table) {
+            $table->foreign('role_id', 'users_role_id')->references('id')->on('roles')->onDelete('cascade')->onUpdate('cascade');
+            // $table->foreign('word_id', 'users_word_id')->references('id')->on('words')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('created_by', 'users_created_by')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('updated_by', 'users_updated_by')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('deleted_by', 'users_deleted_by')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');

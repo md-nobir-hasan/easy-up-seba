@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 use function Termwind\render;
 
@@ -15,7 +17,4 @@ class AjaxController extends Controller
         return response()->json($data);
     }
 
-    public function dashboard(){
-        return render('Dashboard');
-    }
 }

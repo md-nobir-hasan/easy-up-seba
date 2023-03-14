@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Models\Division;
 use App\Models\Role;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -18,7 +19,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $n['users'] = User::with(['createdBy','updatedBy','role'])->where('deleted_by',null)->orderBy('id','desc')->get();
+        $n['users'] = User::with(['createdBy','updatedBy','role','word'])->where('deleted_by',null)->orderBy('id','desc')->get();
         return Inertia::render('User/User/Index',$n);
     }
 
@@ -28,6 +29,7 @@ class UserController extends Controller
     public function create()
     {
         $n['roles'] = Role::where('deleted_by',null)->orderBy('id','desc')->get();
+        $n['divisions'] = Division::where('deleted_by',null)->orderBy('id','desc')->get();
         return Inertia::render('User/User/Create',$n);
     }
 
@@ -44,6 +46,7 @@ class UserController extends Controller
         $insert->password = Hash::make($request->password);
         $insert->address = $request->address;
         $insert->role_id = $request->role_id;
+        $insert->word_id = $request->word_id;
         $insert->created_by = Auth::user()->id;
         $insert->save();
         $request->session()->flash('suc_msg',$request->name.' Saved Successfully');
@@ -83,6 +86,7 @@ class UserController extends Controller
         $user->show_pass = $request->password;
         $user->password = Hash::make($request->password);
         $user->role_id = $request->role_id;
+        $user->word_id = $request->word_id;
         $user->address = $request->address;
         $user->updated_at = Carbon::now();
         $user->updated_by = Auth::user()->id;
