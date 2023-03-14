@@ -2,11 +2,12 @@
 import { ref } from 'vue';
 import { Head, useForm } from '@inertiajs/vue3';
 import AuthenticationCard from '@/Components/AuthenticationCard.vue';
-import AuthenticationCardLogo from '@/Components/AuthenticationCardLogo.vue';
+import appLogo from '@/Components/ApplicationLogo.vue';
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
+
 
 const form = useForm({
     password: '',
@@ -30,7 +31,7 @@ const submit = () => {
 
     <AuthenticationCard>
         <template #logo>
-            <AuthenticationCardLogo />
+            <appLogo />
         </template>
 
         <div class="mb-4 text-sm text-gray-600">
