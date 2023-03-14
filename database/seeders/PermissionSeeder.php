@@ -21,6 +21,9 @@ class PermissionSeeder extends Seeder
             ['role_id' => 1,'module_id' => 6,'add' => '1','show' => '1','edit' => '1','delete' => '1'],
             ['role_id' => 1,'module_id' => 7,'add' => '1','show' => '1','edit' => '1','delete' => '1'],
             ['role_id' => 1,'module_id' => 8,'add' => '1','show' => '1','edit' => '1','delete' => '1'],
+            ['role_id' => 1,'module_id' => 9,'add' => '1','show' => '1','edit' => '1','delete' => '1'],
+            ['role_id' => 1,'module_id' => 10,'add' => '1','show' => '1','edit' => '1','delete' => '1'],
+            ['role_id' => 1,'module_id' => 11,'add' => '1','show' => '1','edit' => '1','delete' => '1'],
         ];
 
         DB::table('permissions')->insert($n);

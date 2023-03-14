@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -22,6 +21,9 @@ class ModuleSeeder extends Seeder
             ['name' => 'User'],
             ['name' => 'Menu Setup'],
             ['name' => 'Menu User'],
+            ['name' => 'Union'],
+            ['name' => 'Word'],//10
+            ['name' => 'Village'],
         ];
 
         DB::table('modules')->insert($n);

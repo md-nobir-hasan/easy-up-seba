@@ -5,8 +5,11 @@ use App\Http\Controllers\DeleteController;
 use App\Http\Controllers\DistrictController;
 use App\Http\Controllers\DivisionController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\UnionController;
 use App\Http\Controllers\UpazilaController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\VillageController;
+use App\Http\Controllers\WordController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -60,6 +63,9 @@ Route::middleware([
         Route::resource('/division',DivisionController::class);
         Route::resource('/district',DistrictController::class);
         Route::resource('/upazila',UpazilaController::class);
+        Route::resource('/union',UnionController::class);
+        Route::resource('/word',WordController::class);
+        Route::resource('/village',VillageController::class);
 
     });
 
