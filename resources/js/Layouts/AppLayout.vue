@@ -5,6 +5,7 @@ import DropdownLink from '@/Components/DropdownLink.vue';
 import sideMenueLink from '@/Components/sideMenueLink.vue';
 import SsubMenue from '@/Components/SsubMenue.vue';
 import appLogo from '@/Components/ApplicationLogo.vue';
+import appLogo2 from '@/Components/AuthenticationCardLogo.vue';
 
 defineProps({
     title: String,
@@ -41,7 +42,8 @@ const logout = () => {
 };
 
 // custom vue coding
-const bulean = ref(false);
+
+const topmenu = ref(true);
 const sidemenu = ref(false);
 const setup = ref(false);
 const user = ref(false);
@@ -55,6 +57,7 @@ if (window.location.pathname.startsWith('/admin/user')) {
 
 if (screen.width > 640) {
     sidemenu.value = ref(true);
+    topmenu.value = false;
 }
 
 const sidemenuChange = () => {
@@ -79,6 +82,7 @@ const userOpenClose = () => {
         user.value = true;
     }
 }
+console.log(topmenu.value)
 const userMenu = ref(false);
 
 </script>
@@ -87,10 +91,11 @@ const userMenu = ref(false);
 
     <div>
         <Head :title="title" />
-        <div class="fixed w-full text-center text-3xl bg-[#0edda2]">
-            <h1 class="font-extrabold p-3">{{ $page.props.auth.user.word.name + " নং "+$page.props.auth.user.word.union.name}}</h1>
+        <div class="fixed w-full sm:hidden text-center text-3xl bg-[#0edda2]">
+            <h1 v-if="$page.props.auth.user.id == 1" class="font-extrabold p-3">Super Admin</h1>
+            <h1 v-else class="font-extrabold p-3">{{ ($page.props.auth.user.word ? $page.props.auth.user.word.union ? $page.props.auth.user.word.name + "নং" + $page.props.auth.user.word.union.name : "Super Admin" : 'Super Admin')}}</h1>
         </div>
-        <nav class="fixed top-14 z-50 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+        <nav class="fixed top-0 max-sm:top-14 z-50 w-full max-sm:bg-white bg-[#0edda2] border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
             <div class="px-3 py-3 lg:px-5 lg:pl-3">
                 <div class="flex items-center justify-between">
                     <div class="flex items-center justify-start ">
@@ -104,9 +109,17 @@ const userMenu = ref(false);
                                 </path>
                             </svg>
                         </button>
-                        <a href="#" class="flex ml-2 md:mr-24">
+                        <a v-if="!topmenu" href="#" class="flex ml-2  md:mr-24">
                             <appLogo class="block w-auto" />
                         </a>
+                    </div>
+
+                    <div class="text-center text-3xl max-sm:hidden">
+                        <h1 v-if="$page.props.auth.user.id == 1" class="font-extrabold p-3">Super Admin</h1>
+                        <h1 v-else class="font-extrabold p-3">{{ ($page.props.auth.user.word ? $page.props.auth.user.word.union ? $page.props.auth.user.word.name + "নং" + $page.props.auth.user.word.union.name : "Super Admin" : 'Super Admin')}}</h1>
+                    </div>
+                    <div v-if="topmenu" class="flex items-center justify-start text-3xl hidden max-sm:block">
+                        <appLogo2 class="block w-auto" />
                     </div>
                     <div class="flex items-center">
                         <div class="flex items-center ml-3">
@@ -114,7 +127,7 @@ const userMenu = ref(false);
                                 <div>
                                   <button @click="userMenu == true ? userMenu= false : userMenu= true" type="button" class="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" aria-expanded="false" data-dropdown-toggle="dropdown-user">
                                     <span class="sr-only">Open user menu</span>
-                                    <img class="w-8 h-8 rounded-full h-3" src="/default/images/human.webp" alt="user photo">
+                                    <img class="h-10 rounded-full" src="/default/images/human.webp" alt="user photo">
                                   </button>
                                 </div>
                                 <div :class="[userMenu ? 'block' : 'hidden']" class="z-50 absolute top-10 right-0 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600" id="dropdown-user">
@@ -152,7 +165,7 @@ const userMenu = ref(false);
 
     <aside id="logo-sidebar"
 
-        class="fixed top-32 left-0 z-40 w-64 h-screen transition-transform bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700 "
+        class="fixed top-[85px] max-sm:top-[128px] left-0 z-40 w-64 h-screen transition-transform bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700 "
         :class="[sidemenu ? 'block' : '-translate-x-full']"
          aria-label="Sidebar">
         <div class="h-full pb-4 overflow-y-auto bg-white dark:bg-gray-800">
@@ -322,7 +335,7 @@ const userMenu = ref(false);
     </div>
 </aside>
 
-<div class="p-4 sm:ml-64">
+<div class="p-4 sm:ml-64 pt-[78px]">
     <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-14">
         <slot />
     </div>
