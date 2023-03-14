@@ -87,10 +87,11 @@ const userMenu = ref(false);
 
     <div>
         <Head :title="title" />
-        <div class="fixed w-full text-center text-3xl bg-[#0edda2]">
-            <h1 class="font-extrabold p-3">{{ ($page.props.auth.user.word ? $page.props.auth.user.word.union ? $page.props.auth.user.word.name + "নং" + $page.props.auth.user.word.union.name : "Super Admin" : 'Super Admin')}}</h1>
-        </div>
-        <nav class="fixed top-14 z-50 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+        <!-- <div class="fixed w-full text-center text-3xl bg-[#0edda2]">
+            <h1 v-if="$page.props.auth.user.id == 1" class="font-extrabold p-3">Super Admin</h1>
+            <h1 v-else class="font-extrabold p-3">{{ ($page.props.auth.user.word ? $page.props.auth.user.word.union ? $page.props.auth.user.word.name + "নং" + $page.props.auth.user.word.union.name : "Super Admin" : 'Super Admin')}}</h1>
+        </div> -->
+        <nav class="fixed top-0 z-50 w-full bg-[#0edda2] border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
             <div class="px-3 py-3 lg:px-5 lg:pl-3">
                 <div class="flex items-center justify-between">
                     <div class="flex items-center justify-start ">
@@ -108,13 +109,18 @@ const userMenu = ref(false);
                             <appLogo class="block w-auto" />
                         </a>
                     </div>
+
+                    <div class="text-center text-3xl">
+                        <h1 v-if="$page.props.auth.user.id == 1" class="font-extrabold p-3">Super Admin</h1>
+                        <h1 v-else class="font-extrabold p-3">{{ ($page.props.auth.user.word ? $page.props.auth.user.word.union ? $page.props.auth.user.word.name + "নং" + $page.props.auth.user.word.union.name : "Super Admin" : 'Super Admin')}}</h1>
+                    </div>
                     <div class="flex items-center">
                         <div class="flex items-center ml-3">
                             <div class="flex items-center ml-3">
                                 <div>
                                   <button @click="userMenu == true ? userMenu= false : userMenu= true" type="button" class="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" aria-expanded="false" data-dropdown-toggle="dropdown-user">
                                     <span class="sr-only">Open user menu</span>
-                                    <img class="w-8 h-8 rounded-full h-3" src="/default/images/human.webp" alt="user photo">
+                                    <img class="h-10 rounded-full" src="/default/images/human.webp" alt="user photo">
                                   </button>
                                 </div>
                                 <div :class="[userMenu ? 'block' : 'hidden']" class="z-50 absolute top-10 right-0 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600" id="dropdown-user">
@@ -152,7 +158,7 @@ const userMenu = ref(false);
 
     <aside id="logo-sidebar"
 
-        class="fixed top-32 left-0 z-40 w-64 h-screen transition-transform bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700 "
+        class="fixed top-[85px] left-0 z-40 w-64 h-screen transition-transform bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700 "
         :class="[sidemenu ? 'block' : '-translate-x-full']"
          aria-label="Sidebar">
         <div class="h-full pb-4 overflow-y-auto bg-white dark:bg-gray-800">
