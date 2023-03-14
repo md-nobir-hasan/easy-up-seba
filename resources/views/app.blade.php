@@ -19,7 +19,7 @@
                 background-color: rgb(238 242 255 / var(--tw-bg-opacity));
             }
             body{
-                background-color: #ff8f8f5c;
+                background-color: #22eeaf3d;
             }
         </style>
         @inertiaHead

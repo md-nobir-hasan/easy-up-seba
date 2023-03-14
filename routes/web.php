@@ -10,7 +10,9 @@ use App\Http\Controllers\UpazilaController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VillageController;
 use App\Http\Controllers\WordController;
+use App\Models\User;
 use Illuminate\Foundation\Application;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -44,7 +46,7 @@ Route::prefix('/ajax')->name('ajax.')->group(function(){
 //     config('jetstream.auth_session'),
 //     'verified',
 // ])->group(function () {
-    Route::get('/dashboard',[AjaxController::class,'dashboard'])->name('dashboard');
+
 // });
 
 
@@ -53,9 +55,16 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->prefix('/admin')->name('admin.')->group(function () {
+
+    //dashboar rendering
     Route::get('/dashboard', function () {
+
+        $user = User::with('word','role','word.union')->where('deleted_by',null)->where('id',Auth::user()->id)->first();
+        Inertia::share('user',$user);
         return Inertia::render('Dashboard');
     })->name('dashboard');
+
+    //Delete funtionality
     Route::get('/admin/{id}/{modal}',[DeleteController::class,'singleDelete'])->name('single.delete');
 
     //setup

@@ -19,6 +19,7 @@ class UserSeeder extends Seeder
         'phone' => "01518460933",
         'show_pass' => "1988406007",
         'role_id' => 1,
+        'word_id' => 1,
         'password' => Hash::make(1988406007),
         ];
 

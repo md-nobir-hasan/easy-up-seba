@@ -70,4 +70,7 @@ class User extends Authenticatable
     public function role(){
         return $this->belongsTo(Role::class,'role_id');
     }
+    public function word(){
+        return $this->belongsTo(Word::class,'word_id');
+    }
 }

@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Permission;
+use App\Models\User;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\ServiceProvider;
 use Inertia\Inertia;
@@ -30,6 +31,7 @@ class AppServiceProvider extends ServiceProvider
         });
        $permissions = Permission::with('module','role')->where('deleted_by',null)->get();
         Inertia::share('permissions', $permissions);
+        // dd(request()->user);
 
     }
 }

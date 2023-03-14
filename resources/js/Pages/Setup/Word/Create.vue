@@ -147,7 +147,7 @@ const unionFetch = ()=>{
                     </div>
 
                     <div>
-                        <InputLabel for="name" value="ওয়ার্ডের নাম" />
+                        <InputLabel for="name" value="ওয়ার্ড" />
                         <TextInput :disabled="uniondisable || updisable || ddisable"
                             id="name"
                             v-model="form.name"
