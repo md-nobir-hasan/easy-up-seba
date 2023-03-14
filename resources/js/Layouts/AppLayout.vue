@@ -88,7 +88,7 @@ const userMenu = ref(false);
     <div>
         <Head :title="title" />
         <div class="fixed w-full text-center text-3xl bg-[#0edda2]">
-            <h1 class="font-extrabold p-3">{{ $page.props.auth.user.word.name + " নং "+$page.props.auth.user.word.union.name}}</h1>
+            <h1 class="font-extrabold p-3">{{ ($page.props.auth.user.word ? $page.props.auth.user.word.union ? $page.props.auth.user.word.name + "নং" + $page.props.auth.user.word.union.name : "Super Admin" : 'Super Admin')}}</h1>
         </div>
         <nav class="fixed top-14 z-50 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
             <div class="px-3 py-3 lg:px-5 lg:pl-3">
