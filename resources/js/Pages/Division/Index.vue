@@ -1,8 +1,6 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
-import ErrorMessageShow from '@/Components/ErrorMessageShow.vue';
 import SucMesgShow from '@/Components/SucMesgShow.vue';
-import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import { Link, usePage } from '@inertiajs/vue3';
 import { ref } from 'vue';
@@ -19,7 +17,6 @@ usePage().props.permissions.forEach(function(val,key){
     }
 })
 const ncheck = (ased) =>{
-    // console.log(permisions.value.target)
     if(permisions.value){
         if(permisions.value[ased]){
             console.log(ased);
@@ -47,14 +44,14 @@ return date;
 </script>
 
 <template>
-    <AppLayout title="Division">
+    <AppLayout title="বিভাগ">
                     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
                         <SucMesgShow :message="$page.props.flash.suc_msg"></SucMesgShow>
                         <div class="bg-white flex justify-between p-4">
-                            <h2 class="float-left text-4xl font-extrabold">Division</h2>
+                            <h2 class="float-left text-4xl font-extrabold">বিভাগ</h2>
                             <Link :href="route('admin.setup.division.create')">
                             <PrimaryButton v-if="ncheck('add')" class="font-extrabold">
-                                Add New Division
+                                 বিভাগ যোগকরুন
                             </PrimaryButton>
                         </Link>
 
@@ -64,22 +61,22 @@ return date;
                             <thead class="text-md text-center text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                 <tr>
                                     <th scope="col" class="px-6 py-3">
-                                        Name
+                                        বিভাগ
                                     </th>
                                     <th scope="col" class="px-6 py-3">
-                                        Created At
+                                        তৈরির তারিখ
                                     </th>
                                     <th scope="col" class="px-6 py-3">
-                                        Created By
+                                        তৈরির
                                     </th>
                                     <th scope="col" class="px-6 py-3">
-                                        Updated At
+                                        আপডেটের তারিখ
                                     </th>
                                     <th scope="col" class="px-6 py-3">
-                                        Updated By
+                                        আপডেট
                                     </th>
                                     <th scope="col" class="px-6 py-3" v-if="ncheck('edit') || ncheck('delete')">
-                                        Action
+                                        কাজ
                                     </th>
                                 </tr>
                             </thead>

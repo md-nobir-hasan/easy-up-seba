@@ -22,13 +22,13 @@ const submit = () => {
 </script>
 
 <template>
-    <AppLayout title="Division">
+    <AppLayout title="বিভাগ">
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
             <div class="bg-white flex justify-between p-4">
-                <h2 class="float-left text-3xl font-extrabold">Update Division</h2>
+                <h2 class="float-left text-3xl font-extrabold">বিভাগ আপডেট</h2>
                 <Link :href="route('admin.setup.division.index')">
                 <PrimaryButton class="font-extrabold">
-                    Back
+                    ফিরে যান
                 </PrimaryButton>
                 </Link>
             </div>
@@ -38,7 +38,7 @@ const submit = () => {
 
                 <form @submit.prevent="submit" class="bg-white p-8 text-2lg">
                     <div>
-                        <InputLabel for="name" value="Division Name" />
+                        <InputLabel for="name" value="বিভাগের নাম" />
                         <input type="hidden" name="id" :value="$page.props.division.id">
                         <TextInput
                             id="name"
@@ -54,7 +54,7 @@ const submit = () => {
 
                     <div class="flex items-center justify-center mt-4">
                         <PrimaryButton class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                            Update
+                            আপডেট
                         </PrimaryButton>
 
                     </div>

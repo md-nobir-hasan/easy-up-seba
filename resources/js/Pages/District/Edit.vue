@@ -24,13 +24,13 @@ const submit = () => {
 </script>
 
 <template>
-    <AppLayout title="District">
+    <AppLayout title="জেলা">
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
             <div class="bg-white flex justify-between p-4">
-                <h2 class="float-left text-3xl font-extrabold">Update District</h2>
+                <h2 class="float-left text-3xl font-extrabold">জেলা আপডেট</h2>
                 <Link :href="route('admin.setup.district.index')">
                 <PrimaryButton class="font-extrabold">
-                    Back
+                    ফিরে যান
                 </PrimaryButton>
                 </Link>
             </div>
@@ -40,14 +40,14 @@ const submit = () => {
 
                 <form @submit.prevent="submit" class="bg-white p-8 text-2lg">
                     <div class="mb-4">
-                        <label for="division_id" class="block text-md font-medium text-gray-900 dark:text-white">Divisions</label>
+                        <label for="division_id" class="block text-md font-medium text-gray-900 dark:text-white">বিভাগ</label>
                         <select id="division_id" v-model="form.division_id" class="border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
-                            <option  :value="district.division.id">{{ district.division.name }}</option>
+                            <option selected value="">বিভাগ নির্বাচন করুন</option>
                             <option v-for="(division, key) in divisions" :value="division.id">{{ division.name }}</option>
                         </select>
                     </div>
                     <div>
-                        <InputLabel for="name" value="District Name" />
+                        <InputLabel for="name" value="জেলার নাম" />
                         <input type="hidden" name="id" :value="$page.props.district.id">
                         <TextInput
                             id="name"
@@ -63,7 +63,7 @@ const submit = () => {
 
                     <div class="flex items-center justify-center mt-4">
                         <PrimaryButton class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                            Update
+                            আপডেট
                         </PrimaryButton>
 
                     </div>

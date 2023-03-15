@@ -4,7 +4,12 @@ use App\Http\Controllers\AjaxController;
 use App\Http\Controllers\DeleteController;
 use App\Http\Controllers\DistrictController;
 use App\Http\Controllers\DivisionController;
+use App\Http\Controllers\EdQualiController;
+use App\Http\Controllers\HouseStrucController;
+use App\Http\Controllers\ProfessionController;
+use App\Http\Controllers\ReligionController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\TaxController;
 use App\Http\Controllers\UnionController;
 use App\Http\Controllers\UpazilaController;
 use App\Http\Controllers\UserController;
@@ -75,6 +80,11 @@ Route::middleware([
         Route::resource('/union',UnionController::class);
         Route::resource('/word',WordController::class);
         Route::resource('/village',VillageController::class);
+        Route::resource('/education-qualification',EdQualiController::class);
+        Route::resource('/tax',TaxController::class);
+        Route::resource('/house-structure',HouseStrucController::class);
+        Route::resource('/religion',ReligionController::class);
+        Route::resource('/profession',ProfessionController::class);
 
     });
 
