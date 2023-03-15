@@ -52,7 +52,7 @@ const form = useForm({
 });
 
 const submit = () => {
-    form.post(route('admin.setup.district.store'), {
+    form.post(route('admin.ekhana.store'), {
         onFinish: () => form.reset('name')
     });
 };
@@ -64,7 +64,7 @@ const submit = () => {
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
             <div class="bg-white flex justify-between p-4">
                 <h2 class="float-left text-3xl font-extrabold">ই-খানা ডাটা ফর্ম</h2>
-                <Link :href="route('admin.setup.district.index')">
+                <Link :href="route('admin.ekhana.index')">
                 <PrimaryButton class="font-extrabold">
                     ফিরে যান
                 </PrimaryButton>
@@ -95,7 +95,7 @@ const submit = () => {
                         <TextInput
                             id="holding_no"
                             v-model="form.holding_no"
-                            type="text"
+                            type="number"
                             class="mt-1 block w-full"
                             required
                             autofocus
@@ -110,7 +110,7 @@ const submit = () => {
                         <TextInput
                             id="yearly_income"
                             v-model="form.yearly_income"
-                            type="text"
+                            type="number"
                             class="mt-1 block w-full"
                             required
                             autofocus
@@ -163,7 +163,7 @@ const submit = () => {
                         <TextInput
                             id="phone"
                             v-model="form.phone"
-                            type="text"
+                            type="tel"
                             class="mt-1 block w-full"
                             required
                             autofocus
@@ -189,18 +189,18 @@ const submit = () => {
                     </div>
 
                     <div class="mb-4 border-2 border-blue-800 p-4 border-dashed rounded">
-                        <InputLabel for="spouse_name" value="মাতার নাম" />
+                        <InputLabel for="mother_name" value="মাতার নাম" />
                         <TextInput
-                            id="spouse_name"
-                            v-model="form.spouse_name"
+                            id="mother_name"
+                            v-model="form.mother_name"
                             type="text"
                             class="mt-1 block w-full"
                             required
                             autofocus
-                            autocomplete="spouse_name"
+                            autocomplete="mother_name"
                             placeholder="মাতার নাম লিখুন"
                         />
-                        <InputError class="mt-2" :message="form.errors.spouse_name" />
+                        <InputError class="mt-2" :message="form.errors.mother_name" />
                     </div>
 
 
@@ -212,7 +212,7 @@ const submit = () => {
                                 <TextInput
                                     id="m_male"
                                     v-model="form.m_male"
-                                    type="text"
+                                    type="number"
                                     class="mt-1 block w-full"
                                     required
                                     autofocus
@@ -226,7 +226,7 @@ const submit = () => {
                                 <TextInput
                                     id="m_female"
                                     v-model="form.m_female"
-                                    type="text"
+                                    type="number"
                                     class="mt-1 block w-full"
                                     required
                                     autofocus
@@ -240,7 +240,7 @@ const submit = () => {
                                 <TextInput
                                     id="m_child"
                                     v-model="form.m_child"
-                                    type="text"
+                                    type="number"
                                     class="mt-1 block w-full"
                                     required
                                     autofocus
@@ -301,19 +301,19 @@ const submit = () => {
                         <InputLabel for="nid" value="খানা প্রধানের লিঙ্গ" />
                         <div class="flex items-center">
                             <div class="flex items-center mb-4 ml-8">
-                                <input v-model="form.gender" id="male" name="gender" type="radio" value=""
+                                <input v-model="form.gender" id="male" name="gender" type="radio" value="পুরুষ"
                                     class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                 <label for="male"
                                     class="ml-2 text-md font-medium text-gray-900 dark:text-gray-300">পুরুষ</label>
                             </div>
                             <div class="flex items-center mb-4 ml-8">
-                                <input v-model="form.gender" id="female" name="gender" type="radio" value=""
+                                <input v-model="form.gender" id="female" name="gender" type="radio" value="মহিলা"
                                     class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                 <label for="female"
                                     class="ml-2 text-md font-medium text-gray-900 dark:text-gray-300">মহিলা</label>
                             </div>
                             <div class="flex items-center mb-4 ml-8">
-                                <input v-model="form.gender" id="other" name="gender" type="radio" value=""
+                                <input v-model="form.gender" id="other" name="gender" type="radio" value="অন্যান্য"
                                     class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                 <label for="other"
                                     class="ml-2 text-md font-medium text-gray-900 dark:text-gray-300">অন্যান্য</label>
@@ -366,19 +366,19 @@ const submit = () => {
                         <InputLabel for="toilet_type" value="পায়খানার ধরণ" />
                         <div class="flex items-center">
                             <div class="flex items-center mb-4 ml-8">
-                                <input v-model="form.toilet_type" id="ripe" name="toilet_type" type="radio" value="1"
+                                <input v-model="form.toilet_type" id="ripe" name="toilet_type" type="radio" value="পাকা"
                                     class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                 <label for="ripe"
                                     class="ml-2 text-md font-medium text-gray-900 dark:text-gray-300">পাকা</label>
                             </div>
                             <div class="flex items-center mb-4 ml-8">
-                                <input v-model="form.toilet_type" id="kasa" name="toilet_type" type="radio" value="0"
+                                <input v-model="form.toilet_type" id="kasa" name="toilet_type" type="radio" value="কাঁচা"
                                     class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                 <label for="kasa"
                                     class="ml-2 text-md font-medium text-gray-900 dark:text-gray-300">কাঁচা</label>
                             </div>
                             <div class="flex items-center mb-4 ml-8">
-                                <input v-model="form.toilet_type" id="nai" name="toilet_type" type="radio" value="0"
+                                <input v-model="form.toilet_type" id="nai" name="toilet_type" type="radio" value="নাই"
                                     class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                 <label for="nai"
                                     class="ml-2 text-md font-medium text-gray-900 dark:text-gray-300">নাই</label>
@@ -474,19 +474,19 @@ const submit = () => {
                         <InputLabel for="" value="বসবাসের ধরণ" />
                         <div class="flex items-center">
                             <div class="flex items-center mb-4 ml-8">
-                                <input v-model="form.rent_type" id="self" name="rent_type" type="radio" value="1"
+                                <input v-model="form.rent_type" id="self" name="rent_type" type="radio" value="নিজে বসবাস"
                                     class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                 <label for="self"
                                     class="ml-2 text-md font-medium text-gray-900 dark:text-gray-300">নিজে বসবাস</label>
                             </div>
                             <div class="flex items-center mb-4 ml-8">
-                                <input v-model="form.rent_type" id="rent" name="rent_type" type="radio" value="0"
+                                <input v-model="form.rent_type" id="rent" name="rent_type" type="radio" value="ভাড়া দেওয়া"
                                     class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                 <label for="rent"
                                     class="ml-2 text-md font-medium text-gray-900 dark:text-gray-300">ভাড়া দেওয়া</label>
                             </div>
                             <div class="flex items-center mb-4 ml-8">
-                                <input v-model="form.rent_type" id="both" name="rent_type" type="radio" value="0"
+                                <input v-model="form.rent_type" id="both" name="rent_type" type="radio" value="উভয়"
                                     class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                 <label for="both"
                                     class="ml-2 text-md font-medium text-gray-900 dark:text-gray-300">উভয়</label>
@@ -503,7 +503,7 @@ const submit = () => {
                                 <TextInput
                                     id="land_house"
                                     v-model="form.land_house"
-                                    type="text"
+                                    type="number"
                                     class="mt-1 block w-full"
                                     required
                                     autofocus
@@ -517,7 +517,7 @@ const submit = () => {
                                 <TextInput
                                     id="land_cultivate"
                                     v-model="form.land_cultivate"
-                                    type="text"
+                                    type="number"
                                     class="mt-1 block w-full"
                                     required
                                     autofocus
@@ -534,13 +534,13 @@ const submit = () => {
                         <InputLabel for="" value="অবকাঠামোর ধরণ" />
                         <div class="flex items-center">
                             <div class="flex items-center mb-4 ml-8">
-                                <input v-model="form.infrastructure" id="residential" name="infrastructure" type="radio" value="1"
+                                <input v-model="form.infrastructure" id="residential" name="infrastructure" type="radio" value="আবাসিক"
                                     class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                 <label for="residential"
                                     class="ml-2 text-md font-medium text-gray-900 dark:text-gray-300">আবাসিক</label>
                             </div>
                             <div class="flex items-center mb-4 ml-8">
-                                <input v-model="form.infrastructure" id="business_area" name="infrastructure" type="radio" value="0"
+                                <input v-model="form.infrastructure" id="business_area" name="infrastructure" type="radio" value="বানিজ্যিক"
                                     class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                 <label for="business_area"
                                     class="ml-2 text-md font-medium text-gray-900 dark:text-gray-300">বানিজ্যিক</label>

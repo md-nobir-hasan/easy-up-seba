@@ -43,7 +43,7 @@ class EkhanaController extends Controller
      */
     public function store(StoreEkhanaRequest $request)
     {
-        //
+        dd($request->all());
     }
 
     /**
