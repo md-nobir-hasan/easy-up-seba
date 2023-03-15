@@ -41,7 +41,7 @@ return new class extends Migration
             $table->string('rent_type');
             $table->float('land_house');
             $table->float('land_cultivate');
-            $table->integer('infrastructure');
+            $table->string('infrastructure');
             $table->unsignedBigInteger('created_by')->nullable();
             $table->unsignedBigInteger('updated_by')->nullable();
             $table->timestamp('deleted_at')->nullable();

@@ -27,8 +27,9 @@ class ModuleSeeder extends Seeder
             ['name' => 'Education Qualification'],
             ['name' => 'Profession'],
             ['name' => 'Tax'],
-            ['name' => 'Religion'],
+            ['name' => 'Religion'],//15
             ['name' => 'House Structure'],
+            ['name' => 'E-Khana'],
         ];
 
         DB::table('modules')->insert($n);

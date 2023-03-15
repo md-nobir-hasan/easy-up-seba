@@ -5,6 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Ekhana;
 use App\Http\Requests\StoreEkhanaRequest;
 use App\Http\Requests\UpdateEkhanaRequest;
+use App\Models\EducationQualification;
+use App\Models\HouseStructure;
+use App\Models\Profession;
+use App\Models\Religion;
+use App\Models\Village;
+use App\Models\Word;
+use Inertia\Inertia;
 
 class EkhanaController extends Controller
 {
@@ -13,7 +20,8 @@ class EkhanaController extends Controller
      */
     public function index()
     {
-        //
+        $n['data'] = Ekhana::with(['createdBy','updatedBy','village','edQuali','religion','profession','houseStruc','word'])->where('deleted_by',null)->orderBy('id','desc')->get();
+        return Inertia::render('Ekhana/Index',$n);
     }
 
     /**
@@ -21,7 +29,13 @@ class EkhanaController extends Controller
      */
     public function create()
     {
-        //
+        $n['words'] = Word::where('deleted_by',null)->orderBy('id','desc')->get();
+        $n['religions'] = Religion::where('deleted_by',null)->orderBy('id','desc')->get();
+        $n['professions'] = Profession::where('deleted_by',null)->orderBy('id','desc')->get();
+        $n['villages'] = Village::where('deleted_by',null)->orderBy('id','desc')->get();
+        $n['ed_qualis'] = EducationQualification::where('deleted_by',null)->orderBy('id','desc')->get();
+        $n['house_strucs'] = HouseStructure::where('deleted_by',null)->orderBy('id','desc')->get();
+        return Inertia::render('Ekhana/Create',$n);
     }
 
     /**
