@@ -44,7 +44,7 @@ class DistrictController extends Controller
         if($request->submit_btn == 'return'){
             return redirect()->route('admin.setup.district.index');
         }else{
-            return to_route('admin.setup.district.create');
+            return back();
         }
     }
 

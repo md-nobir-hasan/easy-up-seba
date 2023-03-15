@@ -180,7 +180,7 @@ const userMenu = ref(false);
                             <path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z"></path>
                             <path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"></path>
                         </svg>
-                        <span class="ml-3">Dashboard</span>
+                        <span class="ml-3">ড্যাশবোর্ড </span>
                     </sideMenueLink>
                 </li>
                 <li @click="openClose" v-if="ncheck('Menu Setup')">
@@ -196,7 +196,7 @@ const userMenu = ref(false);
                                 d="M3 5a2 2 0 012-2h1a1 1 0 010 2H5v7h2l1 2h4l1-2h2V5h-1a1 1 0 110-2h1a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V5z">
                             </path>
                         </svg>
-                        <span class="flex-1 ml-3 whitespace-nowrap cursor-pointer">setup
+                        <span class="flex-1 ml-3 whitespace-nowrap cursor-pointer">সেটাপ
                         </span>
                         <svg v-if="setup" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" class="h-3 ml-auto ml-2">
                             <path
@@ -221,7 +221,7 @@ const userMenu = ref(false);
                                 <path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z"></path>
                                 <path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"></path>
                             </svg>
-                            <span class="ml-3">Division</span>
+                            <span class="ml-3">বিভাগ</span>
                         </SsubMenue>
                         <SsubMenue v-if="$page.props.auth.user && ncheck('District')"
                             :href="route('admin.setup.district.index')"
@@ -233,11 +233,11 @@ const userMenu = ref(false);
                                 <path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z"></path>
                                 <path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"></path>
                             </svg>
-                            <span class="ml-3">District</span>
+                            <span class="ml-3">জেলা</span>
                         </SsubMenue>
                         <SsubMenue v-if="$page.props.auth.user && ncheck('Upazila')"
                             :href="route('admin.setup.upazila.index')"
-                            :active="$page.url.startsWith('/admin/setup/upazial')"
+                            :active="$page.url.startsWith('/admin/setup/upazila')"
                             class="flex ml-8 items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
                             <svg aria-hidden="true"
                                 class="w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
@@ -245,7 +245,7 @@ const userMenu = ref(false);
                                 <path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z"></path>
                                 <path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"></path>
                             </svg>
-                            <span class="ml-3">Upazial</span>
+                            <span class="ml-3">উপজেলা</span>
                         </SsubMenue>
                     <SsubMenue v-if="$page.props.auth.user && ncheck('Union')" :href="route('admin.setup.union.index')"
                         :active="$page.url.startsWith('/admin/setup/union')"
@@ -281,6 +281,66 @@ const userMenu = ref(false);
                         </svg>
                         <span class="ml-3">গ্রাম</span>
                     </SsubMenue>
+                    <SsubMenue v-if="$page.props.auth.user && ncheck('Education Qualification')"
+                        :href="route('admin.setup.education-qualification.index')"
+                        :active="$page.url.startsWith('/admin/setup/education-qualification')"
+                        class="flex ml-8 items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <svg aria-hidden="true"
+                            class="w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                            fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z"></path>
+                            <path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"></path>
+                        </svg>
+                        <span class="ml-3">শিক্ষাগত যোগ্যতা</span>
+                    </SsubMenue>
+                    <SsubMenue v-if="$page.props.auth.user && ncheck('Profession')"
+                        :href="route('admin.setup.profession.index')"
+                        :active="$page.url.startsWith('/admin/setup/profession')"
+                        class="flex ml-8 items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <svg aria-hidden="true"
+                            class="w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                            fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z"></path>
+                            <path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"></path>
+                        </svg>
+                        <span class="ml-3">পেশা</span>
+                    </SsubMenue>
+                    <SsubMenue v-if="$page.props.auth.user && ncheck('Tax')"
+                        :href="route('admin.setup.tax.index')"
+                        :active="$page.url.startsWith('/admin/setup/tax')"
+                        class="flex ml-8 items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <svg aria-hidden="true"
+                            class="w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                            fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z"></path>
+                            <path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"></path>
+                        </svg>
+                        <span class="ml-3">টেক্স</span>
+                    </SsubMenue>
+                    <SsubMenue v-if="$page.props.auth.user && ncheck('Religion')"
+                        :href="route('admin.setup.religion.index')"
+                        :active="$page.url.startsWith('/admin/setup/religion')"
+                        class="flex ml-8 items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <svg aria-hidden="true"
+                            class="w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                            fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z"></path>
+                            <path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"></path>
+                        </svg>
+                        <span class="ml-3">ধর্ম</span>
+                    </SsubMenue>
+                    <SsubMenue v-if="$page.props.auth.user && ncheck('House Structure')"
+                        :href="route('admin.setup.house-structure.index')"
+                        :active="$page.url.startsWith('/admin/setup/house-structure')"
+                        class="flex ml-8 items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <svg aria-hidden="true"
+                            class="w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                            fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z"></path>
+                            <path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"></path>
+                        </svg>
+                        <span class="ml-3">কাঠামো</span>
+                    </SsubMenue>
                     <!-- </sideMenueLink> -->
                 </span>
             </li>
@@ -293,7 +353,7 @@ const userMenu = ref(false);
                         <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
                             clip-rule="evenodd"></path>
                     </svg>
-                    <span class="flex-1 ml-3 whitespace-nowrap cursor-pointer">User Managment
+                    <span class="flex-1 ml-3 whitespace-nowrap cursor-pointer">ইউজার ম্যানেজমেন্ট
                     </span>
                     <svg v-if="setup" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" class="h-3 ml-auto ml-2">
                         <path

@@ -47,14 +47,14 @@ function DateFormate(date) {
 </script>
 
 <template>
-    <AppLayout title="Upazila">
+    <AppLayout title="উপজেলা">
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
             <SucMesgShow :message="$page.props.flash.suc_msg"></SucMesgShow>
             <div class="bg-white flex justify-between p-4">
-                <h2 class="float-left text-4xl font-extrabold">Upazila</h2>
+                <h2 class="float-left text-4xl font-extrabold">উপজেলা</h2>
                 <Link :href="route('admin.setup.upazila.create')">
                 <PrimaryButton v-if="ncheck('add')" class="font-extrabold">
-                    Add New Upazila
+                    উপজেলা যোগকরুন
                 </PrimaryButton>
                 </Link>
             </div>
@@ -63,28 +63,28 @@ function DateFormate(date) {
                 <thead class="text-md text-center text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
                         <th scope="col" class="px-6 py-3">
-                            Division
+                            বিভাগ
                         </th>
                         <th scope="col" class="px-6 py-3">
-                            District
+                            জেলা
                         </th>
                         <th scope="col" class="px-6 py-3">
-                            Upazila
+                            উপজেলা
                         </th>
                         <th scope="col" class="px-6 py-3">
-                            Created At
+                            তৈরির তারিখ
                         </th>
                         <th scope="col" class="px-6 py-3">
-                            Created By
+                            তৈরির
                         </th>
                         <th scope="col" class="px-6 py-3">
-                            Updated At
+                            আপডেটের তারিখ
                         </th>
                         <th scope="col" class="px-6 py-3">
-                            Updated By
+                            আপডেট
                         </th>
                         <th scope="col" class="px-6 py-3" v-if="ncheck('edit') || ncheck('delete')">
-                            Action
+                            কাজ
                         </th>
                     </tr>
                 </thead>

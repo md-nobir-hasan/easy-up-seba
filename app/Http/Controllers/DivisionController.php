@@ -41,7 +41,7 @@ class DivisionController extends Controller
         if($request->submit_btn == 'return'){
             return redirect()->route('admin.setup.division.index');
         }else{
-            return to_route('admin.setup.division.create');
+            return back();
         }
     }
 
@@ -50,8 +50,7 @@ class DivisionController extends Controller
      */
     public function show(Division $division)
     {
-        // $district = District::where('division_id',$division->id)->where('deleted_by',null)->orderBy('id','desc')->get();
-        // return response()->json($district);
+        //
     }
 
     /**

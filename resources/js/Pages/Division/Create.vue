@@ -24,13 +24,13 @@ const submit = () => {
 </script>
 
 <template>
-    <AppLayout title="Division">
+    <AppLayout title="বিভাগ">
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
             <div class="bg-white flex justify-between p-4">
-                <h2 class="float-left text-3xl font-extrabold">Create Division</h2>
+                <h2 class="float-left text-3xl font-extrabold">বিভাগ যোগ</h2>
                 <Link :href="route('admin.setup.division.index')">
                 <PrimaryButton class="font-extrabold">
-                    Back
+                    ফিরে যান
                 </PrimaryButton>
                 </Link>
             </div>
@@ -40,7 +40,7 @@ const submit = () => {
 
                 <form @submit.prevent="submit" class="bg-white p-8 text-2lg">
                     <div>
-                        <InputLabel for="name" value="Division Name" />
+                        <InputLabel for="name" value="বিভাগের নাম" />
                         <TextInput
                             id="name"
                             v-model="form.name"
@@ -55,10 +55,10 @@ const submit = () => {
 
                     <div class="flex items-center justify-center mt-4">
                         <PrimaryButton @click="form.submit_btn = 'return'" class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                            Save
+                            সংরক্ষণ
                         </PrimaryButton>
                         <PrimaryButton  @click="form.submit_btn = 'new'" class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                            Save and New
+                            সংরক্ষণ এবং নতুন
                         </PrimaryButton>
                     </div>
                 </form>

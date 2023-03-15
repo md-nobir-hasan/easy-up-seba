@@ -24,6 +24,11 @@ class ModuleSeeder extends Seeder
             ['name' => 'Union'],
             ['name' => 'Word'],//10
             ['name' => 'Village'],
+            ['name' => 'Education Qualification'],
+            ['name' => 'Profession'],
+            ['name' => 'Tax'],
+            ['name' => 'Religion'],
+            ['name' => 'House Structure'],
         ];
 
         DB::table('modules')->insert($n);

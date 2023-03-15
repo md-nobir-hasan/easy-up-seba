@@ -63,7 +63,7 @@ const ncheck = (ased) =>{
                                     <th scope="col" class="px-6 py-3">
                                         ই-মেইল
                                     </th>
-                                    <th scope="col" class="px-6 py-3">
+                                    <th scope="col" class="px-6 py-3" v-if="$page.props.auth.user.id != 1">
                                         ওয়ার্ড
                                     </th>
                                     <th scope="col" class="px-6 py-3">
@@ -94,15 +94,15 @@ const ncheck = (ased) =>{
                                     </td>
                                     <td scope="row"
                                         class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        {{ value.word.name }}
+                                        {{ value.word ? value.word.name : "" }}
                                     </td>
                                     <td scope="row"
                                         class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ value.show_pass }}
                                     </td>
-                                    <td scope="row"
+                                    <td v-if="$page.props.auth.user.id != 1" scope="row"
                                         class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        {{ value.role.name }}
+                                        {{ value.role ? value.role.name : '' }}
                                     </td>
                                     <td v-if="ncheck('edit') || ncheck('delete')" class="px-6 py-4 flex item-center justify-center">
                                         <Link v-if="ncheck('edit')" :href="route('admin.user.user.edit',[value.id])" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">

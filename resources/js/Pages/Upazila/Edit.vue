@@ -42,13 +42,13 @@ const districtFetch = ()=>{
 </script>
 
 <template>
-    <AppLayout title="Upazila">
+    <AppLayout title="উপজেলা">
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
             <div class="bg-white flex justify-between p-4">
-                <h2 class="float-left text-3xl font-extrabold">Update Upazila</h2>
+                <h2 class="float-left text-3xl font-extrabold">উপজেলা আপডেট</h2>
                 <Link :href="route('admin.setup.upazila.index')">
                 <PrimaryButton class="font-extrabold">
-                    Back
+                    ফিরে যান
                 </PrimaryButton>
                 </Link>
             </div>
@@ -58,22 +58,22 @@ const districtFetch = ()=>{
 
                 <form @submit.prevent="submit" class="bg-white p-8 text-2lg">
                     <div class="mb-4">
-                        <label for="division_id" class="block text-md font-medium text-gray-900 dark:text-white">Select an division</label>
+                        <label for="division_id" class="block text-md font-medium text-gray-900 dark:text-white">বিভাগ</label>
                         <select id="division_id" v-model="form.division_id" @change="districtFetch" class="border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
-                            <option v-if="removeOpt" selected :value="upazila.division.id">{{upazila.division.name}}</option>
+                            <option selected value="">বিভাগ নির্বাচন করুন</option>
                             <option v-for="(division, key) in divisions" :value="division.id">{{ division.name }}</option>
                         </select>
                     </div>
                     <div class="mb-4">
-                        <label for="district_id" class="block text-md font-medium text-gray-900 dark:text-white">Select an district</label>
+                        <label for="district_id" class="block text-md font-medium text-gray-900 dark:text-white">জেলা</label>
                         <select id="district_id" v-model="form.district_id" class="border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
-                            <option v-if="removeOpt" selected :value="upazila.district.id">{{upazila.district.name}}</option>
+                            <option selected value="">জেলা নির্বাচন করুন</option>
                             <option v-for="(district, key) in dists" :value="district.id">{{ district.name }}</option>
                         </select>
                     </div>
 
                     <div>
-                        <InputLabel for="name" value="Upazila Name" />
+                        <InputLabel for="name" value="উপজেলার নাম" />
                         <TextInput
                             id="name"
                             v-model="form.name"
@@ -88,7 +88,7 @@ const districtFetch = ()=>{
 
                     <div class="flex items-center justify-center mt-4">
                         <PrimaryButton @click="form.submit_btn = 'return'" class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                            Update
+                            আপডেট
                         </PrimaryButton>
                     </div>
                 </form>
