@@ -88,6 +88,8 @@ Route::middleware([
 
     });
 
+    //Ekhana Management
+    Route::resource('/ekhana',ProfessionController::class);
     //User Management
     Route::prefix('/user')->name('user.')->group(function(){
         Route::resource('/role',RoleController::class);
