@@ -5,6 +5,7 @@ use App\Http\Controllers\DeleteController;
 use App\Http\Controllers\DistrictController;
 use App\Http\Controllers\DivisionController;
 use App\Http\Controllers\EdQualiController;
+use App\Http\Controllers\EkhanaController;
 use App\Http\Controllers\HouseStrucController;
 use App\Http\Controllers\ProfessionController;
 use App\Http\Controllers\ReligionController;
@@ -63,7 +64,6 @@ Route::middleware([
 
     //dashboar rendering
     Route::get('/dashboard', function () {
-
         $user = User::with('word','role','word.union')->where('deleted_by',null)->where('id',Auth::user()->id)->first();
         Inertia::share('user',$user);
         return Inertia::render('Dashboard');
@@ -88,6 +88,9 @@ Route::middleware([
 
     });
 
+    //Ekhana Management
+    Route::resource('/ekhana',EkhanaController::class);
+    
     //User Management
     Route::prefix('/user')->name('user.')->group(function(){
         Route::resource('/role',RoleController::class);

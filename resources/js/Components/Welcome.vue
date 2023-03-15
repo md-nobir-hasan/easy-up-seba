@@ -8,14 +8,11 @@ import ApplicationLogo from '@/Components/ApplicationLogo.vue';
             <ApplicationLogo class="block h-12 w-auto" />
 
             <h1 class="mt-8 text-2xl font-medium text-gray-900">
-                Welcome to union managment system
+                ইজি উপি সেবাই আপনাকে স্বাগতম
             </h1>
 
-            <p class="mt-6 text-gray-500 leading-relaxed">
-                Laravel Jetstream provides a beautiful, robust starting point for your next Laravel application. Laravel is designed
-                to help you build your application using a development environment that is simple, powerful, and enjoyable. We believe
-                you should love expressing your creativity through programming, so we have spent time carefully crafting the Laravel
-                ecosystem to be a breath of fresh air. We hope you love it.
+            <p class="mt-6 text-gray-500 leading-relaxed line-height-[30px] word-spacing-[4px]">
+                ইউনিয়ন পরিষদ হল বাংলাদেশে পল্লী অঞ্চলের সর্বনিম্ন প্রশাসনিক একক। গ্রাম চৌকিদারি আইনের ১৮৭০ এর অধীনে ইউনিয়ন পরিষদের সৃষ্টি হয়। এ আইনের অধীনে প্রতিটি গ্রামে পাহারা টহল ব্যবস্থা চালু করার উদ্দেশ্যে কতগুলো গ্রাম নিয়ে একটি করে ইউনিয়ন গঠিত হয়। ইউনিয়ন গঠনের বিস্তারিত দিকনির্দেশনা লিপিবদ্ধ রয়েছে বেঙ্গল চৌকিদারী ম্যানুয়েলের দ্বিতীয় ও তৃতীয় অনুচ্ছেদে। এই প্রক্রিয়ার বিকাশের মধ্য দিয়ে একটি স্থানীয় সরকার ইউনিটের ধারণার সৃষ্টি হয়। প্রাথমিক পর্যায়ে এর ভূমিকা নিরাপত্তামূলক কর্মকাণ্ডে সীমাবদ্ধ থাকলেও পরবর্তী কালে এটিই স্থানীয় সরকারের প্রাথমিক ইউনিটের ভিত্তিরুপে গড়ে উঠে। বাংলাদেশে বর্তমানে ৪৫৭৮টি ইউনিয়ন আছে।
             </p>
         </div>
 
