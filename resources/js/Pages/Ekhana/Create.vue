@@ -28,6 +28,7 @@ const form = useForm({
     phone: '',
     spouse_name: '',
     mother_name: '',
+    m_male: '',
     m_female: '',
     m_child: '',
     dob: '',
@@ -86,7 +87,7 @@ const submit = () => {
                         <label for="village_id" class="block text-md font-medium text-gray-900 dark:text-white">গ্রাম</label>
                         <select id="village_id" v-model="form.village_id" class="border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
                             <option selected value="">গ্রাম নির্বাচন করুন</option>
-                            <option v-for="(val1, key) in words" :value="val1.id">{{ val1.name }}</option>
+                            <option v-for="(val1, key) in villages" :value="val1.id">{{ val1.name }}</option>
                         </select>
                     </div>
 
@@ -154,7 +155,7 @@ const submit = () => {
                         <label for="ed_quali_id" class="block text-md font-medium text-gray-900 dark:text-white">শিক্ষাগত যোগ্যতা</label>
                         <select id="ed_quali_id" v-model="form.ed_quali_id" class="border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
                             <option selected value="">শিক্ষাগত যোগ্যতা নির্বাচন করুন</option>
-                            <option v-for="(val1, key) in words" :value="val1.id">{{ val1.name }}</option>
+                            <option v-for="(pro, key) in edqualis" :value="pro.id">{{ pro.name }}</option>
                         </select>
                     </div>
 
@@ -397,7 +398,7 @@ const submit = () => {
                                 v-model="form.sc_past"
                                 type="text"
                                 class="mt-1 block w-full"
-                                required
+
                                 autofocus
                                 autocomplete="sc_past"
                                 placeholder="প্রযোয্য নয়"
@@ -411,7 +412,7 @@ const submit = () => {
                                 v-model="form.sc_future"
                                 type="text"
                                 class="mt-1 block w-full"
-                                required
+
                                 autofocus
                                 autocomplete="sc_future"
                                 placeholder="প্রযোয্য নয়"
@@ -425,7 +426,7 @@ const submit = () => {
                                 v-model="form.sc_present"
                                 type="text"
                                 class="mt-1 block w-full"
-                                required
+
                                 autofocus
                                 autocomplete="sc_present"
                                 placeholder="প্রযোয্য নয়"
@@ -443,7 +444,7 @@ const submit = () => {
                                 <TextInput
                                     :id="ob.id"
                                     v-model="form.house_struc_id[ob.id]"
-                                    type="text"
+                                    type="number"
                                     class="mt-1 block w-full"
                                     required
                                     autofocus
