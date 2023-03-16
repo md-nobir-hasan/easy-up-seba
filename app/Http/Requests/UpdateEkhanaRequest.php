@@ -26,7 +26,6 @@ class UpdateEkhanaRequest extends FormRequest
         return [
             'word_id' => 'required|integer|exists:words,id',
             'village_id' => 'required|integer|exists:villages,id',
-            'holding_no' => 'required|integer',
             'yearly_income' => 'required|integer',
             'bn_name' => 'required|string|max:255',
             'name' => 'required|string|max:255',
@@ -62,7 +61,6 @@ class UpdateEkhanaRequest extends FormRequest
         return [
             'word_id.required' => "ওয়ার্ড নির্বাচন করুন",
             'village_id.required' => 'গ্রাম নির্বাচন করুন',
-            'holding_no.required' => 'হোল্ডিং নাম্বার লিখুন',
             'yearly_income.required' => 'বাৎসরিক গড় আয় লিখুন',
             'bn_name.required' => 'নাম লিখুন (বাংলা)',
             'name.required' => 'নাম লিখুন (ইংরেজি)',

@@ -24,7 +24,7 @@ defineProps({
 const form = useForm({
     word_id: '',
     village_id: '',
-    holding_no: '',
+    // holding_no: '',
     yearly_income: '',
     bn_name: '',
     name: '',
@@ -107,7 +107,7 @@ const HouseTaxCal = () =>{
                         </select>
                         <InputError class="mt-2" :message="form.errors.village_id" />
                     </div>
-
+<!-- 
                     <div class="mb-4 border-2 border-blue-800 p-4 border-dashed rounded">
                         <InputLabel for="holding_no" value="হোল্ডিং নাম্বার" />
                         <TextInput
@@ -121,7 +121,7 @@ const HouseTaxCal = () =>{
                             placeholder="হোল্ডিং নাম্বার লিখুন"
                         />
                         <InputError class="mt-2" :message="form.errors.holding_no" />
-                    </div>
+                    </div> -->
 
                     <div class="mb-4 border-2 border-blue-800 p-4 border-dashed rounded">
                         <InputLabel for="yearly_income" value="বাৎসরিক গড় আয়" />
@@ -483,6 +483,7 @@ const HouseTaxCal = () =>{
                             class="mt-1 block w-full"
                             required
                             autofocus
+                            readonly
                             :value="totalhousetax"
                             autocomplete="yearly_house_rent"
                             placeholder="আনুমানিক বাৎসরিক ভাড়ার পরিমান লিখুন"
