@@ -91,7 +91,7 @@ const userMenu = ref(false);
 
     <div>
         <Head :title="title" />
-        <div class="fixed w-full sm:hidden text-center text-3xl bg-[#0edda2]">
+        <div class="fixed w-full sm:hidden text-center text-3xl bg-[#0edda2] z-50">
             <h1 v-if="$page.props.auth.user.id == 1" class="font-extrabold p-3">Super Admin</h1>
             <h1 v-else class="font-extrabold p-3">{{ ($page.props.auth.user.word ? $page.props.auth.user.word.union ? $page.props.auth.user.word.name + "নং" + $page.props.auth.user.word.union.name : "Super Admin" : 'Super Admin')}}</h1>
         </div>
@@ -406,9 +406,9 @@ const userMenu = ref(false);
             </li>
         </ul>
     </div>
-</aside>
+    </aside>
 
-<div class="p-4 sm:ml-64 pt-[21px]">
+<div class="p-4 sm:ml-64 pt-[21px] max-sm:pt-[65px]">
     <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-14">
         <slot />
     </div>
