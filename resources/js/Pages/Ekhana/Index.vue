@@ -1,13 +1,18 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
-import ErrorMessageShow from '@/Components/ErrorMessageShow.vue';
 import SucMesgShow from '@/Components/SucMesgShow.vue';
-import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
-import { Link, usePage } from '@inertiajs/vue3';
+import { Link, useForm, usePage } from '@inertiajs/vue3';
 import { ref } from 'vue';
 defineProps({
     data: Object,
+    words: Object,
+    house_strucs: Object,
+});
+
+const form = useForm({
+    word_id: '',
+    village_id: '',
 });
 //========= frontend validation ============
 const permisions = ref({});
@@ -21,8 +26,6 @@ const ncheck = (ased) =>{
     // console.log(permisions.value.target)
     if(permisions.value){
         if(permisions.value[ased]){
-            console.log(ased);
-            console.log(permisions.value[ased]);
             return true;
         }else{
             return false;
@@ -42,6 +45,47 @@ function DateFormate(date) {
     }
     return date;
 }
+const vilages = ref({});
+const vdisable = ref(false);
+const villageFetching = ()=>{
+    axios.get(route('ajax.fetch',['Village','word_id',form.word_id]), form).then(res => {
+        vilages.value = res.data;
+        if(vilages.value.length == 0){
+            vdisable.value = true;
+            vilages.value = {};
+        }else{
+            vdisable.value = false;
+        }
+    }).catch(err =>{
+        vdisable.value = true;
+            vilages.value = {};
+        console.error(err)
+    }).finally(() => {
+        console.log('Village fetch done');
+    });
+    }
+
+    const eerr = ref('');
+    const eerr2 = ref('');
+    const ekhana = ref({});
+const ekhanaFetch = ()=>{
+    if(!form.word_id){
+        eerr.value = 'ওয়ার্ড নির্বাচন করুন'
+        return false;
+    }
+    if(!form.village_id){
+        eerr2.value = 'গ্রাম নির্বাচন করুন'
+        return false;
+    }
+    axios.get(route('ajax.fetch',['Ekhana','village_id',form.village_id,['houseStruc','word','village']]), form).then(res => {
+        ekhana.value = res.data;
+        console.log(res);
+    }).catch(err =>{
+        console.error(err)
+    }).finally(() => {
+        console.log('khana fetch done');
+    });
+    }
 </script>
 
 <template>
@@ -56,16 +100,74 @@ function DateFormate(date) {
                 </PrimaryButton>
                 </Link>
             </div>
-            <div class="bg-white flex justify-between p-4 mt-4">
-                <h2 class="float-left text-4xl font-extrabold">Search</h2>
+            <div class="bg-white mt-4 mb-2 p-4 m-auto">
+                <form @submit.prevent="submit" class="bg-[#00ff4626] p-6 text-2lg max-w-md m-auto max-sm:max-w-sm">
+                    <div class="mb-4 flex items-center">
+                        <label for="word_id" class="block text-md font-medium text-[blue] dark:text-white">ওয়ার্ডঃ</label>
+                        <select id="word_id" v-model="form.word_id" @change="villageFetching" class="border ml-4 border-gray-300 text-[blue] text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                            <option selected value="">ওয়ার্ড নির্বাচন করুন</option>
+                            <option v-for="(word, key) in words" :value="word.id">{{ word.name }}</option>
+                        </select>
+                        <InputError class="mt-2" :message="form.errors.eerr" />
+                        <InputError class="mt-2" :message="form.errors.word_id" />
+                    </div>
+                    <div class="mb-4 flex items-center">
+                        <label for="village_id" class="block text-md font-medium text-[blue] dark:text-white">গ্রামঃ</label>
+                        <select id="village_id" v-model="form.village_id" :disabled="vdisable" class="border ml-7 border-gray-300 text-[blue] text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                            <option selected value="">গ্রাম নির্বাচন করুন</option>
+                            <option v-for="(village, key) in vilages" :value="village.id">{{ village.name }}</option>
+                        </select>
+                        <InputError class="mt-2" :message="form.errors.eerr2" />
+                        <InputError class="mt-2" :message="form.errors.village_id" />
+                    </div>
+
+                    <div class="flex items-center justify-center mt-4">
+                        <PrimaryButton @click="ekhanaFetch" class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                            সার্চ করুন
+                        </PrimaryButton>
+                    </div>
+                </form>
 
             </div>
             <hr class="mb-1">
+            <div class="bg-black mt-1">
+                <h1 class="text-center text-white p-2">খানা প্রধানের তালিকা</h1>
+            </div>
             <table class="w-full text-md text-left text-gray-500 dark:text-gray-400">
-                <thead class="text-md text-center text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <thead class="text-md text-center text-gray-700 uppercase bg-[#00ff4626] dark:bg-gray-700 dark:text-gray-400">
                     <tr>
                         <th scope="col" class="px-6 py-3">
-                            নাম
+                            হোল্ডিং নাম্বার
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                           করদাতার নাম
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                           পিতা/স্বামীর নাম
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                           মাতার নাম
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                           এনআইডি নাম
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            মোবাইল নাম্বার
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                           গ্রামের নাম
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            ওয়ার্ড নং
+                        </th>
+                        <th colspan="2" scope="col" class="">
+                            সম্পদের বিবরন
+                            <div class="flex items-center justify-between bg-yellow-400 p-1 h-16">
+                                <h4 class="p-1" v-for="(huse,ind) in house_strucs">{{huse.name}}</h4>
+                            </div>
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            বাৎসরিক ভাড়ার পরিমাণ
                         </th>
                         <th scope="col" class="px-6 py-3">
                             তৈরির তারিখ
@@ -73,25 +175,48 @@ function DateFormate(date) {
                         <th scope="col" class="px-6 py-3">
                             তৈরির
                         </th>
-                        <th scope="col" class="px-6 py-3">
-                            আপডেটের তারিখ
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            আপডেট
-                        </th>
                         <th scope="col" class="px-6 py-3" v-if="ncheck('edit') || ncheck('delete')">
                             কাজ
                         </th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(value, key) in data"
+                    <tr v-for="(value, key) in ekhana"
                         class="bg-white text-center border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                         <!-- <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             {{ value.division.name }}
                         </td> -->
                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            {{ value.holding_no }}
+                        </th>
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             {{ value.name }}
+                        </th>
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            {{ value.spouse_name }}
+                        </th>
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            {{ value.mother_name }}
+                        </th>
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            {{ value.nid }}
+                        </th>
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            {{ value.phone }}
+                        </th>
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            {{ value.village.name }}
+                        </th>
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            {{ value.word.name }}
+                        </th>
+                        <th colspan="2" scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            <div class="flex items-center justify-between">
+                                <p v-for="val in value.house_struc">{{val.number}}</p>
+                            </div>
+                        </th>
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            {{ value.yearly_house_rent }}
                         </th>
                         <td v-text="DateFormate(value.created_at)" class="px-6 py-4">
 

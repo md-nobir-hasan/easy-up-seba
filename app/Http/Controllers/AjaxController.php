@@ -10,10 +10,14 @@ use function Termwind\render;
 
 class AjaxController extends Controller
 {
-    public function dataFetch($modal,$field,$value){
+    public function dataFetch($modal,$field,$value,$with=null){
         $modalClass =  '\\App\\Models\\'.$modal;
         $val = (int)$value;
-        $data = $modalClass::where($field,$val)->where('deleted_by',null)->orderBy('id','desc')->get();
+        if($with){
+            $data = $modalClass::with(['houseStruc','word','village','houseStruc.houseStruc'])->where($field,$val)->where('deleted_by',null)->orderBy('id','desc')->get();
+        }else{
+            $data = $modalClass::where($field,$val)->where('deleted_by',null)->orderBy('id','desc')->get();
+        }
         return response()->json($data);
     }
 
