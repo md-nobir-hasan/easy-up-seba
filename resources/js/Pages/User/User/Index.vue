@@ -92,7 +92,7 @@ const ncheck = (ased) =>{
                                         class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ value.email }}
                                     </td>
-                                    <td scope="row"
+                                    <td scope="row" v-if="$page.props.auth.user.id != 1"
                                         class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ value.word ? value.word.name : "" }}
                                     </td>
@@ -100,7 +100,7 @@ const ncheck = (ased) =>{
                                         class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ value.show_pass }}
                                     </td>
-                                    <td v-if="$page.props.auth.user.id != 1" scope="row"
+                                    <td scope="row"
                                         class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ value.role ? value.role.name : '' }}
                                     </td>
