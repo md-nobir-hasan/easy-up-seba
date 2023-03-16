@@ -81,13 +81,14 @@ public function store(StoreEkhanaRequest $request)
         $insert->infrastructure = $request->infrastructure;
         $insert->created_by = Auth::user()->id;
         $insert->save();
-        foreach($request->house_struc_id as $value => $key){
+        foreach($request->house_struc_id as $key => $value){
             $insert_bkdn = new HstuEkhanaBkdn();
             $insert_bkdn->ekhana_id = $insert->id;
             $insert_bkdn->hstru_id = $key;
             $insert_bkdn->number = $value;
-            $price = HouseStructure::find($key);
-            $insert_bkdn->price = $price->price * $value;
+            $house_structure = HouseStructure::find($key);
+
+            $insert_bkdn->price = $house_structure->price * $value;
             $insert_bkdn->save();
         }
 
@@ -112,7 +113,18 @@ public function store(StoreEkhanaRequest $request)
      */
     public function edit(Ekhana $ekhana)
     {
-        //
+        if(Auth::user()->role_id == 1){
+            $n['words'] = Word::where('deleted_by',null)->orderBy('id','desc')->get();
+        }else{
+            $n['words'] = Word::where('deleted_by',null)->where('union_id',Auth::user()->word->union_id)->orderBy('id','desc')->get();
+        }
+        $n['ekhana'] = Ekhana::with(['village','edQuali','religion','profession','houseStruc','word'])->find($ekhana->id);
+        $n['religions'] = Religion::where('deleted_by',null)->get();
+        $n['professions'] = Profession::where('deleted_by',null)->orderBy('id','desc')->get();
+        $n['villages'] = Village::where('deleted_by',null)->orderBy('id','desc')->get();
+        $n['edqualis'] = EducationQualification::where('deleted_by',null)->orderBy('id','desc')->get();
+        $n['house_strucs'] = HouseStructure::where('deleted_by',null)->orderBy('id','desc')->get();
+        return Inertia::render('Ekhana/Edit',$n);
     }
 
     /**
@@ -120,7 +132,52 @@ public function store(StoreEkhanaRequest $request)
      */
     public function update(UpdateEkhanaRequest $request, Ekhana $ekhana)
     {
-        //
+        $ekhana->word_id = $request->word_id;
+        $ekhana->village_id = $request->village_id;
+        $ekhana->holding_no = $request->holding_no;
+        $ekhana->yearly_income = $request->yearly_income;
+        $ekhana->bn_name = $request->bn_name;
+        $ekhana->name = $request->name;
+        $ekhana->ed_quali_id = $request->ed_quali_id;
+        $ekhana->phone = $request->phone;
+        $ekhana->spouse_name = $request->spouse_name;
+        $ekhana->mother_name = $request->mother_name;
+        $ekhana->m_male = $request->m_male;
+        $ekhana->m_female = $request->m_female;
+        $ekhana->m_child = $request->m_child;
+        if($request->dob){
+            $ekhana->dob = $request->dob;
+        }
+        $ekhana->birth_no = $request->birth_no;
+        $ekhana->nid = $request->nid;
+        $ekhana->gender = $request->gender;
+        $ekhana->religion_id = $request->religion_id;
+        $ekhana->profession_id = $request->profession_id;
+        $ekhana->tuboil = $request->tuboil;
+        $ekhana->toilet_type = $request->toilet_type;
+        $ekhana->sc_past = $request->sc_past;
+        $ekhana->sc_present = $request->sc_present;
+        $ekhana->sc_future = $request->sc_future;
+        $ekhana->yearly_house_rent = $request->yearly_house_rent;
+        $ekhana->rent_type = $request->rent_type;
+        $ekhana->land_house = $request->land_house;
+        $ekhana->land_cultivate = $request->land_cultivate;
+        $ekhana->infrastructure = $request->infrastructure;
+        $ekhana->updated_by = Auth::user()->id;
+        $ekhana->save();
+        HstuEkhanaBkdn::where('ekhana_id',$ekhana->id)->delete();
+        foreach($request->house_struc_id as $key => $value){
+            $insert_bkdn = new HstuEkhanaBkdn();
+            $insert_bkdn->ekhana_id = $ekhana->id;
+            $insert_bkdn->hstru_id = $key;
+            $insert_bkdn->number = $value;
+            $price = HouseStructure::find($key);
+            $insert_bkdn->price = $price->price * $value;
+            $insert_bkdn->save();
+        }
+
+        $request->session()->flash('suc_msg',$request->name.' Updated Successfully');
+        return redirect()->route('admin.ekhana.index');
     }
 
     /**

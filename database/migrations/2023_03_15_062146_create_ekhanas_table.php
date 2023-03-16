@@ -23,12 +23,12 @@ return new class extends Migration
             $table->string('phone');
             $table->string('spouse_name');
             $table->string('mother_name');
-            $table->integer('m_male');
-            $table->integer('m_female');
-            $table->integer('m_child');
+            $table->integer('m_male')->nullable();
+            $table->integer('m_female')->nullable();
+            $table->integer('m_child')->nullable();
             $table->timestamp('dob');
-            $table->string('birth_no');
-            $table->string('nid');
+            $table->string('birth_no')->unique();
+            $table->string('nid')->unique();
             $table->string('gender');
             $table->unsignedBigInteger('religion_id');
             $table->unsignedBigInteger('profession_id');

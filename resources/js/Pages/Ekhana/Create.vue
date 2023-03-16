@@ -1,5 +1,5 @@
 <script setup>
-import { Link, useForm } from '@inertiajs/vue3';
+import { Link, useForm, usePage } from '@inertiajs/vue3';
 import AppLayout from '@/Layouts/AppLayout.vue';
 import SucMesgShow from '@/Components/SucMesgShow.vue';
 import InputError from '@/Components/InputError.vue';
@@ -8,6 +8,7 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import FormLayout from '@/Components/FormLayout.vue';
 import { router } from '@inertiajs/vue3'
+import { ref } from 'vue';
 defineProps({
     words: Object,
     religions: Object,
@@ -15,7 +16,10 @@ defineProps({
     edqualis: Object,
     house_strucs: Object,
     villages: Object,
+    errors: Object
 });
+
+
 
 const form = useForm({
     word_id: '',
@@ -43,7 +47,6 @@ const form = useForm({
     sc_present: '',
     sc_future: '',
     house_struc_id: {},
-    house_struc_no: {},
     yearly_house_rent: '',
     rent_type: '',
     land_house: '',
@@ -54,12 +57,24 @@ const form = useForm({
 
 const submit = () => {
     form.post(route('admin.ekhana.store'), {
-        onFinish: () => form.reset('name')
+        onFinish: () => {
+            if(form.submit_btn != 'return'){
+                form.reset();
+            }
+        }
     });
 };
+const totalhousetax = ref(0);
+const HouseTaxCal = () =>{
+    let els = document.querySelectorAll('.house-tax-cal');
+    totalhousetax.value = 0;
+    els.forEach(function(elemt){
+        totalhousetax.value += elemt.value * elemt.getAttribute('data-price');
+    });
+    form.yearly_house_rent = totalhousetax.value;
+}
 
 </script>
-
 <template>
     <AppLayout title="ই-খানা ডাটা ফর্ম">
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -73,15 +88,17 @@ const submit = () => {
             </div>
             <hr class="mb-1">
             <FormLayout class="bg-white">
-                <SucMesgShow :message="$page.props.flash.suc_msg"></SucMesgShow>
+                <SucMesgShow :message="$page.props.flash.suc_msg">{{ errors }}</SucMesgShow>
 
                 <form @submit.prevent="submit" class="p-2 text-2lg bg-[#00ff4642]">
+                    {{ form.errors }}
                     <div class="mb-4 border-2 border-blue-800 p-4 border-dashed rounded">
                         <label for="word_id" class="block text-md font-medium text-gray-900 dark:text-white">ওয়ার্ড</label>
                         <select id="word_id" v-model="form.word_id" class="border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
                             <option selected value="">ওয়ার্ড নির্বাচন করুন</option>
                             <option v-for="(val, key) in words" :value="val.id">{{ val.name }}</option>
                         </select>
+                        <InputError class="mt-2" :message="form.errors.word_id" />
                     </div>
                     <div class="mb-4 border-2 border-blue-800 p-4 border-dashed rounded">
                         <label for="village_id" class="block text-md font-medium text-gray-900 dark:text-white">গ্রাম</label>
@@ -89,6 +106,7 @@ const submit = () => {
                             <option selected value="">গ্রাম নির্বাচন করুন</option>
                             <option v-for="(val1, key) in villages" :value="val1.id">{{ val1.name }}</option>
                         </select>
+                        <InputError class="mt-2" :message="form.errors.village_id" />
                     </div>
 
                     <div class="mb-4 border-2 border-blue-800 p-4 border-dashed rounded">
@@ -157,6 +175,7 @@ const submit = () => {
                             <option selected value="">শিক্ষাগত যোগ্যতা নির্বাচন করুন</option>
                             <option v-for="(pro, key) in edqualis" :value="pro.id">{{ pro.name }}</option>
                         </select>
+                        <InputError class="mt-2" :message="form.errors.ed_quali_id" />
                     </div>
 
                     <div class="mb-4 border-2 border-blue-800 p-4 border-dashed rounded">
@@ -164,7 +183,7 @@ const submit = () => {
                         <TextInput
                             id="phone"
                             v-model="form.phone"
-                            type="tel"
+                            type="number"
                             class="mt-1 block w-full"
                             required
                             autofocus
@@ -215,7 +234,6 @@ const submit = () => {
                                     v-model="form.m_male"
                                     type="number"
                                     class="mt-1 block w-full"
-                                    required
                                     autofocus
                                     autocomplete="m_male"
                                     placeholder="সংখ্যা"
@@ -229,7 +247,6 @@ const submit = () => {
                                     v-model="form.m_female"
                                     type="number"
                                     class="mt-1 block w-full"
-                                    required
                                     autofocus
                                     autocomplete="m_female"
                                     placeholder="সংখ্যা"
@@ -243,7 +260,6 @@ const submit = () => {
                                     v-model="form.m_child"
                                     type="number"
                                     class="mt-1 block w-full"
-                                    required
                                     autofocus
                                     autocomplete="m_child"
                                     placeholder="সংখ্যা"
@@ -320,7 +336,7 @@ const submit = () => {
                                     class="ml-2 text-md font-medium text-gray-900 dark:text-gray-300">অন্যান্য</label>
                             </div>
                         </div>
-                        <InputError class="mt-2" :message="form.errors.nid" />
+                        <InputError class="mt-2" :message="form.errors.gender" />
                     </div>
 
                     <div class="mb-4 border-2 border-blue-800 p-4 border-dashed rounded">
@@ -342,6 +358,7 @@ const submit = () => {
                             <option selected value="">পেশা নির্বাচন করুন</option>
                             <option v-for="(p, key) in professions" :value="p.id">{{ p.name }}</option>
                         </select>
+                        <InputError class="mt-2" :message="form.errors.profession_id" />
                     </div>
 
                     <div class="mb-4 border-2 border-blue-800 p-4 border-dashed rounded">
@@ -441,13 +458,15 @@ const submit = () => {
                         <div class="flex ml-8">
                             <div v-for="(ob,key) in house_strucs">
                                 <InputLabel class="text-sm text-center text-slate-400" :for="ob.id" :value="ob.name" />
-                                <TextInput
+                                <TextInput @change="HouseTaxCal" @keyup="HouseTaxCal"
                                     :id="ob.id"
+                                    :data-price="ob.price"
                                     v-model="form.house_struc_id[ob.id]"
                                     type="number"
-                                    class="mt-1 block w-full"
-                                    required
+                                    class="mt-1 block w-full house-tax-cal"
+
                                     autofocus
+                                    min="0"
                                     autocomplete="house_struc_id"
                                     placeholder="সংখ্যা"
                                 />
@@ -465,6 +484,7 @@ const submit = () => {
                             class="mt-1 block w-full"
                             required
                             autofocus
+                            :value="totalhousetax"
                             autocomplete="yearly_house_rent"
                             placeholder="আনুমানিক বাৎসরিক ভাড়ার পরিমান লিখুন"
                         />
