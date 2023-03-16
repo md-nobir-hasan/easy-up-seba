@@ -1,0 +1,1 @@
+import{l as s,E as t,o as a,e as c,a as o,t as r}from"./app-d2a011fb.js";const n={class:"bg-green-300 text-center"},i={class:"text-2xl text-white"},m={__name:"SucMesgShow",props:{message:String},setup(e){return(_,g)=>s((a(),c("div",n,[o("p",i,r(e.message),1)],512)),[[t,e.message]])}};export{m as _};
