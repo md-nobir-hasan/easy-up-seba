@@ -43,7 +43,7 @@ Route::get('/', function () {
 });
 
 Route::prefix('/ajax')->name('ajax.')->group(function(){
-    Route::get('/fetch/{model}/{field}/{value}',[AjaxController::class,'dataFetch'])->name('fetch');
+    Route::get('/fetch/{model}/{field}/{value}/{with?}',[AjaxController::class,'dataFetch'])->name('fetch');
 });
 
 //removing this make an error but why, search it
@@ -90,7 +90,7 @@ Route::middleware([
 
     //Ekhana Management
     Route::resource('/ekhana',EkhanaController::class);
-    
+
     //User Management
     Route::prefix('/user')->name('user.')->group(function(){
         Route::resource('/role',RoleController::class);
