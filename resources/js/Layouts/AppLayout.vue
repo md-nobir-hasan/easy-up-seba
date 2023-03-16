@@ -91,7 +91,7 @@ const userMenu = ref(false);
 
     <div>
         <Head :title="title" />
-        <div class="fixed w-full sm:hidden text-center text-3xl bg-[#0edda2]">
+        <div class="fixed w-full sm:hidden text-center text-3xl bg-[#0edda2] z-50">
             <h1 v-if="$page.props.auth.user.id == 1" class="font-extrabold p-3">Super Admin</h1>
             <h1 v-else class="font-extrabold p-3">{{ ($page.props.auth.user.word ? $page.props.auth.user.word.union ? $page.props.auth.user.word.name + "নং" + $page.props.auth.user.word.union.name : "Super Admin" : 'Super Admin')}}</h1>
         </div>
@@ -165,10 +165,10 @@ const userMenu = ref(false);
 
     <aside id="logo-sidebar"
 
-        class="fixed top-[85px] max-sm:top-[128px] left-0 z-40 w-64 h-screen transition-transform bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700 "
+        class="fixed top-[85px] max-sm:top-[128px] bg-[#0edda2] left-0 z-40 w-64 h-screen transition-transform border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700 "
         :class="[sidemenu ? 'block' : '-translate-x-full']"
          aria-label="Sidebar">
-        <div class="h-full pb-4 overflow-y-auto bg-white dark:bg-gray-800">
+        <div class="h-full pb-4 overflow-y-auto dark:bg-gray-800">
             <ul>
                 <li>
                     <sideMenueLink v-if="$page.props.auth.user && ncheck('Dashboard')" :href="route('admin.dashboard')"
@@ -406,9 +406,9 @@ const userMenu = ref(false);
             </li>
         </ul>
     </div>
-</aside>
+    </aside>
 
-<div class="p-4 sm:ml-64 pt-[21px]">
+<div class="p-4 sm:ml-64 pt-[21px] max-sm:pt-[65px]">
     <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-14">
         <slot />
     </div>

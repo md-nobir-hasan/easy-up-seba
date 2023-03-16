@@ -16,7 +16,7 @@
         <style>
             .active{
                 color: rgb(67 56 202 / var(--tw-text-opacity));
-                background-color: rgb(238 242 255 / var(--tw-bg-opacity));
+                background-color: white;
             }
             body{
                 background-color: #22eeaf3d;
