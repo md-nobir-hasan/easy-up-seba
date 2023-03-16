@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\Permission;
 use App\Models\User;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\ServiceProvider;
 use Inertia\Inertia;
@@ -29,8 +30,10 @@ class AppServiceProvider extends ServiceProvider
                 'err_msg' => Session::get('err_msg'),
             ];
         });
-       $permissions = Permission::with('module','role')->where('deleted_by',null)->get();
-        Inertia::share('permissions', $permissions);
+        if(Schema::hasTable('permissions')){
+            $permissions = Permission::with('module','role')->where('deleted_by',null)->get();
+             Inertia::share('permissions', $permissions);
+        }
         // dd(request()->user);
 
     }
