@@ -101,7 +101,7 @@ const ekhanaFetch = ()=>{
                 </Link>
             </div>
             <div class="bg-white mt-4 mb-2 p-4 m-auto">
-                <form @submit.prevent="submit" class="bg-[#00ff4626] p-6 text-2lg max-w-md m-auto max-sm:max-w-sm">
+                <form @submit.prevent="submit" class="bg-[#11ff5999] rounded-lg p-6 text-2lg max-w-md m-auto max-sm:max-w-sm">
                     <div class="mb-4 flex items-center">
                         <label for="word_id" class="block text-md font-medium text-[blue] dark:text-white">ওয়ার্ডঃ</label>
                         <select id="word_id" v-model="form.word_id" @change="villageFetching" class="border ml-4 border-gray-300 text-[blue] text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
@@ -134,7 +134,7 @@ const ekhanaFetch = ()=>{
                 <h1 class="text-center text-white p-2">খানা প্রধানের তালিকা</h1>
             </div>
             <table class="w-full text-md text-left text-gray-500 dark:text-gray-400">
-                <thead class="text-md text-center text-gray-700 uppercase bg-[#00ff4626] dark:bg-gray-700 dark:text-gray-400">
+                <thead class="text-md text-center text-gray-700 uppercase bg-[#11ff5999] dark:bg-gray-700 dark:text-gray-400">
                     <tr>
                         <th scope="col" class="px-6 py-3">
                             হোল্ডিং নাম্বার
@@ -162,8 +162,8 @@ const ekhanaFetch = ()=>{
                         </th>
                         <th colspan="2" scope="col" class="">
                             সম্পদের বিবরন
-                            <div class="flex items-center justify-between bg-yellow-400 p-1 h-16">
-                                <h4 class="p-1" v-for="(huse,ind) in house_strucs">{{huse.name}}</h4>
+                            <div class="flex items-center justify-between bg-[#1c09ffb5] rounded p-1 h-16">
+                                <h4 class="p-1 text-white" v-for="(huse,ind) in house_strucs">{{huse.name}}</h4>
                             </div>
                         </th>
                         <th scope="col" class="px-6 py-3">
@@ -224,12 +224,6 @@ const ekhanaFetch = ()=>{
                         <td class="px-6 py-4">
                             {{ value.created_by ? value.created_by.name : ''}}
                         </td>
-                        <td v-text="DateFormate(value.created_at)" class="px-6 py-4">
-                        </td>
-                        <td class="px-6 py-4">
-                            {{ value.updated_by ? value.updated_by.name : ''}}
-                        </td>
-
                         <td class="px-6 py-4 flex item-center justify-center" v-if="ncheck('edit') || ncheck('delete')">
                             <Link v-if="ncheck('edit')" :href="route('admin.ekhana.edit', [value.id])"
                                 class="font-medium text-blue-600 dark:text-blue-500 hover:underline">

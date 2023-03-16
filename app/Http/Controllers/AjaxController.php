@@ -14,7 +14,7 @@ class AjaxController extends Controller
         $modalClass =  '\\App\\Models\\'.$modal;
         $val = (int)$value;
         if($with){
-            $data = $modalClass::with(['houseStruc','word','village','houseStruc.houseStruc'])->where($field,$val)->where('deleted_by',null)->orderBy('id','desc')->get();
+            $data = $modalClass::with(['houseStruc','word','village','houseStruc.houseStruc','createdBy'])->where($field,$val)->where('deleted_by',null)->orderBy('id','desc')->get();
         }else{
             $data = $modalClass::where($field,$val)->where('deleted_by',null)->orderBy('id','desc')->get();
         }
