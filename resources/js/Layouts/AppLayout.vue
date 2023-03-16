@@ -100,7 +100,7 @@ const userMenu = ref(false);
                 <div class="flex items-center justify-between">
                     <div class="flex items-center justify-start ">
                         <button @click="sidemenuChange" type="button"
-                            class="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg smphp sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
+                            class="inline-flex items-center text-sm text-gray-500 rounded-lg smphp sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
                             <span class="sr-only">Open sidebar</span>
                             <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -165,7 +165,7 @@ const userMenu = ref(false);
 
     <aside id="logo-sidebar"
 
-        class="fixed top-[85px] max-sm:top-[128px] bg-[#0edda2] left-0 z-40 w-64 h-screen transition-transform border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700 "
+        class="fixed  top-[85px] max-sm:top-[128px] bg-[#0edda2] pb-[84px] max-sm:pb-[112px] left-0 z-40 w-64 h-screen transition-transform border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700 "
         :class="[sidemenu ? 'block' : '-translate-x-full']"
          aria-label="Sidebar">
         <div class="h-full pb-4 overflow-y-auto dark:bg-gray-800">
@@ -209,12 +209,12 @@ const userMenu = ref(false);
 
                     </a>
                     <span :class="[setup ? 'block' : 'hidden']">
-                        <!-- <sideMenueLink v-if="$page.props.auth.user"  :href="route('admin.dashboard')" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"> -->
+                        <!-- <sideMenueLink v-if="$page.props.auth.user"  :href="route('admin.dashboard')" class="flex items-center text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"> -->
 
                         <SsubMenue v-if="$page.props.auth.user && ncheck('Division')"
                             :href="route('admin.setup.division.index')"
                             :active="$page.url.startsWith('/admin/setup/division')"
-                            class="flex ml-8 items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                            class="flex items-center mt-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
                             <svg aria-hidden="true"
                                 class="w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                                 fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -226,7 +226,7 @@ const userMenu = ref(false);
                         <SsubMenue v-if="$page.props.auth.user && ncheck('District')"
                             :href="route('admin.setup.district.index')"
                             :active="$page.url.startsWith('/admin/setup/district')"
-                            class="flex ml-8 items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                            class="flex items-center text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
                             <svg aria-hidden="true"
                                 class="w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                                 fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -238,7 +238,7 @@ const userMenu = ref(false);
                         <SsubMenue v-if="$page.props.auth.user && ncheck('Upazila')"
                             :href="route('admin.setup.upazila.index')"
                             :active="$page.url.startsWith('/admin/setup/upazila')"
-                            class="flex ml-8 items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                            class="flex items-center text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
                             <svg aria-hidden="true"
                                 class="w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                                 fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -249,7 +249,7 @@ const userMenu = ref(false);
                         </SsubMenue>
                     <SsubMenue v-if="$page.props.auth.user && ncheck('Union')" :href="route('admin.setup.union.index')"
                         :active="$page.url.startsWith('/admin/setup/union')"
-                        class="flex ml-8 items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                        class="flex items-center text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
                         <svg aria-hidden="true"
                             class="w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                             fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -260,7 +260,7 @@ const userMenu = ref(false);
                     </SsubMenue>
                     <SsubMenue v-if="$page.props.auth.user && ncheck('Word')" :href="route('admin.setup.word.index')"
                         :active="$page.url.startsWith('/admin/setup/word')"
-                        class="flex ml-8 items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                        class="flex items-center text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
                         <svg aria-hidden="true"
                             class="w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                             fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -272,7 +272,7 @@ const userMenu = ref(false);
                     <SsubMenue v-if="$page.props.auth.user && ncheck('Village')"
                         :href="route('admin.setup.village.index')"
                         :active="$page.url.startsWith('/admin/setup/village')"
-                        class="flex ml-8 items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                        class="flex items-center text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
                         <svg aria-hidden="true"
                             class="w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                             fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -284,7 +284,7 @@ const userMenu = ref(false);
                     <SsubMenue v-if="$page.props.auth.user && ncheck('Education Qualification')"
                         :href="route('admin.setup.education-qualification.index')"
                         :active="$page.url.startsWith('/admin/setup/education-qualification')"
-                        class="flex ml-8 items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                        class="flex items-center text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
                         <svg aria-hidden="true"
                             class="w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                             fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -296,7 +296,7 @@ const userMenu = ref(false);
                     <SsubMenue v-if="$page.props.auth.user && ncheck('Profession')"
                         :href="route('admin.setup.profession.index')"
                         :active="$page.url.startsWith('/admin/setup/profession')"
-                        class="flex ml-8 items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                        class="flex items-center text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
                         <svg aria-hidden="true"
                             class="w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                             fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -308,7 +308,7 @@ const userMenu = ref(false);
                     <SsubMenue v-if="$page.props.auth.user && ncheck('Tax')"
                         :href="route('admin.setup.tax.index')"
                         :active="$page.url.startsWith('/admin/setup/tax')"
-                        class="flex ml-8 items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                        class="flex items-center text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
                         <svg aria-hidden="true"
                             class="w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                             fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -320,7 +320,7 @@ const userMenu = ref(false);
                     <SsubMenue v-if="$page.props.auth.user && ncheck('Religion')"
                         :href="route('admin.setup.religion.index')"
                         :active="$page.url.startsWith('/admin/setup/religion')"
-                        class="flex ml-8 items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                        class="flex items-center text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
                         <svg aria-hidden="true"
                             class="w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                             fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -332,7 +332,7 @@ const userMenu = ref(false);
                     <SsubMenue v-if="$page.props.auth.user && ncheck('House Structure')"
                         :href="route('admin.setup.house-structure.index')"
                         :active="$page.url.startsWith('/admin/setup/house-structure')"
-                        class="flex ml-8 items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                        class="flex items-center text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
                         <svg aria-hidden="true"
                             class="w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                             fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -346,7 +346,7 @@ const userMenu = ref(false);
             </li>
             <li @click="userOpenClose" v-if="ncheck('Menu User')">
                 <a :class="{'active':$page.url.startsWith('/admin/user')}"
-                    class="flex  items-center p-2 text-base mx-2 font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                    class="flex p-2 mt-2 items-center text-base mx-2 font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
                     <svg aria-hidden="true"
                         class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                         fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -369,7 +369,7 @@ const userMenu = ref(false);
 
                     <SsubMenue v-if="$page.props.auth.user && ncheck('Role')" :href="route('admin.user.role.index')"
                         :active="$page.url.startsWith('/admin/user/role')"
-                        class="flex ml-8 items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                        class="flex mt-2 items-center text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
                         <svg aria-hidden="true"
                             class="w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                             fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -380,7 +380,7 @@ const userMenu = ref(false);
                     </SsubMenue>
                     <SsubMenue v-if="$page.props.auth.user && ncheck('User')" :href="route('admin.user.user.index')"
                         :active="$page.url.startsWith('/admin/user/user')"
-                        class="flex ml-8 items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                        class="flex items-center text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
                         <svg aria-hidden="true"
                             class="w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                             fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -392,8 +392,8 @@ const userMenu = ref(false);
                 </span>
             </li>
             <li v-if="ncheck('E-Khana')">
-                <a :class="{'active':$page.url.startsWith('/admin/user')}" :href="route('admin.ekhana.index')"
-                    class="flex  items-center p-2 text-base mx-2 font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                <a :class="{'active':$page.url.startsWith('/admin/ekhana')}" :href="route('admin.ekhana.index')"
+                    class="flex p-2 mt-2 items-center text-base mx-2 font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
                     <svg aria-hidden="true"
                         class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                         fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
