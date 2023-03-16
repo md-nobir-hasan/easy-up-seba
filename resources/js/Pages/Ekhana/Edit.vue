@@ -29,7 +29,7 @@ defineProps({
 const form = useForm({
     word_id: usePage().props.ekhana.word_id,
     village_id: usePage().props.ekhana.village_id,
-    holding_no: usePage().props.ekhana.holding_no,
+    // holding_no: usePage().props.ekhana.holding_no,
     yearly_income: usePage().props.ekhana.yearly_income,
     bn_name: usePage().props.ekhana.bn_name,
     name: usePage().props.ekhana.name,
@@ -107,21 +107,6 @@ const submit = () => {
                             <option v-for="(val1, key) in villages" :value="val1.id">{{ val1.name }}</option>
                         </select>
                         <InputError class="mt-2" :message="form.errors.village_id" />
-                    </div>
-
-                    <div class="mb-4 border-2 border-blue-800 p-4 border-dashed rounded">
-                        <InputLabel for="holding_no" value="হোল্ডিং নাম্বার" />
-                        <TextInput
-                            id="holding_no"
-                            v-model="form.holding_no"
-                            type="number"
-                            class="mt-1 block w-full"
-                            required
-                            autofocus
-                            autocomplete="holding_no"
-                            placeholder="হোল্ডিং নাম্বার লিখুন"
-                        />
-                        <InputError class="mt-2" :message="form.errors.holding_no" />
                     </div>
 
                     <div class="mb-4 border-2 border-blue-800 p-4 border-dashed rounded">
