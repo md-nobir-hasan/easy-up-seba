@@ -165,10 +165,10 @@ const userMenu = ref(false);
 
     <aside id="logo-sidebar"
 
-        class="fixed top-[85px] max-sm:top-[128px] left-0 z-40 w-64 h-screen transition-transform bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700 "
+        class="fixed top-[85px] max-sm:top-[128px] bg-[#0edda2] left-0 z-40 w-64 h-screen transition-transform border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700 "
         :class="[sidemenu ? 'block' : '-translate-x-full']"
          aria-label="Sidebar">
-        <div class="h-full pb-4 overflow-y-auto bg-white dark:bg-gray-800">
+        <div class="h-full pb-4 overflow-y-auto dark:bg-gray-800">
             <ul>
                 <li>
                     <sideMenueLink v-if="$page.props.auth.user && ncheck('Dashboard')" :href="route('admin.dashboard')"
