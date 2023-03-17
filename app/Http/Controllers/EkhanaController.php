@@ -46,11 +46,15 @@ class EkhanaController extends Controller
             $n['words'] = Word::where('deleted_by',null)->where('union_id',Auth::user()->word_id)->orderBy('id','desc')->get();
             $n['villages'] = Village::where('deleted_by',null)->where('union_id',Auth::user()->word_id)->orderBy('id','desc')->get();
         }
-        // $n['villages'] = Village::where('deleted_by',null)->orderBy('id','desc')->get();
         $n['religions'] = Religion::where('deleted_by',null)->get();
         $n['professions'] = Profession::where('deleted_by',null)->orderBy('id','desc')->get();
         $n['edqualis'] = EducationQualification::where('deleted_by',null)->orderBy('id','desc')->get();
         $n['house_strucs'] = HouseStructure::where('deleted_by',null)->orderBy('id','desc')->get();
+        $n['ekhanas'] = Ekhana::where('deleted_by',null)->orderBy('id','desc')->get();
+        $n['ksum'] = $n['ekhanas']->sum('yearly_house_rent');
+        $n['kcount'] = count($n['ekhanas']);
+        // dd($n);
+
         return Inertia::render('Ekhana/Create',$n);
     }
 
