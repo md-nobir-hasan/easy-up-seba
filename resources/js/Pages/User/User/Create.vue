@@ -233,29 +233,29 @@ const wordFetch = () => {
                         <div class="mb-4">
                             <InputLabel for="name" value="User Name" />
                             <TextInput id="name" v-model="form.name" type="text" class="mt-1 block w-full" required
-                                autofocus autocomplete="text" />
+                                autocomplete="text" />
                             <InputError class="mt-2" :message="form.errors.name" />
                         </div>
 
                         <div class="mb-4">
                             <InputLabel for="phone" value="User phone" />
                             <TextInput id="phone" v-model="form.phone" type="tel" class="mt-1 block w-full" required
-                                autofocus autocomplete="phone" />
+                                autocomplete="phone" />
                             <InputError class="mt-2" :message="form.errors.phone" />
                         </div>
                         <div class="mb-4">
                             <InputLabel for="email" value="User email" />
                             <TextInput id="email" v-model="form.email" type="email" class="mt-1 block w-full" required
-                                autofocus autocomplete="email" />
+                                autocomplete="email" />
                             <InputError class="mt-2" :message="form.errors.email" />
                         </div>
 
                         <div class="mb-4 relative">
                             <InputLabel for="password" value="Password" />
                             <TextInput v-if="showHide2" id="password" v-model="form.password" type="text"
-                                class="mt-1 block w-full" required autofocus autocomplete="password" />
+                                class="mt-1 block w-full" required autocomplete="password" />
                             <TextInput v-else id="password" v-model="form.password" type="password"
-                                class="mt-1 block w-full" required autofocus autocomplete="password" />
+                                class="mt-1 block w-full" required autocomplete="password" />
                             <div @click="showHideChange2" class="float-right absolute top-9 right-2">
                                 <svg xmlns="http://www.w3.org/2000/svg" :class="[showHide2 ? 'block' : 'hidden']"
                                     viewBox="0 0 576 512" class="h-6">
@@ -273,10 +273,10 @@ const wordFetch = () => {
                         <div class="mb-4 relative">
                             <InputLabel for="confirm_password" value="Confirm password" />
                             <TextInput v-if="showHide" @change="passwordCheck" @keyup="passwordCheck" id="confirm_password"
-                                v-model="form.confirm_password" type="text" class="mt-1 block w-full" required autofocus
+                                v-model="form.confirm_password" type="text" class="mt-1 block w-full" required
                                 autocomplete="confirm_password" />
                             <TextInput v-else @change="passwordCheck" @keyup="passwordCheck" id="confirm_password"
-                                v-model="form.confirm_password" type="password" class="mt-1 block w-full" required autofocus
+                                v-model="form.confirm_password" type="password" class="mt-1 block w-full" required
                                 autocomplete="confirm_password" />
                             <div @click="showHideChange" class="float-right absolute top-9 right-2">
                                 <svg xmlns="http://www.w3.org/2000/svg" :class="[showHide ? 'block' : 'hidden']"

@@ -171,7 +171,7 @@ const submit = () => {
                             type="number"
                             class="mt-1 block w-full"
                             required
-                            autofocus
+
                             autocomplete="yearly_income"
                             placeholder="বাৎসরিক গড় আয় লিখুন"
                         />
@@ -186,7 +186,7 @@ const submit = () => {
                             type="text"
                             class="mt-1 block w-full"
                             required
-                            autofocus
+
                             autocomplete="bn_name"
                             placeholder="খানা প্রধানের নাম লিখুন"
                         />
@@ -201,7 +201,7 @@ const submit = () => {
                             type="text"
                             class="mt-1 block w-full"
                             required
-                            autofocus
+
                             autocomplete="name"
                             placeholder="Type Name in English"
                         />
@@ -225,7 +225,7 @@ const submit = () => {
                             type="number"
                             class="mt-1 block w-full"
                             required
-                            autofocus
+
                             autocomplete="phone"
                             placeholder="মোবাইল নাম্বার লিখুন"
                         />
@@ -240,7 +240,7 @@ const submit = () => {
                             type="text"
                             class="mt-1 block w-full"
                             required
-                            autofocus
+
                             autocomplete="spouse_name"
                             placeholder="পিতা/স্বামীর নাম লিখুন"
                         />
@@ -255,7 +255,7 @@ const submit = () => {
                             type="text"
                             class="mt-1 block w-full"
                             required
-                            autofocus
+
                             autocomplete="mother_name"
                             placeholder="মাতার নাম লিখুন"
                         />
@@ -273,7 +273,7 @@ const submit = () => {
                                     v-model="form.m_male"
                                     type="number"
                                     class="mt-1 block w-full"
-                                    autofocus
+
                                     autocomplete="m_male"
                                     placeholder="সংখ্যা"
                                 />
@@ -286,7 +286,7 @@ const submit = () => {
                                     v-model="form.m_female"
                                     type="number"
                                     class="mt-1 block w-full"
-                                    autofocus
+
                                     autocomplete="m_female"
                                     placeholder="সংখ্যা"
                                 />
@@ -299,7 +299,7 @@ const submit = () => {
                                     v-model="form.m_child"
                                     type="number"
                                     class="mt-1 block w-full"
-                                    autofocus
+
                                     autocomplete="m_child"
                                     placeholder="সংখ্যা"
                                 />
@@ -316,7 +316,7 @@ const submit = () => {
                             v-model="form.dob"
                             type="date"
                             class="mt-1 block w-full"
-                            autofocus
+
                             autocomplete="dob"
                             placeholder="উদাঃ 16-08-2000"
                         />
@@ -330,7 +330,7 @@ const submit = () => {
                             type="number"
                             class="mt-1 block w-full"
                             required
-                            autofocus
+
                             autocomplete="birth_no"
                             placeholder="জন্ম নিবন্ধন নাম্বার লিখুন"
                         />
@@ -345,7 +345,7 @@ const submit = () => {
                             type="number"
                             class="mt-1 block w-full"
                             required
-                            autofocus
+
                             autocomplete="nid"
                             placeholder="জাতীয় পরিচয় পত্র নাম্বার লিখুন"
                         />
@@ -454,7 +454,7 @@ const submit = () => {
                                 type="text"
                                 class="mt-1 block w-full"
 
-                                autofocus
+
                                 autocomplete="sc_past"
                                 placeholder="প্রযোয্য নয়"
                             />
@@ -468,7 +468,7 @@ const submit = () => {
                                 type="text"
                                 class="mt-1 block w-full"
 
-                                autofocus
+
                                 autocomplete="sc_future"
                                 placeholder="প্রযোয্য নয়"
                             />
@@ -482,7 +482,7 @@ const submit = () => {
                                 type="text"
                                 class="mt-1 block w-full"
 
-                                autofocus
+
                                 autocomplete="sc_present"
                                 placeholder="প্রযোয্য নয়"
                             />
@@ -503,7 +503,7 @@ const submit = () => {
                                     type="number"
                                     class="mt-1 block w-full house-tax-cal"
 
-                                    autofocus
+
                                     min="0"
                                     autocomplete="house_struc_id"
                                     placeholder="সংখ্যা"
@@ -521,7 +521,7 @@ const submit = () => {
                             type="number"
                             class="mt-1 block w-full"
                             required
-                            autofocus
+
                             autocomplete="yearly_house_rent"
                             placeholder="আনুমানিক বাৎসরিক ভাড়ার পরিমান লিখুন"
                         />
@@ -564,7 +564,7 @@ const submit = () => {
                                     type="number"
                                     class="mt-1 block w-full"
                                     required
-                                    autofocus
+
                                     autocomplete="land_house"
                                     placeholder="ভিটা জমির পরিমাণ"
                                 />
@@ -578,7 +578,7 @@ const submit = () => {
                                     type="number"
                                     class="mt-1 block w-full"
                                     required
-                                    autofocus
+
                                     autocomplete="land_cultivate"
                                     placeholder="আবাদী জমির পরিমাণ"
                                 />

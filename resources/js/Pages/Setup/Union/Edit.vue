@@ -123,7 +123,7 @@ const upazilaFetch = ()=>{
                             class="mt-1 block w-full"
                             :class="[updisable ? 'disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none invalid:border-pink-500 invalid:text-pink-600' : '']"
                             required
-                            autofocus
+
                             autocomplete="name"
                         />
                         <InputError class="mt-2" :message="form.errors.name" />
@@ -137,7 +137,7 @@ const upazilaFetch = ()=>{
                             class="mt-1 block w-full"
                             :class="[updisable ? 'disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none invalid:border-pink-500 invalid:text-pink-600' : '']"
                             required
-                            autofocus
+
                             autocomplete="code"
                         />
                         <InputError class="mt-2" :message="form.errors.code" />
