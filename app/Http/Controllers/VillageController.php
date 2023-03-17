@@ -49,7 +49,7 @@ class VillageController extends Controller
         $insert->code = $request->code;
         $insert->created_by = Auth::user()->id;
         $insert->save();
-        $request->session()->flash('suc_msg',$request->name.' Saved Successfully');
+        $request->session()->flash('suc_msg',$request->name.' সফলভাবে সরক্ষণ করা হয়েছে');
         if($request->submit_btn == 'return'){
             return redirect()->route('admin.setup.village.index');
         }else{
@@ -94,7 +94,7 @@ class VillageController extends Controller
         $village->updated_at = Carbon::now();
         $village->updated_by = Auth::user()->id;
         $village->save();
-        $request->session()->flash('suc_msg',$village->name.' Updated Successfully');
+        $request->session()->flash('suc_msg',$village->name.' সফলভাবে আপডেট করা হয়েছে');
         return redirect()->route('admin.setup.village.index');
     }
 

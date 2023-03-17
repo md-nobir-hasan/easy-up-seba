@@ -47,7 +47,7 @@ class WordController extends Controller
         $insert->code = $request->code;
         $insert->created_by = Auth::user()->id;
         $insert->save();
-        $request->session()->flash('suc_msg',$request->name.' Saved Successfully');
+        $request->session()->flash('suc_msg',$request->name.' সফলভাবে সরক্ষণ করা হয়েছে');
         if($request->submit_btn == 'return'){
             return redirect()->route('admin.setup.word.index');
         }else{
@@ -90,7 +90,7 @@ class WordController extends Controller
         $word->updated_at = Carbon::now();
         $word->updated_by = Auth::user()->id;
         $word->save();
-        $request->session()->flash('suc_msg',$word->name.' Updated Successfully');
+        $request->session()->flash('suc_msg',$word->name.' সফলভাবে আপডেট করা হয়েছে');
         return redirect()->route('admin.setup.word.index');
     }
 

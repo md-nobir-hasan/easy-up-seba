@@ -37,7 +37,7 @@ class DivisionController extends Controller
         $insert->name = $request->name;
         $insert->created_by = Auth::user()->id;
         $insert->save();
-        $request->session()->flash('suc_msg',$request->name.' Saved Successfully');
+        $request->session()->flash('suc_msg',$request->name.' সফলভাবে সরক্ষণ করা হয়েছে');
         if($request->submit_btn == 'return'){
             return redirect()->route('admin.setup.division.index');
         }else{
@@ -71,7 +71,7 @@ class DivisionController extends Controller
         $division->updated_at = Carbon::now();
         $division->updated_by = Auth::user()->id;
         $division->save();
-        $request->session()->flash('suc_msg',$division->name.' Updated Successfully');
+        $request->session()->flash('suc_msg',$division->name.' সফলভাবে আপডেট করা হয়েছে');
         return redirect()->route('admin.setup.division.index');
     }
 

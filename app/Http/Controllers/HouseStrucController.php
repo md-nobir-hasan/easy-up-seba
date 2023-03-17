@@ -39,7 +39,7 @@ class HouseStrucController extends Controller
         $insert->des = $request->des;
         $insert->created_by = Auth::user()->id;
         $insert->save();
-        $request->session()->flash('suc_msg',$request->name.' Saved Successfully');
+        $request->session()->flash('suc_msg',$request->name.' সফলভাবে সরক্ষণ করা হয়েছে');
         if($request->submit_btn == 'return'){
             return redirect()->route('admin.setup.house-structure.index');
         }else{
@@ -75,7 +75,7 @@ class HouseStrucController extends Controller
         $HouseStructure->updated_at = Carbon::now();
         $HouseStructure->updated_by = Auth::user()->id;
         $HouseStructure->save();
-        $request->session()->flash('suc_msg',$HouseStructure->name.' Updated Successfully');
+        $request->session()->flash('suc_msg',$HouseStructure->name.' সফলভাবে আপডেট করা হয়েছে');
         return redirect()->route('admin.setup.house-structure.index');
     }
 

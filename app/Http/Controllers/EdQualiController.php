@@ -38,7 +38,7 @@ class EdQualiController extends Controller
         $insert->des = $request->des;
         $insert->created_by = Auth::user()->id;
         $insert->save();
-        $request->session()->flash('suc_msg',$request->name.' Saved Successfully');
+        $request->session()->flash('suc_msg',$request->name.' সফলভাবে সরক্ষণ করা হয়েছে');
         if($request->submit_btn == 'return'){
             return redirect()->route('admin.setup.education-qualification.index');
         }else{
@@ -73,7 +73,7 @@ class EdQualiController extends Controller
         $educationQualification->updated_at = Carbon::now();
         $educationQualification->updated_by = Auth::user()->id;
         $educationQualification->save();
-        $request->session()->flash('suc_msg',$educationQualification->name.' Updated Successfully');
+        $request->session()->flash('suc_msg',$educationQualification->name.' সফলভাবে আপডেট করা হয়েছে');
         return redirect()->route('admin.setup.education-qualification.index');
     }
 

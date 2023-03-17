@@ -15,7 +15,7 @@ class DeleteController extends Controller
         $delete->deleted_at = Carbon::now();
         $delete->deleted_by = Auth::user()->id;
         $delete->save();
-        $req->session()->flash('suc_msg',$delete->name.' Deleted Successfully');
+        $req->session()->flash('suc_msg',$delete->name.' সফলভাবে ডিলিট হয়েছে');
         return redirect()->back();
     }
 }

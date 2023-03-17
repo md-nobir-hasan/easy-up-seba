@@ -45,7 +45,7 @@ class UnionController extends Controller
         $insert->code = $request->code;
         $insert->created_by = Auth::user()->id;
         $insert->save();
-        $request->session()->flash('suc_msg',$request->name.' Saved Successfully');
+        $request->session()->flash('suc_msg',$request->name.' সফলভাবে সরক্ষণ করা হয়েছে');
         if($request->submit_btn == 'return'){
             return redirect()->route('admin.setup.union.index');
         }else{
@@ -78,7 +78,7 @@ class UnionController extends Controller
      */
     public function update(UpdateUnionRequest $request, Union $union)
     {
-        
+
         $union->division_id = $request->division_id;
         $union->district_id = $request->district_id;
         $union->upazila_id = $request->upazila_id;
@@ -87,7 +87,7 @@ class UnionController extends Controller
         $union->updated_at = Carbon::now();
         $union->updated_by = Auth::user()->id;
         $union->save();
-        $request->session()->flash('suc_msg',$union->name.' Updated Successfully');
+        $request->session()->flash('suc_msg',$union->name.' সফলভাবে আপডেট করা হয়েছে');
         return redirect()->route('admin.setup.union.index');
     }
 

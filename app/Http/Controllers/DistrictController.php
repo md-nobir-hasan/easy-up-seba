@@ -40,7 +40,7 @@ class DistrictController extends Controller
         $insert->name = $request->name;
         $insert->created_by = Auth::user()->id;
         $insert->save();
-        $request->session()->flash('suc_msg',$request->name.' Saved Successfully');
+        $request->session()->flash('suc_msg',$request->name.' সফলভাবে সরক্ষণ করা হয়েছে');
         if($request->submit_btn == 'return'){
             return redirect()->route('admin.setup.district.index');
         }else{
@@ -76,7 +76,7 @@ class DistrictController extends Controller
         $district->updated_at = Carbon::now();
         $district->updated_by = Auth::user()->id;
         $district->save();
-        $request->session()->flash('suc_msg',$district->name.' Updated Successfully');
+        $request->session()->flash('suc_msg',$district->name.' সফলভাবে আপডেট করা হয়েছে');
         return redirect()->route('admin.setup.district.index');
     }
 

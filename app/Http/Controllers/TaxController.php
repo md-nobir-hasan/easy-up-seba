@@ -39,7 +39,7 @@ class TaxController extends Controller
         $insert->des = $request->des;
         $insert->created_by = Auth::user()->id;
         $insert->save();
-        $request->session()->flash('suc_msg',$request->name.' Saved Successfully');
+        $request->session()->flash('suc_msg',$request->name.' সফলভাবে সরক্ষণ করা হয়েছে');
         if($request->submit_btn == 'return'){
             return redirect()->route('admin.setup.tax.index');
         }else{
@@ -75,7 +75,7 @@ class TaxController extends Controller
         $Tax->updated_at = Carbon::now();
         $Tax->updated_by = Auth::user()->id;
         $Tax->save();
-        $request->session()->flash('suc_msg',$Tax->name.' Updated Successfully');
+        $request->session()->flash('suc_msg',$Tax->name.' সফলভাবে আপডেট করা হয়েছে');
         return redirect()->route('admin.setup.tax.index');
     }
 

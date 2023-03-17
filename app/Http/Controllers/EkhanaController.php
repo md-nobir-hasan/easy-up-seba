@@ -114,7 +114,7 @@ public function store(StoreEkhanaRequest $request)
             $insert_bkdn->save();
         }
 
-        $request->session()->flash('suc_msg',$request->name.' Saved Successfully');
+        $request->session()->flash('suc_msg',$request->name.' সফলভাবে সরক্ষণ করা হয়েছে');
         if($request->submit_btn == 'return'){
             return redirect()->route('admin.ekhana.index');
         }else{
@@ -198,7 +198,7 @@ public function store(StoreEkhanaRequest $request)
             $insert_bkdn->save();
         }
 
-        $request->session()->flash('suc_msg',$request->name.' Updated Successfully');
+        $request->session()->flash('suc_msg',$request->name.' সফলভাবে আপডেট করা হয়েছে');
         return redirect()->route('admin.ekhana.index');
     }
 
