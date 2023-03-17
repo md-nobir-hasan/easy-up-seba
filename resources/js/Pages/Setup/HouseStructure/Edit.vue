@@ -48,14 +48,14 @@ const submit = () => {
                             type="text"
                             class="mt-1 block w-full"
                             required
-                            autofocus
+
                             autocomplete="name"
                         />
                         <InputError class="mt-2" :message="form.errors.name" />
                     </div>
                     <div class="mt-6">
                         <InputLabel for="price" value="মূল্য" />
-                        <TextInput id="price" v-model="form.price" type="number" class="mt-1 block w-full" required autofocus
+                        <TextInput id="price" v-model="form.price" type="number" class="mt-1 block w-full" required
                             autocomplete="price" />
                         <InputError class="mt-2" :message="form.errors.price" />
                     </div>

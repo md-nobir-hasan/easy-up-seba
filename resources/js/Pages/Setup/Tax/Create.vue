@@ -43,13 +43,13 @@ const submit = () => {
                 <form @submit.prevent="submit" class="bg-white p-8 text-2lg">
                     <div>
                         <InputLabel for="name" value="নাম" />
-                        <TextInput id="name" v-model="form.name" type="text" class="mt-1 block w-full" required autofocus
+                        <TextInput id="name" v-model="form.name" type="text" class="mt-1 block w-full" required
                             autocomplete="name" />
                         <InputError class="mt-2" :message="form.errors.name" />
                     </div>
                     <div class="mt-6">
                         <InputLabel for="price" value="মূল্য" />
-                        <TextInput id="price" v-model="form.price" type="number" class="mt-1 block w-full" required autofocus
+                        <TextInput id="price" v-model="form.price" type="number" class="mt-1 block w-full" required
                             autocomplete="price" />
                         <InputError class="mt-2" :message="form.errors.price" />
                     </div>

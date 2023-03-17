@@ -82,7 +82,7 @@ const submit = () => {
                     <div class="mb-8">
                         <InputLabel for="name" value="Role Name" />
                         <input type="hidden" name="id" :value="$page.props.role.id">
-                        <TextInput id="name" v-model="form.name" type="text" class="mt-1 block w-full" required autofocus
+                        <TextInput id="name" v-model="form.name" type="text" class="mt-1 block w-full" required
                             autocomplete="name" />
                         <InputError class="mt-2" :message="form.errors.name" />
                     </div>
