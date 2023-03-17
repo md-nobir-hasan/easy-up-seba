@@ -70,8 +70,9 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        $n['user'] = User::with(['role'])->find($user->id);
+        $n['user'] = User::with(['role','word','word.union','word.upazila','word.district'])->find($user->id);
         $n['roles'] = Role::where('deleted_by',null)->orderBy('id','desc')->get();
+        $n['divisions'] = Division::where('deleted_by',null)->orderBy('id','desc')->get();
         return Inertia::render('User/User/Edit',$n);
     }
 
