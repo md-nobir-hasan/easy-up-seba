@@ -49,6 +49,7 @@ Route::get('/', function () {
 
 Route::prefix('/ajax')->name('ajax.')->group(function(){
     Route::get('/fetch/{model}/{field}/{value}/{with?}',[AjaxController::class,'dataFetch'])->name('fetch');
+    Route::get('/holding/fetch/{vil_id}',[AjaxController::class,'holdingFetch'])->name('holding.fetch');
 });
 
 //removing this make an error but why, search it

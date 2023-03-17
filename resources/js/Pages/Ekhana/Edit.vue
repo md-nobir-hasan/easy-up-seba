@@ -26,9 +26,9 @@ defineProps({
 });
 
 const form = useForm({
-    word_id: usePage().props.ekhana.word_id,
+    word_id: usePage().props.auth.user.word_id,
     village_id: usePage().props.ekhana.village_id,
-    // holding_no: usePage().props.ekhana.holding_no,
+    holding_no: usePage().props.ekhana.holding_no,
     yearly_income: usePage().props.ekhana.yearly_income,
     bn_name: usePage().props.ekhana.bn_name,
     name: usePage().props.ekhana.name,
@@ -57,7 +57,28 @@ const form = useForm({
     land_cultivate: usePage().props.ekhana.land_cultivate,
     infrastructure: usePage().props.ekhana.infrastructure,
 });
-console.log(form);
+
+const vilages = ref([usePage().props.ekhana.village]);
+console.log(vilages.value);
+const vdisable = ref(false);
+const villageFetching = ()=>{
+    axios.get(route('ajax.fetch',['Village','word_id',form.word_id]), form).then(res => {
+        vilages.value = res.data;
+        if(vilages.value.length == 0){
+            vdisable.value = true;
+            vilages.value = {};
+        }else{
+            vdisable.value = false;
+        }
+    }).catch(err =>{
+        vdisable.value = true;
+            vilages.value = {};
+        console.error(err)
+    }).finally(() => {
+        console.log('Village fetch done');
+    });
+    }
+
 const totalhousetax = ref(0);
 const HouseTaxCal = () =>{
     let els = document.querySelectorAll('.house-tax-cal');
@@ -66,6 +87,25 @@ const HouseTaxCal = () =>{
         totalhousetax.value += elemt.value * elemt.getAttribute('data-price');
     });
     form.yearly_house_rent = totalhousetax.value;
+}
+
+const holdingFetch = () =>{
+    const form2 = useForm({
+        word_id : form.word_id,
+        village_id : form.village_id,
+    })
+    axios.get(route('ajax.holding.fetch',[form.village_id]), form2).then(res => {
+        console.log(res);
+        let holding = usePage().props.auth.user.word.union.code.toString() + usePage().props.auth.user.word.code.toString()+'0000';
+        console.log(holding);
+        holding = Number(holding)+ res.data;
+        form.holding_no = holding;
+        console.log(holding);
+    }).catch(err =>{
+        console.error(err)
+    }).finally(() => {
+        console.log('Holding fetch done');
+    });
 }
 
 const submit = () => {
@@ -93,19 +133,34 @@ const submit = () => {
                 <form @submit.prevent="submit" class="p-2 text-2lg bg-[#11ff5999]">
                     <div class="mb-4 border-2 border-blue-800 p-4 border-dashed rounded">
                         <label for="word_id" class="block text-md font-medium text-gray-900 dark:text-white">ওয়ার্ড</label>
-                        <select id="word_id" v-model="form.word_id" class="border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
-                            <option selected value="">ওয়ার্ড নির্বাচন করুন</option>
-                            <option v-for="(val, key) in words" :value="val.id">{{ val.name }}</option>
+                        <select id="word_id" v-model="form.word_id" @change="villageFetching" class="border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                            <!-- <option selected value="">ওয়ার্ড নির্বাচন করুন</option> -->
+                            <option :value="$page.props.auth.user.word_id">{{ $page.props.auth.user.word.name }}</option>
                         </select>
                         <InputError class="mt-2" :message="form.errors.word_id" />
                     </div>
                     <div class="mb-4 border-2 border-blue-800 p-4 border-dashed rounded">
                         <label for="village_id" class="block text-md font-medium text-gray-900 dark:text-white">গ্রাম</label>
-                        <select id="village_id" v-model="form.village_id" class="border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                        <select id="village_id" v-model="form.village_id" @change="holdingFetch" class="border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
                             <option selected value="">গ্রাম নির্বাচন করুন</option>
                             <option v-for="(val1, key) in villages" :value="val1.id">{{ val1.name }}</option>
                         </select>
                         <InputError class="mt-2" :message="form.errors.village_id" />
+                    </div>
+
+                    <div class="mb-4 border-2 border-blue-800 p-4 border-dashed rounded">
+                        <InputLabel for="holding_no" value="হোল্ডিং নাম্বার" />
+                        <TextInput
+                            id="holding_no"
+                            v-model="form.holding_no"
+                            type="number"
+                            class="mt-1 block w-full"
+                            required
+
+                            autocomplete="holding_no"
+                            placeholder="হোল্ডিং নাম্বার লিখুন"
+                        />
+                        <InputError class="mt-2" :message="form.errors.holding_no" />
                     </div>
 
                     <div class="mb-4 border-2 border-blue-800 p-4 border-dashed rounded">

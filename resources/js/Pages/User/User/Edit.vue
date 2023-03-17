@@ -12,6 +12,7 @@ import { usePage } from '@inertiajs/vue3';
 defineProps({
     user: Object,
     roles: Object,
+    divisions: Object,
 });
 console.log(usePage().props.user)
 const form = useForm({
