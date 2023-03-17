@@ -42,7 +42,7 @@ class UpazilaController extends Controller
         $insert->name = $request->name;
         $insert->created_by = Auth::user()->id;
         $insert->save();
-        $request->session()->flash('suc_msg',$request->name.' Saved Successfully');
+        $request->session()->flash('suc_msg',$request->name.' সফলভাবে সরক্ষণ করা হয়েছে');
         if($request->submit_btn == 'return'){
             return redirect()->route('admin.setup.upazila.index');
         }else{
@@ -79,7 +79,7 @@ class UpazilaController extends Controller
         $upazila->updated_at = Carbon::now();
         $upazila->updated_by = Auth::user()->id;
         $upazila->save();
-        $request->session()->flash('suc_msg',$upazila->name.' Updated Successfully');
+        $request->session()->flash('suc_msg',$upazila->name.' সফলভাবে আপডেট করা হয়েছে');
         return redirect()->route('admin.setup.upazila.index');
     }
 

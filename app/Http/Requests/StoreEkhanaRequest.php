@@ -26,6 +26,7 @@ class StoreEkhanaRequest extends FormRequest
         return [
             'word_id' => 'required|integer|exists:words,id',
             'village_id' => 'required|integer|exists:villages,id',
+            'holding_no' => 'required|integer|unique:ekhanas,holding_no',
             'yearly_income' => 'required|integer',
             'bn_name' => 'required|string|max:255',
             'name' => 'required|string|max:255',

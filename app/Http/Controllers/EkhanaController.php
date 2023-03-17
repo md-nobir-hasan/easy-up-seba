@@ -26,8 +26,8 @@ class EkhanaController extends Controller
             $n['words'] = Word::where('deleted_by',null)->orderBy('id','desc')->get();
             $n['villages'] = Village::where('deleted_by',null)->orderBy('id','desc')->get();
         }else{
-            $n['words'] = Word::where('deleted_by',null)->where('union_id',Auth::user()->word_id)->orderBy('id','desc')->get();
-            $n['villages'] = Village::where('deleted_by',null)->where('union_id',Auth::user()->word_id)->orderBy('id','desc')->get();
+            $n['words'] = Word::where('deleted_by',null)->where('id',Auth::user()->word_id)->orderBy('id','desc')->get();
+            $n['villages'] = Village::where('deleted_by',null)->where('word_id',Auth::user()->word_id)->orderBy('id','desc')->get();
         }
         $n['house_strucs'] = HouseStructure::where('deleted_by',null)->orderBy('id','desc')->get();
         $n['data'] = Ekhana::with(['createdBy','updatedBy','village','edQuali','religion','profession','houseStruc','word'])->where('deleted_by',null)->orderBy('id','desc')->get();
@@ -39,13 +39,13 @@ class EkhanaController extends Controller
      */
     public function create()
     {
-        if(Auth::user()->role_id == 1){
-            $n['words'] = Word::where('deleted_by',null)->orderBy('id','desc')->get();
-            $n['villages'] = Village::where('deleted_by',null)->orderBy('id','desc')->get();
-        }else{
-            $n['words'] = Word::where('deleted_by',null)->where('union_id',Auth::user()->word_id)->orderBy('id','desc')->get();
-            $n['villages'] = Village::where('deleted_by',null)->where('union_id',Auth::user()->word_id)->orderBy('id','desc')->get();
-        }
+        // if(Auth::user()->role_id == 1){
+        //     $n['words'] = Word::where('deleted_by',null)->orderBy('id','desc')->get();
+        //     $n['villages'] = Village::where('deleted_by',null)->orderBy('id','desc')->get();
+        // }else{
+            // $n['words'] = Word::where('deleted_by',null)->where('id',Auth::user()->word_id)->orderBy('id','desc')->get();
+            $n['villages'] = Village::where('deleted_by',null)->where('word_id',Auth::user()->word_id)->orderBy('id','desc')->get();
+        // }
         $n['religions'] = Religion::where('deleted_by',null)->get();
         $n['professions'] = Profession::where('deleted_by',null)->orderBy('id','desc')->get();
         $n['edqualis'] = EducationQualification::where('deleted_by',null)->orderBy('id','desc')->get();
@@ -114,7 +114,7 @@ public function store(StoreEkhanaRequest $request)
             $insert_bkdn->save();
         }
 
-        $request->session()->flash('suc_msg',$request->name.' Saved Successfully');
+        $request->session()->flash('suc_msg',$request->name.' সফলভাবে সরক্ষণ করা হয়েছে');
         if($request->submit_btn == 'return'){
             return redirect()->route('admin.ekhana.index');
         }else{
@@ -135,15 +135,15 @@ public function store(StoreEkhanaRequest $request)
      */
     public function edit(Ekhana $ekhana)
     {
-        if(Auth::user()->role_id == 1){
-            $n['words'] = Word::where('deleted_by',null)->orderBy('id','desc')->get();
-        }else{
-            $n['words'] = Word::where('deleted_by',null)->where('union_id',Auth::user()->word->union_id)->orderBy('id','desc')->get();
-        }
+        // if(Auth::user()->role_id == 1){
+        //     $n['words'] = Word::where('deleted_by',null)->orderBy('id','desc')->get();
+        // }else{
+            // $n['words'] = Word::where('deleted_by',null)->where('word_id',Auth::user()->word->union_id)->orderBy('id','desc')->get();
+        // }
         $n['ekhana'] = Ekhana::with(['village','edQuali','religion','profession','houseStruc','word'])->find($ekhana->id);
         $n['religions'] = Religion::where('deleted_by',null)->get();
         $n['professions'] = Profession::where('deleted_by',null)->orderBy('id','desc')->get();
-        $n['villages'] = Village::where('deleted_by',null)->orderBy('id','desc')->get();
+        $n['villages'] = Village::where('deleted_by',null)->where('word_id',Auth::user()->word_id)->orderBy('id','desc')->get();
         $n['edqualis'] = EducationQualification::where('deleted_by',null)->orderBy('id','desc')->get();
         $n['house_strucs'] = HouseStructure::where('deleted_by',null)->orderBy('id','desc')->get();
         return Inertia::render('Ekhana/Edit',$n);
@@ -198,7 +198,7 @@ public function store(StoreEkhanaRequest $request)
             $insert_bkdn->save();
         }
 
-        $request->session()->flash('suc_msg',$request->name.' Updated Successfully');
+        $request->session()->flash('suc_msg',$request->name.' সফলভাবে আপডেট করা হয়েছে');
         return redirect()->route('admin.ekhana.index');
     }
 
