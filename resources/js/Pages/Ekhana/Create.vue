@@ -7,7 +7,6 @@ import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import FormLayout from '@/Components/FormLayout.vue';
-import { router } from '@inertiajs/vue3'
 import { ref } from 'vue';
 defineProps({
     words: Object,
@@ -87,7 +86,7 @@ const HouseTaxCal = () =>{
                 </Link>
             </div>
             <hr class="mb-1">
-            <FormLayout class="bg-white">
+            <FormLayout class="bg-white max-sm:p-[4px]">
                 <SucMesgShow :message="$page.props.flash.suc_msg">{{ errors }}</SucMesgShow>
 
                 <form @submit.prevent="submit" class="p-2 text-2lg bg-[#11ff5999]">
@@ -107,7 +106,7 @@ const HouseTaxCal = () =>{
                         </select>
                         <InputError class="mt-2" :message="form.errors.village_id" />
                     </div>
-<!-- 
+<!--
                     <div class="mb-4 border-2 border-blue-800 p-4 border-dashed rounded">
                         <InputLabel for="holding_no" value="হোল্ডিং নাম্বার" />
                         <TextInput
