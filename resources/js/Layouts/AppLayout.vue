@@ -164,7 +164,6 @@ const userMenu = ref(false);
         </nav>
 
     <aside id="logo-sidebar"
-
         class="fixed  top-[85px] max-sm:top-[128px] bg-[#0edda2] pb-[84px] max-sm:pb-[112px] left-0 z-40 w-64 h-screen transition-transform border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700 "
         :class="[sidemenu ? 'block' : '-translate-x-full']"
          aria-label="Sidebar">
@@ -408,8 +407,8 @@ const userMenu = ref(false);
     </div>
     </aside>
 
-<div class="p-4 sm:ml-64 pt-[21px] max-sm:pt-[65px]">
-    <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-14">
+<div class="p-4 max-sm:p-[2px] sm:ml-64 pt-[21px] max-sm:pt-[82px]">
+    <div class="p-4 max-sm:p-[2px] border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-14">
         <slot />
     </div>
 </div>
