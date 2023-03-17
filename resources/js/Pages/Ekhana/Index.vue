@@ -86,6 +86,7 @@ const ekhanaFetch = ()=>{
         console.log('khana fetch done');
     });
     }
+
 </script>
 
 <template>
@@ -183,11 +184,8 @@ const ekhanaFetch = ()=>{
                 <tbody>
                     <tr v-for="(value, key) in ekhana"
                         class="bg-white text-center border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                        <!-- <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            {{ value.division.name }}
-                        </td> -->
                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            {{ value.holding_no }}
+                            {{ value.holding_no  }}
                         </th>
                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             {{ value.name }}
@@ -216,7 +214,7 @@ const ekhanaFetch = ()=>{
                             </div>
                         </th>
                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            {{ value.yearly_house_rent }}
+                            {{ new Intl.NumberFormat().format(value.yearly_house_rent) }}/=
                         </th>
                         <td v-text="DateFormate(value.created_at)" class="px-6 py-4">
 

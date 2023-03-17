@@ -15,7 +15,9 @@ defineProps({
     edqualis: Object,
     house_strucs: Object,
     villages: Object,
-    errors: Object
+    errors: Object,
+    ksum: String,
+    kcount: String,
 });
 
 
@@ -78,17 +80,19 @@ const HouseTaxCal = () =>{
     <AppLayout title="ই-খানা ডাটা ফর্ম">
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
             <div class="bg-white flex justify-between p-4">
-                <h2 class="float-left text-3xl font-extrabold">ই-খানা ডাটা ফর্ম</h2>
+                <h2 class="float-left text-2xl font-extrabold">ই-খানা ডাটা ফর্ম</h2>
                 <Link :href="route('admin.ekhana.index')">
                 <PrimaryButton class="font-extrabold">
                     ফিরে যান
                 </PrimaryButton>
                 </Link>
             </div>
+            <div class="bg-white p-1 mt-2 text-center sm:flex justify-center items-center">
+                <h4>সর্বমোট খানাঃ {{ kcount }}</h4> <span class="mx-3 max-sm:hidden">।।</span> <h4 class="">সর্বমোট বার্ষিক করঃ {{ ksum }}</h4>
+            </div>
             <hr class="mb-1">
             <FormLayout class="bg-white max-sm:p-[4px]">
                 <SucMesgShow :message="$page.props.flash.suc_msg">{{ errors }}</SucMesgShow>
-
                 <form @submit.prevent="submit" class="p-2 text-2lg bg-[#11ff5999]">
                     <div class="mb-4 border-2 border-blue-800 p-4 border-dashed rounded">
                         <label for="word_id" class="block text-md font-medium text-gray-900 dark:text-white">ওয়ার্ড</label>

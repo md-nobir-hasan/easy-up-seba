@@ -16,8 +16,10 @@ use App\Http\Controllers\UpazilaController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VillageController;
 use App\Http\Controllers\WordController;
+use App\Models\Ekhana;
 use App\Models\User;
 use Illuminate\Foundation\Application;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -34,6 +36,9 @@ use Inertia\Inertia;
 */
 
 Route::get('/', function () {
+    Artisan::call('view:clear');
+    Artisan::call('cache:clear');
+    Artisan::call('optimize:clear');
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
@@ -64,9 +69,10 @@ Route::middleware([
 
     //dashboar rendering
     Route::get('/dashboard', function () {
-        $user = User::with('word','role','word.union')->where('deleted_by',null)->where('id',Auth::user()->id)->first();
-        Inertia::share('user',$user);
-        return Inertia::render('Dashboard');
+        $n['ekhanas'] = Ekhana::where('deleted_by',null)->orderBy('id','desc')->get();
+        $n['ksum'] = $n['ekhanas']->sum('yearly_income');
+        $n['kcount'] = count($n['ekhanas']);
+        return Inertia::render('Dashboard',$n);
     })->name('dashboard');
 
     //Delete funtionality
