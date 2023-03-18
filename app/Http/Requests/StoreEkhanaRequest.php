@@ -23,7 +23,6 @@ class StoreEkhanaRequest extends FormRequest
      */
     public function rules(): array
     {
-        dd($this->id);
         return [
             'word_id' => 'required|numeric|exists:words,id',
             'village_id' => 'required|numeric|exists:villages,id',
