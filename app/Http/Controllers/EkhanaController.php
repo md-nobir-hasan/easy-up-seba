@@ -66,15 +66,7 @@ public function store(StoreEkhanaRequest $request)
         $insert = new Ekhana();
         $insert->word_id = $request->word_id;
         $insert->village_id = $request->village_id;
-
-        //Auto holding number generation
-        $ekhana = Ekhana::latest()->first();
-        $word = Word::find($request->word_id);
-        $holding_no = $word->union->code.$word->code."0000";
-        $holding_no = (int)$holding_no + $ekhana->id;
-        //End holding number generation
-
-        $insert->holding_no =  $holding_no;
+        $insert->holding_no =  $request->holding_no;
         $insert->yearly_income = $request->yearly_income;
         $insert->bn_name = $request->bn_name;
         $insert->name = $request->name;

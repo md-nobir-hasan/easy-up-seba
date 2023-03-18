@@ -7,6 +7,7 @@ import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import FormLayout from '@/Components/FormLayout.vue';
+import SpinnerCheckmark from '@/Components/SpinnerCheckmark.vue';
 import { ref } from 'vue';
 defineProps({
     words: Object,
@@ -23,6 +24,7 @@ defineProps({
 
 
 const form = useForm({
+    id: '',
     word_id: usePage().props.auth.user.word_id,
     village_id: '',
     holding_no: '',
@@ -102,12 +104,9 @@ const holdingFetch = () =>{
         village_id : form.village_id,
     })
     axios.get(route('ajax.holding.fetch',[form.village_id]), form2).then(res => {
-        console.log(res);
         let holding = usePage().props.auth.user.word.union.code + usePage().props.auth.user.word.code+'0000';
-        console.log(holding);
         holding = Number(holding)+ res.data;
         form.holding_no = holding;
-        console.log(holding);
     }).catch(err =>{
         console.error(err)
     }).finally(() => {
@@ -115,9 +114,23 @@ const holdingFetch = () =>{
     });
 }
 
+const spinner_hide = ref(false);
+const autoSave = () =>{
+    spinner_hide.value = true;
+    axios.post(route('ajax.khana.autosave'), form).then(res => {
+        form.id = res.data.id;
+    }).catch(err =>{
+        console.error(err)
+    }).finally(() => {
+        console.log('Auto Save done');
+        spinner_hide.value = false;
+    });
+}
+
 </script>
 <template>
     <AppLayout title="ই-খানা ডাটা ফর্ম">
+        <SpinnerCheckmark v-bind:spinner_hide="spinner_hide" class="fixed top-[50%] right-0"/>
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
             <div class="bg-white flex justify-between p-4">
                 <h2 class="float-left text-2xl font-extrabold">ই-খানা ডাটা ফর্ম</h2>
@@ -136,7 +149,7 @@ const holdingFetch = () =>{
                 <form @submit.prevent="submit" class="p-2 text-2lg bg-[#11ff5999]">
                     <div class="mb-4 border-2 border-blue-800 p-4 border-dashed rounded">
                         <label for="word_id" class="block text-md font-medium text-gray-900 dark:text-white">ওয়ার্ড</label>
-                        <select id="word_id" v-model="form.word_id" @change="villageFetching"  class="border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                        <select id="word_id" v-model="form.word_id" @change="villageFetching" @focusout="autoSave" class="border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
                             <!-- <option selected value="">ওয়ার্ড নির্বাচন করুন</option> -->
                             <option :value="$page.props.auth.user.word_id">{{ $page.props.auth.user.word.name }}</option>
                         </select>
@@ -144,23 +157,21 @@ const holdingFetch = () =>{
                     </div>
                     <div class="mb-4 border-2 border-blue-800 p-4 border-dashed rounded">
                         <label for="village_id" class="block text-md font-medium text-gray-900 dark:text-white">গ্রাম</label>
-                        <select id="village_id" v-model="form.village_id" @change="holdingFetch" class="border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                        <select id="village_id" v-model="form.village_id" @change="holdingFetch" @focusout="autoSave" class="border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
                             <option selected value="">গ্রাম নির্বাচন করুন</option>
-                            <option v-for="(val1, key) in vilages" :value="val1.id">{{ val1.name }}</option>
+                            <option v-for="(val1, key) in vilages" :key="key" :value="val1.id">{{ val1.name }}</option>
                         </select>
                         <InputError class="mt-2" :message="form.errors.village_id" />
                     </div>
 
                     <div class="mb-4 border-2 border-blue-800 p-4 border-dashed rounded">
                         <InputLabel for="holding_no" value="হোল্ডিং নাম্বার" />
-                        <TextInput
+                        <TextInput @focusout="autoSave"
                             id="holding_no"
                             v-model="form.holding_no"
                             type="number"
                             class="mt-1 block w-full"
                             required
-
-                            autocomplete="holding_no"
                             placeholder="হোল্ডিং নাম্বার লিখুন"
                         />
                         <InputError class="mt-2" :message="form.errors.holding_no" />
@@ -175,7 +186,7 @@ const holdingFetch = () =>{
                             class="mt-1 block w-full"
                             required
 
-                            autocomplete="yearly_income"
+                            @focusout="autoSave"
                             placeholder="বাৎসরিক গড় আয় লিখুন"
                         />
                         <InputError class="mt-2" :message="form.errors.yearly_income" />
@@ -190,7 +201,7 @@ const holdingFetch = () =>{
                             class="mt-1 block w-full"
                             required
 
-                            autocomplete="bn_name"
+                            @focusout="autoSave"
                             placeholder="খানা প্রধানের নাম লিখুন"
                         />
                         <InputError class="mt-2" :message="form.errors.bn_name" />
@@ -205,7 +216,7 @@ const holdingFetch = () =>{
                             class="mt-1 block w-full"
                             required
 
-                            autocomplete="name"
+                            @focusout="autoSave"
                             placeholder="Type Name in English"
                         />
                         <InputError class="mt-2" :message="form.errors.name" />
@@ -213,9 +224,9 @@ const holdingFetch = () =>{
 
                     <div class="mb-4 border-2 border-blue-800 p-4 border-dashed rounded">
                         <label for="ed_quali_id" class="block text-md font-medium text-gray-900 dark:text-white">শিক্ষাগত যোগ্যতা</label>
-                        <select id="ed_quali_id" v-model="form.ed_quali_id" class="border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                        <select id="ed_quali_id" v-model="form.ed_quali_id" @focusout="autoSave" class="border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
                             <option selected value="">শিক্ষাগত যোগ্যতা নির্বাচন করুন</option>
-                            <option v-for="(pro, key) in edqualis" :value="pro.id">{{ pro.name }}</option>
+                            <option v-for="(pro, key) in edqualis" :key="key" :value="pro.id">{{ pro.name }}</option>
                         </select>
                         <InputError class="mt-2" :message="form.errors.ed_quali_id" />
                     </div>
@@ -229,7 +240,7 @@ const holdingFetch = () =>{
                             class="mt-1 block w-full"
                             required
 
-                            autocomplete="phone"
+                            @focusout="autoSave"
                             placeholder="মোবাইল নাম্বার লিখুন"
                         />
                         <InputError class="mt-2" :message="form.errors.phone" />
@@ -244,7 +255,7 @@ const holdingFetch = () =>{
                             class="mt-1 block w-full"
                             required
 
-                            autocomplete="spouse_name"
+                            @focusout="autoSave"
                             placeholder="পিতা/স্বামীর নাম লিখুন"
                         />
                         <InputError class="mt-2" :message="form.errors.spouse_name" />
@@ -259,7 +270,7 @@ const holdingFetch = () =>{
                             class="mt-1 block w-full"
                             required
 
-                            autocomplete="mother_name"
+                            @focusout="autoSave"
                             placeholder="মাতার নাম লিখুন"
                         />
                         <InputError class="mt-2" :message="form.errors.mother_name" />
@@ -277,7 +288,7 @@ const holdingFetch = () =>{
                                     type="number"
                                     class="mt-1 block w-full"
 
-                                    autocomplete="m_male"
+                                    @focusout="autoSave"
                                     placeholder="সংখ্যা"
                                 />
                                 <InputError class="mt-2" :message="form.errors.m_male" />
@@ -290,7 +301,7 @@ const holdingFetch = () =>{
                                     type="number"
                                     class="mt-1 block w-full"
 
-                                    autocomplete="m_female"
+                                    @focusout="autoSave"
                                     placeholder="সংখ্যা"
                                 />
                                 <InputError class="mt-2" :message="form.errors.m_female" />
@@ -303,7 +314,7 @@ const holdingFetch = () =>{
                                     type="number"
                                     class="mt-1 block w-full"
 
-                                    autocomplete="m_child"
+                                    @focusout="autoSave"
                                     placeholder="সংখ্যা"
                                 />
                                 <InputError class="mt-2" :message="form.errors.m_child" />
@@ -321,7 +332,7 @@ const holdingFetch = () =>{
                             class="mt-1 block w-full"
                             required
 
-                            autocomplete="dob"
+                            @focusout="autoSave"
                             placeholder="উদাঃ 16-08-2000"
                         />
                         <InputError class="mt-2" :message="form.errors.dob" />
@@ -335,7 +346,7 @@ const holdingFetch = () =>{
                             class="mt-1 block w-full"
                             required
 
-                            autocomplete="birth_no"
+                            @focusout="autoSave"
                             placeholder="জন্ম নিবন্ধন নাম্বার লিখুন"
                         />
                         <InputError class="mt-2" :message="form.errors.birth_no" />
@@ -350,7 +361,7 @@ const holdingFetch = () =>{
                             class="mt-1 block w-full"
                             required
 
-                            autocomplete="nid"
+                            @focusout="autoSave"
                             placeholder="জাতীয় পরিচয় পত্র নাম্বার লিখুন"
                         />
                         <InputError class="mt-2" :message="form.errors.nid" />
@@ -360,19 +371,19 @@ const holdingFetch = () =>{
                         <InputLabel for="nid" value="খানা প্রধানের লিঙ্গ" />
                         <div class="flex items-center">
                             <div class="flex items-center mb-4 ml-8">
-                                <input v-model="form.gender" id="male" name="gender" type="radio" value="পুরুষ"
+                                <input v-model="form.gender" @focusout="autoSave" id="male" name="gender" type="radio" value="পুরুষ"
                                     class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                 <label for="male"
                                     class="ml-2 text-md font-medium text-gray-900 dark:text-gray-300">পুরুষ</label>
                             </div>
                             <div class="flex items-center mb-4 ml-8">
-                                <input v-model="form.gender" id="female" name="gender" type="radio" value="মহিলা"
+                                <input v-model="form.gender" id="female" @focusout="autoSave" name="gender" type="radio" value="মহিলা"
                                     class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                 <label for="female"
                                     class="ml-2 text-md font-medium text-gray-900 dark:text-gray-300">মহিলা</label>
                             </div>
                             <div class="flex items-center mb-4 ml-8">
-                                <input v-model="form.gender" id="other" name="gender" type="radio" value="অন্যান্য"
+                                <input v-model="form.gender" id="other" @focusout="autoSave" name="gender" type="radio" value="অন্যান্য"
                                     class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                 <label for="other"
                                     class="ml-2 text-md font-medium text-gray-900 dark:text-gray-300">অন্যান্য</label>
@@ -384,8 +395,8 @@ const holdingFetch = () =>{
                     <div class="mb-4 border-2 border-blue-800 p-4 border-dashed rounded">
                         <InputLabel for="religion_id" value="খানা প্রধানের ধর্ম" />
                         <div class="flex items-center">
-                            <div v-for="(religion, rkey) in religions" class="flex items-center mb-4 ml-8">
-                                <input v-model="form.religion_id" :id="religion+rkey" :value="religion.id" name="religion" type="radio"
+                            <div v-for="(religion, rkey) in religions" :key="rkey" class="flex items-center mb-4 ml-8">
+                                <input v-model="form.religion_id" :id="religion+rkey" :value="religion.id" @focusout="autoSave" name="religion" type="radio"
                                     class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                 <label :for="religion+rkey"
                                     class="ml-2 text-md font-medium text-gray-900 dark:text-gray-300">{{religion.name}}</label>
@@ -396,9 +407,9 @@ const holdingFetch = () =>{
 
                     <div class="mb-4 border-2 border-blue-800 p-4 border-dashed rounded">
                         <label for="profession_id" class="block text-md font-medium text-gray-900 dark:text-white">পেশা</label>
-                        <select id="profession_id" v-model="form.profession_id" class="border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                        <select id="profession_id" v-model="form.profession_id" @focusout="autoSave" class="border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
                             <option selected value="">পেশা নির্বাচন করুন</option>
-                            <option v-for="(p, key) in professions" :value="p.id">{{ p.name }}</option>
+                            <option v-for="(p, key) in professions" :key="key" :value="p.id">{{ p.name }}</option>
                         </select>
                         <InputError class="mt-2" :message="form.errors.profession_id" />
                     </div>
@@ -407,13 +418,13 @@ const holdingFetch = () =>{
                         <InputLabel for="tuboil" value="নলকুপ আছে কিনা" />
                         <div class="flex items-center">
                             <div class="flex items-center mb-4 ml-8">
-                                <input v-model="form.tuboil" id="yes" name="tuboil" type="radio" value="1"
+                                <input v-model="form.tuboil" @focusout="autoSave" id="yes" name="tuboil" type="radio" value="1"
                                     class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                 <label for="yes"
                                     class="ml-2 text-md font-medium text-gray-900 dark:text-gray-300">হ্যা</label>
                             </div>
                             <div class="flex items-center mb-4 ml-8">
-                                <input v-model="form.tuboil" id="na" name="tuboil" type="radio" value="0"
+                                <input v-model="form.tuboil" @focusout="autoSave" id="na" name="tuboil" type="radio" value="0"
                                     class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                 <label for="na"
                                     class="ml-2 text-md font-medium text-gray-900 dark:text-gray-300">না</label>
@@ -426,19 +437,19 @@ const holdingFetch = () =>{
                         <InputLabel for="toilet_type" value="পায়খানার ধরণ" />
                         <div class="flex items-center">
                             <div class="flex items-center mb-4 ml-8">
-                                <input v-model="form.toilet_type" id="ripe" name="toilet_type" type="radio" value="পাকা"
+                                <input v-model="form.toilet_type" @focusout="autoSave" id="ripe" name="toilet_type" type="radio" value="পাকা"
                                     class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                 <label for="ripe"
                                     class="ml-2 text-md font-medium text-gray-900 dark:text-gray-300">পাকা</label>
                             </div>
                             <div class="flex items-center mb-4 ml-8">
-                                <input v-model="form.toilet_type" id="kasa" name="toilet_type" type="radio" value="কাঁচা"
+                                <input v-model="form.toilet_type" @focusout="autoSave" id="kasa" name="toilet_type" type="radio" value="কাঁচা"
                                     class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                 <label for="kasa"
                                     class="ml-2 text-md font-medium text-gray-900 dark:text-gray-300">কাঁচা</label>
                             </div>
                             <div class="flex items-center mb-4 ml-8">
-                                <input v-model="form.toilet_type" id="nai" name="toilet_type" type="radio" value="নাই"
+                                <input v-model="form.toilet_type" @focusout="autoSave" id="nai" name="toilet_type" type="radio" value="নাই"
                                     class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                 <label for="nai"
                                     class="ml-2 text-md font-medium text-gray-900 dark:text-gray-300">নাই</label>
@@ -459,7 +470,7 @@ const holdingFetch = () =>{
                                 class="mt-1 block w-full"
 
 
-                                autocomplete="sc_past"
+                                @focusout="autoSave"
                                 placeholder="প্রযোয্য নয়"
                             />
                             <InputError class="mt-2" :message="form.errors.sc_past" />
@@ -473,7 +484,7 @@ const holdingFetch = () =>{
                                 class="mt-1 block w-full"
 
 
-                                autocomplete="sc_future"
+                                @focusout="autoSave"
                                 placeholder="প্রযোয্য নয়"
                             />
                             <InputError class="mt-2" :message="form.errors.sc_future" />
@@ -487,7 +498,7 @@ const holdingFetch = () =>{
                                 class="mt-1 block w-full"
 
 
-                                autocomplete="sc_present"
+                                @focusout="autoSave"
                                 placeholder="প্রযোয্য নয়"
                             />
                             <InputError class="mt-2" :message="form.errors.sc_present" />
@@ -498,7 +509,7 @@ const holdingFetch = () =>{
                     <div class="mb-4 mb-4 border-2 border-blue-800 p-4 border-dashed rounded">
                         <InputLabel for="" value="অবকাঠামোর ধরণ" />
                         <div class="flex ml-8">
-                            <div v-for="(ob,key) in house_strucs">
+                            <div v-for="(ob,key) in house_strucs" :key="key">
                                 <InputLabel class="text-sm text-center text-slate-400" :for="ob.id" :value="ob.name" />
                                 <TextInput @change="HouseTaxCal" @keyup="HouseTaxCal"
                                     :id="ob.id"
@@ -509,7 +520,7 @@ const holdingFetch = () =>{
 
 
                                     min="0"
-                                    autocomplete="house_struc_id"
+                                    @focusout="autoSave"
                                     placeholder="সংখ্যা"
                                 />
                                 <InputError class="mt-2" :message="form.errors.house_struc_id" />
@@ -528,7 +539,7 @@ const holdingFetch = () =>{
 
                             readonly
                             :value="totalhousetax"
-                            autocomplete="yearly_house_rent"
+                            @focusout="autoSave"
                             placeholder="আনুমানিক বাৎসরিক ভাড়ার পরিমান লিখুন"
                         />
                         <InputError class="mt-2" :message="form.errors.yearly_house_rent" />
@@ -538,19 +549,19 @@ const holdingFetch = () =>{
                         <InputLabel for="" value="বসবাসের ধরণ" />
                         <div class="flex items-center">
                             <div class="flex items-center mb-4 ml-8">
-                                <input v-model="form.rent_type" id="self" name="rent_type" type="radio" value="নিজে বসবাস"
+                                <input v-model="form.rent_type" @focusout="autoSave" id="self" name="rent_type" type="radio" value="নিজে বসবাস"
                                     class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                 <label for="self"
                                     class="ml-2 text-md font-medium text-gray-900 dark:text-gray-300">নিজে বসবাস</label>
                             </div>
                             <div class="flex items-center mb-4 ml-8">
-                                <input v-model="form.rent_type" id="rent" name="rent_type" type="radio" value="ভাড়া দেওয়া"
+                                <input v-model="form.rent_type" @focusout="autoSave" id="rent" name="rent_type" type="radio" value="ভাড়া দেওয়া"
                                     class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                 <label for="rent"
                                     class="ml-2 text-md font-medium text-gray-900 dark:text-gray-300">ভাড়া দেওয়া</label>
                             </div>
                             <div class="flex items-center mb-4 ml-8">
-                                <input v-model="form.rent_type" id="both" name="rent_type" type="radio" value="উভয়"
+                                <input v-model="form.rent_type" @focusout="autoSave" id="both" name="rent_type" type="radio" value="উভয়"
                                     class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                 <label for="both"
                                     class="ml-2 text-md font-medium text-gray-900 dark:text-gray-300">উভয়</label>
@@ -571,7 +582,7 @@ const holdingFetch = () =>{
                                     class="mt-1 block w-full"
                                     required
 
-                                    autocomplete="land_house"
+                                    @focusout="autoSave"
                                     placeholder="ভিটা জমির পরিমাণ"
                                 />
                                 <InputError class="mt-2" :message="form.errors.land_house" />
@@ -585,7 +596,7 @@ const holdingFetch = () =>{
                                     class="mt-1 block w-full"
                                     required
 
-                                    autocomplete="land_cultivate"
+                                    @focusout="autoSave"
                                     placeholder="আবাদী জমির পরিমাণ"
                                 />
                                 <InputError class="mt-2" :message="form.errors.land_cultivate" />
@@ -598,13 +609,13 @@ const holdingFetch = () =>{
                         <InputLabel for="" value="অবকাঠামোর ধরণ" />
                         <div class="flex items-center">
                             <div class="flex items-center mb-4 ml-8">
-                                <input v-model="form.infrastructure" id="residential" name="infrastructure" type="radio" value="আবাসিক"
+                                <input v-model="form.infrastructure" @focusout="autoSave" id="residential" name="infrastructure" type="radio" value="আবাসিক"
                                     class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                 <label for="residential"
                                     class="ml-2 text-md font-medium text-gray-900 dark:text-gray-300">আবাসিক</label>
                             </div>
                             <div class="flex items-center mb-4 ml-8">
-                                <input v-model="form.infrastructure" id="business_area" name="infrastructure" type="radio" value="বানিজ্যিক"
+                                <input v-model="form.infrastructure" @focusout="autoSave" id="business_area" name="infrastructure" type="radio" value="বানিজ্যিক"
                                     class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                 <label for="business_area"
                                     class="ml-2 text-md font-medium text-gray-900 dark:text-gray-300">বানিজ্যিক</label>
