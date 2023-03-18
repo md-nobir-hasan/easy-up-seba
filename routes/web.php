@@ -50,6 +50,7 @@ Route::get('/', function () {
 Route::prefix('/ajax')->name('ajax.')->group(function(){
     Route::get('/fetch/{model}/{field}/{value}/{with?}',[AjaxController::class,'dataFetch'])->name('fetch');
     Route::get('/holding/fetch/{vil_id}',[AjaxController::class,'holdingFetch'])->name('holding.fetch');
+    Route::post('/ekhana/autosave',[AjaxController::class,'khanaAutoSave'])->name('khana.autosave');
 });
 
 //removing this make an error but why, search it
