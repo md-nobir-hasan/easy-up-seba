@@ -23,23 +23,24 @@ class StoreEkhanaRequest extends FormRequest
      */
     public function rules(): array
     {
+        dd($this->id);
         return [
             'word_id' => 'required|numeric|exists:words,id',
             'village_id' => 'required|numeric|exists:villages,id',
-            'holding_no' => 'required|numeric|unique:ekhanas,holding_no',
+            'holding_no' => 'required|numeric|unique:ekhanas,holding_no,'.$this->id,
             'yearly_income' => 'required|numeric',
             'bn_name' => 'required|string|max:255',
             'name' => 'required|string|max:255',
             'ed_quali_id' => 'required|numeric|exists:education_qualifications,id',
-            'phone' => 'required|string|unique:ekhanas,phone|digits:11',
+            'phone' => 'required|string|unique:ekhanas,phone|digits:11,'.$this->id,
             'spouse_name' => 'required|string|max:255',
             'mother_name' => 'required|string|max:255',
             'm_male' => 'nullable|numeric',
             'm_female' => 'nullable|numeric',
             'm_child' => 'nullable|numeric',
             'dob' => 'required|date',
-            'birth_no' => 'required|string|max:255|unique:ekhanas,birth_no',
-            'nid' => 'required|string|max:255|unique:ekhanas,nid',
+            'birth_no' => 'required|string|max:255|unique:ekhanas,birth_no,'.$this->id,
+            'nid' => 'required|string|max:255|unique:ekhanas,nid,'.$this->id,
             'gender' => 'required|string|max:255',
             'religion_id' => 'required|numeric|exists:religions,id',
             'profession_id' => 'required|numeric|exists:professions,id',
