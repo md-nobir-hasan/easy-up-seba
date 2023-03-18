@@ -172,6 +172,7 @@ const autoSave = () =>{
                             type="number"
                             class="mt-1 block w-full"
                             required
+                            readonly
                             placeholder="হোল্ডিং নাম্বার লিখুন"
                         />
                         <InputError class="mt-2" :message="form.errors.holding_no" />

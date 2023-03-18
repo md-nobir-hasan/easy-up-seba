@@ -28,7 +28,6 @@ class AjaxController extends Controller
                         ->where('village_id',$vil_id)
                         ->orderBy('id','desc')
                         ->first();
-                        // echo $vil_id;
         if($ekhana){
             return $ekhana->id;
         }else{
