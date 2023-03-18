@@ -63,7 +63,11 @@ class EkhanaController extends Controller
      */
 public function store(StoreEkhanaRequest $request)
     {
-        $insert = new Ekhana();
+        if($request->id){
+            $insert = Ekhana::find($request->id);
+        }else{
+            $insert = new Ekhana();
+        }
         $insert->word_id = $request->word_id;
         $insert->village_id = $request->village_id;
         $insert->holding_no =  $request->holding_no;
