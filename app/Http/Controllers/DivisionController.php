@@ -41,7 +41,7 @@ class DivisionController extends Controller
         if($request->submit_btn == 'return'){
             return redirect()->route('admin.setup.division.index');
         }else{
-            return back();
+            return redirect()->route('admin.setup.division.create');
         }
     }
 

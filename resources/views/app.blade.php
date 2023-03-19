@@ -25,6 +25,8 @@
         @inertiaHead
     </head>
     <body class="font-sans antialiased">
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         @inertia
+
     </body>
 </html>

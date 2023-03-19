@@ -86,7 +86,36 @@ const ekhanaFetch = ()=>{
         console.log('khana fetch done');
     });
     }
+//Delele funciton for deleting data
+    function deleting(id,modal){
+        Swal.fire({
+    title: 'Are you sure?',
+    text: "You won't be able to revert this!",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+    if (result.isConfirmed) {
+        axios.get(route('admin.single.delete.fetch',[id,modal])).then(res => {
+            ekhana.value = res.data;
 
+            Swal.fire(
+        'Deleted!',
+        'Your file has been deleted.',
+        'success'
+        )
+        }).catch(err =>{
+            console.error(err)
+        }).finally(() => {
+            console.log('deleted');
+        });
+
+    }
+    })
+    }
+//End deleting
 </script>
 
 <template>
@@ -210,7 +239,7 @@ const ekhanaFetch = ()=>{
                         </th>
                         <th colspan="2" scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             <div class="flex items-center justify-between">
-                                <p v-for="val in value.house_struc">{{val.number}}</p>
+                                <p v-for="val in value.house_struc" >{{val.number}}</p>
                             </div>
                         </th>
                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
@@ -232,14 +261,13 @@ const ekhanaFetch = ()=>{
                             </svg>
                             </Link>
 
-                            <Link v-if="ncheck('delete')" :href="route('admin.single.delete', [value.id, 'Ekhana'])"
-                                class="font-medium ml-2 text-red-600 dark:text-blue-500 hover:underline">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 text-red" viewBox="0 0 448 512">
-                                <path
-                                    d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"
-                                    fill="#d10606" />
-                            </svg>
-                            </Link>
+                            <button @click="deleting(value.id,'Ekhana')"  v-if="ncheck('delete')" class="font-medium ml-2 text-red-600 dark:text-blue-500 hover:underline">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 text-red" viewBox="0 0 448 512">
+                                    <path
+                                        d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"
+                                        fill="#d10606" />
+                                </svg>
+                            </button>
                         </td>
                 </tr>
 
