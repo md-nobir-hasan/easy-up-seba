@@ -23,14 +23,15 @@ class EkhanaController extends Controller
     public function index()
     {
         if(Auth::user()->role_id == 1){
-            $n['words'] = Word::where('deleted_by',null)->orderBy('id','desc')->get();
-            $n['villages'] = Village::where('deleted_by',null)->orderBy('id','desc')->get();
+            $n['words'] = Word::where('deleted_by',null)->where('union_id',Auth::user()->word->union_id)->orderBy('id','desc')->get();
+            $n['villages'] = Village::where('deleted_by',null)->where('union_id',Auth::user()->word->union_id)->orderBy('id','desc')->get();
+            $n['data'] = Ekhana::with(['createdBy','updatedBy','village','edQuali','religion','profession','houseStruc','word'])->where('deleted_by',null)->orderBy('id','desc')->get();
         }else{
             $n['words'] = Word::where('deleted_by',null)->where('id',Auth::user()->word_id)->orderBy('id','desc')->get();
             $n['villages'] = Village::where('deleted_by',null)->where('word_id',Auth::user()->word_id)->orderBy('id','desc')->get();
+            $n['data'] = Ekhana::with(['createdBy','updatedBy','village','edQuali','religion','profession','houseStruc','word'])->where('word_id',Auth::user()->word_id)->where('deleted_by',null)->orderBy('id','desc')->get();
         }
         $n['house_strucs'] = HouseStructure::where('deleted_by',null)->orderBy('id','desc')->get();
-        $n['data'] = Ekhana::with(['createdBy','updatedBy','village','edQuali','religion','profession','houseStruc','word'])->where('deleted_by',null)->orderBy('id','desc')->get();
         return Inertia::render('Ekhana/Index',$n);
     }
 
@@ -110,7 +111,7 @@ public function store(StoreEkhanaRequest $request)
             $insert_bkdn->save();
         }
 
-        $request->session()->flash('suc_msg',$request->name.' সফলভাবে সরক্ষণ করা হয়েছে');
+        $request->session()->flash('suc_msg',$request->bn_name.' সফলভাবে সরক্ষণ করা হয়েছে');
         if($request->submit_btn == 'return'){
             return redirect()->route('admin.ekhana.index');
         }else{
@@ -194,7 +195,7 @@ public function store(StoreEkhanaRequest $request)
             $insert_bkdn->save();
         }
 
-        $request->session()->flash('suc_msg',$request->name.' সফলভাবে আপডেট করা হয়েছে');
+        $request->session()->flash('suc_msg',$request->bn_name.' সফলভাবে আপডেট করা হয়েছে');
         return redirect()->route('admin.ekhana.index');
     }
 
