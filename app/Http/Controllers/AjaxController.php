@@ -59,8 +59,10 @@ class AjaxController extends Controller
     public function khanaAutoSave(Request $request){
         if($request->id){
             $autosave = Ekhana::find($request->id);
+            $autosave->updated_by = Auth::usere()->id;
         }else{
             $autosave = new Ekhana();
+            $autosave->created_by = Auth::usere()->id;
         }
         $autosave->word_id = $request->word_id;
         $autosave->village_id = $request->village_id;
