@@ -18,7 +18,12 @@ const form = useForm({
 console.log(form)
 const submit = () => {
     form.post(route('admin.setup.division.store'), {
-        onFinish: () => form.reset('name'),
+        onFinish: () => {
+            if(form.submit_btn == 'new'){
+                form.reset();
+                form.name = ''
+            }
+        },
     });
 };
 </script>
@@ -47,7 +52,7 @@ const submit = () => {
                             type="text"
                             class="mt-1 block w-full"
                             required
-                           
+
                             autocomplete="name"
                         />
                         <InputError class="mt-2" :message="form.errors.name" />

@@ -16,9 +16,30 @@ class AjaxController extends Controller
         $modalClass =  '\\App\\Models\\'.$modal;
         $val = (int)$value;
         if($with){
-            $data = $modalClass::with(['houseStruc','word','village','houseStruc.houseStruc','createdBy'])->where($field,$val)->where('deleted_by',null)->orderBy('id','desc')->get();
+            $data = $modalClass::with(['houseStruc','word','village','houseStruc.houseStruc','createdBy'])->where($field,$val)->where('word_id',Auth::user()->word_id)->where('deleted_by',null)->orderBy('id','desc')->get();
         }else{
-            $data = $modalClass::where($field,$val)->where('deleted_by',null)->orderBy('id','desc')->get();
+            if($modal == 'Union'){
+                if(Auth::user()->role_id == 1){
+                    $data = $modalClass::where($field,$val)->where('deleted_by',null)->where('id',Auth::user()->word->union_id)->orderBy('id','desc')->get();
+                }
+            }
+            elseif($modal == 'Word'){
+                if(Auth::user()->role_id == 1){
+                    $data = $modalClass::where($field,$val)->where('deleted_by',null)->where('union_id',Auth::user()->word->union_id)->orderBy('id','desc')->get();
+                }else{
+                    $data = $modalClass::where($field,$val)->where('deleted_by',null)->where('union_id',Auth::user()->word->union_id)->where('id',Auth::user()->word_id)->orderBy('id','desc')->get();
+                }
+            }
+            elseif($modal == 'Village'){
+                if(Auth::user()->role_id == 1){
+                    $data = $modalClass::where($field,$val)->where('deleted_by',null)->where('union_id',Auth::user()->word->union_id)->orderBy('id','desc')->get();
+                }else{
+                    $data = $modalClass::where($field,$val)->where('deleted_by',null)->where('union_id',Auth::user()->word->union_id)->where('word_id',Auth::user()->word_id)->orderBy('id','desc')->get();
+                }
+            }else{
+
+                $data = $modalClass::where($field,$val)->where('deleted_by',null)->orderBy('id','desc')->get();
+            }
         }
         return response()->json($data);
     }

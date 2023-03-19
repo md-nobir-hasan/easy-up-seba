@@ -20,7 +20,11 @@ class WordController extends Controller
      */
     public function index()
     {
-        $n['words'] = Word::with(['division','district','upazila','union','createdBy','updatedBy'])->where('deleted_by',null)->orderBy('id','desc')->get();
+        if(Auth::user()->role_id == 1){
+            $n['words'] = Word::with(['division','district','upazila','union','createdBy','updatedBy'])->where('union_id',Auth::user()->word->union_id)->where('deleted_by',null)->orderBy('id','desc')->get();
+        }else{
+            $n['words'] = Word::with(['division','district','upazila','union','createdBy','updatedBy'])->where('word_id',Auth::user()->word_id)->where('deleted_by',null)->orderBy('id','desc')->get();
+        }
         return Inertia::render('Setup/Word/Index',$n);
     }
 

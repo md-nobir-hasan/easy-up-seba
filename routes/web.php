@@ -79,6 +79,7 @@ Route::middleware([
 
     //Delete funtionality
     Route::get('/admin/{id}/{modal}',[DeleteController::class,'singleDelete'])->name('single.delete');
+    Route::get('/admin/delete/fetch/{id}/{modal}',[DeleteController::class,'singleDeleteFetch'])->name('single.delete.fetch');
 
     //setup
     Route::prefix('/setup')->name('setup.')->group(function(){

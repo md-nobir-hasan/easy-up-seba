@@ -21,7 +21,13 @@ class VillageController extends Controller
      */
     public function index()
     {
-        $n['villages'] = Village::with(['division','district','upazila','union','word','createdBy','updatedBy'])->where('deleted_by',null)->orderBy('id','desc')->get();
+        if(Auth::user()->role_id == 1){
+            $n['villages'] = Village::with(['division','district','upazila','union','word','createdBy','updatedBy'])->where('deleted_by',null)->where('union_id',Auth::user()->word->union_id)->orderBy('id','desc')->get();
+        }else{
+            $n['villages'] = Village::with(['division','district','upazila','union','word','createdBy','updatedBy'])->where('deleted_by',null)->where('word_id',Auth::user()->word_id)->orderBy('id','desc')->get();
+
+        }
+        // $n['villages'] = Village::with(['division','district','upazila','union','word','createdBy','updatedBy'])->where('deleted_by',null)->orderBy('id','desc')->get();
         return Inertia::render('Setup/Village/Index',$n);
     }
 

@@ -19,7 +19,11 @@ class UnionController extends Controller
      */
     public function index()
     {
-        $n['unions'] = Union::with(['division','district','upazila','createdBy','updatedBy'])->where('deleted_by',null)->orderBy('id','desc')->get();
+        if(Auth::user()->role_id == 1){
+            $n['unions'] = Union::with(['division','district','upazila','createdBy','updatedBy'])->where('id',Auth::user()->word->union_id)->where('deleted_by',null)->orderBy('id','desc')->get();
+        }else{
+            $n['unions'] = [];
+        }
         return Inertia::render('Setup/Union/Index',$n);
     }
 
