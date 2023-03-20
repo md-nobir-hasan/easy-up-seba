@@ -105,15 +105,15 @@ const mdata = ref(usePage().props.upazilas);
                         <th scope="col" class="px-6 py-3">
                             তৈরির তারিখ
                         </th>
-                        <th scope="col" class="px-6 py-3">
-                            তৈরির
-                        </th>
+                        <!-- <th scope="col" class="px-6 py-3">
+                            তৈরি
+                        </th> -->
                         <th scope="col" class="px-6 py-3">
                             আপডেটের তারিখ
                         </th>
-                        <th scope="col" class="px-6 py-3">
+                        <!-- <th scope="col" class="px-6 py-3">
                             আপডেট
-                        </th>
+                        </th> -->
                         <th scope="col" class="px-6 py-3" v-if="ncheck('edit') || ncheck('delete')">
                             কাজ
                         </th>
@@ -133,14 +133,14 @@ const mdata = ref(usePage().props.upazilas);
                         </th>
                         <td v-text="DateFormate(value.created_at)" class="px-6 py-4">
                         </td>
-                        <td class="px-6 py-4">
+                        <!-- <td class="px-6 py-4">
                             {{ value.created_by ? value.created_by.name : ''}}
-                        </td>
+                        </td> -->
                         <td class="px-6 py-4" v-text="DateFormate(value.updated_at)">
                         </td>
-                        <td class="px-6 py-4">
+                        <!-- <td class="px-6 py-4">
                             {{ value.updated_by ? value.updated_by.name : ''}}
-                        </td>
+                        </td> -->
 
                         <td class="px-6 py-4 flex item-center justify-center" v-if="ncheck('edit') || ncheck('delete')">
                             <Link v-if="ncheck('edit')" :href="route('admin.setup.upazila.edit', [value.id])"

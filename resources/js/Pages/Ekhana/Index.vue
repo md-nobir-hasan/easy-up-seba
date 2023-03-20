@@ -50,6 +50,7 @@ const vdisable = ref(false);
 const villageFetching = ()=>{
     axios.get(route('ajax.fetch',['Village','word_id',form.word_id]), form).then(res => {
         vilages.value = res.data;
+        form.village_id = '';
         if(vilages.value.length == 0){
             vdisable.value = true;
             vilages.value = {};
@@ -67,7 +68,7 @@ const villageFetching = ()=>{
 
     const eerr = ref('');
     const eerr2 = ref('');
-    const ekhana = ref({});
+    const ekhana = ref(usePage().props.data);
 const ekhanaFetch = ()=>{
     if(!form.word_id){
         eerr.value = 'ওয়ার্ড নির্বাচন করুন'
@@ -77,7 +78,7 @@ const ekhanaFetch = ()=>{
         eerr2.value = 'গ্রাম নির্বাচন করুন'
         return false;
     }
-    axios.get(route('ajax.fetch',['Ekhana','village_id',form.village_id,['houseStruc','word','village']]), form).then(res => {
+    axios.get(route('ajax.fetch',['Ekhana','village_id',form.village_id,'word_id',form.word_id]), form).then(res => {
         ekhana.value = res.data;
         console.log(res);
     }).catch(err =>{
@@ -173,6 +174,9 @@ const ekhanaFetch = ()=>{
                            করদাতার নাম
                         </th>
                         <th scope="col" class="px-6 py-3">
+                           বাৎসরিক আয়
+                        </th>
+                        <th scope="col" class="px-6 py-3">
                            পিতা/স্বামীর নাম
                         </th>
                         <th scope="col" class="px-6 py-3">
@@ -211,13 +215,16 @@ const ekhanaFetch = ()=>{
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(value, key) in ekhana"
+                    <tr v-for="(value, key) in ekhana" :key="key"
                         class="bg-white text-center border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             {{ value.holding_no  }}
                         </th>
                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             {{ value.bn_name }}
+                        </th>
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            {{new Intl.NumberFormat().format(value.yearly_income) }}/=
                         </th>
                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             {{ value.spouse_name }}
@@ -232,10 +239,10 @@ const ekhanaFetch = ()=>{
                             {{ value.phone }}
                         </th>
                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            {{ value.village.name }}
+                            {{ value.village ? value.village.name : '' }}
                         </th>
                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            {{ value.word.name }}
+                            {{ value.word ? value.word.name : '' }}
                         </th>
                         <th colspan="2" scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             <div class="flex items-center justify-between">

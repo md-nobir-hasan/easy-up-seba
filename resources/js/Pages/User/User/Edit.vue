@@ -68,7 +68,7 @@ const submit = () => {
 
 //============ distric fetch ===============
 let dists = ref([usePage().props.user.word.district]);
-const ddisable = ref(true);
+const ddisable = ref(false);
 const districtFetch = () => {
     axios.get(route('ajax.fetch', ['District', 'division_id', form.division_id]), form).then(res => {
         form.district_id = ''
@@ -92,7 +92,7 @@ const districtFetch = () => {
 
 //============ Upazila fetch ===============
 let upzils = ref([usePage().props.user.word.upazila]);
-const updisable = ref(true);
+const updisable = ref(false);
 const upazilaFetch = () => {
     axios.get(route('ajax.fetch', ['Upazila', 'district_id', form.district_id]), form).then(res => {
         form.upazila_id = ''
@@ -114,7 +114,7 @@ const upazilaFetch = () => {
 
 //============ Union fetch ===============
 let uns = ref([usePage().props.user.word.union]);
-const uniondisable = ref(true);
+const uniondisable = ref(false);
 const unionFetch = () => {
     axios.get(route('ajax.fetch', ['Union', 'upazila_id', form.upazila_id]), form).then(res => {
         form.union_id = ''
@@ -135,7 +135,7 @@ const unionFetch = () => {
 
 //============ Word fetch ===============
 let wrds = ref([usePage().props.user.word]);
-const worddisable = ref(true);
+const worddisable = ref(false);
 const wordFetch = () => {
     axios.get(route('ajax.fetch', ['Word', 'union_id', form.union_id]), form).then(res => {
         form.word_id = ''

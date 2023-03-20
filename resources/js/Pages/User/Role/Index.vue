@@ -64,6 +64,7 @@ const mdata = ref(usePage().props.roles);
     })
     }
 //End deleting
+console.log(usePage().props.auth.user.role.name)
 </script>
 
 <template>

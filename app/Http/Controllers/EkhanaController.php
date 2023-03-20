@@ -22,14 +22,20 @@ class EkhanaController extends Controller
      */
     public function index()
     {
-        if(Auth::user()->role_id == 1){
+        if(Auth::user()->role->name == 'Power'){
+            $n['words'] = Word::where('deleted_by',null)->orderBy('id','desc')->get();
+            $n['villages'] = Village::where('deleted_by',null)->orderBy('id','desc')->get();
+            $n['data'] = Ekhana::with(['createdBy','updatedBy','village','edQuali','religion','profession','houseStruc','word'])->where('deleted_by',null)->orderBy('id','desc')->get();
+        }
+        elseif(Auth::user()->role->name == 'Union'){
             $n['words'] = Word::where('deleted_by',null)->where('union_id',Auth::user()->word->union_id)->orderBy('id','desc')->get();
             $n['villages'] = Village::where('deleted_by',null)->where('union_id',Auth::user()->word->union_id)->orderBy('id','desc')->get();
-            $n['data'] = Ekhana::with(['createdBy','updatedBy','village','edQuali','religion','profession','houseStruc','word'])->where('deleted_by',null)->orderBy('id','desc')->get();
-        }else{
+            $n['data'] = Ekhana::with(['createdBy','updatedBy','village','edQuali','religion','profession','houseStruc','word'])->where('union_id',Auth::user()->word->union_id)->where('deleted_by',null)->orderBy('id','desc')->get();
+        }
+        else{
             $n['words'] = Word::where('deleted_by',null)->where('id',Auth::user()->word_id)->orderBy('id','desc')->get();
-            $n['villages'] = Village::where('deleted_by',null)->where('word_id',Auth::user()->word_id)->orderBy('id','desc')->get();
-            $n['data'] = Ekhana::with(['createdBy','updatedBy','village','edQuali','religion','profession','houseStruc','word'])->where('word_id',Auth::user()->word_id)->where('deleted_by',null)->orderBy('id','desc')->get();
+            $n['villages'] = Village::where('deleted_by',null)->where('union_id',Auth::user()->word->union_id)->where('word_id',Auth::user()->word_id)->orderBy('id','desc')->get();
+            $n['data'] = Ekhana::with(['createdBy','updatedBy','village','edQuali','religion','profession','houseStruc','word'])->where('union_id',Auth::user()->word->union_id)->where('word_id',Auth::user()->word_id)->where('deleted_by',null)->orderBy('id','desc')->get();
         }
         $n['house_strucs'] = HouseStructure::where('deleted_by',null)->orderBy('id','desc')->get();
         return Inertia::render('Ekhana/Index',$n);
@@ -40,21 +46,35 @@ class EkhanaController extends Controller
      */
     public function create()
     {
+        if(Auth::user()->role->name == 'Power'){
+            $n['words'] = Word::where('deleted_by',null)->orderBy('id','desc')->get();
+            $n['villages'] = Village::where('deleted_by',null)->where('union_id',Auth::user()->word->union_id)->where('word_id',Auth::user()->word_id)->orderBy('id','desc')->get();
+            $n['ekhanas'] = Ekhana::with(['createdBy','updatedBy','village','edQuali','religion','profession','houseStruc','word'])->where('deleted_by',null)->orderBy('id','desc')->get();
+        }
+        elseif(Auth::user()->role->name == 'Union'){
+            $n['words'] = Word::where('deleted_by',null)->where('union_id',Auth::user()->word->union_id)->orderBy('id','desc')->get();
+            $n['villages'] = Village::where('deleted_by',null)->where('union_id',Auth::user()->word->union_id)->where('word_id',Auth::user()->word_id)->orderBy('id','desc')->get();
+            $n['ekhanas'] = Ekhana::with(['createdBy','updatedBy','village','edQuali','religion','profession','houseStruc','word'])->where('union_id',Auth::user()->word->union_id)->where('deleted_by',null)->orderBy('id','desc')->get();
+        }
+        else{
+            $n['words'] = Word::where('deleted_by',null)->where('id',Auth::user()->word_id)->orderBy('id','desc')->get();
+            $n['villages'] = Village::where('deleted_by',null)->where('union_id',Auth::user()->word->union_id)->where('word_id',Auth::user()->word_id)->orderBy('id','desc')->get();
+            $n['ekhanas'] = Ekhana::with(['createdBy','updatedBy','village','edQuali','religion','profession','houseStruc','word'])->where('union_id',Auth::user()->word->union_id)->where('word_id',Auth::user()->word_id)->where('deleted_by',null)->orderBy('id','desc')->get();
+        }
         // if(Auth::user()->role_id == 1){
         //     $n['words'] = Word::where('deleted_by',null)->orderBy('id','desc')->get();
         //     $n['villages'] = Village::where('deleted_by',null)->orderBy('id','desc')->get();
         // }else{
             // $n['words'] = Word::where('deleted_by',null)->where('id',Auth::user()->word_id)->orderBy('id','desc')->get();
-            $n['villages'] = Village::where('deleted_by',null)->where('word_id',Auth::user()->word_id)->orderBy('id','desc')->get();
+            // $n['villages'] = Village::where('deleted_by',null)->where('word_id',Auth::user()->word_id)->orderBy('id','desc')->get();
         // }
         $n['religions'] = Religion::where('deleted_by',null)->get();
         $n['professions'] = Profession::where('deleted_by',null)->orderBy('id','desc')->get();
         $n['edqualis'] = EducationQualification::where('deleted_by',null)->orderBy('id','desc')->get();
         $n['house_strucs'] = HouseStructure::where('deleted_by',null)->orderBy('id','desc')->get();
-        $n['ekhanas'] = Ekhana::where('deleted_by',null)->orderBy('id','desc')->get();
         $n['ksum'] = $n['ekhanas']->sum('yearly_house_rent');
         $n['kcount'] = count($n['ekhanas']);
-        // dd($n);
+
 
         return Inertia::render('Ekhana/Create',$n);
     }
@@ -69,6 +89,8 @@ public function store(StoreEkhanaRequest $request)
         }else{
             $insert = new Ekhana();
         }
+
+        $insert->union_id = Word::find($request->word_id)->union_id;
         $insert->word_id = $request->word_id;
         $insert->village_id = $request->village_id;
         $insert->holding_no =  $request->holding_no;

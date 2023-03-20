@@ -82,9 +82,8 @@ const userOpenClose = () => {
         user.value = true;
     }
 }
-console.log(topmenu.value)
+console.log(usePage().props.auth.user.role.name+ " I am user name")
 const userMenu = ref(false);
-
 </script>
 
 <template>
@@ -92,8 +91,8 @@ const userMenu = ref(false);
     <div>
         <Head :title="title" />
         <div class="fixed w-full sm:hidden text-center text-3xl bg-[#0edda2] z-50">
-            <h1 v-if="$page.props.auth.user.id == 1" class="font-extrabold p-3">Super Admin</h1>
-            <h1 v-else class="font-extrabold p-3">{{ ($page.props.auth.user.word ? $page.props.auth.user.word.union ? $page.props.auth.user.word.name + "নং" + $page.props.auth.user.word.union.name : "Super Admin" : 'Super Admin')}}</h1>
+            <h1 v-if="$page.props.auth.user.role.name == 'Power' || $page.props.auth.user.role.name == 'Union'" class="font-extrabold p-3">Super Admin</h1>
+            <h1 v-else class="font-extrabold p-3">{{  ($page.props.auth.user.word ? $page.props.auth.user.word.union ? $page.props.auth.user.word.name + "নং" + $page.props.auth.user.word.union.name : "Super Admin" : 'Super Admin')}}</h1>
         </div>
         <nav class="fixed top-0 max-sm:top-14 z-50 w-full max-sm:bg-white bg-[#0edda2] border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
             <div class="px-3 py-3 lg:px-5 lg:pl-3">
@@ -115,7 +114,7 @@ const userMenu = ref(false);
                     </div>
 
                     <div class="text-center text-3xl max-sm:hidden">
-                        <h1 v-if="$page.props.auth.user.id == 1" class="font-extrabold p-3">Super Admin</h1>
+                        <h1 v-if="$page.props.auth.user.role.name == 'Power' || $page.props.auth.user.role.name == 'Union'" class="font-extrabold p-3">Super Admin</h1>
                         <h1 v-else class="font-extrabold p-3">{{ ($page.props.auth.user.word ? $page.props.auth.user.word.union ? $page.props.auth.user.word.name + "নং" + $page.props.auth.user.word.union.name : "Super Admin" : 'Super Admin')}}</h1>
                     </div>
                     <div v-if="topmenu" class="flex items-center justify-start text-3xl hidden max-sm:block">
@@ -343,7 +342,7 @@ const userMenu = ref(false);
                     <!-- </sideMenueLink> -->
                 </span>
             </li>
-            <li @click="userOpenClose" v-if="ncheck('Menu User')">
+            <li @click="userOpenClose" v-if="ncheck('Menu User') && ($page.props.auth.user.role.name == 'Power' || $page.props.auth.user.role.name == 'Union')">
                 <a :class="{'active':$page.url.startsWith('/admin/user')}"
                     class="flex p-2 mt-2 items-center text-base mx-2 font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
                     <svg aria-hidden="true"
@@ -409,8 +408,10 @@ const userMenu = ref(false);
 
 <div class="p-4 max-sm:p-[2px] sm:ml-64 pt-[21px] max-sm:pt-[82px]">
     <div class="p-4 max-sm:p-[2px] border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-14">
+
         <slot />
     </div>
 </div>
 
-</div></template>
+</div>
+</template>

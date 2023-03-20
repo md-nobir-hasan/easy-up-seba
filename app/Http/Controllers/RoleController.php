@@ -18,7 +18,14 @@ class RoleController extends Controller
      */
     public function index()
     {
-        $n['roles'] = Role::where('deleted_by',null)->orderBy('id','desc')->get();
+        if(Auth::user()->role->name == 'Power'){
+            $n['roles'] = Role::where('deleted_by',null)->orderBy('id','desc')->get();
+        }elseif(Auth::user()->role->name == 'Union'){
+            $n['roles'] = Role::where('deleted_by',null)->where('name','!=','Power')->where('name','!=','Union')->orderBy('id','desc')->get();
+        }
+        else{
+            $n['roles'] = [];
+        }
         return Inertia::render('User/Role/Index',$n);
     }
 

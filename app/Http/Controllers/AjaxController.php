@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Ekhana;
+use App\Models\Union;
 use App\Models\User;
+use App\Models\Village;
+use App\Models\Word;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -12,42 +15,71 @@ use function Termwind\render;
 
 class AjaxController extends Controller
 {
-    public function dataFetch($modal,$field,$value,$with=null){
+    public function dataFetch($modal,$field,$value,$field2 =null,$value2 = null){
         $modalClass =  '\\App\\Models\\'.$modal;
         $val = (int)$value;
-        if($with){
-            $data = $modalClass::with(['houseStruc','word','village','houseStruc.houseStruc','createdBy'])->where($field,$val)->where('word_id',Auth::user()->word_id)->where('deleted_by',null)->orderBy('id','desc')->get();
-        }else{
+        $val2 = (int)$value2;
+        // if($with){
+        //     $data = $modalClass::with(['houseStruc','word','village','houseStruc.houseStruc','createdBy'])->where($field,$val)->where('word_id',Auth::user()->word_id)->where('deleted_by',null)->orderBy('id','desc')->get();
+        // }else{
             if($modal == 'Union'){
-                if(Auth::user()->role_id == 1){
-                    $data = $modalClass::where($field,$val)->where('deleted_by',null)->where('id',Auth::user()->word->union_id)->orderBy('id','desc')->get();
+                if(Auth::user()->role->name == 'Power'){
+                   $data = Union::with(['division','district','upazila','createdBy','updatedBy'])->where($field,$val)->where('deleted_by',null)->orderBy('id','desc')->get();
+                }
+                elseif(Auth::user()->role->name == 'Union'){
+                   $data = Union::with(['division','district','upazila','createdBy','updatedBy'])->where($field,$val)->where('id',Auth::user()->word->union_id)->where('deleted_by',null)->orderBy('id','desc')->get();
+                }
+                else{
+                    $data = Union::with(['division','district','upazila','createdBy','updatedBy'])->where($field,$val)->where('id',Auth::user()->word->union_id)->where('deleted_by',null)->orderBy('id','desc')->get();
                 }
             }
             elseif($modal == 'Word'){
-                if(Auth::user()->role_id == 1){
-                    $data = $modalClass::where($field,$val)->where('deleted_by',null)->where('union_id',Auth::user()->word->union_id)->orderBy('id','desc')->get();
-                }else{
-                    $data = $modalClass::where($field,$val)->where('deleted_by',null)->where('union_id',Auth::user()->word->union_id)->where('id',Auth::user()->word_id)->orderBy('id','desc')->get();
+                if(Auth::user()->role->name == 'Power'){
+                   $data = Word::with(['division','district','upazila','union','createdBy','updatedBy'])->where($field,$val)->where('deleted_by',null)->orderBy('id','desc')->get();
+                }
+                elseif(Auth::user()->role->name == 'Union'){
+                   $data = Word::with(['division','district','upazila','union','createdBy','updatedBy'])->where($field,$val)->where('union_id',Auth::user()->word->union_id)->where('deleted_by',null)->orderBy('id','desc')->get();
+                }
+                else{
+                   $data = Word::with(['division','district','upazila','union','createdBy','updatedBy'])->where($field,$val)->where('id',Auth::user()->word_id)->where('deleted_by',null)->orderBy('id','desc')->get();
                 }
             }
-            elseif($modal == 'Village'){
-                if(Auth::user()->role_id == 1){
-                    $data = $modalClass::where($field,$val)->where('deleted_by',null)->where('union_id',Auth::user()->word->union_id)->orderBy('id','desc')->get();
-                }else{
-                    $data = $modalClass::where($field,$val)->where('deleted_by',null)->where('union_id',Auth::user()->word->union_id)->where('word_id',Auth::user()->word_id)->orderBy('id','desc')->get();
-                }
-            }else{
 
+            // elseif($modal == 'Village'){
+            //     if(Auth::user()->role->name == "Power"){
+            //         $data = Village::with(['division','district','upazila','union','word','createdBy','updatedBy'])->where('deleted_by',null)->orderBy('id','desc')->get();
+            //     }
+            //     elseif(Auth::user()->role->name == "Union"){
+            //         $data = Village::with(['division','district','upazila','union','word','createdBy','updatedBy'])->where('deleted_by',null)->where('union_id',Auth::user()->word->union_id)->orderBy('id','desc')->get();
+            //     }
+            //     else{
+            //         $data = Village::with(['division','district','upazila','union','word','createdBy','updatedBy'])->where('deleted_by',null)->where('union_id',Auth::user()->word->union_id)->where('word_id',Auth::user()->word_id)->orderBy('id','desc')->get();
+
+            //     }
+            // }
+            elseif($modal == 'Ekhana'){
+                $data = $modalClass::with(['houseStruc','word','village','houseStruc.houseStruc','createdBy'])->where($field,$val)->where($field2,$val2)->where('deleted_by',null)->orderBy('id','desc')->get();
+                // if(Auth::user()->role->name == 'Power'){
+                //     $data = Ekhana::with(['createdBy','updatedBy','village','edQuali','religion','profession','houseStruc','word','houseStruc.houseStruc'])->where('deleted_by',null)->orderBy('id','desc')->get();
+                // }
+                // elseif(Auth::user()->role->name == 'Union'){
+                //     $data = Ekhana::with(['createdBy','updatedBy','village','edQuali','religion','profession','houseStruc','word','houseStruc.houseStruc'])->where('union_id',Auth::user()->word->union_id)->where('deleted_by',null)->orderBy('id','desc')->get();
+                // }
+                // else{
+                //     $data = Ekhana::with(['createdBy','updatedBy','village','edQuali','religion','profession','houseStruc','word','houseStruc.houseStruc'])->where('union_id',Auth::user()->word->union_id)->where('word_id',Auth::user()->word_id)->where('deleted_by',null)->orderBy('id','desc')->get();
+                // }
+            }
+            else{
                 $data = $modalClass::where($field,$val)->where('deleted_by',null)->orderBy('id','desc')->get();
             }
-        }
+        // }
         return response()->json($data);
     }
 
     public function holdingFetch(Request $request, $vil_id){
-        $ekhana = Ekhana::where('word_id',Auth::user()->word_id)
-                        ->where('village_id',$vil_id)
-                        ->orderBy('id','desc')
+        $ekhana = Ekhana::where('union_id',Auth::user()->word->union_id)
+                        ->where('word_id',Auth::user()->word_id)
+                        ->latest()
                         ->first();
         if($ekhana){
             return $ekhana->id;
@@ -59,11 +91,12 @@ class AjaxController extends Controller
     public function khanaAutoSave(Request $request){
         if($request->id){
             $autosave = Ekhana::find($request->id);
-            $autosave->updated_by = Auth::usere()->id;
+            $autosave->updated_by = Auth::user()->id;
         }else{
             $autosave = new Ekhana();
-            $autosave->created_by = Auth::usere()->id;
+            $autosave->created_by = Auth::user()->id;
         }
+        $autosave->union_id = Word::find($request->word_id)->union_id;
         $autosave->word_id = $request->word_id;
         $autosave->village_id = $request->village_id;
         $autosave->holding_no =  $request->holding_no;
