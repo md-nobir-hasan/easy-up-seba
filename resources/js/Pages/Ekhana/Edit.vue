@@ -110,7 +110,9 @@ const holdingFetch = () =>{
 
 const submit = () => {
     form.put(route('admin.ekhana.update',[usePage().props.ekhana.id]), {
-        onFinish: () => form.reset()
+        onFinish: () =>{
+            console.log('Edit done');
+        }
     });
 };
 

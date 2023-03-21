@@ -63,6 +63,7 @@ const vdisable = ref(false);
 const villageFetching = ()=>{
 
     axios.get(route('ajax.fetch',['Village','word_id',form.word_id]), form).then(res => {
+        console.log(res);
         vilages.value = res.data;
         if(vilages.value.length == 0){
             vdisable.value = true;
@@ -146,12 +147,12 @@ const autoSave = () =>{
             <hr class="mb-1">
             <FormLayout class="bg-white max-sm:p-[4px]">
                 <SucMesgShow :message="$page.props.flash.suc_msg">{{ errors }}</SucMesgShow>
-                <form @submit.prevent="submit" class="p-2 text-2lg bg-[#11ff5999]">
+                <form @submit.prevent="submit" class="p-2 text-2lg">
                     <div class="mb-4 border-2 border-blue-800 p-4 border-dashed rounded">
                         <label for="word_id" class="block text-md font-medium text-gray-900 dark:text-white">ওয়ার্ড</label>
-                        <select id="word_id" v-model="form.word_id" @change="villageFetching" @focusout="autoSave" class="border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
-                            <!-- <option selected value="">ওয়ার্ড নির্বাচন করুন</option> -->
-                            <option :value="$page.props.auth.user.word_id">{{ $page.props.auth.user.word.name }}</option>
+                        <select id="word_id"  v-model="form.word_id" @change="villageFetching" @focusout="autoSave" class="border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                            <option selected value="">ওয়ার্ড নির্বাচন করুন</option>
+                            <option v-for="(val, key) in words" :key="key" :value="val.id">{{ val.name }}</option>
                         </select>
                         <InputError class="mt-2" :message="form.errors.word_id" />
                     </div>

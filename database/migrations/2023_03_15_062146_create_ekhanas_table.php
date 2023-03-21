@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('ekhanas', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('union_id')->nullable();
             $table->unsignedBigInteger('word_id')->nullable();
             $table->unsignedBigInteger('village_id')->nullable();
             $table->string('holding_no')->nullable();
@@ -49,6 +50,7 @@ return new class extends Migration
             $table->timestamps();
         });
         Schema::table('ekhanas', function (Blueprint $table) {
+            $table->foreign('union_id', 'ekhanas_union_id')->references('id')->on('unions')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('word_id', 'ekhanas_word_id')->references('id')->on('words')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('village_id', 'ekhanas_village_id')->references('id')->on('villages')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('ed_quali_id', 'ekhanas_ed_quali_id')->references('id')->on('education_qualifications')->onDelete('cascade')->onUpdate('cascade');

@@ -21,10 +21,14 @@ class VillageController extends Controller
      */
     public function index()
     {
-        if(Auth::user()->role_id == 1){
+        if(Auth::user()->role->name == "Power"){
+            $n['villages'] = Village::with(['division','district','upazila','union','word','createdBy','updatedBy'])->where('deleted_by',null)->orderBy('id','desc')->get();
+        }
+        elseif(Auth::user()->role->name == "Union"){
             $n['villages'] = Village::with(['division','district','upazila','union','word','createdBy','updatedBy'])->where('deleted_by',null)->where('union_id',Auth::user()->word->union_id)->orderBy('id','desc')->get();
-        }else{
-            $n['villages'] = Village::with(['division','district','upazila','union','word','createdBy','updatedBy'])->where('deleted_by',null)->where('word_id',Auth::user()->word_id)->orderBy('id','desc')->get();
+        }
+        else{
+            $n['villages'] = Village::with(['division','district','upazila','union','word','createdBy','updatedBy'])->where('deleted_by',null)->where('union_id',Auth::user()->word->union_id)->where('word_id',Auth::user()->word_id)->orderBy('id','desc')->get();
 
         }
         // $n['villages'] = Village::with(['division','district','upazila','union','word','createdBy','updatedBy'])->where('deleted_by',null)->orderBy('id','desc')->get();

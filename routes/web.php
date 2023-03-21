@@ -48,19 +48,10 @@ Route::get('/', function () {
 });
 
 Route::prefix('/ajax')->name('ajax.')->group(function(){
-    Route::get('/fetch/{model}/{field}/{value}/{with?}',[AjaxController::class,'dataFetch'])->name('fetch');
+    Route::get('/fetch/{model}/{field}/{value}/{with?}/{field2?}/{value2?}',[AjaxController::class,'dataFetch'])->name('fetch');
     Route::get('/holding/fetch/{vil_id}',[AjaxController::class,'holdingFetch'])->name('holding.fetch');
     Route::post('/ekhana/autosave',[AjaxController::class,'khanaAutoSave'])->name('khana.autosave');
 });
-
-//removing this make an error but why, search it
-// Route::middleware([
-//     'auth:sanctum',
-//     config('jetstream.auth_session'),
-//     'verified',
-// ])->group(function () {
-
-// });
 
 
 Route::middleware([
@@ -71,7 +62,16 @@ Route::middleware([
 
     //dashboar rendering
     Route::get('/dashboard', function () {
-        $n['ekhanas'] = Ekhana::where('deleted_by',null)->orderBy('id','desc')->get();
+        // dd(Auth::user()->role->name);
+        if(Auth::user()->role->name == 'Power'){
+            $n['ekhanas'] = Ekhana::where('deleted_by',null)->orderBy('id','desc')->get();
+        }
+        elseif(Auth::user()->role->name == 'Union'){
+            $n['ekhanas'] = Ekhana::where('deleted_by',null)->where('union_id',Auth::user()->word->union_id)->orderBy('id','desc')->get();
+        }
+        else{
+            $n['ekhanas'] = Ekhana::where('deleted_by',null)->where('word_id',Auth::user()->word_id)->orderBy('id','desc')->get();
+        }
         $n['ksum'] = $n['ekhanas']->sum('yearly_income');
         $n['kcount'] = count($n['ekhanas']);
         return Inertia::render('Dashboard',$n);

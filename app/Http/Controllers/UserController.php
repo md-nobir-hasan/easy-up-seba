@@ -7,6 +7,7 @@ use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\Division;
 use App\Models\Role;
+use App\Models\Word;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -19,7 +20,19 @@ class UserController extends Controller
      */
     public function index()
     {
-        $n['users'] = User::with(['createdBy','updatedBy','role','word'])->where('deleted_by',null)->orderBy('id','desc')->get();
+        if(Auth::user()->role->name == 'Power'){
+            $n['users'] = User::with(['createdBy','updatedBy','role','word'])->where('deleted_by',null)->orderBy('id','desc')->get();
+        }elseif(Auth::user()->role->name == 'Union'){
+            $words = Word::where('union_id',Auth::user()->word->union_id)->get();
+            $n['users'] = User::with(['createdBy','updatedBy','role','word'])->where(function($q)  use ($words){
+                foreach($words as $key => $value){
+                    $q->orWhere('word_id','=',$value->id);
+                }
+            })->where('deleted_by',null)->orderBy('id','desc')->get();
+        }else{
+            $n['users'] = [];
+        }
+        // dd($n);
         return Inertia::render('User/User/Index',$n);
     }
 
@@ -28,7 +41,15 @@ class UserController extends Controller
      */
     public function create()
     {
-        $n['roles'] = Role::where('deleted_by',null)->orderBy('id','desc')->get();
+        if(Auth::user()->role->name == 'Power'){
+            $n['roles'] = Role::where('deleted_by',null)->orderBy('id','desc')->get();
+        }elseif(Auth::user()->role->name == 'Union'){
+            $n['roles'] = Role::where('deleted_by',null)->where('name','!=','Power')->where('name','!=','Union')->orderBy('id','desc')->get();
+        }
+        else{
+            $n['roles'] = [];
+        }
+        // $n['roles'] = Role::where('deleted_by',null)->orderBy('id','desc')->get();
         $n['divisions'] = Division::where('deleted_by',null)->orderBy('id','desc')->get();
         return Inertia::render('User/User/Create',$n);
     }
