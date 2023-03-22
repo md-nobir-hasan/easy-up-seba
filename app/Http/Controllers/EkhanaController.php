@@ -28,17 +28,17 @@ class EkhanaController extends Controller
         if(Auth::user()->role->name == 'Power'){
             $n['words'] = Word::where('deleted_by',null)->orderBy('id','desc')->get();
             $n['villages'] = Village::where('deleted_by',null)->orderBy('id','desc')->get();
-            $n['data'] = Ekhana::with(['createdBy','updatedBy','village','edQuali','religion','profession','houseStruc','word'])->where('deleted_by',null)->orderBy('id','desc')->get();
+            $n['data'] = Ekhana::with(['createdBy','updatedBy','village','edQuali','religion','profession','word'])->where('deleted_by',null)->orderBy('id','desc')->get();
         }
         elseif(Auth::user()->role->name == 'Union'){
             $n['words'] = Word::where('deleted_by',null)->where('union_id',Auth::user()->word->union_id)->orderBy('id','desc')->get();
             $n['villages'] = Village::where('deleted_by',null)->where('union_id',Auth::user()->word->union_id)->orderBy('id','desc')->get();
-            $n['data'] = Ekhana::with(['createdBy','updatedBy','village','edQuali','religion','profession','houseStruc','word'])->where('union_id',Auth::user()->word->union_id)->where('deleted_by',null)->orderBy('id','desc')->get();
+            $n['data'] = Ekhana::with(['createdBy','updatedBy','village','edQuali','religion','profession','word'])->where('union_id',Auth::user()->word->union_id)->where('deleted_by',null)->orderBy('id','desc')->get();
         }
         else{
             $n['words'] = Word::where('deleted_by',null)->where('id',Auth::user()->word_id)->orderBy('id','desc')->get();
             $n['villages'] = Village::where('deleted_by',null)->where('union_id',Auth::user()->word->union_id)->where('word_id',Auth::user()->word_id)->orderBy('id','desc')->get();
-            $n['data'] = Ekhana::with(['createdBy','updatedBy','village','edQuali','religion','profession','houseStruc','word'])->where('union_id',Auth::user()->word->union_id)->where('word_id',Auth::user()->word_id)->where('deleted_by',null)->orderBy('id','desc')->get();
+            $n['data'] = Ekhana::with(['createdBy','updatedBy','village','edQuali','religion','profession','word'])->where('union_id',Auth::user()->word->union_id)->where('word_id',Auth::user()->word_id)->where('deleted_by',null)->orderBy('id','desc')->get();
         }
         $n['house_strucs'] = HouseStructure::where('deleted_by',null)->orderBy('id','desc')->get();
         return Inertia::render('Ekhana/Index',$n);
@@ -52,17 +52,17 @@ class EkhanaController extends Controller
         if(Auth::user()->role->name == 'Power'){
             $n['words'] = Word::where('deleted_by',null)->orderBy('id','desc')->get();
             $n['villages'] = Village::where('deleted_by',null)->where('union_id',Auth::user()->word->union_id)->where('word_id',Auth::user()->word_id)->orderBy('id','desc')->get();
-            $n['ekhanas'] = Ekhana::with(['createdBy','updatedBy','village','edQuali','religion','profession','houseStruc','word'])->where('deleted_by',null)->orderBy('id','desc')->get();
+            $n['ekhanas'] = Ekhana::with(['createdBy','updatedBy','village','edQuali','religion','profession','word','word.union'])->where('deleted_by',null)->orderBy('id','desc')->get();
         }
         elseif(Auth::user()->role->name == 'Union'){
             $n['words'] = Word::where('deleted_by',null)->where('union_id',Auth::user()->word->union_id)->orderBy('id','desc')->get();
             $n['villages'] = Village::where('deleted_by',null)->where('union_id',Auth::user()->word->union_id)->where('word_id',Auth::user()->word_id)->orderBy('id','desc')->get();
-            $n['ekhanas'] = Ekhana::with(['createdBy','updatedBy','village','edQuali','religion','profession','houseStruc','word'])->where('union_id',Auth::user()->word->union_id)->where('deleted_by',null)->orderBy('id','desc')->get();
+            $n['ekhanas'] = Ekhana::with(['createdBy','updatedBy','village','edQuali','religion','profession','word','word.union'])->where('union_id',Auth::user()->word->union_id)->where('deleted_by',null)->orderBy('id','desc')->get();
         }
         else{
             $n['words'] = Word::where('deleted_by',null)->where('id',Auth::user()->word_id)->orderBy('id','desc')->get();
             $n['villages'] = Village::where('deleted_by',null)->where('union_id',Auth::user()->word->union_id)->where('word_id',Auth::user()->word_id)->orderBy('id','desc')->get();
-            $n['ekhanas'] = Ekhana::with(['createdBy','updatedBy','village','edQuali','religion','profession','houseStruc','word'])->where('union_id',Auth::user()->word->union_id)->where('word_id',Auth::user()->word_id)->where('deleted_by',null)->orderBy('id','desc')->get();
+            $n['ekhanas'] = Ekhana::with(['createdBy','updatedBy','village','edQuali','religion','profession','word','word.union'])->where('union_id',Auth::user()->word->union_id)->where('word_id',Auth::user()->word_id)->where('deleted_by',null)->orderBy('id','desc')->get();
         }
         // if(Auth::user()->role_id == 1){
         //     $n['words'] = Word::where('deleted_by',null)->orderBy('id','desc')->get();
@@ -121,20 +121,14 @@ public function store(StoreEkhanaRequest $request)
         $insert->yearly_house_rent = $request->yearly_house_rent;
         $insert->rent_type = $request->rent_type;
         $insert->land_house = $request->land_house;
+        $insert->paka_house = $request->paka_house;
+        $insert->adhapaka_house = $request->adhapaka_house;
+        $insert->kasa_house = $request->kasa_house;
         $insert->land_cultivate = $request->land_cultivate;
         $insert->infrastructure = $request->infrastructure;
         $insert->created_by = Auth::user()->id;
         $insert->save();
-        foreach($request->house_struc_id as $key => $value){
-            $insert_bkdn = new HstuEkhanaBkdn();
-            $insert_bkdn->ekhana_id = $insert->id;
-            $insert_bkdn->hstru_id = $key;
-            $insert_bkdn->number = $value;
-            $house_structure = HouseStructure::find($key);
 
-            $insert_bkdn->price = $house_structure->price * $value;
-            $insert_bkdn->save();
-        }
 
         $request->session()->flash('suc_msg',$request->bn_name.' সফলভাবে সরক্ষণ করা হয়েছে');
         if($request->submit_btn == 'return'){
@@ -163,7 +157,7 @@ public function store(StoreEkhanaRequest $request)
         // }else{
             // $n['words'] = Word::where('deleted_by',null)->where('word_id',Auth::user()->word->union_id)->orderBy('id','desc')->get();
         // }
-        $n['ekhana'] = Ekhana::with(['village','edQuali','religion','profession','houseStruc','word'])->find($ekhana->id);
+        $n['ekhana'] = Ekhana::with(['village','edQuali','religion','profession','word'])->find($ekhana->id);
         $n['religions'] = Religion::where('deleted_by',null)->get();
         $n['professions'] = Profession::where('deleted_by',null)->orderBy('id','desc')->get();
         $n['villages'] = Village::where('deleted_by',null)->where('word_id',Auth::user()->word_id)->orderBy('id','desc')->get();
@@ -203,6 +197,9 @@ public function store(StoreEkhanaRequest $request)
         $ekhana->sc_past = $request->sc_past;
         $ekhana->sc_present = $request->sc_present;
         $ekhana->sc_future = $request->sc_future;
+        $ekhana->paka_house = $request->paka_house;
+        $ekhana->adhapaka_house = $request->adhapaka_house;
+        $ekhana->kasa_house = $request->kasa_house;
         $ekhana->yearly_house_rent = $request->yearly_house_rent;
         $ekhana->rent_type = $request->rent_type;
         $ekhana->land_house = $request->land_house;
@@ -210,16 +207,7 @@ public function store(StoreEkhanaRequest $request)
         $ekhana->infrastructure = $request->infrastructure;
         $ekhana->updated_by = Auth::user()->id;
         $ekhana->save();
-        HstuEkhanaBkdn::where('ekhana_id',$ekhana->id)->delete();
-        foreach($request->house_struc_id as $key => $value){
-            $insert_bkdn = new HstuEkhanaBkdn();
-            $insert_bkdn->ekhana_id = $ekhana->id;
-            $insert_bkdn->hstru_id = $key;
-            $insert_bkdn->number = $value;
-            $price = HouseStructure::find($key);
-            $insert_bkdn->price = $price->price * $value;
-            $insert_bkdn->save();
-        }
+
 
         $request->session()->flash('suc_msg',$request->bn_name.' সফলভাবে আপডেট করা হয়েছে');
         return redirect()->route('admin.ekhana.index');

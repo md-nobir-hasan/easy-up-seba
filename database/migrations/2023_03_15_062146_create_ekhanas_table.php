@@ -27,6 +27,9 @@ return new class extends Migration
             $table->string('m_male')->nullable();
             $table->string('m_female')->nullable();
             $table->string('m_child')->nullable();
+            $table->integer('paka_house')->nullable();
+            $table->integer('adhapaka_house')->nullable();
+            $table->integer('kasa_house')->nullable();
             $table->timestamp('dob')->nullable();
             $table->string('birth_no')->unique()->nullable();
             $table->string('nid')->unique()->nullable();

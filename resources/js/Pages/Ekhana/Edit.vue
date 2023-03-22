@@ -51,6 +51,9 @@ const form = useForm({
     sc_present: usePage().props.ekhana.sc_present,
     sc_future: usePage().props.ekhana.sc_future,
     house_struc_id: assign,
+    paka_house: usePage().props.ekhana.paka_house,
+    adhapaka_house: usePage().props.ekhana.adhapaka_house,
+    kasa_house: usePage().props.ekhana.kasa_house,
     yearly_house_rent: usePage().props.ekhana.yearly_house_rent,
     rent_type: usePage().props.ekhana.rent_type,
     land_house: usePage().props.ekhana.land_house,
@@ -496,21 +499,18 @@ const submit = () => {
                     <div class="mb-4 mb-4 border-2 border-blue-800 p-4 border-dashed rounded">
                         <InputLabel for="" value="অবকাঠামোর ধরণ" />
                         <div class="flex ml-8">
-                            <div v-for="(ob,key) in house_strucs">
-                                <InputLabel class="text-sm text-center text-slate-400" :for="ob.id" :value="ob.name" />
+                            <div>
+                                <InputLabel for="paka_house" class="text-sm text-center" :value="'পাকা'" />
                                 <TextInput @change="HouseTaxCal" @keyup="HouseTaxCal"
-                                    :id="ob.id"
-                                    :data-price="ob.price"
-                                    v-model="form.house_struc_id[ob.id]"
+                                    data-price="8400"
+                                    v-model="form.paka_house"
                                     type="number"
                                     class="mt-1 block w-full house-tax-cal"
-
-
                                     min="0"
-                                    autocomplete="house_struc_id"
+                                    @focusout="autoSave"
                                     placeholder="সংখ্যা"
                                 />
-                                <InputError class="mt-2" :message="form.errors.house_struc_id" />
+                                <InputError class="mt-2" :message="form.errors.paka_house" />
                             </div>
                         </div>
                     </div>
