@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\EkhanaExport;
+use App\Exports\UsersExport;
 use App\Models\Ekhana;
 use App\Http\Requests\StoreEkhanaRequest;
 use App\Http\Requests\UpdateEkhanaRequest;
@@ -14,6 +16,7 @@ use App\Models\Village;
 use App\Models\Word;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
+use Maatwebsite\Excel\Facades\Excel;
 
 class EkhanaController extends Controller
 {
@@ -149,6 +152,7 @@ public function store(StoreEkhanaRequest $request)
         //
     }
 
+
     /**
      * Show the form for editing the specified resource.
      */
@@ -228,4 +232,6 @@ public function store(StoreEkhanaRequest $request)
     {
         //
     }
+
+
 }

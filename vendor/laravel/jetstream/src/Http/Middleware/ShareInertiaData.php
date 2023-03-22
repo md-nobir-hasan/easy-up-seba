@@ -2,7 +2,6 @@
 
 namespace Laravel\Jetstream\Http\Middleware;
 
-use App\Models\User;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Session;
 use Inertia\Inertia;
@@ -23,7 +22,6 @@ class ShareInertiaData
         Inertia::share(array_filter([
             'jetstream' => function () use ($request) {
                 $user = $request->user();
-
 
                 return [
                     'canCreateTeams' => $user &&
@@ -46,7 +44,7 @@ class ShareInertiaData
                     if (! $user = $request->user()) {
                         return;
                     }
-                    $user =  User::with('word','role','word.union')->where('deleted_by',null)->where('id',$request->user()->id)->first();
+
                     $userHasTeamFeatures = Jetstream::userHasTeamFeatures($user);
 
                     if ($user && $userHasTeamFeatures) {

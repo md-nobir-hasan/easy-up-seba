@@ -163,6 +163,10 @@ const ekhanaFetch = ()=>{
             <hr class="mb-1">
             <div class="bg-black mt-1">
                 <h1 class="text-center text-white p-2">খানা প্রধানের তালিকা</h1>
+                <div>
+                    <a :href="route('admin.ekhana.export')" class="text-white">Export Excel</a>
+                    <!-- <Link :href="route('admin.ekhana.export')" >Export Excel </Link> -->
+                </div>
             </div>
             <table class="w-full text-md text-left text-gray-500 dark:text-gray-400">
                 <thead class="text-md text-center text-gray-700 uppercase bg-[#11ff5999] dark:bg-gray-700 dark:text-gray-400">

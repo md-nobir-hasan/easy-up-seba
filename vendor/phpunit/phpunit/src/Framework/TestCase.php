@@ -138,6 +138,10 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
     private array $providedTests = [];
     private array $data          = [];
     private int|string $dataName = '';
+
+    /**
+     * @psalm-var non-empty-string
+     */
     private string $name;
 
     /**
@@ -284,6 +288,8 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
     }
 
     /**
+     * @psalm-param non-empty-string $name
+     *
      * @internal This method is not covered by the backward compatibility promise for PHPUnit
      */
     public function __construct(string $name)
@@ -511,6 +517,8 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
     }
 
     /**
+     * @psalm-return non-empty-string
+     *
      * @internal This method is not covered by the backward compatibility promise for PHPUnit
      */
     final public function name(): string
@@ -532,7 +540,7 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
     /**
      * @internal This method is not covered by the backward compatibility promise for PHPUnit
      */
-    final public function hasOutput(): bool
+    final public function hasUnexpectedOutput(): bool
     {
         if ($this->output === '') {
             return false;
@@ -635,7 +643,7 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
 
             $emitter->testMarkedAsIncomplete(
                 $this->valueObjectForEvents(),
-                Event\Code\Throwable::from($e)
+                Event\Code\ThrowableBuilder::from($e)
             );
         } catch (SkippedTest $e) {
             $this->status = TestStatus::skipped($e->getMessage());
@@ -649,8 +657,8 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
 
             $emitter->testFailed(
                 $this->valueObjectForEvents(),
-                Event\Code\Throwable::from($e),
-                Event\Code\ComparisonFailure::from($e)
+                Event\Code\ThrowableBuilder::from($e),
+                Event\Code\ComparisonFailureBuilder::from($e)
             );
         } catch (TimeoutException $e) {
             $this->status = TestStatus::risky($e->getMessage());
@@ -660,7 +668,7 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
 
             $emitter->testErrored(
                 $this->valueObjectForEvents(),
-                Event\Code\Throwable::from($_e)
+                Event\Code\ThrowableBuilder::from($_e)
             );
         }
 
@@ -700,7 +708,7 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
 
                 $emitter->testErrored(
                     $this->valueObjectForEvents(),
-                    Event\Code\Throwable::from($exceptionRaisedDuringTearDown)
+                    Event\Code\ThrowableBuilder::from($exceptionRaisedDuringTearDown)
                 );
             }
         }
@@ -725,6 +733,8 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
     }
 
     /**
+     * @psalm-param non-empty-string $name
+     *
      * @internal This method is not covered by the backward compatibility promise for PHPUnit
      */
     final public function setName(string $name): void
@@ -999,7 +1009,7 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
             return $this->testValueObjectForEvents;
         }
 
-        $this->testValueObjectForEvents = Event\Code\TestMethod::fromTestCase($this);
+        $this->testValueObjectForEvents = Event\Code\TestMethodBuilder::fromTestCase($this);
 
         return $this->testValueObjectForEvents;
     }
@@ -1530,7 +1540,7 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
 
         Event\Facade::emitter()->testErrored(
             $this->valueObjectForEvents(),
-            Event\Code\Throwable::from($exception)
+            Event\Code\ThrowableBuilder::from($exception)
         );
 
         $this->status = TestStatus::error($message);
@@ -1920,8 +1930,8 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
 
             Event\Facade::emitter()->testFailed(
                 $this->valueObjectForEvents(),
-                Event\Code\Throwable::from($e),
-                Event\Code\ComparisonFailure::from($e)
+                Event\Code\ThrowableBuilder::from($e),
+                Event\Code\ComparisonFailureBuilder::from($e)
             );
 
             throw $e;

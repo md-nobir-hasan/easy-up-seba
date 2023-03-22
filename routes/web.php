@@ -6,6 +6,7 @@ use App\Http\Controllers\DistrictController;
 use App\Http\Controllers\DivisionController;
 use App\Http\Controllers\EdQualiController;
 use App\Http\Controllers\EkhanaController;
+use App\Http\Controllers\ExportController;
 use App\Http\Controllers\HouseStrucController;
 use App\Http\Controllers\ProfessionController;
 use App\Http\Controllers\ReligionController;
@@ -99,6 +100,8 @@ Route::middleware([
 
     //Ekhana Management
     Route::resource('/ekhana',EkhanaController::class);
+    Route::get('ekhana/export/download', [ExportController::class, 'export'])->name('ekhana.export');
+
 
     //User Management
     Route::prefix('/user')->name('user.')->group(function(){
