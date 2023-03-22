@@ -2,6 +2,8 @@
 
 namespace Laravel\Jetstream\Http\Middleware;
 
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Session;
 use Inertia\Inertia;
@@ -64,7 +66,8 @@ class ShareInertiaData
                 })->all();
             },
         ]));
-
+        $user = User::with(['word','role','word.union'])->find(Auth::user()->id);
+        Inertia::share('auth.user',$user);
         return $next($request);
     }
 }

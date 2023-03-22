@@ -49,7 +49,9 @@ const form = useForm({
     sc_past: '',
     sc_present: '',
     sc_future: '',
-    house_struc_id: {},
+    paka_house: '',
+    adhapaka_house: '',
+    kasa_house: '',
     yearly_house_rent: '',
     rent_type: '',
     land_house: '',
@@ -511,21 +513,44 @@ const autoSave = () =>{
                     <div class="mb-4 mb-4 border-2 border-blue-800 p-4 border-dashed rounded">
                         <InputLabel for="" value="অবকাঠামোর ধরণ" />
                         <div class="flex ml-8">
-                            <div v-for="(ob,key) in house_strucs" :key="key">
-                                <InputLabel class="text-sm text-center" :for="ob.id" :value="ob.name" />
+                            <div>
+                                <InputLabel for="paka_house" class="text-sm text-center" :value="'পাকা'" />
                                 <TextInput @change="HouseTaxCal" @keyup="HouseTaxCal"
-                                    :id="ob.id"
-                                    :data-price="ob.price"
-                                    v-model="form.house_struc_id[ob.id]"
+                                    data-price="8400"
+                                    v-model="form.paka_house"
                                     type="number"
                                     class="mt-1 block w-full house-tax-cal"
-
-
                                     min="0"
                                     @focusout="autoSave"
                                     placeholder="সংখ্যা"
                                 />
-                                <InputError class="mt-2" :message="form.errors.house_struc_id" />
+                                <InputError class="mt-2" :message="form.errors.paka_house" />
+                            </div>
+                            <div>
+                                <InputLabel for="adhapaka_house" class="text-sm text-center" :value="'পাকা'" />
+                                <TextInput @change="HouseTaxCal" @keyup="HouseTaxCal"
+                                    data-price="4800"
+                                    v-model="form.adhapaka_house"
+                                    type="number"
+                                    class="mt-1 block w-full house-tax-cal"
+                                    min="0"
+                                    @focusout="autoSave"
+                                    placeholder="সংখ্যা"
+                                />
+                                <InputError class="mt-2" :message="form.errors.adhapaka_house" />
+                            </div>
+                            <div>
+                                <InputLabel for="kasa_house" class="text-sm text-center" :value="'পাকা'" />
+                                <TextInput @change="HouseTaxCal" @keyup="HouseTaxCal"
+                                    data-price="3200"
+                                    v-model="form.kase_house"
+                                    type="number"
+                                    class="mt-1 block w-full house-tax-cal"
+                                    min="0"
+                                    @focusout="autoSave"
+                                    placeholder="সংখ্যা"
+                                />
+                                <InputError class="mt-2" :message="form.errors.kasa_house" />
                             </div>
                         </div>
                     </div>

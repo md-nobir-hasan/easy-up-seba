@@ -208,7 +208,9 @@ const ekhanaFetch = ()=>{
                         <th colspan="2" scope="col" class="">
                             সম্পদের বিবরন
                             <div class="flex items-center justify-between bg-[#1c09ffb5] rounded p-1 h-16">
-                                <h4 class="p-1 text-white" v-for="(huse,ind) in house_strucs">{{huse.name}}</h4>
+                                <h4 class="p-1 text-white">পাকা</h4>
+                                <h4 class="p-1 text-white">আধাপাকা</h4>
+                                <h4 class="p-1 text-white">কাঁচা</h4>
                             </div>
                         </th>
                         <th scope="col" class="px-6 py-3">
@@ -257,7 +259,9 @@ const ekhanaFetch = ()=>{
                         </th>
                         <th colspan="2" scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             <div class="flex items-center justify-between">
-                                <p v-for="val in value.house_struc" >{{val.number}}</p>
+                                <p >{{ value.paka_house }}</p>
+                                <p >{{ value.adhapaka_house }}</p>
+                                <p >{{ value.kasa_house }}</p>
                             </div>
                         </th>
                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
