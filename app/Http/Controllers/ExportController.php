@@ -8,9 +8,15 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class ExportController extends Controller
 {
-    public function export()
+    public function exportExcel()
     {
         // dd('nobir');
         return Excel::download(new EkhanaExport, 'ekhana.xlsx');
+    }
+    public function exportPdf()
+    {
+        // dd('nobir');
+        return Excel::download(new EkhanaExport, 'invoices.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
+
     }
 }

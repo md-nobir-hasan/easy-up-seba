@@ -100,7 +100,8 @@ Route::middleware([
 
     //Ekhana Management
     Route::resource('/ekhana',EkhanaController::class);
-    Route::get('ekhana/export/download', [ExportController::class, 'export'])->name('ekhana.export');
+    Route::get('ekhana/export/excel', [ExportController::class, 'exportExcel'])->name('ekhana.export.excel');
+    Route::get('ekhana/export/pdf', [ExportController::class, 'exportPdf'])->name('ekhana.export.pdf');
 
 
     //User Management
