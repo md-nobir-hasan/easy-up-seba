@@ -224,6 +224,7 @@ class Container implements ArrayAccess, ContainerContract
                (isset($this->bindings[$abstract]['shared']) &&
                $this->bindings[$abstract]['shared'] === true);
     }
+    
 
     /**
      * Determine if a given string is an alias.

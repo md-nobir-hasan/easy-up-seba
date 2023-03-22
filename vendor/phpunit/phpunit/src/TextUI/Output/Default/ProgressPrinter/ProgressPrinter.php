@@ -17,6 +17,7 @@ use function strlen;
 use PHPUnit\Event\EventFacadeIsSealedException;
 use PHPUnit\Event\Facade;
 use PHPUnit\Event\Test\Errored;
+use PHPUnit\Event\Test\PrintedUnexpectedOutput;
 use PHPUnit\Event\TestRunner\ExecutionStarted;
 use PHPUnit\Event\UnknownSubscriberTypeException;
 use PHPUnit\Framework\TestStatus\TestStatus;
@@ -43,13 +44,13 @@ final class ProgressPrinter
      * @throws EventFacadeIsSealedException
      * @throws UnknownSubscriberTypeException
      */
-    public function __construct(Printer $printer, bool $colors, int $numberOfColumns)
+    public function __construct(Printer $printer, bool $colors, int $numberOfColumns, Facade $facade)
     {
         $this->printer         = $printer;
         $this->colors          = $colors;
         $this->numberOfColumns = $numberOfColumns;
 
-        $this->registerSubscribers();
+        $this->registerSubscribers($facade);
     }
 
     public function testRunnerExecutionStarted(ExecutionStarted $event): void
@@ -129,6 +130,11 @@ final class ProgressPrinter
         }
     }
 
+    public function testPrintedOutput(PrintedUnexpectedOutput $event): void
+    {
+        $this->printer->print($event->output());
+    }
+
     public function testFinished(): void
     {
         if ($this->status === null) {
@@ -159,9 +165,9 @@ final class ProgressPrinter
      * @throws EventFacadeIsSealedException
      * @throws UnknownSubscriberTypeException
      */
-    private function registerSubscribers(): void
+    private function registerSubscribers(Facade $facade): void
     {
-        Facade::registerSubscribers(
+        $facade->registerSubscribers(
             new BeforeTestClassMethodErroredSubscriber($this),
             new TestConsideredRiskySubscriber($this),
             new TestErroredSubscriber($this),
@@ -179,6 +185,7 @@ final class ProgressPrinter
             new TestTriggeredPhpunitWarningSubscriber($this),
             new TestTriggeredPhpWarningSubscriber($this),
             new TestTriggeredWarningSubscriber($this),
+            new TestPrintedUnexpectedOutputSubscriber($this),
         );
     }
 

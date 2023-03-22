@@ -161,8 +161,19 @@ const ekhanaFetch = ()=>{
 
             </div>
             <hr class="mb-1">
-            <div class="bg-black mt-1">
+            <div class="bg-black mt-1 flex items-center justify-between">
+                <div></div>
                 <h1 class="text-center text-white p-2">খানা প্রধানের তালিকা</h1>
+                <div class="p-1">
+<button type="button" class="text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+     <a :href="route('admin.ekhana.export.excel')" class="text-white">Export Excel</a>
+</button>
+<button type="button" class="text-gray-900 bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400 font-medium rounded-lg text-sm px-5 py-2.5 text-center ml-1">
+    <a :href="route('admin.ekhana.export.pdf')" class="text-white">Export PDF</a>
+</button>
+
+                    <!-- <Link :href="route('admin.ekhana.export')" >Export Excel </Link> -->
+                </div>
             </div>
             <table class="w-full text-md text-left text-gray-500 dark:text-gray-400">
                 <thead class="text-md text-center text-gray-700 uppercase bg-[#11ff5999] dark:bg-gray-700 dark:text-gray-400">
