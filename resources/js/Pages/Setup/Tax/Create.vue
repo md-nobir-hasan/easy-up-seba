@@ -48,9 +48,8 @@ const submit = () => {
                         <InputError class="mt-2" :message="form.errors.name" />
                     </div>
                     <div class="mt-6">
-                        <InputLabel for="price" value="মূল্য" />
-                        <TextInput id="price" v-model="form.price" type="number" class="mt-1 block w-full" required
-                            autocomplete="price" />
+                        <InputLabel for="price" value="কর (শতকরা)" />
+                        <TextInput id="price" v-model="form.price" type="number" class="mt-1 block w-full" required step=".001" max="100"/>
                         <InputError class="mt-2" :message="form.errors.price" />
                     </div>
                     <div class="mt-6">

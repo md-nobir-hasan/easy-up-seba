@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('taxes', function (Blueprint $table) {
             $table->id();
             $table->string('name')->nullable();
-            $table->integer('price');
+            $table->decimal('price',5,3);
             $table->longText('des')->nullable();
             $table->unsignedBigInteger('created_by')->nullable();
             $table->unsignedBigInteger('updated_by')->nullable();

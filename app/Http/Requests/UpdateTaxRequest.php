@@ -24,6 +24,7 @@ class UpdateTaxRequest extends FormRequest
         $this->tax ? $id = $this->tax->id.',id' : $id  = '' ;
         return [
             'name' => "required|string|max:255|unique:taxes,name,$id",
+            'price' => 'required|numeric|between:0,99.999',
             'des' => 'nullable|string',
         ];
     }
