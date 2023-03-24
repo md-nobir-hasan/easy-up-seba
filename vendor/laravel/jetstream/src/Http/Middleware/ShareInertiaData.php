@@ -66,8 +66,11 @@ class ShareInertiaData
                 })->all();
             },
         ]));
-        $user = User::with(['word','role','word.union'])->find(Auth::user()->id);
-        Inertia::share('auth.user',$user);
+        if(Auth::user()){
+            $user = User::with(['word','role','word.union'])->find(Auth::user()->id);
+            Inertia::share('auth.user',$user);
+        }
+
         return $next($request);
     }
 }
