@@ -138,7 +138,7 @@ const ekhanaFetch = ()=>{
                         <label for="word_id" class="block text-md font-medium text-[blue] dark:text-white">ওয়ার্ডঃ</label>
                         <select id="word_id" v-model="form.word_id" @change="villageFetching" class="border ml-4 border-gray-300 text-[blue] text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
                             <option selected value="">ওয়ার্ড নির্বাচন করুন</option>
-                            <option v-for="(word, key) in words" :value="word.id">{{ word.name }}</option>
+                            <option v-for="(word, key) in words" :value="word.id" :key="key">{{ word.name }}</option>
                         </select>
                         <InputError class="mt-2" :message="form.errors.eerr" />
                         <InputError class="mt-2" :message="form.errors.word_id" />
@@ -147,7 +147,7 @@ const ekhanaFetch = ()=>{
                         <label for="village_id" class="block text-md font-medium text-[blue] dark:text-white">গ্রামঃ</label>
                         <select id="village_id" v-model="form.village_id" :disabled="vdisable" class="border ml-7 border-gray-300 text-[blue] text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
                             <option selected value="">গ্রাম নির্বাচন করুন</option>
-                            <option v-for="(village, key) in vilages" :value="village.id">{{ village.name }}</option>
+                            <option v-for="(village, key) in vilages" :value="village.id" :key="key">{{ village.name }}</option>
                         </select>
                         <InputError class="mt-2" :message="form.errors.eerr2" />
                         <InputError class="mt-2" :message="form.errors.village_id" />
