@@ -95,7 +95,7 @@ const mdata = ref(usePage().props.data);
                                         নাম
                                     </th>
                                     <th scope="col" class="px-6 py-3">
-                                        মূল্য
+                                        করের পরিমাণ (শতকরা)
                                     </th>
                                     <th scope="col" class="px-6 py-3">
                                         তৈরির তারিখ
@@ -123,7 +123,7 @@ const mdata = ref(usePage().props.data);
                                     </td>
                                     <td scope="row"
                                         class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        {{ new Intl.NumberFormat().format(value.price) }} /=
+                                        {{ new Intl.NumberFormat().format(value.price) }}%
                                     </td>
                                     <td v-text="DateFormate(value.created_at) " class="px-6 py-4">
 

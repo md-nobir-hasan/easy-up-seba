@@ -8,6 +8,7 @@ defineProps({
     data: Object,
     words: Object,
     house_strucs: Object,
+    tax: Object,
 });
 
 const form = useForm({
@@ -217,6 +218,9 @@ const ekhanaFetch = ()=>{
                             বাৎসরিক ভাড়ার পরিমাণ
                         </th>
                         <th scope="col" class="px-6 py-3">
+                           কর
+                        </th>
+                        <th scope="col" class="px-6 py-3">
                             তৈরির তারিখ
                         </th>
                         <th scope="col" class="px-6 py-3">
@@ -266,6 +270,9 @@ const ekhanaFetch = ()=>{
                         </th>
                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             {{ new Intl.NumberFormat().format(value.yearly_house_rent) }}/=
+                        </th>
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            {{ new Intl.NumberFormat().format(value.yearly_house_rent*tax.price/100) }}/=
                         </th>
                         <td v-text="DateFormate(value.created_at)" class="px-6 py-4">
 
