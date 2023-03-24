@@ -23,6 +23,7 @@ class StoreTaxRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255|unique:taxes,name',
+            'price' => 'required|numeric|max:100|unique:taxes,price',
             'des' => 'nullable|string',
         ];
     }
