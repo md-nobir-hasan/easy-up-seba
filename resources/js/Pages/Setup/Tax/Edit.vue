@@ -55,7 +55,7 @@ const submit = () => {
                     </div>
                     <div class="mt-6">
                         <InputLabel for="price" value="মূল্য" />
-                        <TextInput id="price" v-model="form.price" type="number" class="mt-1 block w-full" required step=".001"/>
+                        <TextInput id="price" v-model="form.price" type="number" class="mt-1 block w-full" required step=".001" max="100"/>
                         <InputError class="mt-2" :message="form.errors.price" />
                     </div>
                     <div class="mt-6">
