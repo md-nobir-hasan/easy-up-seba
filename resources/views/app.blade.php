@@ -14,10 +14,6 @@
         @routes
         @vite(['resources/js/app.js', "resources/js/Pages/{$page['component']}.vue"])
         <style>
-            .active{
-                color: rgb(67 56 202 / var(--tw-text-opacity));
-                background-color: white;
-            }
             body{
                 background-color: #22eeaf3d;
             }
