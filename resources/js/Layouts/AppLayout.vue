@@ -7,7 +7,8 @@ import SsubMenue from '@/Components/SsubMenue.vue';
 import appLogo from '@/Components/ApplicationLogo.vue';
 import appLogo2 from '@/Components/AuthenticationCardLogo.vue';
 import submenue from '@/Components/submenue.vue';
-import { HomeIcon,UserIcon,AdjustmentsHorizontalIcon } from '@heroicons/vue/24/solid'
+import { HomeIcon,UserIcon,AdjustmentsHorizontalIcon,BanknotesIcon,CalculatorIcon,UserPlusIcon,CircleStackIcon,
+    ListBulletIcon,ArrowsRightLeftIcon,UserGroupIcon} from '@heroicons/vue/24/solid'
 
 defineProps({
     title: String,
@@ -18,15 +19,30 @@ defineProps({
 
 //========= Side menu ============
 const submenueItem =[
-                    {name: 'Dashboard',route: route('admin.dashboard'),active: false,url:'/admin/dashboard',icon:HomeIcon,children:[]},
-                    {name: 'Menu Setup',active: false,url:'/admin/setup',icon:AdjustmentsHorizontalIcon,children:[
-                        {name:'Division',active:false,route:route('admin.setup.division.index'),url:'/admin/setup/division',icon:null,children:[]},
-                        {name:'District',active:false,route:route('admin.setup.district.index'),url:'/admin/setup/district',icon:null,children:[]},
-                        {name:'Upazila',active:false,route:route('admin.setup.upazila.index'),url:'/admin/setup/upazila',icon:null,children:[]},
+                    {title:'ড্যাসবোর্ড',name: 'Dashboard',route: route('admin.dashboard'),active: false,url:'/admin/dashboard',icon:HomeIcon,children:[]},
+                    {title:'সেটাপ',name: 'Setup',active: false,url:'/admin/setup',icon:AdjustmentsHorizontalIcon,children:[
+                        {title:'বিভাগ',name:'Division',active:false,route:route('admin.setup.division.index'),url:'/admin/setup/division',icon:null,children:[]},
+                        {title:'জেলা',name:'District',active:false,route:route('admin.setup.district.index'),url:'/admin/setup/district',icon:null,children:[]},
+                        {title:'উপজেলা',name:'Upazila',active:false,route:route('admin.setup.upazila.index'),url:'/admin/setup/upazila',icon:null,children:[]},
+                        {title:'ইউনিয়ন',name:'Union',active:false,route:route('admin.setup.union.index'),url:'/admin/setup/union',icon:null,children:[]},
+                        {title:'ওয়ার্ড',name:'Word',active:false,route:route('admin.setup.word.index'),url:'/admin/setup/word',icon:null,children:[]},
+                        {title:'গ্রাম',name:'Village',active:false,route:route('admin.setup.village.index'),url:'/admin/setup/village',icon:null,children:[]},
+                        {title:'কর',name:'Tax',active:false,route:route('admin.setup.tax.index'),url:'/admin/setup/tax',icon:null,children:[]},
+                        {title:'ধর্ম',name:'Religion',active:false,route:route('admin.setup.religion.index'),url:'/admin/setup/religion',icon:null,children:[]},
+                        {title:'পেশা',name:'Profession',active:false,route:route('admin.setup.profession.index'),url:'/admin/setup/profession',icon:null,children:[]},
+                        {title:'শিক্ষাগত যোগ্যতা',name:'Education Qualification',active:false,route:route('admin.setup.education-qualification.index'),url:'/admin/setup/education-qualification',icon:null,children:[]},
+                        // {title:'কাঠামো',name:'House Structure',active:false,route:route('admin.setup.house-structure.index'),url:'/admin/setup/house-structure',icon:null,children:[]},
                     ]},
-                    {name: 'Menu User',active: false,url:'/admin/user',icon:UserIcon,children:[
-                        {name:'Role',active:false,route:route('admin.user.role.index'),url:'/admin/user/role',icon:null,children:[]},
-                        {name:'User',active:false,route:route('admin.user.user.index'),url:'/admin/user/user',icon:null,children:[]},
+                    {title:'ইউজার ম্যানেজমেন্ট',name: 'User Management',active: false,url:'/admin/user',icon:UserIcon,children:[
+                        {title:'রোল',name:'Role',active:false,route:route('admin.user.role.index'),url:'/admin/user/role',icon:ArrowsRightLeftIcon,children:[]},
+                        {title:'ইউজার',name:'User',active:false,route:route('admin.user.user.index'),url:'/admin/user/user',icon:UserGroupIcon,children:[]},
+                    ]},
+                    {title:'কর',name: 'Tax',active: false,url:'/admin/tax',icon:BanknotesIcon,children:[
+                        {title:'ই-খানা',name:'E-Khana',active:false,route:route('admin.tax.ekhana.index'),url:'/admin/tax/ekhana',icon:UserPlusIcon,children:[]},
+                        {title:'হিসাব',name:'Calculation',active:false,route:'',url:'/admin/tax/calculation',icon:CalculatorIcon,children:[
+                            {title:'কর জামা র্ফম',name:'House Tax Deposite',active:false,route:route('admin.tax.calculation.deposite.create'),url:'/admin/tax/calculation/deposite/create',icon:CircleStackIcon,children:[]},
+                            {title:'কর জমা লিস্ট',name:'House Tax Deposite List',active:false,route:route('admin.tax.calculation.deposite.index'),url:'/admin/tax/calculation/deposite/index',icon:ListBulletIcon,children:[]},
+                        ]},
                     ]},
 
                     ];

@@ -97,11 +97,24 @@ Route::middleware([
         Route::resource('/profession',ProfessionController::class);
 
     });
+    //Tax Management
+    Route::prefix('tax')->name('tax.')->group(function(){
+        //Ekhana Management
+        Route::resource('/ekhana',EkhanaController::class);
 
-    //Ekhana Management
-    Route::resource('/ekhana',EkhanaController::class);
-    Route::get('ekhana/export/excel', [ExportController::class, 'exportExcel'])->name('ekhana.export.excel');
-    Route::get('ekhana/export/pdf', [ExportController::class, 'exportPdf'])->name('ekhana.export.pdf');
+        //Calculation Management
+        Route::prefix('/calculation')->name('calculation.')->group(function(){
+            Route::resource('/deposite',EkhanaController::class);
+        });
+
+    });
+
+    
+    //Export Import
+        Route::get('ekhana/export/excel', [ExportController::class, 'exportExcel'])->name('ekhana.export.excel');
+        Route::get('ekhana/export/pdf', [ExportController::class, 'exportPdf'])->name('ekhana.export.pdf');
+        Route::get('deposite/export/excel', [ExportController::class, 'exportExcel'])->name('deposite.export.excel');
+        Route::get('deposite/export/pdf', [ExportController::class, 'exportPdf'])->name('deposite.export.pdf');
 
 
     //User Management

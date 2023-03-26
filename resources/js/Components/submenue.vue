@@ -20,14 +20,14 @@ import { ChevronDownIcon} from '@heroicons/vue/24/solid'
         $page.url.startsWith(items.url) ? 'font-semibold text-[blue] hover:bg-[black]': '']"
         >
             <component :is="items.icon" v-if="items.icon" class="h-6 mr-1"></component>
-            <span>{{ items.name }}</span>
+            <span>{{ items.title }}</span>
 
         </Link>
     </div>
     <Disclosure v-else v-slot="{open}" :default-open="$page.url.startsWith(items.url)" >
         <DisclosureButton class="py-2 flex pl-2 items-center w-full hover:bg-gray-100" :class="[open ? 'font-bold text-[white] bg-[black] hover:bg-[black] hover:text-[black]': 'text-[black] font-medium']">
             <component :is="items.icon" v-if="items.icon" class="h-6 mr-1"></component>
-            <span class="flex-1 text-left block">{{ items.name }}</span>
+            <span class="flex-1 text-left block">{{ items.title }}</span>
             <ChevronDownIcon class="h-5 w-6 shrink-0 mr-1" :class="[open? '-rotate-180' : '']"/>
         </DisclosureButton>
         <DisclosurePanel class="pl-4" :class="[ $page.url.startsWith(items.url) ? 'bg-[#80808017]': '']">
