@@ -14,22 +14,26 @@ class ModuleSeeder extends Seeder
     {
         $n = [
             ['name' => 'Dashboard'],
-            ['name' => 'Division'],
-            ['name' => 'District'],
-            ['name' => 'Upazila'],
-            ['name' => 'Role'],
-            ['name' => 'User'],
-            ['name' => 'Menu Setup'],
-            ['name' => 'Menu User'],
-            ['name' => 'Union'],
-            ['name' => 'Word'],//10
-            ['name' => 'Village'],
-            ['name' => 'Education Qualification'],
-            ['name' => 'Profession'],
+            ['name' => 'Setup'],
+                ['name' => 'Division'],
+                ['name' => 'District'],
+                ['name' => 'Upazila'],
+                ['name' => 'Union'],
+                ['name' => 'Word'],
+                ['name' => 'Village'],
+                ['name' => 'Education Qualification'],
+                ['name' => 'Profession'],//10
+                ['name' => 'Tax'],
+                ['name' => 'Religion'],
+                ['name' => 'House Structure'],
+            ['name' => 'User Management'],
+                ['name' => 'Role'],
+                ['name' => 'User'],
             ['name' => 'Tax'],
-            ['name' => 'Religion'],//15
-            ['name' => 'House Structure'],
-            ['name' => 'E-Khana'],
+                ['name' => 'E-Khana'],
+                ['name' => 'Calculation'],
+                    ['name' => 'House Tax Deposite'],//20
+                    ['name' => 'House Tax Deposite List'],
         ];
 
         DB::table('modules')->insert($n);
