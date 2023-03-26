@@ -2,13 +2,11 @@
 import { ref } from 'vue';
 import { Head, Link, router, usePage } from '@inertiajs/vue3';
 import DropdownLink from '@/Components/DropdownLink.vue';
-import sideMenueLink from '@/Components/sideMenueLink.vue';
-import SsubMenue from '@/Components/SsubMenue.vue';
 import appLogo from '@/Components/ApplicationLogo.vue';
 import appLogo2 from '@/Components/AuthenticationCardLogo.vue';
 import submenue from '@/Components/submenue.vue';
 import { HomeIcon,UserIcon,AdjustmentsHorizontalIcon,BanknotesIcon,CalculatorIcon,UserPlusIcon,CircleStackIcon,
-    ListBulletIcon,ArrowsRightLeftIcon,UserGroupIcon} from '@heroicons/vue/24/solid'
+    ListBulletIcon,ArrowsRightLeftIcon,UserGroupIcon,MinusIcon} from '@heroicons/vue/24/solid'
 
 defineProps({
     title: String,
@@ -21,17 +19,17 @@ defineProps({
 const submenueItem =[
                     {title:'ড্যাসবোর্ড',name: 'Dashboard',route: route('admin.dashboard'),active: false,url:'/admin/dashboard',icon:HomeIcon,children:[]},
                     {title:'সেটাপ',name: 'Setup',active: false,url:'/admin/setup',icon:AdjustmentsHorizontalIcon,children:[
-                        {title:'বিভাগ',name:'Division',active:false,route:route('admin.setup.division.index'),url:'/admin/setup/division',icon:null,children:[]},
-                        {title:'জেলা',name:'District',active:false,route:route('admin.setup.district.index'),url:'/admin/setup/district',icon:null,children:[]},
-                        {title:'উপজেলা',name:'Upazila',active:false,route:route('admin.setup.upazila.index'),url:'/admin/setup/upazila',icon:null,children:[]},
-                        {title:'ইউনিয়ন',name:'Union',active:false,route:route('admin.setup.union.index'),url:'/admin/setup/union',icon:null,children:[]},
-                        {title:'ওয়ার্ড',name:'Word',active:false,route:route('admin.setup.word.index'),url:'/admin/setup/word',icon:null,children:[]},
-                        {title:'গ্রাম',name:'Village',active:false,route:route('admin.setup.village.index'),url:'/admin/setup/village',icon:null,children:[]},
-                        {title:'কর',name:'Tax',active:false,route:route('admin.setup.tax.index'),url:'/admin/setup/tax',icon:null,children:[]},
-                        {title:'ধর্ম',name:'Religion',active:false,route:route('admin.setup.religion.index'),url:'/admin/setup/religion',icon:null,children:[]},
-                        {title:'পেশা',name:'Profession',active:false,route:route('admin.setup.profession.index'),url:'/admin/setup/profession',icon:null,children:[]},
-                        {title:'শিক্ষাগত যোগ্যতা',name:'Education Qualification',active:false,route:route('admin.setup.education-qualification.index'),url:'/admin/setup/education-qualification',icon:null,children:[]},
-                        // {title:'কাঠামো',name:'House Structure',active:false,route:route('admin.setup.house-structure.index'),url:'/admin/setup/house-structure',icon:null,children:[]},
+                        {title:'বিভাগ',name:'Division',active:false,route:route('admin.setup.division.index'),url:'/admin/setup/division',icon:MinusIcon,children:[]},
+                        {title:'জেলা',name:'District',active:false,route:route('admin.setup.district.index'),url:'/admin/setup/district',icon:MinusIcon,children:[]},
+                        {title:'উপজেলা',name:'Upazila',active:false,route:route('admin.setup.upazila.index'),url:'/admin/setup/upazila',icon:MinusIcon,children:[]},
+                        {title:'ইউনিয়ন',name:'Union',active:false,route:route('admin.setup.union.index'),url:'/admin/setup/union',icon:MinusIcon,children:[]},
+                        {title:'ওয়ার্ড',name:'Word',active:false,route:route('admin.setup.word.index'),url:'/admin/setup/word',icon:MinusIcon,children:[]},
+                        {title:'গ্রাম',name:'Village',active:false,route:route('admin.setup.village.index'),url:'/admin/setup/village',icon:MinusIcon,children:[]},
+                        {title:'কর',name:'Tax',active:false,route:route('admin.setup.tax.index'),url:'/admin/setup/tax',icon:MinusIcon,children:[]},
+                        {title:'ধর্ম',name:'Religion',active:false,route:route('admin.setup.religion.index'),url:'/admin/setup/religion',icon:MinusIcon,children:[]},
+                        {title:'পেশা',name:'Profession',active:false,route:route('admin.setup.profession.index'),url:'/admin/setup/profession',icon:MinusIcon,children:[]},
+                        {title:'শিক্ষাগত যোগ্যতা',name:'Education Qualification',active:false,route:route('admin.setup.education-qualification.index'),url:'/admin/setup/education-qualification',icon:MinusIcon,children:[]},
+                        // {title:'কাঠামো',name:'House Structure',active:false,route:route('admin.setup.house-structure.index'),url:'/admin/setup/house-structure',icon:MinusIcon,children:[]},
                     ]},
                     {title:'ইউজার ম্যানেজমেন্ট',name: 'User Management',active: false,url:'/admin/user',icon:UserIcon,children:[
                         {title:'রোল',name:'Role',active:false,route:route('admin.user.role.index'),url:'/admin/user/role',icon:ArrowsRightLeftIcon,children:[]},
