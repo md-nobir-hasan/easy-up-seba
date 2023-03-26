@@ -94,5 +94,12 @@ class SetupSeeder extends Seeder
             ['name'=>'বৌদ্ধ'],
         ];
         DB::table('religions')->insert($n);
+
+
+        //================  financial_year ==============================
+        $n =[
+            ['from'=>2023,'to'=>2024],
+        ];
+        DB::table('financial_years')->insert($n);
     }
 }

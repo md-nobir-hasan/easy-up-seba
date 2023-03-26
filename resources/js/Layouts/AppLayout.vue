@@ -29,6 +29,7 @@ const submenueItem =[
                         {title:'ধর্ম',name:'Religion',active:false,route:route('admin.setup.religion.index'),url:'/admin/setup/religion',icon:MinusIcon,children:[]},
                         {title:'পেশা',name:'Profession',active:false,route:route('admin.setup.profession.index'),url:'/admin/setup/profession',icon:MinusIcon,children:[]},
                         {title:'শিক্ষাগত যোগ্যতা',name:'Education Qualification',active:false,route:route('admin.setup.education-qualification.index'),url:'/admin/setup/education-qualification',icon:MinusIcon,children:[]},
+                        {title:'অর্থ-বছর',name:'Financial Year',active:false,route:route('admin.setup.financial-year.index'),url:'/admin/setup/finalcial-year',icon:MinusIcon,children:[]},
                         // {title:'কাঠামো',name:'House Structure',active:false,route:route('admin.setup.house-structure.index'),url:'/admin/setup/house-structure',icon:MinusIcon,children:[]},
                     ]},
                     {title:'ইউজার ম্যানেজমেন্ট',name: 'User Management',active: false,url:'/admin/user',icon:UserIcon,children:[
@@ -38,7 +39,7 @@ const submenueItem =[
                     {title:'কর',name: 'Tax',active: false,url:'/admin/tax',icon:BanknotesIcon,children:[
                         {title:'ই-খানা',name:'E-Khana',active:false,route:route('admin.tax.ekhana.index'),url:'/admin/tax/ekhana',icon:UserPlusIcon,children:[]},
                         {title:'হিসাব',name:'Calculation',active:false,route:'',url:'/admin/tax/calculation',icon:CalculatorIcon,children:[
-                            {title:'কর জামা র্ফম',name:'House Tax Deposite',active:false,route:route('admin.tax.calculation.deposite.create'),url:'/admin/tax/calculation/deposite/create',icon:CircleStackIcon,children:[]},
+                            {title:'কর জামা ফর্ম',name:'House Tax Deposite',active:false,route:route('admin.tax.calculation.deposite.create'),url:'/admin/tax/calculation/deposite/create',icon:CircleStackIcon,children:[]},
                             {title:'কর জমা লিস্ট',name:'House Tax Deposite List',active:false,route:route('admin.tax.calculation.deposite.index'),url:'/admin/tax/calculation/deposite/index',icon:ListBulletIcon,children:[]},
                         ]},
                     ]},

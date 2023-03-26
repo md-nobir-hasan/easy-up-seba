@@ -7,7 +7,9 @@ use App\Http\Controllers\DivisionController;
 use App\Http\Controllers\EdQualiController;
 use App\Http\Controllers\EkhanaController;
 use App\Http\Controllers\ExportController;
+use App\Http\Controllers\FYearController;
 use App\Http\Controllers\HouseStrucController;
+use App\Http\Controllers\HTDepositeController;
 use App\Http\Controllers\ProfessionController;
 use App\Http\Controllers\ReligionController;
 use App\Http\Controllers\RoleController;
@@ -95,6 +97,7 @@ Route::middleware([
         Route::resource('/house-structure',HouseStrucController::class);
         Route::resource('/religion',ReligionController::class);
         Route::resource('/profession',ProfessionController::class);
+        Route::resource('/financial-year',FYearController::class);
 
     });
     //Tax Management
@@ -104,12 +107,12 @@ Route::middleware([
 
         //Calculation Management
         Route::prefix('/calculation')->name('calculation.')->group(function(){
-            Route::resource('/deposite',EkhanaController::class);
+            Route::resource('/deposite',HTDepositeController::class);
         });
 
     });
 
-    
+
     //Export Import
         Route::get('ekhana/export/excel', [ExportController::class, 'exportExcel'])->name('ekhana.export.excel');
         Route::get('ekhana/export/pdf', [ExportController::class, 'exportPdf'])->name('ekhana.export.pdf');

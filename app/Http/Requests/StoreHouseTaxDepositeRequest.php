@@ -4,14 +4,14 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreDivisionRequest extends FormRequest
+class StoreHouseTaxDepositeRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return true;
+        return false;
     }
 
     /**
@@ -22,7 +22,7 @@ class StoreDivisionRequest extends FormRequest
     public function rules(): array
     {
         return [
-                
+            //
         ];
     }
 }

@@ -42,7 +42,7 @@ class EkhanaController extends Controller
         }
         $n['tax'] = Tax::latest()->first();
         $n['house_strucs'] = HouseStructure::where('deleted_by',null)->orderBy('id','desc')->get();
-        return Inertia::render('Ekhana/Index',$n);
+        return Inertia::render('Tax/Ekhana/Index',$n);
     }
 
     /**
@@ -80,7 +80,7 @@ class EkhanaController extends Controller
         $n['kcount'] = count($n['ekhanas']);
 
 
-        return Inertia::render('Ekhana/Create',$n);
+        return Inertia::render('Tax/Ekhana/Create',$n);
     }
 
     /**
@@ -135,7 +135,7 @@ public function store(StoreEkhanaRequest $request)
         if($request->submit_btn == 'return'){
             return redirect()->route('admin.ekhana.index');
         }else{
-            return redirect()->route('admin.ekhana.create');
+            return redirect()->route('admin.tax.ekhana.create');
         }
     }
 
@@ -164,7 +164,7 @@ public function store(StoreEkhanaRequest $request)
         $n['villages'] = Village::where('deleted_by',null)->where('word_id',Auth::user()->word_id)->orderBy('id','desc')->get();
         $n['edqualis'] = EducationQualification::where('deleted_by',null)->orderBy('id','desc')->get();
         $n['house_strucs'] = HouseStructure::where('deleted_by',null)->orderBy('id','desc')->get();
-        return Inertia::render('Ekhana/Edit',$n);
+        return Inertia::render('Tax/Ekhana/Edit',$n);
     }
 
     /**
@@ -211,7 +211,7 @@ public function store(StoreEkhanaRequest $request)
 
 
         $request->session()->flash('suc_msg',$request->bn_name.' সফলভাবে আপডেট করা হয়েছে');
-        return redirect()->route('admin.ekhana.index');
+        return redirect()->route('admin.tax.ekhana.index');
     }
 
     /**

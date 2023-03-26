@@ -12,25 +12,24 @@ defineProps({
 });
 
 const form = useForm({
-    name: '',
-    price: '',
-    des: '',
+    from: 2023,
+    to: 2024,
     submit_btn: '',
 });
 console.log(form)
 const submit = () => {
-    form.post(route('admin.setup.tax.store'), {
-        onFinish: () => form.reset('name','des','price'),
+    form.post(route('admin.setup.financial-year.store'), {
+        onFinish: () => form.reset('from','to'),
     });
 };
 </script>
 
 <template>
-    <AppLayout title="কর">
+    <AppLayout title="অর্থ-বছর">
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
             <div class="bg-white flex justify-between p-4">
-                <h2 class="float-left text-3xl font-extrabold">কর যোগ</h2>
-                <Link :href="route('admin.setup.tax.index')">
+                <h2 class="float-left text-3xl font-extrabold">অর্থ-বছর যোগ</h2>
+                <Link :href="route('admin.setup.financial-year.index')">
                 <PrimaryButton class="font-extrabold">
                     ফিরে যান
                 </PrimaryButton>
@@ -42,24 +41,16 @@ const submit = () => {
 
                 <form @submit.prevent="submit" class="bg-white p-8 text-2lg">
                     <div>
-                        <InputLabel for="name" value="নাম" />
-                        <TextInput id="name" v-model="form.name" type="text" class="mt-1 block w-full" required
-                            autocomplete="name" />
-                        <InputError class="mt-2" :message="form.errors.name" />
+                        <InputLabel for="from" value="হইতে" />
+                        <TextInput id="from" v-model="form.from" type="number" min="2020" max="2099" step="1" class="mt-1 block w-full" required />
+                        <InputError class="mt-2" :message="form.errors.from" />
                     </div>
-                    <div class="mt-6">
-                        <InputLabel for="price" value="কর (শতকরা)" />
-                        <TextInput id="price" v-model="form.price" type="number" class="mt-1 block w-full" required step=".001" max="100"/>
-                        <InputError class="mt-2" :message="form.errors.price" />
-                    </div>
-                    <div class="mt-6">
-                        <label for="message"
-                            class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">বর্ণনা (ঐচ্ছিক)</label>
-                        <textarea v-model="form.des" id="message" rows="4"
-                            class="block p-2.5 w-full text-sm text-gray-900 bg-white-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder=""></textarea>
+                    <div class="mt-8">
+                        <InputLabel for="to" value="পর্যন্ত" />
+                        <TextInput id="to" v-model="form.to" type="number" min="2020" max="2099" step="1" class="mt-1 block w-full" required />
+                        <InputError class="mt-2" :message="form.errors.to" />
 
-                        <InputError class="mt-2" :message="form.errors.code" />
+                        <InputError class="mt-2" :message="form.errors.to" />
                     </div>
                     <div class="flex items-center justify-center mt-4">
                         <PrimaryButton @click="form.submit_btn = 'return'" class="ml-4"

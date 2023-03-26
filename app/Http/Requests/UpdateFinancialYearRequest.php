@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreDivisionRequest extends FormRequest
+class UpdateFinancialYearRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,7 +22,8 @@ class StoreDivisionRequest extends FormRequest
     public function rules(): array
     {
         return [
-                
+              'from' => 'required|numeric|between:2020,2099',
+            'to' => 'required|numeric|between:2020,2099',
         ];
     }
 }
