@@ -25,4 +25,10 @@ class HouseTaxDeposite extends Model
     public function fYear(){
         return $this->belongsTo(FinancialYear::class,'f_year_id');
     }
+    public function union(){
+        return $this->belongsTo(Union::class,'union_id');
+    }
+    public function word(){
+        return $this->belongsTo(Word::class,'word_id');
+    }
 }

@@ -99,7 +99,7 @@ const htdeposite = ref(null);
             return false;
         }
         axios.post(route('ajax.update',['HouseTaxDeposite']), form).then(res => {
-            htdeposite.value= res.data;
+            htdeposite.value = res.data;
             alert('সফলভাবে কর জমা হয়েছে');
         }).catch(err =>{
             console.error(err)
@@ -297,7 +297,7 @@ const htdeposite = ref(null);
                     </tfoot>
                 </table>
 
-                <div class="pb-5 pr-4" >
+                <div class="pb-5 pr-4 md:mt-6" >
                     <form>
                         <table  class="border-collapse border border-slate-400 text-center m-auto">
                             <thead class="bg-[#11ff5999]">
@@ -333,16 +333,16 @@ const htdeposite = ref(null);
                             </tbody>
                             <tfoot class="bg-[#11ff5999]">
                                 <tr>
-                                <th v-if="!htdeposite.paid_amount" colspan="2" class="border border-slate-300 p-2">
-                                    <PrimaryButton type="button" @click="submitTax" class="ml-4"
-                                    :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                                    জমা করুন
-                                </PrimaryButton>
-                                </th>
+                                    <th v-if="!htdeposite.paid_amount" colspan="2" class="border border-slate-300 p-2">
+                                        <PrimaryButton type="button" @click="submitTax" class="ml-4"
+                                        :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                                        জমা করুন
+                                    </PrimaryButton>
+                                    </th>
 
-                                <th v-else colspan="2" class="border border-slate-300 p-2">
-                                    <component :is="CheckIcon" class="h-9 p-1 inline font-bold bg-[blue] text-white rounded-full"></component>
-                                </th>
+                                    <th v-else colspan="2" class="border border-slate-300 p-2">
+                                        <component :is="CheckIcon" class="h-9 p-1 inline font-bold bg-[blue] text-white rounded-full"></component>
+                                    </th>
 
                                 </tr>
                             </tfoot>

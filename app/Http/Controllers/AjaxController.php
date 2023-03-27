@@ -138,6 +138,8 @@ class AjaxController extends Controller
        $n['ht_deposite'] = HouseTaxDeposite::where('ekhana_id',$req->ekhana_id)->where('f_year_id',$req->f_year_id)->first();
         if(!$n['ht_deposite']){
             $insert = new HouseTaxDeposite();
+            $insert->union_id =  $n['ekhana']->union_id;
+            $insert->word_id = $n['ekhana']->word_id;
             $insert->ekhana_id = $req->ekhana_id;
             $insert->f_year_id = $req->f_year_id;
             $insert->total_amount = $n['ekhana']->yearly_house_rent*$tax->price/100;
