@@ -25,14 +25,15 @@ class ModuleSeeder extends Seeder
                 ['name' => 'Profession'],//10
                 ['name' => 'Tax'],
                 ['name' => 'Religion'],
+                ['name' => 'Financial Year'],
                 ['name' => 'House Structure'],
             ['name' => 'User Management'],
                 ['name' => 'Role'],
                 ['name' => 'User'],
             ['name' => 'Tax'],
                 ['name' => 'E-Khana'],
-                ['name' => 'Calculation'],
-                    ['name' => 'House Tax Deposite'],//20
+                ['name' => 'Calculation'],//20
+                    ['name' => 'House Tax Deposite'],
                     ['name' => 'House Tax Deposite List'],
         ];
 

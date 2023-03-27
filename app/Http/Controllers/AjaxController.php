@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Ekhana;
+use App\Models\HouseTaxDeposite;
+use App\Models\Tax;
 use App\Models\Union;
 use App\Models\User;
 use App\Models\Village;
@@ -130,4 +132,41 @@ class AjaxController extends Controller
         return response()->json($autosave);
     }
 
+    public function ekhana(Request $req){
+        $n['ekhana'] = Ekhana::with(['village','word'])->find($req->ekhana_id);
+        $tax = Tax::latest()->first();
+       $n['ht_deposite'] = HouseTaxDeposite::where('ekhana_id',$req->ekhana_id)->where('f_year_id',$req->f_year_id)->first();
+        if(!$n['ht_deposite']){
+            $insert = new HouseTaxDeposite();
+            $insert->union_id =  $n['ekhana']->union_id;
+            $insert->word_id = $n['ekhana']->word_id;
+            $insert->ekhana_id = $req->ekhana_id;
+            $insert->f_year_id = $req->f_year_id;
+            $insert->total_amount = $n['ekhana']->yearly_house_rent*$tax->price/100;
+            $insert->arrears = $n['ekhana']->yearly_house_rent*$tax->price/100;
+            $insert->save();
+            $n['ht_deposite'] = $insert;
+        }
+        return response()->json($n);
+    }
+
+    public function update(Request $req, $model){
+        $model = '\\App\\Models\\'.$model;
+        // return $model;
+        $model::find($req->id)->update($req->all());
+        return $model;
+    }
+    public function afieldUpdate(Request $req){
+        $model = '\\App\\Models\\'.$req->model;
+        // return $model;
+        $id = (int)$req->id;
+       $update =  $model::find($id);
+       $update[$req->field] = $req->field_value;
+       $update->save();
+        return response()->json($update);
+    }
+
+
 }
+
+

@@ -26,10 +26,10 @@ const submit = () => {
 </script>
 
 <template>
-    <AppLayout title="টেক্স">
+    <AppLayout title="কর">
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
             <div class="bg-white flex justify-between p-4">
-                <h2 class="float-left text-3xl font-extrabold">টেক্স যোগ</h2>
+                <h2 class="float-left text-3xl font-extrabold">কর যোগ</h2>
                 <Link :href="route('admin.setup.tax.index')">
                 <PrimaryButton class="font-extrabold">
                     ফিরে যান

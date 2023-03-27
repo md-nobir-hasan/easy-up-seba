@@ -75,14 +75,14 @@ const mdata = ref(usePage().props.data);
 </script>
 
 <template>
-    <AppLayout title="টেক্স">
+    <AppLayout title="কর">
                     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
                         <SucMesgShow :message="$page.props.flash.suc_msg"></SucMesgShow>
                         <div class="bg-white flex justify-between p-4">
-                            <h2 class="float-left text-4xl font-extrabold">টেক্স</h2>
+                            <h2 class="float-left text-4xl font-extrabold">কর</h2>
                             <Link :href="route('admin.setup.tax.create')">
                             <PrimaryButton v-if="ncheck('add')" class="font-extrabold">
-                                টেক্স যোগকরুন
+                                কর যোগকরুন
                             </PrimaryButton>
                         </Link>
 
