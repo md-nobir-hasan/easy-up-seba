@@ -28,7 +28,7 @@ class HTDepositeController extends Controller
         $n['f_years'] = FinancialYear::where('deleted_by',null)->orderBy('id','desc')->get();
         $n['ekhanas'] = Ekhana::where('deleted_by',null)->orderBy('id','desc')->get();
         $n['taxes'] = Tax::where('deleted_by',null)->orderBy('id','desc')->get();
-        return Inertia::render('Tax/Calculation/HouseDeposite/Create.vue',$n);
+        return Inertia::render('Tax/Calculation/HouseDeposite/Create',$n);
     }
 
     /**

@@ -54,6 +54,8 @@ Route::prefix('/ajax')->name('ajax.')->group(function(){
     Route::get('/fetch/{model}/{field}/{value}/{with?}/{field2?}/{value2?}',[AjaxController::class,'dataFetch'])->name('fetch');
     Route::get('/holding/fetch/{vil_id}',[AjaxController::class,'holdingFetch'])->name('holding.fetch');
     Route::post('/ekhana/autosave',[AjaxController::class,'khanaAutoSave'])->name('khana.autosave');
+    Route::post('/ekhana/fetch',[AjaxController::class,'ekhana'])->name('ekhana.fetch');
+    Route::post('/update/{model}',[AjaxController::class,'update'])->name('update');
 });
 
 

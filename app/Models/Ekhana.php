@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Ekhana extends Model
 {
     use HasFactory;
-
+protected $fillable = ['phone','bn_name'];
     public function createdBy(){
         return $this->belongsTo(User::class,'created_by');
     }

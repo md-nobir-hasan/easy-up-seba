@@ -133,7 +133,7 @@ public function store(StoreEkhanaRequest $request)
 
         $request->session()->flash('suc_msg',$request->bn_name.' সফলভাবে সরক্ষণ করা হয়েছে');
         if($request->submit_btn == 'return'){
-            return redirect()->route('admin.ekhana.index');
+            return redirect()->route('admin.tax.ekhana.index');
         }else{
             return redirect()->route('admin.tax.ekhana.create');
         }

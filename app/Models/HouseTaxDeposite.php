@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class HouseTaxDeposite extends Model
 {
     use HasFactory;
+    protected $fillable = ['paid_amount','deposite_date','f_kisti','s_kisti','t_kisti','fo_kisti','arrears','fine'];
     public function createdBy(){
         return $this->belongsTo(User::class,'created_by');
     }
