@@ -17,7 +17,8 @@ class HTDepositeController extends Controller
      */
     public function index()
     {
-        //
+        $n['data'] = HouseTaxDeposite::with(['createdBy','updatedBy','ekhana','fYear'])->where('deleted_by',null)->orderBy('id','desc')->get();
+        return Inertia::render('Tax/Calculation/HouseDeposite/Index',$n);
     }
 
     /**
