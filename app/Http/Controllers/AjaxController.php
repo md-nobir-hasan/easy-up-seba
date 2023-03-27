@@ -154,6 +154,17 @@ class AjaxController extends Controller
         $model::find($req->id)->update($req->all());
         return $model;
     }
+    public function afieldUpdate(Request $req){
+        $model = '\\App\\Models\\'.$req->model;
+        // return $model;
+        $id = (int)$req->id;
+       $update =  $model::find($id);
+       $update[$req->field] = $req->field_value;
+       $update->save();
+        return response()->json($update);
+    }
+
+
 }
 
 

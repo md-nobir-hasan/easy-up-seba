@@ -56,6 +56,7 @@ Route::prefix('/ajax')->name('ajax.')->group(function(){
     Route::post('/ekhana/autosave',[AjaxController::class,'khanaAutoSave'])->name('khana.autosave');
     Route::post('/ekhana/fetch',[AjaxController::class,'ekhana'])->name('ekhana.fetch');
     Route::post('/update/{model}',[AjaxController::class,'update'])->name('update');
+    Route::post('afield/update',[AjaxController::class,'afieldUpdate'])->name('afield.update');
 });
 
 

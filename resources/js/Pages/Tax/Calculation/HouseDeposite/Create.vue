@@ -20,7 +20,7 @@ const form = useForm({
     arrear:0,
     arrears: 0,
     fine: 0,
-    deposite_date: today,
+    deposite_date: null,
     id:0,
 });
 const form2 = useForm({
@@ -28,8 +28,7 @@ const form2 = useForm({
     bn_name: '',
     id:0,
 });
-form.arrears = form.paid_amount - form.arrear;
-console.log(form,today);
+
 //========= frontend validation ============
 const permisions = ref({});
 const user = usePage().props.auth.user;
@@ -61,7 +60,7 @@ function DateFormate(date) {
     return date;
 }
 
-    const htdeposite = ref(null);
+const htdeposite = ref(null);
     const eerr = ref('');
     const eerr2 = ref('');
     const ekhana = ref({});
@@ -78,8 +77,8 @@ function DateFormate(date) {
         ekhana.value = res.data.ekhana;
         htdeposite.value = res.data.ht_deposite;
         form.paid_amount = res.data.ht_deposite.total_amount;
-        form.arrears =  res.data.ht_deposite.arrears ?? 0;
-        // form.arrears =  ;
+        form.arrear =  res.data.ht_deposite.arrears ?? 0;
+        form.arrears = form.paid_amount - form.arrear;
         form.fine = res.data.ht_deposite.fine ?? 0;
         form.id = res.data.ht_deposite.id ?? 0;
         form2.id = res.data.ekhana.id;
@@ -95,9 +94,13 @@ function DateFormate(date) {
 
 
     const submitTax =()=>{
+        if(!form.deposite_date){
+            alert('জমার তারিখ নির্বাচন করুন');
+            return false;
+        }
         axios.post(route('ajax.update',['HouseTaxDeposite']), form).then(res => {
             htdeposite.value= res.data;
-
+            alert('সফলভাবে কর জমা হয়েছে');
         }).catch(err =>{
             console.error(err)
         }).finally(() => {
@@ -336,8 +339,8 @@ function DateFormate(date) {
                                     জমা করুন
                                 </PrimaryButton>
                                 </th>
-                                <th v-else colspan="2" class="border border-slate-300 p-2">
 
+                                <th v-else colspan="2" class="border border-slate-300 p-2">
                                     <component :is="CheckIcon" class="h-9 p-1 inline font-bold bg-[blue] text-white rounded-full"></component>
                                 </th>
 

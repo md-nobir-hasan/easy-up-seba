@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateHouseTaxDepositeRequest;
 use App\Models\Ekhana;
 use App\Models\FinancialYear;
 use App\Models\Tax;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class HTDepositeController extends Controller
@@ -17,7 +18,16 @@ class HTDepositeController extends Controller
      */
     public function index()
     {
-        $n['data'] = HouseTaxDeposite::with(['createdBy','updatedBy','ekhana','fYear'])->where('deleted_by',null)->orderBy('id','desc')->get();
+        if(Auth::user()->role->name == 'Power'){
+            $n['data'] = HouseTaxDeposite::with(['createdBy','updatedBy','ekhana','fYear','word','union'])->where('deleted_by',null)->orderBy('id','desc')->get();
+        }
+        elseif(Auth::user()->role->name == 'Union'){
+            $n['data'] = HouseTaxDeposite::with(['createdBy','updatedBy','ekhana','fYear','word','union'])->where('union_id',Auth::user()->word->union_id)->where('deleted_by',null)->orderBy('id','desc')->get();
+        }
+        else{
+            $n['data'] = HouseTaxDeposite::with(['createdBy','updatedBy','ekhana','fYear','word','union'])->where('union_id',Auth::user()->word->union_id)->where('word_id',Auth::user()->word_id)->where('deleted_by',null)->orderBy('id','desc')->get();
+        }
+        // $n['data'] = HouseTaxDeposite::with(['createdBy','updatedBy','ekhana','fYear'])->where('deleted_by',null)->orderBy('id','desc')->get();
         return Inertia::render('Tax/Calculation/HouseDeposite/Index',$n);
     }
 
@@ -26,8 +36,16 @@ class HTDepositeController extends Controller
      */
     public function create()
     {
+        if(Auth::user()->role->name == 'Power'){
+            $n['ekhanas'] = Ekhana::with(['createdBy','updatedBy','village','edQuali','religion','profession','word','word.union'])->where('deleted_by',null)->orderBy('id','desc')->get();
+        }
+        elseif(Auth::user()->role->name == 'Union'){
+            $n['ekhanas'] = Ekhana::with(['createdBy','updatedBy','village','edQuali','religion','profession','word','word.union'])->where('union_id',Auth::user()->word->union_id)->where('deleted_by',null)->orderBy('id','desc')->get();
+        }
+        else{
+            $n['ekhanas'] = Ekhana::with(['createdBy','updatedBy','village','edQuali','religion','profession','word','word.union'])->where('union_id',Auth::user()->word->union_id)->where('word_id',Auth::user()->word_id)->where('deleted_by',null)->orderBy('id','desc')->get();
+        }
         $n['f_years'] = FinancialYear::where('deleted_by',null)->orderBy('id','desc')->get();
-        $n['ekhanas'] = Ekhana::where('deleted_by',null)->orderBy('id','desc')->get();
         $n['taxes'] = Tax::where('deleted_by',null)->orderBy('id','desc')->get();
         return Inertia::render('Tax/Calculation/HouseDeposite/Create',$n);
     }
