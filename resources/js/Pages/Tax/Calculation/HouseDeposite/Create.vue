@@ -26,6 +26,8 @@ const form = useForm({
 const form2 = useForm({
     phone: '',
     bn_name: '',
+    spouse_name: '',
+    mother_name: '',
     id:0,
 });
 
@@ -83,6 +85,8 @@ const htdeposite = ref(null);
         form.id = res.data.ht_deposite.id ?? 0;
         form2.id = res.data.ekhana.id;
         form2.bn_name = res.data.ekhana.bn_name;
+        form2.spouse_name = res.data.ekhana.spouse_name;
+        form2.mother_name = res.data.ekhana.mother_name;
         form2.phone = res.data.ekhana.phone;
         console.log(form,form2);
     }).catch(err =>{
@@ -194,7 +198,7 @@ const htdeposite = ref(null);
 
             <!-- -->
             <div class="lg:flex justify-center bg-white items-center mt-4 pt-4"  v-if="ekhana.holding_no">
-                <table class="border-collapse border border-slate-400 text-center text-md text-left text-gray-500 dark:text-gray-400 rounded-lg m-auto">
+                <table class="border-collapse mb-4 border border-slate-400 text-center text-md text-left text-gray-500 dark:text-gray-400 rounded-lg m-auto">
                     <thead class="text-md text-center text-gray-700 uppercase bg-[#11ff5999] dark:bg-gray-700 dark:text-gray-400">
                         <tr >
                             <th colspan="2" class="border border-slate-300 px-6 py-4 font-bold text-gray-900 whitespace-nowrap dark:text-white">খান তথ্য</th>
@@ -231,16 +235,20 @@ const htdeposite = ref(null);
                             <th scope="col" class="border border-slate-300 px-6 py-3">
                             পিতা/স্বামীর নাম
                             </th>
-                            <td scope="row" class="border border-slate-300 px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                {{ ekhana.spouse_name }}
+                            <td scope="row"
+                            class="border border-slate-300 px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                            :class="[edit ? ' p-2' : '']">
+                                <input  :class="[edit ? 'border-[blue]' : 'border-0 text-center']" type="tel" required :readonly="!edit" v-model="form2.spouse_name" >
                             </td>
                         </tr>
                         <tr>
                             <th scope="col" class="border border-slate-300 px-6 py-3">
                             মাতার নাম
                             </th>
-                            <td scope="row" class="border border-slate-300 px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                {{ ekhana.motder_name }}
+                            <td scope="row"
+                            class="border border-slate-300 px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                            :class="[edit ? ' p-2' : '']">
+                                <input  :class="[edit ? 'border-[blue]' : 'border-0 text-center']" type="tel" required :readonly="!edit" v-model="form2.mother_name" >
                             </td>
                         </tr>
                         <tr>
@@ -278,20 +286,19 @@ const htdeposite = ref(null);
                             </td>
                         </tr>
                     </tbody>
-                    <tfoot class="text-md text-center text-gray-700 uppercase bg-[#11ff5999] dark:bg-gray-700 dark:text-gray-400">
+                    <tfoot class="">
                         <tr>
                             <th colspan="2" v-if="!edit" @click="edit = true"
-                             class="border border-slate-300 px-6 py-4 font-bold text-gray-900 whitespace-nowrap
-                              dark:text-white">
-                              হালনাগাদ
+                             >
+                              <button type="button" class="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 shadow-lg shadow-purple-500/50 dark:shadow-lg dark:shadow-purple-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center w-full">হালনাগাদ</button>
                             </th>
                             <th colspan="2" v-else
-                             class="border border-slate-300 px-6 py-4 font-bold text-gray-900 whitespace-nowrap
-                              dark:text-white">
-                              <PrimaryButton type="button" @click="ekhanaUpdate" class="ml-4"
-                                    :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                                    আপডেট
-                                </PrimaryButton>
+                             class="text-center">
+                             <button type="button" @click="ekhanaUpdate" class="text-white bg-gradient-to-r from-pink-400 via-pink-500 to-pink-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-pink-300 dark:focus:ring-pink-800 shadow-lg shadow-pink-500/50 dark:shadow-lg dark:shadow-pink-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center w-full"
+                             :class="{ 'opacity-25': form.processing }" :disabled="form.processing"
+                             >আপডেট</button>
+
+
                             </th>
                         </tr>
                     </tfoot>

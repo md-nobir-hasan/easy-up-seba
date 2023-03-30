@@ -506,7 +506,7 @@ const submit = () => {
                                 <InputError class="mt-2" :message="form.errors.paka_house" />
                             </div>
                             <div>
-                                <InputLabel for="adhapaka_house" class="text-sm text-center" :value="'পাকা'" />
+                                <InputLabel for="adhapaka_house" class="text-sm text-center" :value="'আধা পাকা'" />
                                 <TextInput @change="HouseTaxCal" @keyup="HouseTaxCal"
                                     data-price="4800"
                                     v-model="form.adhapaka_house"
@@ -519,7 +519,7 @@ const submit = () => {
                                 <InputError class="mt-2" :message="form.errors.adhapaka_house" />
                             </div>
                             <div>
-                                <InputLabel for="kasa_house" class="text-sm text-center" :value="'পাকা'" />
+                                <InputLabel for="kasa_house" class="text-sm text-center" :value="'কাঁচা'" />
                                 <TextInput @change="HouseTaxCal" @keyup="HouseTaxCal"
                                     data-price="3200"
                                     v-model="form.kase_house"
