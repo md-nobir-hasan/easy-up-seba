@@ -142,8 +142,8 @@ class AjaxController extends Controller
             $insert->word_id = $n['ekhana']->word_id;
             $insert->ekhana_id = $req->ekhana_id;
             $insert->f_year_id = $req->f_year_id;
-            $insert->total_amount = $n['ekhana']->yearly_house_rent*$tax->price/100;
-            $insert->arrears = $n['ekhana']->yearly_house_rent*$tax->price/100;
+            $insert->total_amount = round($n['ekhana']->yearly_house_rent*$tax->price/100);
+            $insert->arrears = round($n['ekhana']->yearly_house_rent*$tax->price/100);
             $insert->save();
             $n['ht_deposite'] = $insert;
         }
@@ -154,6 +154,11 @@ class AjaxController extends Controller
         $model = '\\App\\Models\\'.$model;
         // return $model;
         $model::find($req->id)->update($req->all());
+        if($req->paid_amount && $req->ekhana_id){
+            $ekhana_update = Ekhana::find($req->ekhana_id);
+            $ekhana_update->tax_paid = $req->paid_amount;
+            $ekhana_update->save();
+        }
         return $model;
     }
     public function afieldUpdate(Request $req){

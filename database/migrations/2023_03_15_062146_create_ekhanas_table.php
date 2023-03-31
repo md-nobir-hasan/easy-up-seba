@@ -30,6 +30,8 @@ return new class extends Migration
             $table->integer('paka_house')->nullable();
             $table->integer('adhapaka_house')->nullable();
             $table->integer('kasa_house')->nullable();
+            $table->string('yearly_house_rent')->nullable();
+            $table->decimal('tax_paid')->default(0)->nullable();
             $table->timestamp('dob')->nullable();
             $table->string('birth_no')->unique()->nullable();
             $table->string('nid')->unique()->nullable();
@@ -41,7 +43,6 @@ return new class extends Migration
             $table->string('sc_past')->nullable();
             $table->string('sc_present')->nullable();
             $table->string('sc_future')->nullable();
-            $table->string('yearly_house_rent')->nullable();
             $table->string('rent_type')->nullable();
             $table->string('land_house')->nullable();
             $table->string('land_cultivate')->nullable();
