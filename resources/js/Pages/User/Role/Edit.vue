@@ -61,6 +61,24 @@ const submit = () => {
         onFinish: () => form.reset('name'),
     });
 };
+
+//========= frontend validation ============
+// const permisions = ref({});
+const nuser = usePage().props.auth.user;
+const ncheck = (nmodule) => {
+    let checked = false;
+    let m_value = '';
+
+    usePage().props.permissions.forEach(function (val, key) {
+        if (val.module.name == nmodule && val.role_id == nuser.role_id) {
+            checked = true;
+            m_value =val;
+        }
+    })
+    return m_value;
+
+}
+//============ end frontend validation ============
 </script>
 
 <template>
@@ -87,8 +105,9 @@ const submit = () => {
                         <InputError class="mt-2" :message="form.errors.name" />
                     </div>
 
-                    <div v-for="(modul, key) in modules" class="inset-px mb-4">
-                        <hr>
+                    <div v-for="(modul, key) in modules" :key="key" class="inset-px mb-4">
+                        <span v-if="nm = ncheck(modul.name)">
+                            <hr>
                         <div class="flex items-center">
                             <input :id="key" @change="valueChange(modul.id)" type="checkbox" :checked="modCheck($page.props.role.id,modul.id)" :value="modul.id"
                                 class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
@@ -96,31 +115,32 @@ const submit = () => {
                                 class="ml-2 text-2xl text-[blue] font-medium dark:text-gray-300">{{ modul.name }}</label>
                         </div>
                         <div class="flex items-center">
-                            <div class="flex items-center mb-4 ml-8">
+                            <div v-if="nm.add" class="flex items-center mb-4 ml-8">
                                 <input @change="valueChange2(modul.id,'add')" :checked="check2($page.props.role.id,modul.id,'add')" :id="key + 'dkjf'"  type="checkbox" value=""
                                     class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                 <label :for="key + 'dkjf'"
                                     class="ml-2 text-md font-medium text-gray-900 dark:text-gray-300">Add</label>
                             </div>
-                            <div class="flex items-center mb-4 ml-8">
+                            <div v-if="nm.show" class="flex items-center mb-4 ml-8">
                                 <input @change="valueChange2(modul.id,'show')" :checked="check2($page.props.role.id,modul.id,'show')" :id="key + 'kdf3'" type="checkbox" value=""
                                     class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                 <label :for="key + 'kdf3'"
                                     class="ml-2 text-md font-medium text-gray-900 dark:text-gray-300">Show</label>
                             </div>
-                            <div class="flex items-center mb-4 ml-8">
+                            <div v-if="nm.edit" class="flex items-center mb-4 ml-8">
                                 <input @change="valueChange2(modul.id,'edit')" :checked="check2($page.props.role.id,modul.id,'edit')" :id="key + 'kdfr'" type="checkbox" value=""
                                     class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                 <label :for="key + 'kdfr'"
                                     class="ml-2 text-md font-medium text-gray-900 dark:text-gray-300">Edit</label>
                             </div>
-                            <div class="flex items-center mb-4 ml-8">
+                            <div v-if="nm.delete" class="flex items-center mb-4 ml-8">
                                 <input @change="valueChange2(modul.id,'delete')" :checked="check2($page.props.role.id,modul.id,'delete')" :id="key + 'kdf'" type="checkbox" value=""
                                     class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                 <label :for="key + 'kdf'"
                                     class="ml-2 text-md font-medium text-gray-900 dark:text-gray-300">Delele</label>
                             </div>
                         </div>
+                        </span>
                     </div>
 
                     <div class="flex items-center justify-center mt-4">

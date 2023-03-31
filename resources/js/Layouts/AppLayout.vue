@@ -52,7 +52,7 @@ const submenueItem =[
 //========= End Side menu ============
 
 //========= frontend validation ============
-const permisions = ref({});
+// const permisions = ref({});
 const nuser = usePage().props.auth.user;
 const ncheck = (nmodule) => {
     let checked = false;

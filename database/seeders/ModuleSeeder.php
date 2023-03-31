@@ -13,30 +13,30 @@ class ModuleSeeder extends Seeder
     public function run(): void
     {
         $n = [
-            ['name' => 'Dashboard'],
-            ['name' => 'Setup'],
-                ['name' => 'Division'],
-                ['name' => 'District'],
-                ['name' => 'Upazila'],
-                ['name' => 'Union'],
-                ['name' => 'Word'],
-                ['name' => 'Village'],
-                ['name' => 'Education Qualification'],
-                ['name' => 'Profession'],//10
-                ['name' => 'Tax'],
-                ['name' => 'Religion'],
-                ['name' => 'Financial Year'],
-                ['name' => 'House Structure'],
-            ['name' => 'User Management'],
-                ['name' => 'Role'],
-                ['name' => 'User'],
-            ['name' => 'Tax'],
-                ['name' => 'E-Khana'],
-                ['name' => 'Calculation'],//20
-                    ['name' => 'House Tax Deposite'],
-                    ['name' => 'House Tax Deposite List'],
-            ['name' => 'Approval'],
-                ['name' => 'Tax Deposite Approval'],
+            ['name' => 'Dashboard','a_union' => '1'],
+            ['name' => 'Setup','a_union' => '1'],
+                ['name' => 'Division','a_union' => '1'],
+                ['name' => 'District','a_union' => '1'],
+                ['name' => 'Upazila','a_union' => '1'],
+                ['name' => 'Union','a_union' => '1'],
+                ['name' => 'Word','a_union' => '1'],
+                ['name' => 'Village','a_union' => '1'],
+                ['name' => 'Education Qualification','a_union' => '1'],
+                ['name' => 'Profession','a_union' => '1'],//10
+                ['name' => 'Setup Tax','a_union' => '1'],
+                ['name' => 'Religion','a_union' => '1'],
+                ['name' => 'Financial Year','a_union' => '1'],
+                ['name' => 'House Structure','a_union' => '1'],
+            ['name' => 'User Management','a_union' => '1'],
+                ['name' => 'Role','a_union' => '1'],
+                ['name' => 'User','a_union' => '1'],
+            ['name' => 'Tax','a_union' => '1'],
+                ['name' => 'E-Khana','a_union' => '1'],
+                ['name' => 'Calculation','a_union' => '1'],//20
+                    ['name' => 'House Tax Deposite','a_union' => '1'],
+                    ['name' => 'House Tax Deposite List','a_union' => '1'],
+            ['name' => 'Approval','a_union' => null],
+                ['name' => 'Tax Deposite Approval','a_union' => null],
         ];
 
         DB::table('modules')->insert($n);

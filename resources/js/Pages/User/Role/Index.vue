@@ -89,6 +89,9 @@ console.log(usePage().props.auth.user.role.name)
                                     <th scope="col" class="px-6 py-3">
                                         Name
                                     </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Id
+                                    </th>
                                     <th scope="col" class="px-6 py-3" v-if="ncheck('edit') || ncheck('delete')">
                                         Action
                                     </th>
@@ -100,6 +103,10 @@ console.log(usePage().props.auth.user.role.name)
                                     <td scope="row"
                                         class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ value.name }}
+                                    </td>
+                                    <td scope="row"
+                                        class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                        {{ value.id }}
                                     </td>
                                     <td class="px-6 py-4 flex item-center justify-center" v-if="ncheck('edit') || ncheck('delete')">
                                         <Link v-if="ncheck('edit')" :href="route('admin.user.role.edit',[value.id])" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
