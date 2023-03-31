@@ -129,4 +129,14 @@ Route::middleware([
         Route::resource('/user',UserController::class);
     });
 
+    //Admin Aproval Management
+    Route::prefix('/approval')->name('approval.')->group(function(){
+        //Aproval for text Deposite
+        Route::prefix('/tax-deposite')->name('tax-deposite.')->group(function(){
+            Route::get('/index',[HTDepositeController::class,'approvalIndex'])->name('index');
+        });
+    });
+
+
+
 });

@@ -6,7 +6,7 @@ import appLogo from '@/Components/ApplicationLogo.vue';
 import appLogo2 from '@/Components/AuthenticationCardLogo.vue';
 import submenue from '@/Components/submenue.vue';
 import { HomeIcon,UserIcon,AdjustmentsHorizontalIcon,BanknotesIcon,CalculatorIcon,UserPlusIcon,CircleStackIcon,
-    ListBulletIcon,ArrowsRightLeftIcon,UserGroupIcon,MinusIcon} from '@heroicons/vue/24/solid'
+    ListBulletIcon,ArrowsRightLeftIcon,UserGroupIcon,MinusIcon,CheckBadgeIcon} from '@heroicons/vue/24/solid'
 
 defineProps({
     title: String,
@@ -43,7 +43,11 @@ const submenueItem =[
                             {title:'কর জমা লিস্ট',name:'House Tax Deposite List',active:false,route:route('admin.tax.calculation.deposite.index'),url:'/admin/tax/calculation/deposite/index',icon:ListBulletIcon,children:[]},
                         ]},
                     ]},
-
+                    {title:'অনুমোদন',name: 'Approval',active: false,url:'/admin/approval',icon:CheckBadgeIcon,children:
+                        [
+                            {title:'কর জমা ডেলেট',name:'Tax Deposite Approval',active:false,route:route('admin.approval.tax-deposite.index'),url:'/admin/approval/tax-deposite',icon:MinusIcon,children:[]},
+                        ]
+                    },
                     ];
 //========= End Side menu ============
 

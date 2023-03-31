@@ -89,4 +89,19 @@ class HTDepositeController extends Controller
     {
         //
     }
+
+    public function approvalIndex(){
+        if(Auth::user()->role->name == 'Power'){
+            $n['data'] = HouseTaxDeposite::with(['createdBy','updatedBy','ekhana','fYear','word','union'])->where('deleted_by',null)->where('approval',2)->orderBy('id','desc')->get();
+        }
+        elseif(Auth::user()->role->name == 'Union'){
+            $n['data'] = HouseTaxDeposite::with(['createdBy','updatedBy','ekhana','fYear','word','union'])->where('union_id',Auth::user()->word->union_id)->where('deleted_by',null)->where('approval',2)->orderBy('id','desc')->get();
+        }
+        else{
+            // $n['data'] = HouseTaxDeposite::with(['createdBy','updatedBy','ekhana','fYear','word','union'])->where('union_id',Auth::user()->word->union_id)->where('word_id',Auth::user()->word_id)->where('deleted_by',null)->where('approval',2)->orderBy('id','desc')->get();
+            $n['data'] = '';
+        }
+        // $n['data'] = HouseTaxDeposite::with(['createdBy','updatedBy','ekhana','fYear'])->where('deleted_by',null)->orderBy('id','desc')->get();
+        return Inertia::render('Approval/HouseTaxDeposite/Index',$n);
+    }
 }

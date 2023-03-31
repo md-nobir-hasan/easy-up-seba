@@ -35,6 +35,8 @@ class ModuleSeeder extends Seeder
                 ['name' => 'Calculation'],//20
                     ['name' => 'House Tax Deposite'],
                     ['name' => 'House Tax Deposite List'],
+            ['name' => 'Approval'],
+                ['name' => 'Tax Deposite Approval'],
         ];
 
         DB::table('modules')->insert($n);
