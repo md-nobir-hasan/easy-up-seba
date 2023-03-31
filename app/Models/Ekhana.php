@@ -22,7 +22,7 @@ protected $fillable = ['phone','bn_name'];
         return $this->belongsTo(Word::class,'word_id');
     }
     public function village(){
-        return $this->belongsTo(Village::class,'word_id');
+        return $this->belongsTo(Village::class,'village_id');
     }
     public function edQuali(){
         return $this->belongsTo(Word::class,'ed_quali_id');
@@ -32,8 +32,5 @@ protected $fillable = ['phone','bn_name'];
     }
     public function profession(){
         return $this->belongsTo(Word::class,'profession_id');
-    }
-    public function houseStruc(){
-        return $this->hasMany(HstuEkhanaBkdn::class,'ekhana_id');
     }
 }

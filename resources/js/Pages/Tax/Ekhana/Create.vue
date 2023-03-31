@@ -154,7 +154,7 @@ const autoSave = () =>{
                         <label for="word_id" class="block text-md font-bold  text-xl dark:text-white">ওয়ার্ড</label>
                         <select id="word_id"  v-model="form.word_id" @change="villageFetching" @focusout="autoSave" class="border border-gray-300 font-bold  text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
                             <option selected value="">ওয়ার্ড নির্বাচন করুন</option>
-                            <option v-for="(val, key) in words" :key="key" :value="val.id">{{ val.name }}</option>
+                            <option v-for="(val, key) in words" :key="key" :value="val.id">{{ val.name }}- {{ val.union.name }} </option>
                         </select>
                         <InputError class="mt-2" :message="form.errors.word_id" />
                     </div>

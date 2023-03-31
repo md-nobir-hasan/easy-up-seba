@@ -66,34 +66,35 @@ const htdeposite = ref(null);
     const eerr = ref('');
     const eerr2 = ref('');
     const ekhana = ref({});
+
     const ekhanaFetch = ()=>{
-    if(!form.f_year_id){
-        eerr.value = 'অর্থ-বছর নির্বাচন করুন'
-        return false;
-    }
-    if(!form.ekhana_id){
-        eerr2.value = 'হল্ডিং নাম্বার নির্বাচন করুন'
-        return false;
-    }
-    axios.post(route('ajax.ekhana.fetch'), form).then(res => {
-        ekhana.value = res.data.ekhana;
-        htdeposite.value = res.data.ht_deposite;
-        form.paid_amount = res.data.ht_deposite.total_amount;
-        form.arrear =  res.data.ht_deposite.arrears ?? 0;
-        form.arrears = form.paid_amount - form.arrear;
-        form.fine = res.data.ht_deposite.fine ?? 0;
-        form.id = res.data.ht_deposite.id ?? 0;
-        form2.id = res.data.ekhana.id;
-        form2.bn_name = res.data.ekhana.bn_name;
-        form2.spouse_name = res.data.ekhana.spouse_name;
-        form2.mother_name = res.data.ekhana.mother_name;
-        form2.phone = res.data.ekhana.phone;
-        console.log(form,form2);
-    }).catch(err =>{
-        console.error(err)
-    }).finally(() => {
-        console.log('khana fetch done');
-    });
+        if(!form.f_year_id){
+            eerr.value = 'অর্থ-বছর নির্বাচন করুন'
+            return false;
+        }
+        if(!form.ekhana_id){
+            eerr2.value = 'হল্ডিং নাম্বার নির্বাচন করুন'
+            return false;
+        }
+        axios.post(route('ajax.ekhana.fetch'), form).then(res => {
+            ekhana.value = res.data.ekhana;
+            htdeposite.value = res.data.ht_deposite;
+            form.paid_amount = Math.round(res.data.ht_deposite.total_amount);
+            form.arrear =  Math.round(res.data.ht_deposite.arrears ?? 0);
+            form.arrears = Math.round(form.paid_amount - form.arrear);
+            form.fine = Math.round(res.data.ht_deposite.fine ?? 0);
+            form.id = res.data.ht_deposite.id ?? 0;
+            form2.id = res.data.ekhana.id;
+            form2.bn_name = res.data.ekhana.bn_name;
+            form2.spouse_name = res.data.ekhana.spouse_name;
+            form2.mother_name = res.data.ekhana.mother_name;
+            form2.phone = res.data.ekhana.phone;
+            console.log(ekhana);
+        }).catch(err =>{
+            console.error(err)
+        }).finally(() => {
+            console.log('khana fetch done');
+        });
     }
 
 
@@ -151,6 +152,7 @@ const htdeposite = ref(null);
             console.log('House Tax Deposite Store Done');
         });
     }
+
 </script>
 
 <template>
