@@ -69,6 +69,7 @@ Route::middleware([
     //dashboar rendering
     Route::get('/dashboard', function () {
         // dd(Auth::user()->role->name);
+        
         if(Auth::user()->role->name == 'Power'){
             $n['ekhanas'] = Ekhana::where('deleted_by',null)->orderBy('id','desc')->get();
         }
