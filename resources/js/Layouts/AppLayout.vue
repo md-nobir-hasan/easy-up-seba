@@ -81,8 +81,6 @@ const logout = () => {
 };
 
 // custom vue coding
-
-const topmenu = ref(true);
 const sidemenu = ref(false);
 const setup = ref(false);
 const user = ref(false);
@@ -96,7 +94,6 @@ if (window.location.pathname.startsWith('/admin/user')) {
 
 if (screen.width > 640) {
     sidemenu.value = ref(true);
-    topmenu.value = false;
 }
 
 const sidemenuChange = () => {
@@ -121,8 +118,16 @@ const userOpenClose = () => {
         user.value = true;
     }
 }
-console.log(usePage().props.auth.user.role.name+ " I am user name")
 const userMenu = ref(false);
+const notyshow = ref(false);
+const notyfunc = ()=>{
+    if(notyshow.value){
+        notyshow.value = false;
+    }else{
+        notyshow.value = true;
+    }
+    console.log(notyshow.value)
+}
 </script>
 
 <template>
@@ -136,7 +141,7 @@ const userMenu = ref(false);
         <nav class="fixed top-0 max-sm:top-14 z-50 w-full max-sm:bg-white bg-[#0edda2] border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
             <div class="px-3 py-3 lg:px-5 lg:pl-3">
                 <div class="flex items-center justify-between">
-                    <div class="flex items-center justify-start ">
+                    <div class="flex items-center justify-start sm:hidden">
                         <button @click="sidemenuChange" type="button"
                             class="inline-flex items-center text-sm text-gray-500 rounded-lg smphp sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
                             <span class="sr-only">Open sidebar</span>
@@ -147,7 +152,10 @@ const userMenu = ref(false);
                                 </path>
                             </svg>
                         </button>
-                        <a v-if="!topmenu" href="#" class="flex ml-2  md:mr-24">
+                    </div>
+
+                    <div>
+                         <a  href="#" class="flex ml-2  md:mr-24">
                             <appLogo class="block w-auto" />
                         </a>
                     </div>
@@ -156,45 +164,119 @@ const userMenu = ref(false);
                         <h1 v-if="$page.props.auth.user.role.name == 'Power' || $page.props.auth.user.role.name == 'Union'" class="font-extrabold p-3">Super Admin</h1>
                         <h1 v-else class="font-extrabold p-3">{{ ($page.props.auth.user.word ? $page.props.auth.user.word.union ? $page.props.auth.user.word.name + "নং" + $page.props.auth.user.word.union.name : "Super Admin" : 'Super Admin')}}</h1>
                     </div>
-                    <div v-if="topmenu" class="flex items-center justify-start text-3xl hidden max-sm:block">
-                        <appLogo2 class="block w-auto" />
-                    </div>
+
                     <div class="flex items-center">
-                        <div class="flex items-center ml-3">
-                            <div class="flex items-center ml-3">
-                                <div>
-                                  <button @click="userMenu == true ? userMenu= false : userMenu= true" type="button" class="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" aria-expanded="false" data-dropdown-toggle="dropdown-user">
-                                    <span class="sr-only">Open user menu</span>
-                                    <img class="h-10 rounded-full" src="/default/images/human.webp" alt="user photo">
-                                  </button>
-                                </div>
-                                <div :class="[userMenu ? 'block' : 'hidden']" class="z-50 absolute top-10 right-0 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600" id="dropdown-user">
-                                  <div class="px-4 py-3" role="none">
-                                    <p class="text-sm text-gray-900 dark:text-white" role="none">
-                                     {{$page.props.auth.user.name}}
-                                    </p>
-                                    <p class="text-sm font-medium text-gray-900 truncate dark:text-gray-300" role="none">
-                                        {{$page.props.auth.user.phone}}
-                                    </p>
-                                    <hr class="h-1 bg-green-800 border-0 rounded dark:bg-gray-700">
-                                  </div>
-                                  <div class="block px-4 py-2 text-xs text-gray-400">
-                                    ম্যানেজ অ্যাকাউন্ট
+                        <!-- Notifiction  -->
+                        <div class="relative">
+                            <a @click="notyfunc"
+                              class="mr-4 flex items-center text-gray-500 hover:text-gray-700 focus:text-gray-700"
+                              href="javascript:void(0)"
+                              >
+                              <span class="dark:text-gray-200 [&>svg]:w-3.5">
+                                <svg
+                                  aria-hidden="true"
+                                  focusable="false"
+                                  data-prefix="fas"
+                                  data-icon="bell"
+                                  role="img"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  viewBox="0 0 448 512">
+                                  <path
+                                    fill="currentColor"
+                                    d="M224 512c35.32 0 63.97-28.65 63.97-64H160.03c0 35.35 28.65 64 63.97 64zm215.39-149.71c-19.32-20.76-55.47-51.99-55.47-154.29 0-77.7-54.48-139.9-127.94-155.16V32c0-17.67-14.32-32-31.98-32s-31.98 14.33-31.98 32v20.84C118.56 68.1 64.08 130.3 64.08 208c0 102.3-36.15 133.53-55.47 154.29-6 6.45-8.66 14.16-8.61 21.71.11 16.4 12.98 32 32.1 32h383.8c19.12 0 32-15.6 32.1-32 .05-7.55-2.61-15.27-8.61-21.71z"></path>
+                                </svg>
+                              </span>
+
+                              <span
+                                class="absolute -mt-2.5 ml-2 rounded-full bg-red-600 py-[1px] px-1.5 text-[0.6rem] text-white"
+                                >{{'2'}}</span
+                              >
+                            </a>
+                            <ul  id="notification_pan" @focusout="notyshow = false"
+                              class="absolute left-auto top-[12px] right-[16px] z-[1000] float-left m-0 mt-1 min-w-[12rem] list-none overflow-hidden rounded-lg border-none bg-white bg-clip-padding text-left text-base shadow-lg dark:bg-zinc-700 [&[data-te-dropdown-show]]:block"
+                            :class="[notyshow ? 'block' : 'hidden']"
+                              >
+                                  <div id="toast-notification" class="w-full max-w-xs text-gray-900 bg-white rounded-lg shadow dark:bg-gray-800 dark:text-gray-300" role="alert">
+                                      <div class="flex items-center mb-3">
+                                          <!-- {{-- <span class="mb-1 text-sm font-semibold text-gray-900 dark:text-white">New notification</span> --}}
+                                          {{-- <button type="button" class="ml-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700" data-dismiss-target="#toast-notification" aria-label="Close">
+                                              <span class="sr-only">Close</span>
+                                              <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                                          </button> --}} -->
+                                      </div>
+                                      <div class="p-2">
+                                          <!-- @foreach ($noty_not_read as $notification) -->
+                                              <div class="flex items-center {{$loop->first ? '' : 'mt-4'}}">
+                                                  <div class="relative inline-block shrink-0">
+                                                      <img class="w-8 h-8 rounded-full" src="{{asset($notification->img)}}" alt="{{'notification name'}}"/>
+                                                      <span class="absolute bottom-0 right-0 inline-flex items-center justify-center w-2 h-2 bg-red-600 rounded-full">
+
+                                                      </span>
+                                                  </div>
+                                                  <div class="ml-3 text-sm font-normal">
+                                                      <div class="text-sm font-semibold text-gray-900 dark:text-white">{{'notification name'}}</div>
+                                                      <!-- {{-- <div class="text-sm font-normal">commmented on your photo</div> --}} -->
+                                                      <span class="text-xs font-medium text-blue-600 dark:text-blue-500">{{ '12 minutes ago' }}</span>
+                                                  </div>
+                                              </div>
+                                          <!-- @endforeach -->
+                                      </div>
+
+                                    <div class="bg-gray-100 mt-4 pb-4 p-2">
+                                      <!-- {{-- <h4 class="text-center text-sm font-bold">Old notifications</h4> --}} -->
+                                      <!-- @forelse ($noty_as_read as $notification) -->
+                                      <div class="flex items-center {{$loop->first ? '' : 'mt-4'}}">
+                                          <div class="relative inline-block shrink-0">
+                                              <img class="w-8 h-8 rounded-full" src="{{asset($notification->img)}}" alt="{{'notification name'}}"/>
+                                          </div>
+                                          <div class="ml-3 text-sm font-normal">
+                                              <div class="text-sm font-semibold text-gray-900 dark:text-white">{{'notification name'}}</div>
+                                              <!-- {{-- <div class="text-sm font-normal">commmented on your photo</div> --}} -->
+                                              <span class="text-xs font-medium text-blue-600 dark:text-blue-500">{{ '12 minutes ago' }}</span>
+                                          </div>
+                                      </div>
+                                      <!-- @empty -->
+                                      <!-- <span> No notifications</span> -->
+                                      <!-- @endforelse -->
                                     </div>
-                                  <ul class="py-1" role="none">
-                                    <li>
-                                      <Link :href="route('profile.show')" class="pl-4">প্রোফাইল</Link>
-                                    </li>
-                                    <li>
-                                        <form @submit.prevent="logout">
-                                            <DropdownLink as="button">
-                                                লগ আউট
-                                            </DropdownLink>
-                                        </form>
-                                    </li>
-                                  </ul>
+                                  </div>
+
+                            </ul>
+                        </div>
+
+                        <div class="flex items-center ml-3">
+                            <div>
+                                <button @click="userMenu == true ? userMenu= false : userMenu= true" type="button" class="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" aria-expanded="false" data-dropdown-toggle="dropdown-user">
+                                <span class="sr-only">Open user menu</span>
+                                <img class="h-10 rounded-full" src="/default/images/human.webp" alt="user photo">
+                                </button>
+                            </div>
+                            <div :class="[userMenu ? 'block' : 'hidden']" class="z-50 absolute top-10 right-0 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600" id="dropdown-user">
+                                <div class="px-4 py-3" role="none">
+                                <p class="text-sm text-gray-900 dark:text-white" role="none">
+                                    {{$page.props.auth.user.name}}
+                                </p>
+                                <p class="text-sm font-medium text-gray-900 truncate dark:text-gray-300" role="none">
+                                    {{$page.props.auth.user.phone}}
+                                </p>
+                                <hr class="h-1 bg-green-800 border-0 rounded dark:bg-gray-700">
                                 </div>
-                              </div>
+                                <div class="block px-4 py-2 text-xs text-gray-400">
+                                ম্যানেজ অ্যাকাউন্ট
+                                </div>
+                                <ul class="py-1" role="none">
+                                <li>
+                                    <Link :href="route('profile.show')" class="pl-4">প্রোফাইল</Link>
+                                </li>
+                                <li>
+                                    <form @submit.prevent="logout">
+                                        <DropdownLink as="button">
+                                            লগ আউট
+                                        </DropdownLink>
+                                    </form>
+                                </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
