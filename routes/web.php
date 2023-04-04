@@ -56,7 +56,9 @@ Route::prefix('/ajax')->name('ajax.')->group(function(){
     Route::post('/ekhana/autosave',[AjaxController::class,'khanaAutoSave'])->name('khana.autosave');
     Route::post('/ekhana/fetch',[AjaxController::class,'ekhana'])->name('ekhana.fetch');
     Route::post('/update/{model}',[AjaxController::class,'update'])->name('update');
-    Route::post('afield/update',[AjaxController::class,'afieldUpdate'])->name('afield.update');
+    Route::post('/afield/update',[AjaxController::class,'afieldUpdate'])->name('afield.update');
+    Route::post('/noty/read',[AjaxController::class,'notyRead'])->name('noty.read');
+    Route::post('/house-deposite/update',[AjaxController::class,'houseDepositeUpdate'])->name('house.deposite.update');
 });
 
 
@@ -69,7 +71,7 @@ Route::middleware([
     //dashboar rendering
     Route::get('/dashboard', function () {
         // dd(Auth::user()->role->name);
-        
+
         if(Auth::user()->role->name == 'Power'){
             $n['ekhanas'] = Ekhana::where('deleted_by',null)->orderBy('id','desc')->get();
         }

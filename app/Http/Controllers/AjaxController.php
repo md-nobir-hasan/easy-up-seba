@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\HouseTaxDepositeAproval;
 use App\Models\Ekhana;
 use App\Models\HouseTaxDeposite;
+use App\Models\Notification;
 use App\Models\Tax;
 use App\Models\Union;
 use App\Models\User;
 use App\Models\Village;
 use App\Models\Word;
+use App\Notifications\HTaxDepoDelAproval;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -169,6 +172,31 @@ class AjaxController extends Controller
        $update[$req->field] = $req->field_value;
        $update->save();
         return response()->json($update);
+    }
+
+    public function houseDepositeUpdate(Request $req){
+        $model = '\\App\\Models\\'.$req->model;
+        // return $model;
+        $id = (int)$req->id;
+       $update =  $model::find($id);
+       $update[$req->field] = $req->field_value;
+       $update->save();
+       $users = User::all();
+
+       foreach($users as $user){
+            if($this->ncustomUserCheck($user->role_id,'Tax Deposite Approval')){
+                $user->notify(new HTaxDepoDelAproval(Auth::user(),'বাসাবাড়ি কর মুছার আবেদন'));
+            }
+       }
+        return response()->json($user->notifications);
+    }
+
+  public  function notyRead(Request $req){
+        $user  = Auth::user();
+        foreach ($user->unreadNotifications as $notification) {
+            $notification->markAsRead();
+        }
+        return true;
     }
 
 

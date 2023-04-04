@@ -10,7 +10,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class EkhanaDeleteNoti implements ShouldBroadcast
+class EkhanaDeleteNoti
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 

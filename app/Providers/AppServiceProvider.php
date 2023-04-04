@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
+use App\Models\Notification;
 use App\Models\Permission;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\ServiceProvider;
@@ -16,7 +18,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        
+
     }
 
     /**
@@ -34,7 +36,9 @@ class AppServiceProvider extends ServiceProvider
             $permissions = Permission::with('module','role')->where('deleted_by',null)->get();
              Inertia::share('permissions', $permissions);
         }
-        // dd(request()->user);
+        if(Schema::hasTable('notifications')){
+             Notification::whereBetween('created_at',[now()->subDays(7),'!=',now()])->delete();
+        }
 
     }
 }
