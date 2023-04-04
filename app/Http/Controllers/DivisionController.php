@@ -16,6 +16,8 @@ class DivisionController extends Controller
      */
     public function index()
     {
+        $this->ncheck('nobir');
+        // ncheck('nobir');
         $n['data'] = Division::with(['createdBy','updatedBy'])->where('deleted_by',null)->orderBy('id','desc')->get();
         return Inertia::render('Division/Index',$n);
     }

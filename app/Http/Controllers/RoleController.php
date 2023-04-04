@@ -34,8 +34,16 @@ class RoleController extends Controller
      */
     public function create()
     {
+        if(Auth::user()->role->name == 'Power'){
+            $n['modules'] = Module::where('deleted_by',null)->orderBy('id','desc')->get();
+        }elseif(Auth::user()->role->name == 'Union'){
+            $n['modules'] = Module::where('deleted_by',null)->where('a_union','!=',null)->orderBy('id','desc')->get();
+        }
+        else{
+            $n['modules'] = [];
+        }
 
-        $n['modules'] = Module::where('deleted_by',null)->get();
+        // $n['modules'] = Module::where('deleted_by',null)->get();
         return Inertia::render('User/Role/Create',$n);
     }
 
@@ -103,7 +111,14 @@ class RoleController extends Controller
     public function edit(Role $role)
     {
         $n['role'] = $role;
-        $n['modules'] = Module::where('deleted_by',null)->get();
+        if(Auth::user()->role->name == 'Power'){
+            $n['modules'] = Module::where('deleted_by',null)->orderBy('id','desc')->get();
+        }elseif(Auth::user()->role->name == 'Union'){
+            $n['modules'] = Module::where('deleted_by',null)->where('a_union','!=',null)->orderBy('id','desc')->get();
+        }
+        else{
+            $n['modules'] = [];
+        }
         $n['perms'] = Permission::where('deleted_by',null)->orderBy('id','desc')->where('role_id',$role->id)->get();
         return Inertia::render('User/Role/Edit',$n);
     }

@@ -67,7 +67,7 @@ const form = useForm({
                 form.field ='approval';
                 form.field_value = 2;
                 console.log(form);
-            axios.post(route('ajax.afield.update'),form).then(res => {
+            axios.post(route('ajax.house.deposite.update'),form).then(res => {
                 console.log(res);
                 document.getElementById('reload').click();
                 Swal.fire(

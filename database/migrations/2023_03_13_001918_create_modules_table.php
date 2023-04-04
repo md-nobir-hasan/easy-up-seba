@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('modules', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->integer('a_union')->nullable();
+            $table->integer('a_power')->default(1);
             $table->unsignedBigInteger('created_by')->nullable();
             $table->unsignedBigInteger('updated_by')->nullable();
             $table->timestamp('deleted_at')->nullable();
