@@ -3,9 +3,15 @@ import AppLayout from '@/Layouts/AppLayout.vue';
 import SucMesgShow from '@/Components/SucMesgShow.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import { Link, useForm, usePage } from '@inertiajs/vue3';
-import { ref } from 'vue';
-import {CheckIcon} from '@heroicons/vue/24/solid';
-defineProps({
+import { ref,computed } from 'vue';
+import {CheckIcon,ChevronDownIcon} from '@heroicons/vue/24/solid';
+import {
+    Combobox,
+    ComboboxInput,
+    ComboboxOptions,
+    ComboboxOption,
+  } from '@headlessui/vue'
+const pro = defineProps({
     f_years: Object,
     ekhanas: Object,
     taxes: Object,
@@ -153,19 +159,32 @@ const htdeposite = ref(null);
         });
     }
 
+// Live search combobox headless ui
+// console.log(usePage.props);
+// console.log(ekhanas);
+const people = pro.ekhanas;
+console.log('i ama people')
+console.dir(people)
+  const selectedPerson = ref('1');
+  const query = ref('')
+
+  const filteredPeople = computed(() =>
+    query.value === ''
+      ? people
+      : people.filter((person) => {
+          return person.holding_no.includes(query.value.toLowerCase())
+        })
+  )
+
 </script>
 
 <template>
     <AppLayout title="কর জমা">
+
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
             <SucMesgShow :message="$page.props.flash.suc_msg"></SucMesgShow>
             <div class="bg-white flex justify-between p-4">
                 <h2 class="float-left text-4xl font-extrabold">কর জমা ফর্ম</h2>
-                <!-- <Link :href="route('admin.ekhana.create')">
-                <PrimaryButton v-if="ncheck('add')" class="font-extrabold">
-                     কর জমা ফর্ম
-                </PrimaryButton>
-                </Link> -->
             </div>
             <div class=" mt-4 mb-2 p-4 bg-white">
                 <form @submit.prevent="submit" class="bg-[#11ff5999] m-auto  rounded-lg p-6 text-2lg max-w-md max-sm:max-w-sm">
@@ -179,7 +198,7 @@ const htdeposite = ref(null);
                         <InputError class="mt-2" :message="form.errors.eerr" />
                         <InputError class="mt-2" :message="form.errors.f_year_id" />
                     </div>
-                    <div class="mb-4 flex items-center">
+                    <!-- <div class="mb-4 flex items-center">
                         <label for="ekhana_id" class="block text-md font-medium text-[blue] dark:text-white">হল্ডিং নাম্বার</label>
                         <select id="ekhana_id" v-model="form.ekhana_id" class="border ml-1 border-gray-300 text-[blue] text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 pr-[33px] dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
                             <option selected value="">হল্ডিং নাম্বার নির্বাচন করুন</option>
@@ -187,7 +206,25 @@ const htdeposite = ref(null);
                         </select>
                         <InputError class="mt-2" :message="form.errors.eerr2" />
                         <InputError class="mt-2" :message="form.errors.ekhana_id" />
-                    </div>
+                    </div> -->
+                    <Combobox v-model="selectedPerson">
+                        <div class="flex">
+                            <label for="f_year_id" class="block text-md font-medium text-[blue] dark:text-white">অর্থ-বছর</label>
+                            <div class="relative">
+                                <ComboboxInput @change="query = $event.target.value" class="border ml-6 border-gray-300 text-[blue] text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 pr-[40px] dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
+                            <component :is="ChevronDownIcon" v-if="ChevronDownIcon" class="h-4 mr-1 absolute right-[11px] top-[13px]"></component>
+                            </div>
+                        </div>
+                        <ComboboxOptions class="absolute p-4 mt-1 bg-[white] left-[205px] w-[222px] rounded-lg">
+                          <ComboboxOption
+                            v-for="person in filteredPeople"
+                            :key="person.id"
+                            :value="person.holding_no"
+                          >
+                            {{ person.holding_no }}
+                          </ComboboxOption>
+                        </ComboboxOptions>
+                      </Combobox>
 
                     <div class="flex items-center justify-center mt-4">
                         <PrimaryButton @click="ekhanaFetch" class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
