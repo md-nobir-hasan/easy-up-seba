@@ -81,16 +81,21 @@ class AjaxController extends Controller
         return response()->json($data);
     }
 
-    public function holdingFetch(Request $request, $vil_id){
-        $ekhana = Ekhana::where('union_id',Auth::user()->word->union_id)
-                        ->where('word_id',Auth::user()->word_id)
+    public function holdingFetch(Request $request, $word_id){
+        $word_id = (int)$word_id;
+        $word = Word::find($word_id);
+        $n['ekhana'] = Ekhana::where('union_id',$word->union_id)
+                        ->where('word_id',$word_id)
                         ->latest()
                         ->first();
-        if($ekhana){
-            return $ekhana->id;
-        }else{
-            return 0;
-        }
+                        // $n['union_id'] = Auth::user()->word->union_id;
+                        // $n['word_id'] = $word_id;
+                        return response()->json($n);
+        // if($ekhana){
+        //     return $ekhana->id;
+        // }else{
+        //     return 'no ekhana id';
+        // }
     }
 
     public function khanaAutoSave(Request $request){

@@ -86,7 +86,7 @@ const htdeposite = ref(null);
         axios.post(route('ajax.ekhana.fetch'), form).then(res => {
             ekhana.value = res.data.ekhana;
             htdeposite.value = res.data.ht_deposite;
-            form.paid_amount = Math.round(res.data.ht_deposite.total_amount - res.data.ht_deposite.paid_amount ?? 0);
+            form.paid_amount = Math.round(res.data.ht_deposite.total_amount - (res.data.ht_deposite.paid_amount >0 ? res.data.ht_deposite.paid_amount : 0));
             form.arrears = form.paid_amount;
             form.fine = Math.round(res.data.ht_deposite.fine ?? 0);
             form.id = res.data.ht_deposite.id ?? 0;
@@ -192,7 +192,7 @@ console.dir(people)
             <div class=" mt-4 mb-2 p-4 bg-white">
                 <form @submit.prevent="submit" class="bg-[#11ff5999] m-auto  rounded-lg p-6 text-2lg max-w-md max-sm:max-w-sm">
                     <div class="mb-4 flex items-center">
-                        <label for="f_year_id" class="block text-md font-medium text-[blue] dark:text-white">অর্থ-বছর</label>
+                        <label for="f_year_id" class="block text-md font-medium text-[blue] dark:text-white mr-[27px]">অর্থ-বছর</label>
                         <select id="f_year_id" v-model="form.f_year_id"
                         class="border ml-6 border-gray-300 text-[blue] text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 pr-[50px] dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
                             <option selected value="">অর্থ-বছর নির্বাচন করুন</option>
@@ -203,15 +203,15 @@ console.dir(people)
                     </div>
                     <Combobox v-model="form.ekhana_id">
                         <div class="flex">
-                            <label for="f_year_id" class="block text-md font-medium text-[blue] dark:text-white">অর্থ-বছর</label>
+                            <label for="f_year_id" class="block text-md font-medium text-[blue] dark:text-white">হোল্ডিং নাম্বার</label>
                             <div class="relative">
                                 <ComboboxInput @change="query = $event.target.value" class="border ml-6 border-gray-300 text-[blue] text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 pr-[40px] dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
                                 <component :is="ChevronDownIcon" v-if="ChevronDownIcon" class="h-4 mr-1 absolute right-[11px] top-[13px]"></component>
                             </div>
                         </div>
                         <div class="relative">
-                            <ComboboxOptions class="absolute p-4 mt-1 bg-[white] left-[86px] w-[222px] rounded-lg">
-                                <ComboboxOption class="cursor-pointer"
+                            <ComboboxOptions class="absolute p-4 mt-1 bg-[white] left-[115px] w-[222px] rounded-lg">
+                                <ComboboxOption class="cursor-pointer" autocomplete="off"
                                   v-for="person in filteredPeople"
                                   :key="person.id"
                                   :value="person.holding_no"

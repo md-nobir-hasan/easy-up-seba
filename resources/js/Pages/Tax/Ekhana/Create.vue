@@ -106,9 +106,9 @@ const holdingFetch = () =>{
         word_id : form.word_id,
         village_id : form.village_id,
     })
-    axios.get(route('ajax.holding.fetch',[form.village_id]), form2).then(res => {
+    axios.get(route('ajax.holding.fetch',[form.word_id]), form2).then(res => {
         let holding = usePage().props.auth.user.word.union.code + usePage().props.auth.user.word.code+'0000';
-        holding = Number(holding)+ res.data;
+        holding = Number(holding)+ res.data.ekhana.id;
         form.holding_no = holding;
     }).catch(err =>{
         console.error(err)
