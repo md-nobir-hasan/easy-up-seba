@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('hstu_ekhana_bkdns', function (Blueprint $table) {
             $table->id();
             $table->string('number')->nullable();
-            $table->string('price')->nullable();
+            $table->string('price')->default(0)->nullable();
             $table->unsignedBigInteger('hstru_id')->nullable();
             $table->unsignedBigInteger('ekhana_id')->nullable();
             $table->unsignedBigInteger('created_by')->nullable();
