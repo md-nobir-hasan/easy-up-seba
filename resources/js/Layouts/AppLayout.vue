@@ -126,7 +126,7 @@ const notyfunc = ()=>{
     }else{
         notyshow.value = true;
     }
-    axios.post(route('ajax.noty.read')).then(function(){
+    axios.post(route('ajax.noty.read')).then(function(res){
         console.log(res);
     })
 }
@@ -206,33 +206,26 @@ return date;
                               >
                             </a>
                             <ul  id="notification_pan" @focusout="notyshow = false"
-                              class="absolute left-auto top-[12px] right-[16px] z-[1000] float-left m-0 mt-1 min-w-[12rem] list-none overflow-hidden rounded-lg border-none bg-white bg-clip-padding text-left text-base shadow-lg dark:bg-zinc-700 [&[data-te-dropdown-show]]:block"
+                              class="absolute left-auto top-[12px] right-[16px] z-[1000] overflow-scroll max-h-[500px] m-0 mt-1 min-w-[12rem] list-none overflow-hidden rounded-lg border-none bg-white bg-clip-padding text-left text-base shadow-lg dark:bg-zinc-700 [&[data-te-dropdown-show]]:block"
                             :class="[notyshow ? 'block' : 'hidden']"
                               >
                                   <div id="toast-notification" class="w-full max-w-xs text-gray-900 bg-white rounded-lg shadow dark:bg-gray-800 dark:text-gray-300" role="alert">
-                                      <div class="flex items-center mb-3">
+                                      <div v-if="$page.props.noty_not_read.length>0" class="p-2 mb-4">
+                                        <div v-for="(noty,key) in $page.props.noty_not_read" :key="key" class="flex items-center ml-2 mb-3 mt-3">
+                                            <div class="ml-3 text-sm font-normal">
+                                                <div class="text-sm font-semibold text-gray-900 dark:text-white">{{ noty.data.msg }}</div>
+                                                <div class="text-sm font-normal">{{ noty.data.name }}</div>
+                                                <span class="text-xs font-medium text-blue-600 dark:text-blue-500 block text-right">{{ DateFormate(noty.created_at)}}</span>
+                                            </div>
+                                        </div>
                                       </div>
-                                      <div class="p-2">
-                                              <div v-for="(noty,key) in $page.props.noty_not_read" :key="key" class="flex items-center ml-2 mb-3">
-                                                  <div class="relative inline-block shrink-0">
-
-                                                      <span class="absolute bottom-0 right-0 inline-flex items-center justify-center w-2 h-2 bg-red-600 rounded-full">
-                                                      </span>
-                                                  </div>
-                                                  <div class="ml-3 text-sm font-normal">
-                                                      <div class="text-sm font-semibold text-gray-900 dark:text-white">{{ noty.data.msg }}</div>
-                                                      <div class="text-sm font-normal">{{ noty.data.name }}</div>
-                                                      <span class="text-xs font-medium text-blue-600 dark:text-blue-500">{{ DateFormate(noty.created_at)}}</span>
-                                                  </div>
-                                              </div>
-                                      </div>
-
-                                    <div class="bg-gray-100 mt-4 pb-4 p-2">
+                                      <hr v-if="$page.props.noty_not_read.length>0">
+                                    <div class="bg-gray-100 pb-4 p-2">
                                       <div v-for="(read_noty,key) in $page.props.noty_read" :key="key" class="flex items-center ml-2">
                                           <div class="ml-3 text-sm font-normal">
                                               <div class="text-sm font-semibold text-gray-900 dark:text-white">{{ read_noty.data.msg }}</div>
                                               <div class="text-sm font-normal">{{ read_noty.data.name }}</div>
-                                              <span class="text-xs font-medium text-blue-600 dark:text-blue-500">{{ DateFormate(read_noty.created_at) }}</span>
+                                              <span class="text-xs font-medium text-blue-600 dark:text-blue-500 block text-right mr-2">{{ DateFormate(read_noty.created_at) }}</span>
                                           </div>
                                       </div>
                                     </div>

@@ -22,12 +22,11 @@ class DeleteController extends Controller
         $modalClass =  '\\App\\Models\\'.$modal;
         $id = (int)$id;
         $delete = $modalClass::find($id)->delete();
-        // $delete->name = $delete->name.' deleted by '.Auth::user()->name;
-        // $delete->deleted_at = Carbon::now();
-        // $delete->deleted_by = Auth::user()->id;
-        // $delete->save();
-        $data = $modalClass::where('deleted_by',null)->orderBy('id','desc')->get();
-        // $req->session()->flash('suc_msg',$delete->name.' সফলভাবে ডিলিট হয়েছে');
+        if($modal == 'HouseTaxDeposite'){
+            $data = $modalClass::with('ekhana')->where('deleted_by',null)->orderBy('id','desc')->get();
+        }else{
+            $data = $modalClass::where('deleted_by',null)->orderBy('id','desc')->get();
+        }
         return response()->json($data);
     }
 }

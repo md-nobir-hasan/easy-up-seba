@@ -81,16 +81,21 @@ class AjaxController extends Controller
         return response()->json($data);
     }
 
-    public function holdingFetch(Request $request, $vil_id){
-        $ekhana = Ekhana::where('union_id',Auth::user()->word->union_id)
-                        ->where('word_id',Auth::user()->word_id)
+    public function holdingFetch(Request $request, $word_id){
+        $word_id = (int)$word_id;
+        $word = Word::find($word_id);
+        $n['ekhana'] = Ekhana::where('union_id',$word->union_id)
+                        ->where('word_id',$word_id)
                         ->latest()
                         ->first();
-        if($ekhana){
-            return $ekhana->id;
-        }else{
-            return 0;
-        }
+                        // $n['union_id'] = Auth::user()->word->union_id;
+                        // $n['word_id'] = $word_id;
+                        return response()->json($n);
+        // if($ekhana){
+        //     return $ekhana->id;
+        // }else{
+        //     return 'no ekhana id';
+        // }
     }
 
     public function khanaAutoSave(Request $request){
@@ -136,14 +141,14 @@ class AjaxController extends Controller
     }
 
     public function ekhana(Request $req){
-        $n['ekhana'] = Ekhana::with(['village','word'])->find($req->ekhana_id);
+        $n['ekhana'] = Ekhana::with(['village','word'])->where('holding_no',$req->ekhana_id)->first();
         $tax = Tax::latest()->first();
-       $n['ht_deposite'] = HouseTaxDeposite::where('ekhana_id',$req->ekhana_id)->where('f_year_id',$req->f_year_id)->first();
+       $n['ht_deposite'] = HouseTaxDeposite::where('ekhana_id',$n['ekhana']->id)->where('f_year_id',$req->f_year_id)->first();
         if(!$n['ht_deposite']){
             $insert = new HouseTaxDeposite();
             $insert->union_id =  $n['ekhana']->union_id;
             $insert->word_id = $n['ekhana']->word_id;
-            $insert->ekhana_id = $req->ekhana_id;
+            $insert->ekhana_id = $n['ekhana']->id;
             $insert->f_year_id = $req->f_year_id;
             $insert->total_amount = round($n['ekhana']->yearly_house_rent*$tax->price/100);
             $insert->arrears = round($n['ekhana']->yearly_house_rent*$tax->price/100);
@@ -158,11 +163,11 @@ class AjaxController extends Controller
         // return $model;
         $model::find($req->id)->update($req->all());
         if($req->paid_amount && $req->ekhana_id){
-            $ekhana_update = Ekhana::find($req->ekhana_id);
+            $ekhana_update = Ekhana::where('holding_no',$req->ekhana_id)->first();
             $ekhana_update->tax_paid = $req->paid_amount;
             $ekhana_update->save();
         }
-        return $model;
+        return  $model;
     }
     public function afieldUpdate(Request $req){
         $model = '\\App\\Models\\'.$req->model;

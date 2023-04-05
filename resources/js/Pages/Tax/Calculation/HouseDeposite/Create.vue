@@ -3,9 +3,15 @@ import AppLayout from '@/Layouts/AppLayout.vue';
 import SucMesgShow from '@/Components/SucMesgShow.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import { Link, useForm, usePage } from '@inertiajs/vue3';
-import { ref } from 'vue';
-import {CheckIcon} from '@heroicons/vue/24/solid';
-defineProps({
+import { ref,computed } from 'vue';
+import {CheckIcon,ChevronDownIcon} from '@heroicons/vue/24/solid';
+import {
+    Combobox,
+    ComboboxInput,
+    ComboboxOptions,
+    ComboboxOption,
+  } from '@headlessui/vue'
+const pro = defineProps({
     f_years: Object,
     ekhanas: Object,
     taxes: Object,
@@ -15,9 +21,8 @@ const date = new Date();
 const today = (date.getMonth() + 1)+'/'+date.getDate()+'/'+date.getFullYear();
 const form = useForm({
     f_year_id: '',
-    ekhana_id: '',
+    ekhana_id: String(usePage().props.auth.user.word.union.code+usePage().props.auth.user.word.code),
     paid_amount: 0,
-    arrear:0,
     arrears: 0,
     fine: 0,
     deposite_date: null,
@@ -66,7 +71,7 @@ const htdeposite = ref(null);
     const eerr = ref('');
     const eerr2 = ref('');
     const ekhana = ref({});
-
+    const deposite_date = ref(null);
     const ekhanaFetch = ()=>{
         if(!form.f_year_id){
             eerr.value = 'অর্থ-বছর নির্বাচন করুন'
@@ -76,20 +81,22 @@ const htdeposite = ref(null);
             eerr2.value = 'হল্ডিং নাম্বার নির্বাচন করুন'
             return false;
         }
+        console.log('i am form');
+            console.log(form);
         axios.post(route('ajax.ekhana.fetch'), form).then(res => {
             ekhana.value = res.data.ekhana;
             htdeposite.value = res.data.ht_deposite;
-            form.paid_amount = Math.round(res.data.ht_deposite.total_amount);
-            form.arrear =  Math.round(res.data.ht_deposite.arrears ?? 0);
-            form.arrears = Math.round(form.paid_amount - form.arrear);
+            form.paid_amount = Math.round(res.data.ht_deposite.total_amount - (res.data.ht_deposite.paid_amount >0 ? res.data.ht_deposite.paid_amount : 0));
+            form.arrears = form.paid_amount;
             form.fine = Math.round(res.data.ht_deposite.fine ?? 0);
             form.id = res.data.ht_deposite.id ?? 0;
+            deposite_date.value = res.data.ht_deposite.deposite_date;
             form2.id = res.data.ekhana.id;
             form2.bn_name = res.data.ekhana.bn_name;
             form2.spouse_name = res.data.ekhana.spouse_name;
             form2.mother_name = res.data.ekhana.mother_name;
             form2.phone = res.data.ekhana.phone;
-            console.log(ekhana);
+            console.log(res);
         }).catch(err =>{
             console.error(err)
         }).finally(() => {
@@ -99,12 +106,14 @@ const htdeposite = ref(null);
 
 
     const submitTax =()=>{
+        console.log(form);
         if(!form.deposite_date){
             alert('জমার তারিখ নির্বাচন করুন');
             return false;
         }
         axios.post(route('ajax.update',['HouseTaxDeposite']), form).then(res => {
             htdeposite.value = res.data;
+            console.log(res);
             alert('সফলভাবে কর জমা হয়েছে');
         }).catch(err =>{
             console.error(err)
@@ -153,24 +162,37 @@ const htdeposite = ref(null);
         });
     }
 
+// Live search combobox headless ui
+// console.log(usePage.props);
+// console.log(ekhanas);
+const people = pro.ekhanas;
+console.log('i ama people')
+console.dir(people)
+  const selectedPerson = ref();
+  const query = ref('')
+
+  const filteredPeople = computed(() =>
+    query.value === ''
+      ? people
+      : people.filter((person) => {
+          return person.holding_no.includes(query.value.toLowerCase())
+        })
+
+  )
 </script>
 
 <template>
     <AppLayout title="কর জমা">
+
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
             <SucMesgShow :message="$page.props.flash.suc_msg"></SucMesgShow>
             <div class="bg-white flex justify-between p-4">
                 <h2 class="float-left text-4xl font-extrabold">কর জমা ফর্ম</h2>
-                <!-- <Link :href="route('admin.ekhana.create')">
-                <PrimaryButton v-if="ncheck('add')" class="font-extrabold">
-                     কর জমা ফর্ম
-                </PrimaryButton>
-                </Link> -->
             </div>
             <div class=" mt-4 mb-2 p-4 bg-white">
                 <form @submit.prevent="submit" class="bg-[#11ff5999] m-auto  rounded-lg p-6 text-2lg max-w-md max-sm:max-w-sm">
                     <div class="mb-4 flex items-center">
-                        <label for="f_year_id" class="block text-md font-medium text-[blue] dark:text-white">অর্থ-বছর</label>
+                        <label for="f_year_id" class="block text-md font-medium text-[blue] dark:text-white mr-[27px]">অর্থ-বছর</label>
                         <select id="f_year_id" v-model="form.f_year_id"
                         class="border ml-6 border-gray-300 text-[blue] text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 pr-[50px] dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
                             <option selected value="">অর্থ-বছর নির্বাচন করুন</option>
@@ -179,15 +201,26 @@ const htdeposite = ref(null);
                         <InputError class="mt-2" :message="form.errors.eerr" />
                         <InputError class="mt-2" :message="form.errors.f_year_id" />
                     </div>
-                    <div class="mb-4 flex items-center">
-                        <label for="ekhana_id" class="block text-md font-medium text-[blue] dark:text-white">হল্ডিং নাম্বার</label>
-                        <select id="ekhana_id" v-model="form.ekhana_id" class="border ml-1 border-gray-300 text-[blue] text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 pr-[33px] dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
-                            <option selected value="">হল্ডিং নাম্বার নির্বাচন করুন</option>
-                            <option v-for="(val2, key) in ekhanas" :value="val2.id" :key="key">{{ val2.holding_no }}</option>
-                        </select>
-                        <InputError class="mt-2" :message="form.errors.eerr2" />
-                        <InputError class="mt-2" :message="form.errors.ekhana_id" />
-                    </div>
+                    <Combobox v-model="form.ekhana_id">
+                        <div class="flex">
+                            <label for="f_year_id" class="block text-md font-medium text-[blue] dark:text-white">হোল্ডিং নাম্বার</label>
+                            <div class="relative">
+                                <ComboboxInput @change="query = $event.target.value" class="border ml-6 border-gray-300 text-[blue] text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 pr-[40px] dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
+                                <component :is="ChevronDownIcon" v-if="ChevronDownIcon" class="h-4 mr-1 absolute right-[11px] top-[13px]"></component>
+                            </div>
+                        </div>
+                        <div class="relative">
+                            <ComboboxOptions class="absolute p-4 mt-1 bg-[white] left-[115px] w-[222px] rounded-lg">
+                                <ComboboxOption class="cursor-pointer" autocomplete="off"
+                                  v-for="person in filteredPeople"
+                                  :key="person.id"
+                                  :value="person.holding_no"
+                                >
+                                  {{ person.holding_no }}
+                                </ComboboxOption>
+                              </ComboboxOptions>
+                        </div>
+                      </Combobox>
 
                     <div class="flex items-center justify-center mt-4">
                         <PrimaryButton @click="ekhanaFetch" class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
@@ -318,7 +351,8 @@ const htdeposite = ref(null);
                             <tr>
                                 <th class="border border-slate-300 p-2">জমার তারিখ</th>
                                 <td>
-                                    <input class="border-0"  type="date" required  v-model="form.deposite_date" >
+                                    <span v-if="deposite_date" class="">{{DateFormate(deposite_date)}}</span>
+                                    <input v-else class="border-0"  type="date" required  v-model="form.deposite_date" >
                                 </td>
                             </tr>
                             <tr>
@@ -330,7 +364,7 @@ const htdeposite = ref(null);
                             <tr>
                                 <td class="border border-slate-300 p-2">বকেয়া পাওনা</td>
                                 <td class="border border-slate-300  bg-gray-100">
-                                    <input class="bg-gray-100 border-0" readonly type="number" v-model="form.arrear">
+                                    <input class="bg-gray-100 border-0" readonly type="number" v-model="form.arrears">
                                 </td>
                             </tr>
                             <tr>
@@ -342,16 +376,17 @@ const htdeposite = ref(null);
                             </tbody>
                             <tfoot class="bg-[#11ff5999]">
                                 <tr>
-                                    <th v-if="!htdeposite.paid_amount" colspan="2" class="border border-slate-300 p-2">
+                                    <th v-if="htdeposite.paid_amount >0" colspan="2" class="border border-slate-300 p-2">
+                                        <component :is="CheckIcon" class="h-9 p-1 inline font-bold bg-[blue] text-white rounded-full"></component>
+                                    </th>
+                                    <th v-else colspan="2" class="border border-slate-300 p-2">
                                         <PrimaryButton type="button" @click="submitTax" class="ml-4"
                                         :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                                         জমা করুন
                                     </PrimaryButton>
                                     </th>
 
-                                    <th v-else colspan="2" class="border border-slate-300 p-2">
-                                        <component :is="CheckIcon" class="h-9 p-1 inline font-bold bg-[blue] text-white rounded-full"></component>
-                                    </th>
+
 
                                 </tr>
                             </tfoot>
