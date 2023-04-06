@@ -6,6 +6,7 @@ use App\Http\Controllers\DistrictController;
 use App\Http\Controllers\DivisionController;
 use App\Http\Controllers\EdQualiController;
 use App\Http\Controllers\EkhanaController;
+use App\Http\Controllers\EkhanaReportController;
 use App\Http\Controllers\ExportController;
 use App\Http\Controllers\FYearController;
 use App\Http\Controllers\HouseStrucController;
@@ -114,6 +115,7 @@ Route::middleware([
         //Calculation Management
         Route::prefix('/calculation')->name('calculation.')->group(function(){
             Route::resource('/deposite',HTDepositeController::class);
+            Route::get('/village-leavy',[EkhanaReportController::class,'villageBasedLevy'])->name('village-leavy.index');
         });
 
     });

@@ -35,6 +35,7 @@ class ModuleSeeder extends Seeder
                 ['name' => 'Calculation','a_union' => '1'],//20
                     ['name' => 'House Tax Deposite','a_union' => '1'],
                     ['name' => 'House Tax Deposite List','a_union' => '1'],
+                    ['name' => 'Village Based Levy','a_union' => '1'],
             ['name' => 'Approval','a_union' => null],
                 ['name' => 'Tax Deposite Approval','a_union' => null],
         ];

@@ -42,6 +42,7 @@ class PermissionSeeder extends Seeder
             ['role_id' => 1,'module_id' => 22,'add' => '1','show' => '1','edit' => '1','delete' => '1'], //HouserTax Deposite List
             ['role_id' => 1,'module_id' => 23,'add' => '1','show' => '1','edit' => '1','delete' => '1'], //Approval
             ['role_id' => 1,'module_id' => 24,'add' => '1','show' => '1','edit' => '1','delete' => '1'], //Tax Deposite Approval
+            ['role_id' => 1,'module_id' => 25,'add' => '1','show' => '1','edit' => '1','delete' => '1'], //Village Based Levy
         ];
 
          //This for Unon
