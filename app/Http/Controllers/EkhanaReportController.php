@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\FinancialYear;
+use App\Models\Tax;
+use App\Models\Village;
 use App\Models\Word;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -19,6 +22,14 @@ class EkhanaReportController extends Controller
     else{
         $n['words'] = Word::with(['union'])->where('deleted_by',null)->where('id',Auth::user()->word_id)->get();
     }
-    Inertia::render('Tax/Calculation/VillageLeavy/Index',$n);
+
+    $n['f_years'] = FinancialYear::where('deleted_at',null)->orderBy('id','desc')->get();
+    $n['tax'] = Tax::where('deleted_at',null)->orderBy('id','desc')->first();
+    $n['villages'] = Village::where('deleted_at',null)
+                    ->where('word_id',auth::user()->word_id)
+                    ->orderBy('id','desc')
+                    ->get();
+    // dd($n);
+    return Inertia::render('Tax/Calculation/VillageLevy/Index',$n);
  }
 }
