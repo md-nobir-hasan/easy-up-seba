@@ -6,7 +6,7 @@ import appLogo from '@/Components/ApplicationLogo.vue';
 import appLogo2 from '@/Components/AuthenticationCardLogo.vue';
 import submenue from '@/Components/submenue.vue';
 import { HomeIcon,UserIcon,AdjustmentsHorizontalIcon,BanknotesIcon,CalculatorIcon,UserPlusIcon,CircleStackIcon,
-    ListBulletIcon,ArrowsRightLeftIcon,UserGroupIcon,MinusIcon,CheckBadgeIcon} from '@heroicons/vue/24/solid'
+    ListBulletIcon,ArrowsRightLeftIcon,UserGroupIcon,MinusIcon,CheckBadgeIcon,ChevronDoubleRightIcon} from '@heroicons/vue/24/solid'
 
 defineProps({
     title: String,
@@ -41,6 +41,7 @@ const submenueItem =[
                         {title:'হিসাব',name:'Calculation',active:false,route:'',url:'/admin/tax/calculation',icon:CalculatorIcon,children:[
                             {title:'কর জামা ফর্ম',name:'House Tax Deposite',active:false,route:route('admin.tax.calculation.deposite.create'),url:'/admin/tax/calculation/deposite/create',icon:CircleStackIcon,children:[]},
                             {title:'কর জমা লিস্ট',name:'House Tax Deposite List',active:false,route:route('admin.tax.calculation.deposite.index'),url:'/admin/tax/calculation/deposite/index',icon:ListBulletIcon,children:[]},
+                            {title:'গ্রাম ভিত্তিক ধার্য',name:'Village Based Levy',active:false,route:route('admin.tax.calculation.village-leavy.index'),url:'/admin/tax/calculation/village-leavy/index',icon:ChevronDoubleRightIcon,children:[]},
                         ]},
                     ]},
                     {title:'অনুমোদন',name: 'Approval',active: false,url:'/admin/approval',icon:CheckBadgeIcon,children:
@@ -144,7 +145,6 @@ return date;
 </script>
 
 <template>
-
     <div>
         <Head :title="title" />
         <div class="fixed w-full sm:hidden text-center text-3xl bg-[#0edda2] z-50">
