@@ -51,6 +51,7 @@ Route::get('/', function () {
     ]);
 });
 
+
 Route::prefix('/ajax')->name('ajax.')->group(function(){
     Route::get('/fetch/{model}/{field}/{value}/{with?}/{field2?}/{value2?}',[AjaxController::class,'dataFetch'])->name('fetch');
     Route::get('/holding/fetch/{vil_id}',[AjaxController::class,'holdingFetch'])->name('holding.fetch');
@@ -60,6 +61,7 @@ Route::prefix('/ajax')->name('ajax.')->group(function(){
     Route::post('/afield/update',[AjaxController::class,'afieldUpdate'])->name('afield.update');
     Route::post('/noty/read',[AjaxController::class,'notyRead'])->name('noty.read');
     Route::post('/house-deposite/update',[AjaxController::class,'houseDepositeUpdate'])->name('house.deposite.update');
+    Route::post('/ekhana/village/levy',[AjaxController::class,'ekhanaVillLevy'])->name('ekhana.vlevy');
 });
 
 
@@ -71,8 +73,6 @@ Route::middleware([
 
     //dashboar rendering
     Route::get('/dashboard', function () {
-        // dd(Auth::user()->role->name);
-
         if(Auth::user()->role->name == 'Power'){
             $n['ekhanas'] = Ekhana::where('deleted_by',null)->orderBy('id','desc')->get();
         }

@@ -29,19 +29,19 @@ const form = useForm({
     word_id: usr.word_id,
     village_id: '',
     infrastructure: '',
-    fine: 0,
-    deposite_date: null,
-    id:0,
 });
 
-const form2 = useForm({
-    phone: '',
-    bn_name: '',
-    spouse_name: '',
-    mother_name: '',
-    id:0,
-});
 
+// form submit
+// const submit = () => {
+//     form.post(route('ajax.ekhana.vlevy'), {
+//         onFinish: () => {
+//             if(form.submit_btn != 'return'){
+//                 form.reset();
+//             }
+//         }
+//     });
+// };
 //========= frontend validation ============
 const permisions = ref({});
 const user = usePage().props.auth.user;
@@ -92,20 +92,9 @@ function DateFormate(date) {
         }
         console.log('i am form');
             console.log(form);
-        axios.post(route('ajax.ekhana.fetch'), form).then(res => {
-            // ekhana.value = res.data.ekhana;
-            // htdeposite.value = res.data.ht_deposite;
-            // form.paid_amount = Math.round(res.data.ht_deposite.total_amount - (res.data.ht_deposite.paid_amount >0 ? res.data.ht_deposite.paid_amount : 0));
-            // form.arrears = form.paid_amount;
-            // form.fine = Math.round(res.data.ht_deposite.fine ?? 0);
-            // form.id = res.data.ht_deposite.id ?? 0;
-            // deposite_date.value = res.data.ht_deposite.deposite_date;
-            // form2.id = res.data.ekhana.id;
-            // form2.bn_name = res.data.ekhana.bn_name;
-            // form2.spouse_name = res.data.ekhana.spouse_name;
-            // form2.mother_name = res.data.ekhana.mother_name;
-            // form2.phone = res.data.ekhana.phone;
-            // console.log(res);
+        axios.post(route('ajax.ekhana.vlevy'), form).then(res => {
+            console.log(res);
+            ekhana.value = res.data.village_levy;
         }).catch(err =>{
             console.error(err)
         }).finally(() => {
@@ -191,7 +180,6 @@ const villageFetching = ()=>{
     query.value === ''
     ? search_items.value
     : search_items.value.filter((nitem) => {
-        console.log(nitem.name);
     return nitem.name.includes(query.value)
     })
 
@@ -210,13 +198,13 @@ const villageFetching = ()=>{
                 <h2 class="float-left text-4xl font-extrabold">গ্রাম ভিত্তিক ধার্য</h2>
             </div>
             <div class="mt-4 mb-2 p-4 bg-white">
-                <form @submit.prevent="submit" class="bg-[#11ff5999] m-auto  rounded-lg p-6 text-2lg max-w-md max-sm:max-w-sm">
+                <form @submit.prevent="submit" class="bg-[#008494db] text-[white] m-auto  rounded-lg p-6 pb-[2px] text-2lg max-w-md max-sm:max-w-sm">
 
                     <!-- Word  -->
                     <div class="mb-2 flex items-center">
-                        <label for="word_id" class="block min-w-[30%] text-md font-medium text-[blue] dark:text-white">ওয়ার্ড</label>
+                        <label for="word_id" class="block min-w-[30%] text-md font-extrabold dark:text-white">ওয়ার্ড</label>
                         <select id="word_id" v-model="form.word_id" @change="villageFetching"
-                        class="border  min-w-[65%]  border-gray-300 text-[blue] text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                        class="border text-[black]  min-w-[65%]  border-gray-300 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
                             <option selected value="">ওয়ার্ড নির্বাচন করুন</option>
                             <option v-for="(word, key) in words" :value="word.id" :key="key">{{ word.name+'-'+word.union.name }}</option>
                         </select>
@@ -227,18 +215,18 @@ const villageFetching = ()=>{
                     <!-- Village (Live search by combobox) -->
                     <Combobox v-model="form.village_id">
                         <div class="flex">
-                            <label for="f_year_id" class="block min-w-[30%] text-md font-medium text-[blue] dark:text-white">গ্রাম</label>
+                            <label for="f_year_id" class="block min-w-[30%] font-extrabold text-md dark:text-white">গ্রাম</label>
                             <div class="relative min-w-[65%]">
-                                <ComboboxInput @change="query = $event.target.value" :displayValue="(nitem) => nitem.name" type="text" class="border  min-w-[100%] border-gray-300 text-[blue] text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
-                                <component :is="ChevronDownIcon" v-if="ChevronDownIcon" class="h-4 mr-1 absolute  right-[11px] top-[13px]"></component>
+                                <ComboboxInput @change="query = $event.target.value" :displayValue="(nitem) => nitem.name" type="text" class="border text-[black] min-w-[100%] border-gray-300 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
+                                <component :is="ChevronDownIcon" v-if="ChevronDownIcon" class="h-4  mr-1 absolute  right-[11px] top-[13px]"></component>
                             </div>
                         </div>
                         <div class="relative">
-                            <ComboboxOptions class="absolute p-4 mt-1 bg-[white] left-[115px] w-[222px] rounded-lg">
+                            <ComboboxOptions class="absolute text-[black] p-4 mt-1 bg-[white] left-[115px] w-[222px] rounded-lg">
                                 <ComboboxOption class="cursor-pointer" autocomplete="off"
                                     v-for="nitem in filteredsearch_items"
                                     :key="nitem.id"
-                                    :value="nitem.name"
+                                    :value="nitem"
                                 >
                                     {{ nitem.name }}
                                 </ComboboxOption>
@@ -248,9 +236,9 @@ const villageFetching = ()=>{
 
                      <!-- Type of organization  -->
                      <div class="mt-2 flex items-center">
-                        <label for="infrastructure" class="block min-w-[30%] text-md font-medium text-[blue] dark:text-white">প্রতিষ্ঠানের ধরন</label>
+                        <label for="infrastructure" class="block min-w-[30%] text-md font-extrabold dark:text-white">প্রতিষ্ঠানের ধরন</label>
                         <select id="infrastructure" v-model="form.infrastructure"
-                        class="border  min-w-[65%]  border-gray-300 text-[blue] text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                        class="border  min-w-[65%] text-[black] border-gray-300 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
                             <option selected value="">প্রতিষ্ঠানের ধরন নির্বাচন করুন</option>
                             <option value="আবাসিক">আবাসিক</option>
                             <option value="বানিজ্যিক">বানিজ্যিক</option>
@@ -261,9 +249,9 @@ const villageFetching = ()=>{
 
                      <!-- financial year  -->
                      <div class="mt-2 flex items-center">
-                        <label for="f_year_id" class="block min-w-[30%] text-md font-medium text-[blue] dark:text-white">অর্থ-বছর</label>
+                        <label for="f_year_id" class="block min-w-[30%] text-md font-extrabold dark:text-white">অর্থ-বছর</label>
                         <select id="f_year_id" v-model="form.f_year_id"
-                        class="border min-w-[65%]  border-gray-300 text-[blue] text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                        class="border min-w-[65%] text-[black]  border-gray-300 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
                             <option selected value="">অর্থ-বছর নির্বাচন করুন</option>
                             <option v-for="(f_year, key) in f_years" :value="f_year.id" :key="key">{{ f_year.from+'-'+f_year.to }}</option>
                         </select>
@@ -271,123 +259,152 @@ const villageFetching = ()=>{
                         <InputError class="mt-2" :message="form.errors.f_year_id" />
                     </div>
 
-                    <div class="flex items-center justify-center mt-4">
-                        <PrimaryButton @click="ekhanaFetch" class="" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                    <div class="flex items-center justify-center mt-8">
+                        <button @click="ekhanaFetch" type="submit" class="text-white text-[18px] font-extrabold bg-gradient-to-r from-pink-400 via-pink-500 to-pink-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-pink-300 dark:focus:ring-pink-800 shadow-lg shadow-pink-500/50 dark:shadow-lg dark:shadow-pink-800/80  rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+                        >অনুসন্ধান</button>
+
+                        <!-- <PrimaryButton @click="ekhanaFetch" class="font-extrabold" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                             সার্চ করুন
-                        </PrimaryButton>
+                        </PrimaryButton> -->
                     </div>
                 </form>
 
             </div>
 
             <!-- -->
-            <!-- <div class="lg:flex justify-center bg-white items-center mt-4 pt-4">
-                <table class="border-collapse mb-4 border border-slate-400 text-center text-md text-left text-gray-500 dark:text-gray-400 rounded-lg m-auto">
-                    <thead class="text-md text-center text-gray-700 uppercase bg-[#11ff5999] dark:bg-gray-700 dark:text-gray-400">
-                        <tr >
-                            <th colspan="2" class="border border-slate-300 px-6 py-4 font-bold text-gray-900 whitespace-nowrap dark:text-white">খান তথ্য</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th scope="col" class="border border-slate-300 px-6 py-3">
-                                গ্রাম
-                            </th>
-                            <td scope="row" class="border border-slate-300 px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                {{ ekhana.name  }}
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="col" class="border border-slate-300 px-6 py-3">
-                            করদাতার নাম
-                            </th>
-                            <td scope="row"
-                            class="border border-slate-300 px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                            :class="[edit ? ' p-2' : '']">
-                                <input  :class="[edit ? 'border-[blue]' : 'border-0 text-center']" type="tel" required :readonly="!edit" v-model="form2.bn_name" >
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="col" class="border border-slate-300 px-6 py-3">
-                            বাৎসরিক আয়
-                            </th>
-                            <td scope="row" class="border border-slate-300 px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                {{new Intl.NumberFormat().format(ekhana.yearly_income) }}/=
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="col" class="border border-slate-300 px-6 py-3">
-                            পিতা/স্বামীর নাম
-                            </th>
-                            <td scope="row"
-                            class="border border-slate-300 px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                            :class="[edit ? ' p-2' : '']">
-                                <input  :class="[edit ? 'border-[blue]' : 'border-0 text-center']" type="tel" required :readonly="!edit" v-model="form2.spouse_name" >
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="col" class="border border-slate-300 px-6 py-3">
-                            মাতার নাম
-                            </th>
-                            <td scope="row"
-                            class="border border-slate-300 px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                            :class="[edit ? ' p-2' : '']">
-                                <input  :class="[edit ? 'border-[blue]' : 'border-0 text-center']" type="tel" required :readonly="!edit" v-model="form2.mother_name" >
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="col" class="border border-slate-300 px-6 py-3">
-                            এনআইডি নাম
-                            </th>
-                            <td scope="row" class="border border-slate-300 px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                {{ ekhana.nid }}
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="col" class="border border-slate-300 px-6 py-3">
-                                মোবাইল নাম্বার
-                            </th>
-                            <td scope="row"
-                                class="border border-slate-300 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                                :class="[edit ? ' p-2' : '']">
-                                <input  :class="[edit ? 'border-[blue]' : 'border-0 text-center']" type="tel" required :readonly="!edit" v-model="form2.phone" >
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="col" class="border border-slate-300 px-6 py-3">
-                            গ্রামের নাম
-                            </th>
-                            <td scope="row" class="border border-slate-300 px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                {{ ekhana.village ? ekhana.village.name : '' }}
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="col" class="border border-slate-300 px-6 py-3">
-                                ওয়ার্ড নং
-                            </th>
-                            <td scope="row" class="border border-slate-300 px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                {{ ekhana.word ? ekhana.word.name : '' }}
-                            </td>
-                        </tr>
-                    </tbody>
-                    <tfoot class="">
-                        <tr>
-                            <th colspan="2" v-if="!edit" @click="edit = true"
-                                >
-                                <button type="button" class="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 shadow-lg shadow-purple-500/50 dark:shadow-lg dark:shadow-purple-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center w-full">হালনাগাদ</button>
-                            </th>
-                            <th colspan="2" v-else
-                                class="text-center">
-                                <button type="button" @click="ekhanaUpdate" class="text-white bg-gradient-to-r from-pink-400 via-pink-500 to-pink-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-pink-300 dark:focus:ring-pink-800 shadow-lg shadow-pink-500/50 dark:shadow-lg dark:shadow-pink-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center w-full"
-                                :class="{ 'opacity-25': form.processing }" :disabled="form.processing"
-                                >আপডেট</button>
+            <table v-if="ekhana.length>0" class="w-full text-md text-left text-gray-500 dark:text-gray-400">
+                <thead class="text-md text-center text-gray-700 uppercase bg-[#11ff5999] dark:bg-gray-700 dark:text-gray-400">
+                    <tr>
+                        <th scope="col" class="px-6 py-3">
+                            হোল্ডিং নাম্বার
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                           করদাতার নাম
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                           বাৎসরিক আয়
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                           পিতা/স্বামীর নাম
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                           মাতার নাম
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                           এনআইডি নাম
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            মোবাইল নাম্বার
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                           গ্রামের নাম
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            ওয়ার্ড নং
+                        </th>
+                        <th colspan="2" scope="col" class="">
+                            সম্পদের বিবরন
+                            <div class="flex items-center justify-between bg-[#1c09ffb5] rounded p-1 h-16">
+                                <h4 class="p-1 text-white">পাকা</h4>
+                                <h4 class="p-1 text-white">আধাপাকা</h4>
+                                <h4 class="p-1 text-white">কাঁচা</h4>
+                            </div>
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            বাৎসরিক ভাড়ার পরিমাণ
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                           কর
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                           অর্থ-বছর
+                        </th>
+                        <!-- <th scope="col" class="px-6 py-3">
+                            তৈরির তারিখ
+                        </th> -->
+                        <!-- <th scope="col" class="px-6 py-3">
+                            তৈরির
+                        </th>
+                        <th scope="col" class="px-6 py-3" v-if="ncheck('edit') || ncheck('delete')">
+                            কাজ
+                        </th> -->
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(value, key) in ekhana" :key="key"
+                        class="bg-white text-center border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            {{ value.holding_no  }}
+                        </th>
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            {{ value.bn_name }}
+                        </th>
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            {{new Intl.NumberFormat().format(value.yearly_income) }}/=
+                        </th>
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            {{ value.spouse_name }}
+                        </th>
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            {{ value.mother_name }}
+                        </th>
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            {{ value.nid }}
+                        </th>
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            {{ value.phone }}
+                        </th>
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            {{ value.vill_name}}
+                        </th>
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            {{ value.w_name }}
+                        </th>
+                        <th colspan="2" scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            <div class="flex items-center justify-between">
+                                <p >{{ value.paka_house }}</p>
+                                <p >{{ value.adhapaka_house }}</p>
+                                <p >{{ value.kasa_house }}</p>
+                            </div>
+                        </th>
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            {{ new Intl.NumberFormat().format(value.yearly_house_rent) }}/=
+                        </th>
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            {{ new Intl.NumberFormat().format(Math.round(value.yearly_house_rent*tax.price/100)- value.tax_paid) }}/=
+                        </th>
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            {{value.fy_from+'-'+ value.fy_to }}
+                        </th>
+                        <!-- <td v-text="DateFormate(value.created_at)" class="px-6 py-4">
+
+                        </td> -->
+                        <!-- <td class="px-6 py-4">
+                            {{ value.created_by ? value.created_by.name : ''}}
+                        </td>
+                        <td class="px-6 py-4 flex item-center justify-center" v-if="ncheck('edit') || ncheck('delete')">
+                            <Link v-if="ncheck('edit')" :href="route('admin.tax.ekhana.edit', [value.id])"
+                                class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 text-blue-800" viewBox="0 0 512 512">
+                                <path
+                                    d="M471.6 21.7c-21.9-21.9-57.3-21.9-79.2 0L362.3 51.7l97.9 97.9 30.1-30.1c21.9-21.9 21.9-57.3 0-79.2L471.6 21.7zm-299.2 220c-6.1 6.1-10.8 13.6-13.5 21.9l-29.6 88.8c-2.9 8.6-.6 18.1 5.8 24.6s15.9 8.7 24.6 5.8l88.8-29.6c8.2-2.8 15.7-7.4 21.9-13.5L437.7 172.3 339.7 74.3 172.4 241.7zM96 64C43 64 0 107 0 160V416c0 53 43 96 96 96H352c53 0 96-43 96-96V320c0-17.7-14.3-32-32-32s-32 14.3-32 32v96c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V160c0-17.7 14.3-32 32-32h96c17.7 0 32-14.3 32-32s-14.3-32-32-32H96z"
+                                    fill="blue" />
+                            </svg>
+                            </Link>
+
+                            <button @click="deleting(value.id,'Ekhana')"  v-if="ncheck('delete')" class="font-medium ml-2 text-red-600 dark:text-blue-500 hover:underline">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 text-red" viewBox="0 0 448 512">
+                                    <path
+                                        d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"
+                                        fill="#d10606" />
+                                </svg>
+                            </button>
+                        </td> -->
+                </tr>
 
 
-                            </th>
-                        </tr>
-                    </tfoot>
-                </table>
-            </div> -->
+            </tbody>
+        </table>
         </div>
     </AppLayout>
 </template>
