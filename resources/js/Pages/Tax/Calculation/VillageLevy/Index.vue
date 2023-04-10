@@ -186,6 +186,17 @@ const villageFetching = ()=>{
 )
 
 // }
+// Print table
+const printTable = ()=>{
+    const printWindow = window.open('', '', 'height=500,width=800');
+      printWindow.document.write('<html><head><title>Table Print</title>');
+      printWindow.document.write('</head><body>');
+      printWindow.document.write(document.querySelector('#table').innerHTML);
+      printWindow.document.write('</body></html>');
+      printWindow.document.close();
+      printWindow.print();
+
+}
 
 </script>
 
@@ -271,8 +282,12 @@ const villageFetching = ()=>{
 
             </div>
 
-            <!-- -->
-            <table v-if="ekhana.length>0" class="w-full text-md text-left text-gray-500 dark:text-gray-400">
+            <div v-if="ekhana.length>0">
+                <button type="button" @click="printTable" class="text-white bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 shadow-lg shadow-cyan-500/50 dark:shadow-lg dark:shadow-cyan-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
+                    Print
+                </button>
+            </div>
+            <table v-if="ekhana.length>0" id="table" class="w-full text-md text-left text-gray-500 dark:text-gray-400">
                 <thead class="text-md text-center text-gray-700 uppercase bg-[#11ff5999] dark:bg-gray-700 dark:text-gray-400">
                     <tr>
                         <th scope="col" class="px-6 py-3">
@@ -304,78 +319,86 @@ const villageFetching = ()=>{
                         </th>
                         <th colspan="2" scope="col" class="">
                             সম্পদের বিবরন
-                            <div class="flex items-center justify-between bg-[#1c09ffb5] rounded p-1 h-16">
+                            <!-- <div class="flex items-center justify-between bg-[#1c09ffb5] rounded p-1 h-16">
                                 <h4 class="p-1 text-white">পাকা</h4>
                                 <h4 class="p-1 text-white">আধাপাকা</h4>
                                 <h4 class="p-1 text-white">কাঁচা</h4>
-                            </div>
+                            </div> -->
                         </th>
                         <th scope="col" class="px-6 py-3">
                             বাৎসরিক ভাড়ার পরিমাণ
                         </th>
                         <th scope="col" class="px-6 py-3">
-                           কর
+                            অর্থ-বছর
+                         </th>
+                        <th scope="col" class="px-6 py-3">
+                          হাল করের পরিমাণ
                         </th>
                         <th scope="col" class="px-6 py-3">
-                           অর্থ-বছর
+                          বকেয়া করের পরিমাণ
                         </th>
-                        <!-- <th scope="col" class="px-6 py-3">
-                            তৈরির তারিখ
-                        </th> -->
-                        <!-- <th scope="col" class="px-6 py-3">
-                            তৈরির
+                        <th scope="col" class="px-6 py-3">
+                          সরোট করের পরিমাণ
                         </th>
-                        <th scope="col" class="px-6 py-3" v-if="ncheck('edit') || ncheck('delete')">
-                            কাজ
-                        </th> -->
+                        <th scope="col" class="px-6 py-3">
+                          স্বাক্ষর
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr v-for="(value, key) in ekhana" :key="key"
                         class="bg-white text-center border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             {{ value.holding_no  }}
-                        </th>
-                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        </td>
+                        <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             {{ value.bn_name }}
-                        </th>
-                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        </td>
+                        <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             {{new Intl.NumberFormat().format(value.yearly_income) }}/=
-                        </th>
-                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        </td>
+                        <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             {{ value.spouse_name }}
-                        </th>
-                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        </td>
+                        <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             {{ value.mother_name }}
-                        </th>
-                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        </td>
+                        <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             {{ value.nid }}
-                        </th>
-                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        </td>
+                        <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             {{ value.phone }}
-                        </th>
-                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        </td>
+                        <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             {{ value.vill_name}}
-                        </th>
-                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        </td>
+                        <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             {{ value.w_name }}
-                        </th>
-                        <th colspan="2" scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            <div class="flex items-center justify-between">
+                        </td>
+                        <td colspan="2" scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            <!-- <div class="flex items-center justify-between">
                                 <p >{{ value.paka_house }}</p>
                                 <p >{{ value.adhapaka_house }}</p>
                                 <p >{{ value.kasa_house }}</p>
-                            </div>
-                        </th>
-                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            </div> -->
+                        </td>
+                        <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             {{ new Intl.NumberFormat().format(value.yearly_house_rent) }}/=
-                        </th>
-                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            {{ new Intl.NumberFormat().format(Math.round(value.yearly_house_rent*tax.price/100)- value.tax_paid) }}/=
-                        </th>
-                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        </td>
+
+                        <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             {{value.fy_from+'-'+ value.fy_to }}
-                        </th>
+                        </td>
+                        <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            {{ new Intl.NumberFormat().format(Math.round(value.yearly_house_rent*tax.price/100)) }}/=
+                        </td>
+                        <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            {{ new Intl.NumberFormat().format(Math.round(value.yearly_house_rent*tax.price/100)- value.tax_paid) }}/=
+                        </td>
+                        <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            {{ new Intl.NumberFormat().format(Math.round(value.yearly_house_rent*tax.price/100)) }}/=
+                        </td>
+                        <td></td>
                         <!-- <td v-text="DateFormate(value.created_at)" class="px-6 py-4">
 
                         </td> -->
@@ -400,11 +423,22 @@ const villageFetching = ()=>{
                                 </svg>
                             </button>
                         </td> -->
-                </tr>
-
-
-            </tbody>
-        </table>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </AppLayout>
 </template>
+
+<!-- <style>
+@media print {
+    /* hide all elements except for the table */
+    body * {
+      display: none;
+    }
+    #table {
+      display: block;
+      color: black;
+    }
+  }
+</style> -->
