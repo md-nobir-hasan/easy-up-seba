@@ -33,4 +33,9 @@ protected $fillable = ['phone','bn_name'];
     public function profession(){
         return $this->belongsTo(Word::class,'profession_id');
     }
+
+    public function houseTaxDeposite($f_year_id){
+        return $this->hasMany(HouseTaxDeposite::class,'ekhana_id')->where('paid_amount','<',1)->where('f_year_id',$f_year_id);
+    }
+
 }
