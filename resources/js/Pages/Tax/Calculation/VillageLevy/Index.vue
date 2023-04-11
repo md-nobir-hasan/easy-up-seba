@@ -158,8 +158,8 @@ const printTable = ()=>{
       printJS({
         printable: 'table',
         type: 'html',
-        header: 'গ্রাম ভিত্তিক ধার্য',
-        headerStyle: 'font-weight: bolder; text-align:center; margin:auto; margin-left:20px',
+        header: 'গ্রাম ভিত্তিক ধার্য তালিকা',
+        headerStyle: 'font-weight: bolder; text-align:center; margin-bottom:15px;',
         style: '#my-table { border-collapse: collapse; width: 100%; font-size: 14px;margin-top:20px } #my-table th { background-color: #f2f2f2; color: #444; font-weight: bold; padding: 2px; text-align: left; border: 1px solid #ddd; } #my-table td { background-color: #fff; color: #444; padding: 2px; text-align: left; border: 1px solid #ddd; } #my-table tbody tr:nth-child(even) { background-color: #f2f2f2; }',
         maxWidth: 800,
         font: 'Open Sans',
@@ -171,34 +171,6 @@ const printTable = ()=>{
 
 <template>
     <AppLayout title="গ্রাম ভিত্তিক ধার্য">
-        <div id="jtable">
-            <table id="my-table">
-                <thead>
-                  <tr>
-                    <th>নামে</th>
-                    <th>গ্মে</th>
-                    <th>পনে</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>John Doe</td>
-                    <td>john.doe@example.com</td>
-                    <td>(555) 555-1234</td>
-                  </tr>
-                  <tr>
-                    <td>Jane Smith</td>
-                    <td>jane.smith@example.com</td>
-                    <td>(555) 555-5678</td>
-                  </tr>
-                  <tr>
-                    <td>Bob Johnson</td>
-                    <td>bob.johnson@example.com</td>
-                    <td>(555) 555-9876</td>
-                  </tr>
-                </tbody>
-            </table>
-        </div>
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
             <SucMesgShow :message="$page.props.flash.suc_msg"></SucMesgShow>
             <div class="bg-white flex justify-between p-4">
@@ -269,17 +241,10 @@ const printTable = ()=>{
                     <div class="flex items-center justify-center mt-8">
                         <button @click="ekhanaFetch" type="submit" class="text-white text-[18px] font-extrabold bg-gradient-to-r from-pink-400 via-pink-500 to-pink-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-pink-300 dark:focus:ring-pink-800 shadow-lg shadow-pink-500/50 dark:shadow-lg dark:shadow-pink-800/80  rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
                         >অনুসন্ধান</button>
-
-                        <!-- <PrimaryButton @click="ekhanaFetch" class="font-extrabold" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                            সার্চ করুন
-                        </PrimaryButton> -->
                     </div>
                 </form>
 
             </div>
-            <button type="button" @click="printTable()" class="text-white bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 shadow-lg shadow-cyan-500/50 dark:shadow-lg dark:shadow-cyan-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
-                তালিকা প্রিন্ট
-            </button>
 
             <div v-if="ekhana.length>0">
                 <button type="button" @click="printTable()" class="text-white bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 shadow-lg shadow-cyan-500/50 dark:shadow-lg dark:shadow-cyan-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
@@ -287,184 +252,61 @@ const printTable = ()=>{
                 </button>
             </div>
 
-            <div id="table">
+            <div id="table" v-if="ekhana.length>0">
+                <!-- <div>
+                    <h1>গ্রাম ভিত্তিক ধার্য তালিকা</h1>
+                </div> -->
                 <table id="my-table" class="text-center">
                     <thead>
                       <tr>
-                        <th rowspan="2">নামে</th>
-                        <th colspan="3">গ্মে</th>
-                        <th rowspan="2">পনে</th>
+                        <th rowspan="2">হোল্ডিং নাম্বার</th>
+                        <th rowspan="2">করদাতার নাম</th>
+                        <th rowspan="2">বাৎসরিক আয়</th>
+                        <th rowspan="2"> পিতা/স্বামীর নাম</th>
+                        <th rowspan="2">মাতার নাম</th>
+                        <th rowspan="2"> এনআইডি নাম</th>
+                        <th rowspan="2">মোবাইল নাম্বার</th>
+                        <th rowspan="2">গ্রামের নাম</th>
+                        <th rowspan="2">ওয়ার্ড নং</th>
+                        <th colspan="3">সম্পদের বিবরন</th>
+                        <th rowspan="2">বাৎসরিক ভাড়ার পরিমাণ</th>
+                        <th rowspan="2">অর্থ-বছর</th>
+                        <th rowspan="2">হাল করের পরিমাণ</th>
+                        <th rowspan="2">বকেয়া করের পরিমাণ</th>
+                        <th rowspan="2">সরোট করের পরিমাণ</th>
+                        <!-- <th rowspan="2">স্বাক্ষর</th> -->
                       </tr>
                       <tr>
-                        <th>am i </th>
-                        <th>am i </th>
-                        <th>am i </th>
+                        <th>পাকা</th>
+                        <th>আধাপাকা</th>
+                        <th>কাঁচা</th>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td>John Doe</td>
-                        <td>john.doe@example.com</td>
-                        <td>(555) 555-1234</td>
-                        <td>(555) 555-1234</td>
-                        <td>(555) 555-1234</td>
-                      </tr>
-                      <tr>
-                        <td>Jane Smith</td>
-                        <td>jane.smith@example.com</td>
-                        <td>(555) 555-5678</td>
-                        <td>(555) 555-5678</td>
-                        <td>(555) 555-5678</td>
-                      </tr>
-                      <tr>
-                        <td>Bob Johnson</td>
-                        <td>bob.johnson@example.com</td>
-                        <td>(555) 555-9876</td>
-                        <td>(555) 555-9876</td>
-                        <td>(555) 555-9876</td>
+                      <tr v-for="(value, key) in ekhana" :key="key">
+                        <td>  {{ value.holding_no  }}</td>
+                        <td>{{ value.bn_name }}</td>
+                        <td>{{new Intl.NumberFormat().format(value.yearly_income) }}/=</td>
+                        <td>{{ value.spouse_name }}</td>
+                        <td>{{ value.mother_name }}</td>
+                        <td>{{ value.nid }}</td>
+                        <td>{{ value.phone }}</td>
+                        <td>{{ value.vill_name }}</td>
+                        <td>{{ value.w_name }}</td>
+                        <td>{{ value.paka_house }}</td>
+                        <td>{{ value.adhapaka_house }}</td>
+                        <td>{{ value.kasa_house }}</td>
+                        <td>{{ new Intl.NumberFormat().format(value.yearly_house_rent) }}/=</td>
+                        <td> {{value.fy_from+'-'+ value.fy_to }}</td>
+                        <td> {{ new Intl.NumberFormat().format(Math.round(value.yearly_house_rent*tax.price/100)) }}/=</td>
+                        <td>{{ new Intl.NumberFormat().format(Math.round(value.yearly_house_rent*tax.price/100)- value.tax_paid) }}/=</td>
+                        <td> {{ new Intl.NumberFormat().format(Math.round(value.yearly_house_rent*tax.price/100)) }}/=</td>
+                        <!-- <td></td> -->
                       </tr>
                     </tbody>
                 </table>
 
-                <table v-if="ekhana.length>0"  class="w-full text-md text-left text-gray-500 dark:text-gray-400">
-                    <thead class="text-md text-center text-gray-700 uppercase bg-[#11ff5999] dark:bg-gray-700 dark:text-gray-400">
-                        <tr>
-                            <th scope="col" class="px-6 py-3">
-                                হোল্ডিং নাম্বার
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                            করদাতার নাম
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                            বাৎসরিক আয়
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                            পিতা/স্বামীর নাম
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                            মাতার নাম
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                            এনআইডি নাম
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                                মোবাইল নাম্বার
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                            গ্রামের নাম
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                                ওয়ার্ড নং
-                            </th>
-                            <th colspan="2" scope="col" class="">
-                                সম্পদের বিবরন
-                                <div class="flex items-center justify-between bg-[#1c09ffb5] rounded p-1 h-16">
-                                    <h4 class="p-1 text-white">পাকা</h4>
-                                    <h4 class="p-1 text-white">আধাপাকা</h4>
-                                    <h4 class="p-1 text-white">কাঁচা</h4>
-                                </div>
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                                বাৎসরিক ভাড়ার পরিমাণ
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                                অর্থ-বছর
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                            হাল করের পরিমাণ
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                            বকেয়া করের পরিমাণ
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                            সরোট করের পরিমাণ
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                            স্বাক্ষর
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="(value, key) in ekhana" :key="key"
-                            class="bg-white text-center border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                            <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                {{ value.holding_no  }}
-                            </td>
-                            <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                {{ value.bn_name }}
-                            </td>
-                            <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                {{new Intl.NumberFormat().format(value.yearly_income) }}/=
-                            </td>
-                            <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                {{ value.spouse_name }}
-                            </td>
-                            <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                {{ value.mother_name }}
-                            </td>
-                            <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                {{ value.nid }}
-                            </td>
-                            <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                {{ value.phone }}
-                            </td>
-                            <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                {{ value.vill_name}}
-                            </td>
-                            <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                {{ value.w_name }}
-                            </td>
-                            <td colspan="2" scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                <div class="flex items-center justify-between">
-                                    <p >{{ value.paka_house }}</p>
-                                    <p >{{ value.adhapaka_house }}</p>
-                                    <p >{{ value.kasa_house }}</p>
-                                </div>
-                            </td>
-                            <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                {{ new Intl.NumberFormat().format(value.yearly_house_rent) }}/=
-                            </td>
 
-                            <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                {{value.fy_from+'-'+ value.fy_to }}
-                            </td>
-                            <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                {{ new Intl.NumberFormat().format(Math.round(value.yearly_house_rent*tax.price/100)) }}/=
-                            </td>
-                            <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                {{ new Intl.NumberFormat().format(Math.round(value.yearly_house_rent*tax.price/100)- value.tax_paid) }}/=
-                            </td>
-                            <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                {{ new Intl.NumberFormat().format(Math.round(value.yearly_house_rent*tax.price/100)) }}/=
-                            </td>
-                            <td></td>
-                            <!-- <td v-text="DateFormate(value.created_at)" class="px-6 py-4">
-
-                            </td> -->
-                            <!-- <td class="px-6 py-4">
-                                {{ value.created_by ? value.created_by.name : ''}}
-                            </td>
-                            <td class="px-6 py-4 flex item-center justify-center" v-if="ncheck('edit') || ncheck('delete')">
-                                <Link v-if="ncheck('edit')" :href="route('admin.tax.ekhana.edit', [value.id])"
-                                    class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 text-blue-800" viewBox="0 0 512 512">
-                                    <path
-                                        d="M471.6 21.7c-21.9-21.9-57.3-21.9-79.2 0L362.3 51.7l97.9 97.9 30.1-30.1c21.9-21.9 21.9-57.3 0-79.2L471.6 21.7zm-299.2 220c-6.1 6.1-10.8 13.6-13.5 21.9l-29.6 88.8c-2.9 8.6-.6 18.1 5.8 24.6s15.9 8.7 24.6 5.8l88.8-29.6c8.2-2.8 15.7-7.4 21.9-13.5L437.7 172.3 339.7 74.3 172.4 241.7zM96 64C43 64 0 107 0 160V416c0 53 43 96 96 96H352c53 0 96-43 96-96V320c0-17.7-14.3-32-32-32s-32 14.3-32 32v96c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V160c0-17.7 14.3-32 32-32h96c17.7 0 32-14.3 32-32s-14.3-32-32-32H96z"
-                                        fill="blue" />
-                                </svg>
-                                </Link>
-
-                                <button @click="deleting(value.id,'Ekhana')"  v-if="ncheck('delete')" class="font-medium ml-2 text-red-600 dark:text-blue-500 hover:underline">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 text-red" viewBox="0 0 448 512">
-                                        <path
-                                            d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"
-                                            fill="#d10606" />
-                                    </svg>
-                                </button>
-                            </td> -->
-                        </tr>
-                    </tbody>
-                </table>
             </div>
         </div>
     </AppLayout>
@@ -480,12 +322,12 @@ const printTable = ()=>{
   }
 
   #my-table th {
-    background-color: #f2f2f2;
+    background-color: #76ffa1;
     color: #444;
     font-weight: bold;
     padding: 10px;
     text-align: left;
-    border-bottom: 1px solid #ddd;
+    border: 1px solid #ddd;
     text-align: center;
   }
 
@@ -494,13 +336,17 @@ const printTable = ()=>{
     color: #444;
     padding: 10px;
     text-align: left;
-    border-bottom: 1px solid #ddd;
+    border: 1px solid #ddd;
     text-align: center;
   }
 
   #my-table tbody tr:nth-child(even) {
     background-color: #f2f2f2;
   }
+  h1{
+    text-align: center;
+    color: green;
+}
 
   @media print {
     /* add your print-specific styles here */
@@ -508,6 +354,10 @@ const printTable = ()=>{
       font-size: 12pt;
       color: #000000;
       background-color: #ffffff;
+    }
+    h1{
+        text-align: center;
+        color: green;
     }
   }
 
