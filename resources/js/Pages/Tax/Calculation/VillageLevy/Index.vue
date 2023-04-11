@@ -329,7 +329,7 @@ const exportExcel = ()=>{
   }
 
   #my-table th {
-    background-color: #76ffa1;
+    background-color: #49e5ff;
     color: #444;
     font-weight: bold;
     padding: 10px;
