@@ -280,7 +280,7 @@ const exportExcel = ()=>{
                         <th rowspan="2">অর্থ-বছর</th>
                         <th rowspan="2">হাল করের পরিমাণ</th>
                         <th rowspan="2">বকেয়া করের পরিমাণ</th>
-                        <th rowspan="2">সরোট করের পরিমাণ</th>
+                        <th rowspan="2">সর্বমোট করের পরিমাণ</th>
                         <!-- <th rowspan="2">স্বাক্ষর</th> -->
                       </tr>
                       <tr>
@@ -329,7 +329,7 @@ const exportExcel = ()=>{
   }
 
   #my-table th {
-    background-color: #76ffa1;
+    background-color: #49e5ff;
     color: #444;
     font-weight: bold;
     padding: 10px;
