@@ -280,7 +280,7 @@ const exportExcel = ()=>{
                         <th rowspan="2">অর্থ-বছর</th>
                         <th rowspan="2">হাল করের পরিমাণ</th>
                         <th rowspan="2">বকেয়া করের পরিমাণ</th>
-                        <th rowspan="2">সরোট করের পরিমাণ</th>
+                        <th rowspan="2">সর্বমোট করের পরিমাণ</th>
                         <!-- <th rowspan="2">স্বাক্ষর</th> -->
                       </tr>
                       <tr>
