@@ -17,7 +17,7 @@
             body{
                 background-color: #22eeaf3d;
             }
-            
+
             /* site's background color handling  */
             .bg1{
                 background-color: rgb(14 221 162 / var(--tw-bg-opacity));

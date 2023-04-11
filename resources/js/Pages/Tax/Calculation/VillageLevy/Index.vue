@@ -4,6 +4,7 @@ import SucMesgShow from '@/Components/SucMesgShow.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import { Link, useForm, usePage } from '@inertiajs/vue3';
 import { ref,computed } from 'vue';
+import printJS from 'print-js';
 import {CheckIcon,ChevronDownIcon} from '@heroicons/vue/24/solid';
 import {
     Combobox,
@@ -187,16 +188,23 @@ const villageFetching = ()=>{
 
 // }
 // Print table
-const printTable = ()=>{
-    const printWindow = window.open('', '', 'height=500,width=800');
-      printWindow.document.write('<html><head><title>Table Print</title>');
-      printWindow.document.write('</head><body>');
-      printWindow.document.write(document.querySelector('#table').innerHTML);
-      printWindow.document.write('</body></html>');
-      printWindow.document.close();
-      printWindow.print();
+// const printTable = ()=>{
+//     const printWindow = window.open('', '', 'height=600,width=1500');
+//       printWindow.document.write('<html><head><title>Table Print</title>');
+//       printWindow.document.write('</head><body>');
+//       printWindow.document.write(document.querySelector('#table').innerHTML);
+//       printWindow.document.write('</body></html>');
+//       printWindow.document.close();
+//       printWindow.print();
 
-}
+// }
+const printTable = ()=>{
+      printJS({
+        printable: 'table',
+        type: 'html',
+        css: 'table { width: 100%; border-collapse: collapse; } th, td { padding: 8px; text-align: left; border-bottom: 1px solid #ddd; } th { background-color: #f2f2f2; }',
+      });
+    }
 
 </script>
 
@@ -283,7 +291,7 @@ const printTable = ()=>{
             </div>
 
             <div v-if="ekhana.length>0">
-                <button type="button" @click="printTable" class="text-white bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 shadow-lg shadow-cyan-500/50 dark:shadow-lg dark:shadow-cyan-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
+                <button type="button" @click="printTable()" class="text-white bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 shadow-lg shadow-cyan-500/50 dark:shadow-lg dark:shadow-cyan-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
                     Print
                 </button>
             </div>
