@@ -10,6 +10,7 @@
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
+
         <!-- Scripts -->
         @routes
         @vite(['resources/js/app.js', "resources/js/Pages/{$page['component']}.vue"])
@@ -17,7 +18,7 @@
             body{
                 background-color: #22eeaf3d;
             }
-            
+
             /* site's background color handling  */
             .bg1{
                 background-color: rgb(14 221 162 / var(--tw-bg-opacity));
@@ -66,11 +67,16 @@
                 font-size: 28px;
             }
         </style>
+        {{-- <link href="https://printjs-4de6.kxcdn.com/print.min.css" rel="stylesheet"/> --}}
+
         @inertiaHead
     </head>
     <body class="font-sans antialiased">
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         @inertia
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        {{-- <script src="https://printjs-4de6.kxcdn.com/print.min.js"></script> --}}
+        <script src="{{asset('libraries/excel/excel.js')}}"></script>
 
     </body>
 </html>

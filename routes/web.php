@@ -115,6 +115,7 @@ Route::middleware([
         //Calculation Management
         Route::prefix('/calculation')->name('calculation.')->group(function(){
             Route::resource('/deposite',HTDepositeController::class);
+            ///village levy
             Route::get('/village-leavy',[EkhanaReportController::class,'villageBasedLevy'])->name('village-leavy.index');
         });
 
@@ -126,6 +127,7 @@ Route::middleware([
         Route::get('ekhana/export/pdf', [ExportController::class, 'exportPdf'])->name('ekhana.export.pdf');
         Route::get('deposite/export/excel', [ExportController::class, 'exportExcel'])->name('deposite.export.excel');
         Route::get('deposite/export/pdf', [ExportController::class, 'exportPdf'])->name('deposite.export.pdf');
+        Route::get('village-leavy/export/excel', [ExportController::class, 'villLevyExpExl'])->name('villleavy.export.excel');
 
 
     //User Management
