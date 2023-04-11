@@ -159,19 +159,46 @@ const printTable = ()=>{
         printable: 'table',
         type: 'html',
         header: 'গ্রাম ভিত্তিক ধার্য',
-        headerStyle: 'font-weight: bold; text-align:center;color:red;',
-        style: 'font-size: 18px',
+        headerStyle: 'font-weight: bolder; text-align:center; margin:auto; margin-left:20px',
+        style: '#my-table { border-collapse: collapse; width: 100%; font-size: 14px;margin-top:20px } #my-table th { background-color: #f2f2f2; color: #444; font-weight: bold; padding: 2px; text-align: left; border: 1px solid #ddd; } #my-table td { background-color: #fff; color: #444; padding: 2px; text-align: left; border: 1px solid #ddd; } #my-table tbody tr:nth-child(even) { background-color: #f2f2f2; }',
         maxWidth: 800,
         font: 'Open Sans',
-        honorMarginPadding: true
+        honorMarginPadding: true,
+        css:`table, th, td{border:1px solid black;}`
       });
     }
-
 </script>
 
 <template>
     <AppLayout title="গ্রাম ভিত্তিক ধার্য">
-
+        <div id="jtable">
+            <table id="my-table">
+                <thead>
+                  <tr>
+                    <th>নামে</th>
+                    <th>গ্মে</th>
+                    <th>পনে</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>John Doe</td>
+                    <td>john.doe@example.com</td>
+                    <td>(555) 555-1234</td>
+                  </tr>
+                  <tr>
+                    <td>Jane Smith</td>
+                    <td>jane.smith@example.com</td>
+                    <td>(555) 555-5678</td>
+                  </tr>
+                  <tr>
+                    <td>Bob Johnson</td>
+                    <td>bob.johnson@example.com</td>
+                    <td>(555) 555-9876</td>
+                  </tr>
+                </tbody>
+            </table>
+        </div>
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
             <SucMesgShow :message="$page.props.flash.suc_msg"></SucMesgShow>
             <div class="bg-white flex justify-between p-4">
@@ -250,6 +277,9 @@ const printTable = ()=>{
                 </form>
 
             </div>
+            <button type="button" @click="printTable()" class="text-white bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 shadow-lg shadow-cyan-500/50 dark:shadow-lg dark:shadow-cyan-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
+                তালিকা প্রিন্ট
+            </button>
 
             <div v-if="ekhana.length>0">
                 <button type="button" @click="printTable()" class="text-white bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 shadow-lg shadow-cyan-500/50 dark:shadow-lg dark:shadow-cyan-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
@@ -258,6 +288,133 @@ const printTable = ()=>{
             </div>
 
             <div id="table">
+                <table id="my-table">
+                    <thead>
+                      <tr>
+                        <th>নামে</th>
+                        <th>গ্মে</th>
+                        <th>পনে</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>John Doe</td>
+                        <td>john.doe@example.com</td>
+                        <td>(555) 555-1234</td>
+                      </tr>
+                      <tr>
+                        <td>Jane Smith</td>
+                        <td>jane.smith@example.com</td>
+                        <td>(555) 555-5678</td>
+                      </tr>
+                      <tr>
+                        <td>Bob Johnson</td>
+                        <td>bob.johnson@example.com</td>
+                        <td>(555) 555-9876</td>
+                      </tr>
+                    </tbody>
+                </table>
+
+<div class="relative overflow-x-auto">
+    <table border="1" class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+                <th scope="col" class="px-6 py-3">
+                    Product name
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Color
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Category
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Price
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    Apple MacBook Pro 17"
+                </th>
+                <td class="px-6 py-4">
+                    Silver
+                </td>
+                <td class="px-6 py-4">
+                    Laptop
+                </td>
+                <td class="px-6 py-4">
+                    $2999
+                </td>
+            </tr>
+            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    Microsoft Surface Pro
+                </th>
+                <td class="px-6 py-4">
+                    White
+                </td>
+                <td class="px-6 py-4">
+                    Laptop PC
+                </td>
+                <td class="px-6 py-4">
+                    $1999
+                </td>
+            </tr>
+            <tr class="bg-white dark:bg-gray-800">
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    Magic Mouse 2
+                </th>
+                <td class="px-6 py-4">
+                    Black
+                </td>
+                <td class="px-6 py-4">
+                    Accessories
+                </td>
+                <td class="px-6 py-4">
+                    $99
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<table>
+    <caption>Sample Table</caption>
+    <thead>
+      <tr>
+        <th rowspan="2">Product</th>
+        <th colspan="3">Sales</th>
+      </tr>
+      <tr>
+        <th>Q1</th>
+        <th>Q2</th>
+        <th>Q3</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Product A</td>
+        <td>$10,000</td>
+        <td>$12,000</td>
+        <td>$15,000</td>
+      </tr>
+      <tr>
+        <td>Product B</td>
+        <td>$5,000</td>
+        <td>$8,000</td>
+        <td>$10,000</td>
+      </tr>
+      <tr>
+        <td>Product C</td>
+        <td>$20,000</td>
+        <td>$18,000</td>
+        <td>$22,000</td>
+      </tr>
+    </tbody>
+  </table>
+
+
                 <table v-if="ekhana.length>0"  class="w-full text-md text-left text-gray-500 dark:text-gray-400">
                     <thead class="text-md text-center text-gray-700 uppercase bg-[#11ff5999] dark:bg-gray-700 dark:text-gray-400">
                         <tr>
@@ -290,11 +447,11 @@ const printTable = ()=>{
                             </th>
                             <th colspan="2" scope="col" class="">
                                 সম্পদের বিবরন
-                                <!-- <div class="flex items-center justify-between bg-[#1c09ffb5] rounded p-1 h-16">
+                                <div class="flex items-center justify-between bg-[#1c09ffb5] rounded p-1 h-16">
                                     <h4 class="p-1 text-white">পাকা</h4>
                                     <h4 class="p-1 text-white">আধাপাকা</h4>
                                     <h4 class="p-1 text-white">কাঁচা</h4>
-                                </div> -->
+                                </div>
                             </th>
                             <th scope="col" class="px-6 py-3">
                                 বাৎসরিক ভাড়ার পরিমাণ
@@ -347,11 +504,11 @@ const printTable = ()=>{
                                 {{ value.w_name }}
                             </td>
                             <td colspan="2" scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                <!-- <div class="flex items-center justify-between">
+                                <div class="flex items-center justify-between">
                                     <p >{{ value.paka_house }}</p>
                                     <p >{{ value.adhapaka_house }}</p>
                                     <p >{{ value.kasa_house }}</p>
-                                </div> -->
+                                </div>
                             </td>
                             <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 {{ new Intl.NumberFormat().format(value.yearly_house_rent) }}/=
@@ -402,15 +559,42 @@ const printTable = ()=>{
     </AppLayout>
 </template>
 
-<!-- <style>
-@media print {
-    /* hide all elements except for the table */
-    body * {
-      display: none;
-    }
-    #table {
-      display: block;
-      color: black;
+<style>
+/* CSS styles for table */
+#my-table {
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 14px;
+  }
+
+  #my-table th {
+    background-color: #f2f2f2;
+    color: #444;
+    font-weight: bold;
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+
+  #my-table td {
+    background-color: #fff;
+    color: #444;
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+
+  #my-table tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+
+  @media print {
+    /* add your print-specific styles here */
+    body {
+      font-size: 12pt;
+      color: #000000;
+      background-color: #ffffff;
     }
   }
-</style> -->
+
+</style>
