@@ -288,12 +288,17 @@ const printTable = ()=>{
             </div>
 
             <div id="table">
-                <table id="my-table">
+                <table id="my-table" class="text-center">
                     <thead>
                       <tr>
-                        <th>নামে</th>
-                        <th>গ্মে</th>
-                        <th>পনে</th>
+                        <th rowspan="2">নামে</th>
+                        <th colspan="3">গ্মে</th>
+                        <th rowspan="2">পনে</th>
+                      </tr>
+                      <tr>
+                        <th>am i </th>
+                        <th>am i </th>
+                        <th>am i </th>
                       </tr>
                     </thead>
                     <tbody>
@@ -301,119 +306,25 @@ const printTable = ()=>{
                         <td>John Doe</td>
                         <td>john.doe@example.com</td>
                         <td>(555) 555-1234</td>
+                        <td>(555) 555-1234</td>
+                        <td>(555) 555-1234</td>
                       </tr>
                       <tr>
                         <td>Jane Smith</td>
                         <td>jane.smith@example.com</td>
+                        <td>(555) 555-5678</td>
+                        <td>(555) 555-5678</td>
                         <td>(555) 555-5678</td>
                       </tr>
                       <tr>
                         <td>Bob Johnson</td>
                         <td>bob.johnson@example.com</td>
                         <td>(555) 555-9876</td>
+                        <td>(555) 555-9876</td>
+                        <td>(555) 555-9876</td>
                       </tr>
                     </tbody>
                 </table>
-
-<div class="relative overflow-x-auto">
-    <table border="1" class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-            <tr>
-                <th scope="col" class="px-6 py-3">
-                    Product name
-                </th>
-                <th scope="col" class="px-6 py-3">
-                    Color
-                </th>
-                <th scope="col" class="px-6 py-3">
-                    Category
-                </th>
-                <th scope="col" class="px-6 py-3">
-                    Price
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    Apple MacBook Pro 17"
-                </th>
-                <td class="px-6 py-4">
-                    Silver
-                </td>
-                <td class="px-6 py-4">
-                    Laptop
-                </td>
-                <td class="px-6 py-4">
-                    $2999
-                </td>
-            </tr>
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    Microsoft Surface Pro
-                </th>
-                <td class="px-6 py-4">
-                    White
-                </td>
-                <td class="px-6 py-4">
-                    Laptop PC
-                </td>
-                <td class="px-6 py-4">
-                    $1999
-                </td>
-            </tr>
-            <tr class="bg-white dark:bg-gray-800">
-                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    Magic Mouse 2
-                </th>
-                <td class="px-6 py-4">
-                    Black
-                </td>
-                <td class="px-6 py-4">
-                    Accessories
-                </td>
-                <td class="px-6 py-4">
-                    $99
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-<table>
-    <caption>Sample Table</caption>
-    <thead>
-      <tr>
-        <th rowspan="2">Product</th>
-        <th colspan="3">Sales</th>
-      </tr>
-      <tr>
-        <th>Q1</th>
-        <th>Q2</th>
-        <th>Q3</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Product A</td>
-        <td>$10,000</td>
-        <td>$12,000</td>
-        <td>$15,000</td>
-      </tr>
-      <tr>
-        <td>Product B</td>
-        <td>$5,000</td>
-        <td>$8,000</td>
-        <td>$10,000</td>
-      </tr>
-      <tr>
-        <td>Product C</td>
-        <td>$20,000</td>
-        <td>$18,000</td>
-        <td>$22,000</td>
-      </tr>
-    </tbody>
-  </table>
-
 
                 <table v-if="ekhana.length>0"  class="w-full text-md text-left text-gray-500 dark:text-gray-400">
                     <thead class="text-md text-center text-gray-700 uppercase bg-[#11ff5999] dark:bg-gray-700 dark:text-gray-400">
@@ -565,6 +476,7 @@ const printTable = ()=>{
     border-collapse: collapse;
     width: 100%;
     font-size: 14px;
+    text-align: center;
   }
 
   #my-table th {
@@ -574,6 +486,7 @@ const printTable = ()=>{
     padding: 10px;
     text-align: left;
     border-bottom: 1px solid #ddd;
+    text-align: center;
   }
 
   #my-table td {
@@ -582,6 +495,7 @@ const printTable = ()=>{
     padding: 10px;
     text-align: left;
     border-bottom: 1px solid #ddd;
+    text-align: center;
   }
 
   #my-table tbody tr:nth-child(even) {
