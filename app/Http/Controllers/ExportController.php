@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exports\EkhanaExport;
+use App\Exports\VillLevyExpExl;
 use App\Models\Ekhana;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
@@ -15,6 +16,11 @@ class ExportController extends Controller
     {
         // dd('nobir');
         return Excel::download(new EkhanaExport, 'ekhana.xlsx');
+    }
+    public function villLevyExpExl()
+    {
+        // dd('nobir');
+        return Excel::download(new VillLevyExpExl, 'village-levy.xlsx');
     }
     public function exportPdf()
     {

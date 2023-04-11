@@ -32,4 +32,8 @@ class EkhanaReportController extends Controller
     // dd($n);
     return Inertia::render('Tax/Calculation/VillageLevy/Index',$n);
  }
+
+ public function villLevyExpExl(){
+    
+ }
 }

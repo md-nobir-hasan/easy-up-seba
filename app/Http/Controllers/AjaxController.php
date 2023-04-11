@@ -206,13 +206,6 @@ class AjaxController extends Controller
     }
 
     public function ekhanaVillLevy(Request $req){
-        // $n['ekhanas'] = Ekhana::with(["houseTaxDeposite:$req->f_year_id"])->where('word_id',$req->word_id)
-        //                         ->where('village_id',$req->village_id)
-        //                         ->where('infrastructure',$req->infrastructure)
-        //                         // ->houseTaxDeposite()
-        //                         // ->where('f_year_id',$req->f_year_id)
-        //                         // ->where('paid_amount','<',1)
-        //                         ->get();
         $n['village_levy'] = DB::table('house_tax_deposites')
                                 ->join('ekhanas','house_tax_deposites.ekhana_id','=','ekhanas.id')
                                 ->join('villages','ekhanas.village_id','=','villages.id')
