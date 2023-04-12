@@ -201,8 +201,10 @@ console.log(usePage().props.auth.user)
                         <td>{{ totalSum(value.house_tax) }}</td>
                         <td>{{ paidSum(value.house_tax_paid) }}</td>
                         <td>{{ totalSum(value.house_tax_unpaid) }}</td>
-                        <td>0n</td>
-                        <td>0n</td>
+                        <!-- <td>0n</td> -->
+                        <td>{{ totalSum(value.prev_tax_unpaid) }}</td>
+                        <td>{{ paidSum(value.prev_tax_paid) }}</td>
+                        <!-- <td>0n</td> -->
                         <td>{{ paidSum(value.house_tax_paid) }}</td>
                         <td>{{ totalSum(value.house_tax_unpaid) }}</td>
                         <td>{{ year_range }}</td>

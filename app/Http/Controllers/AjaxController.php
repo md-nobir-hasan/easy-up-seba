@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Events\HouseTaxDepositeAproval;
 use App\Models\Ekhana;
+use App\Models\FinancialYear;
 use App\Models\HouseTaxDeposite;
 use App\Models\Notification;
 use App\Models\Tax;
@@ -221,23 +222,43 @@ class AjaxController extends Controller
         return response()->json($n);
     }
     public function TolistLevy(Request $req){
+        $f_year = FinancialYear::find($req->f_year_id);
+
         if(Auth::user()->role->name == 'Power'){
-            $n['toplist_levy'] = Word::with(["village","ekhana",'houseTaxPaid','houseTaxUnpaid',"houseTax" => function ($query) use ($req) {
-                $query->where('f_year_id', $req->f_year_id);}])
-                                        // ->where('union_id',Auth::user()->word->union_id)
-                                        ->get();
+            $n['toplist_levy'] = Word::with(["village",
+                                            "ekhana",
+                                            'houseTaxPaid'=> function ($query) use ($req) {$query->where('f_year_id', $req->f_year_id);},
+                                            'houseTaxUnpaid'=> function ($query) use ($req) {$query->where('f_year_id', $req->f_year_id);},
+                                            "houseTax" => function ($query) use ($req) {$query->where('f_year_id', $req->f_year_id);},
+                                            "prevTaxUnpaid" => function ($query) use ($req) {$query->where('f_year_id','<', $req->f_year_id);},
+                                            "prevTaxPaid" => function ($query) use ($req,$f_year) {$query->where('f_year_id','<', $req->f_year_id)->whereBetween('house_tax_deposites.updated_at',["01/01/$f_year->from","01/01/$f_year->to"]);},
+                                            ])
+                                            ->get();
         }
         elseif(Auth::user()->role->name == 'Union'){
-            $n['toplist_levy'] = Word::with(["village","ekhana",'houseTaxPaid','houseTaxUnpaid',"houseTax" => function ($query) use ($req) {
-                $query->where('f_year_id', $req->f_year_id);}])
-                                        ->where('union_id',Auth::user()->word->union_id)
-                                        ->get();
+            $n['toplist_levy'] = Word::with(["village",
+                                            "ekhana",
+                                            'houseTaxPaid'=> function ($query) use ($req) {$query->where('f_year_id', $req->f_year_id);},
+                                            'houseTaxUnpaid'=> function ($query) use ($req) {$query->where('f_year_id', $req->f_year_id);},
+                                            "houseTax" => function ($query) use ($req) {$query->where('f_year_id', $req->f_year_id);},
+                                            "prevTaxUnpaid" => function ($query) use ($req) {$query->where('f_year_id','<', $req->f_year_id);},
+                                            "prevTaxPaid" => function ($query) use ($req,$f_year) {$query->where('f_year_id','<', $req->f_year_id)->whereBetween('house_tax_deposites.updated_at',["01/01/$f_year->from","01/01/$f_year->to"]);},
+                                            ])
+                                            ->where('union_id',Auth::user()->word->union_id)
+                                            ->get();
         }
         else{
-            $n['toplist_levy'] = Word::with(["village","ekhana",'houseTaxPaid','houseTaxUnpaid',"houseTax" => function ($query) use ($req) {
-                $query->where('f_year_id', $req->f_year_id);}])
-                                        ->where('word_id',Auth::user()->word_id)
-                                        ->get();
+            $n['toplist_levy'] = Word::with(["village",
+                                            "ekhana",
+                                            'houseTaxPaid'=> function ($query) use ($req) {$query->where('f_year_id', $req->f_year_id);},
+                                            'houseTaxUnpaid'=> function ($query) use ($req) {$query->where('f_year_id', $req->f_year_id);},
+                                            "houseTax" => function ($query) use ($req) {$query->where('f_year_id', $req->f_year_id);},
+                                            "prevTaxUnpaid" => function ($query) use ($req) {$query->where('f_year_id','<', $req->f_year_id);},
+                                            "prevTaxPaid" => function ($query) use ($req,$f_year) {$query->where('f_year_id','<', $req->f_year_id)->whereBetween('house_tax_deposites.updated_at',["01/01/$f_year->from","01/01/$f_year->to"]);},
+                                            ])
+                                            ->where('union_id',Auth::user()->word->union_id)
+                                            ->where('word_id',Auth::user()->word_id)
+                                            ->get();
         }
 
 
