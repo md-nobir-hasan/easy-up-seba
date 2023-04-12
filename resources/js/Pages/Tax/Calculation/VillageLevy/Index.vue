@@ -142,6 +142,14 @@ const villageFetching = ()=>{
 
 )
 
+const year_range = ref(null);
+const fYear = () =>{
+    let elememt = document.getElementById('f_year_id');
+    let index = elememt.selectedIndex;
+    let text = elememt.options[index].text;
+    year_range.value = text;
+
+}
 // }
 // Print table
 // const printTable = ()=>{
@@ -158,9 +166,9 @@ const printTable = ()=>{
       printJS({
         printable: 'table',
         type: 'html',
-        header: 'গ্রাম ভিত্তিক ধার্য তালিকা',
-        headerStyle: 'font-weight: bolder; text-align:center; margin-bottom:15px;',
-        style: '#my-table { border-collapse: collapse; width: 100%; font-size: 14px;margin-top:20px } #my-table th { background-color: #f2f2f2; color: #444; font-weight: bold; padding: 2px; text-align: left; border: 1px solid #ddd; } #my-table td { background-color: #fff; color: #444; padding: 2px; text-align: left; border: 1px solid #ddd; } #my-table tbody tr:nth-child(even) { background-color: #f2f2f2; }',
+        // header: 'গ্রাম ভিত্তিক ধার্য তালিকা',
+        // headerStyle: 'font-weight: bolder; text-align:center; margin-bottom:15px;',
+        style: '#my-table { border-collapse: collapse; width: 100%; font-size: 14px;margin-top:20px } #my-table th { background-color: #f2f2f2; color: #444; font-weight: bold; padding: 2px; text-align: left; border: 1px solid #ddd; } #my-table td { background-color: #fff; color: #444; padding: 2px; text-align: left; border: 1px solid #ddd; } #my-table tbody tr:nth-child(even) { background-color: #f2f2f2; } .h1div{font-size:40px !important; font-weight:bolder; text-align:center; margin-top:20px !important}',
         maxWidth: 800,
         font: 'Open Sans',
         honorMarginPadding: true,
@@ -233,7 +241,7 @@ const exportExcel = ()=>{
                      <!-- financial year  -->
                      <div class="mt-2 flex items-center">
                         <label for="f_year_id" class="block min-w-[30%] text-md font-extrabold dark:text-white">অর্থ-বছর</label>
-                        <select id="f_year_id" v-model="form.f_year_id"
+                        <select @change="fYear" id="f_year_id" v-model="form.f_year_id"
                         class="border min-w-[65%] text-[black]  border-gray-300 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
                             <option selected value="">অর্থ-বছর নির্বাচন করুন</option>
                             <option v-for="(f_year, key) in f_years" :value="f_year.id" :key="key">{{ f_year.from+'-'+f_year.to }}</option>
@@ -260,10 +268,8 @@ const exportExcel = ()=>{
             </div>
 
             <div id="table" v-if="ekhana.length>0">
-                <!-- <div>
-                    <h1>গ্রাম ভিত্তিক ধার্য তালিকা</h1>
-                </div> -->
                 <table id="my-table" class="text-center">
+                    <caption class="bg-[yellow] p-[8px] font-extrabold text-[20px] text-center h1div">গ্রাম ভিত্তিক ধার্য করের পরিমাণ ({{ form.infrastructure }}) - ({{ year_range }})</caption>
                     <thead>
                       <tr>
                         <th rowspan="2">হোল্ডিং নাম্বার</th>
