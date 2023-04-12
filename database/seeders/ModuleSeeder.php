@@ -37,7 +37,7 @@ class ModuleSeeder extends Seeder
                     ['name' => 'House Tax Deposite List','a_union' => '1'],
                     ['name' => 'Village Based Levy','a_union' => '1'],
                 ['name' => 'টপলিষ্ট/ডেইলি পোষ্টিং','a_union' => '1'],
-                    ['name' => 'ধর্য/আদায় টপশীট','a_union' => '1'],
+                    ['name' => 'দার্য/আদায় টপশীট','a_union' => '1'],
             ['name' => 'Approval','a_union' => null],
                 ['name' => 'Tax Deposite Approval','a_union' => null],
         ];

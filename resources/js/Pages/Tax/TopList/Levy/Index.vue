@@ -118,6 +118,7 @@ function totalSum(arr){
     });
     return sum;
 }
+
 function paidSum(arr){
     let sum = 0;
     arr.forEach(element => {
@@ -125,15 +126,27 @@ function paidSum(arr){
     });
     return sum;
 }
-console.log(usePage().props.auth.user)
+const total_village = 0;
+const total_ekhana = 0;
+const paid_khana = 0;
+const total_year_levy = 0;
+const year_levy_paid = 0;
+const year_levy_unpaid = 0;
+const prev_levy_unpaid = 0;
+const prev_levy_paid = 0;
+const total_paid = 0;
+const total_arrears = 0;
+const percentange = 0;
+const total_num = 0;
+// const prev_levy_unpaid = ref(0);
 </script>
 
 <template>
-    <AppLayout title="গ্রাম ভিত্তিক ধার্য">
+    <AppLayout title="দার্য/আদায় টপশীট">
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
             <SucMesgShow :message="$page.props.flash.suc_msg"></SucMesgShow>
             <div class="bg-white flex justify-between p-4">
-                <h2 class="float-left text-4xl font-extrabold">গ্রাম ভিত্তিক ধার্য</h2>
+                <h2 class="float-left text-4xl font-extrabold">ওয়ার্ড ভিত্তিক দার্য/আদায় টপশীট</h2>
             </div>
             <div class="mt-4 mb-2 p-4 bg-white">
                 <form @submit.prevent="submit" class="bg-[#008494db] text-[white] m-auto  rounded-lg p-6 pb-[2px] text-2lg max-w-md max-sm:max-w-sm">
@@ -170,10 +183,9 @@ console.log(usePage().props.auth.user)
             <div id="table" v-if="ekhana.length>0">
                 <div>
                     <h4 class="bg-[#f73532c2] text-white block p-[8px] font-extrabold text-[20px] text-center h1div">{{ $page.props.auth.user.word.name+' নং '+$page.props.auth.user.word.union.name}}</h4>
-
                 </div>
                 <table id="my-table" class="text-center">
-                    <caption class="bg-[yellow] p-[8px] font-extrabold text-[20px] text-center h1div">গ্রাম ভিত্তিক ধার্য কর ও আদায়ের টপশীট-({{ year_range }}) - ({{ year_range }})</caption>
+                    <caption class="bg-[yellow] p-[8px] font-extrabold text-[20px] text-center">গ্রাম ভিত্তিক ধার্য কর ও আদায়ের টপশীট-({{ year_range }}) - ({{ year_range }})</caption>
                     <thead>
                       <tr>
                         <th>ওয়ার্ড নাম্বার</th>
@@ -186,46 +198,67 @@ console.log(usePage().props.auth.user)
                         <th>পূর্বের বকেয়া </th>
                         <th>বকেয়া আদায় </th>
                         <th>সর্বমোট আদায় </th>
-                        <th>সর্বমোট বকেয়া</th>
+                        <th>সর্বমোট বকেয়া (হাল বকেয়া + পূর্বের বকেয়া)</th>
                         <th>অর্থ-বছর</th>
                         <th>আদায়ের শতকরা হার</th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr v-for="(value, key) in ekhana" :key="key">
-                        <td>  {{ value.name  }}</td>
-                        <td>{{ value.village.length }}</td>
-                        <!-- <td>{{new Intl.NumberFormat().format(value.yearly_income) }}/=</td> -->
-                        <td>{{ value.ekhana.length }}</td>
-                        <td>{{ value.house_tax_paid.length }}</td>
-                        <td>{{ totalSum(value.house_tax) }}</td>
-                        <td>{{ paidSum(value.house_tax_paid) }}</td>
-                        <td>{{ totalSum(value.house_tax_unpaid) }}</td>
-                        <!-- <td>0n</td> -->
-                        <td>{{ totalSum(value.prev_tax_unpaid) }}</td>
-                        <td>{{ paidSum(value.prev_tax_paid) }}</td>
-                        <!-- <td>0n</td> -->
-                        <td>{{ paidSum(value.house_tax_paid) }}</td>
-                        <td>{{ totalSum(value.house_tax_unpaid) }}</td>
-                        <td>{{ year_range }}</td>
-                        <td>{{ paidSum(value.house_tax_paid)/paidSum(value.house_tax_paid) ? paidSum(value.house_tax_paid)/paidSum(value.house_tax_paid)*100 : 100 }}</td>
-                        <!-- <td>{{ value.phone }}</td>
-                        <td>{{ value.vill_name }}</td>
-                        <td>{{ value.w_name }}</td>
-                        <td>{{ value.paka_house }}</td>
-                        <td>{{ value.adhapaka_house }}</td> -->
-                        <!-- <td>{{ value.kasa_house }}</td>
-                        <td>{{ new Intl.NumberFormat().format(value.yearly_house_rent) }}/=</td>
-                        <td> {{value.fy_from+'-'+ value.fy_to }}</td>
-                        <td> {{ new Intl.NumberFormat().format(Math.round(value.yearly_house_rent*tax.price/100)) }}/=</td>
-                        <td>{{ new Intl.NumberFormat().format(Math.round(value.yearly_house_rent*tax.price/100)- value.tax_paid) }}/=</td>
-                        <td> {{ new Intl.NumberFormat().format(Math.round(value.yearly_house_rent*tax.price/100)) }}/=</td> -->
-                        <!-- <td></td> -->
+                        <td :data-val="total_num = key +1">  {{ value.name  }}</td>
+                        <td :data-val="total_village += value.village.length ">{{  value.village.length }}</td>
+                        <td :data-val="total_ekhana += value.ekhana.length ">{{ value.ekhana.length }}</td>
+                        <td :data-val="paid_khana += value.house_tax_paid.length ">{{ value.house_tax_paid.length }}</td>
+                        <td :data-val="total_year_levy += totalSum(value.house_tax) ">{{ totalSum(value.house_tax) }}</td>
+                        <td :data-val="year_levy_paid += paidSum(value.house_tax_paid)">{{paidSum(value.house_tax_paid) }}</td>
+                        <td :data-val="year_levy_unpaid += totalSum(value.house_tax_unpaid)">{{totalSum(value.house_tax_unpaid) }}</td>
+                        <td :data-val="prev_levy_unpaid += totalSum(value.prev_tax_unpaid)">{{totalSum(value.prev_tax_unpaid) }}</td>
+                        <td :data-val="prev_levy_paid += paidSum(value.prev_tax_paid)">{{paidSum(value.prev_tax_paid) }}</td>
+                        <td :data-val="total_paid += paidSum(value.house_tax_paid)">{{ paidSum(value.house_tax_paid) }}</td>
+                        <td :data-val="total_arrears += totalSum(value.house_tax_unpaid) ">{{ totalSum(value.house_tax_unpaid) }}</td>
+                        <td >{{ year_range }}</td>
+                        <td :data-val="percentange +=  paidSum(value.house_tax_paid)/paidSum(value.house_tax_paid) ? paidSum(value.house_tax_paid)/paidSum(value.house_tax_paid)*100 : 100">{{ paidSum(value.house_tax_paid)/paidSum(value.house_tax_paid) ? paidSum(value.house_tax_paid)/paidSum(value.house_tax_paid)*100 : 100 }}</td>
                       </tr>
                     </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>সর্বমোট</th>
+                            <th>{{total_village}}</th>
+                            <th>{{total_ekhana}}</th>
+                            <th>{{paid_khana}}</th>
+                            <th>{{total_year_levy}}</th>
+                            <th>{{year_levy_paid}}</th>
+                            <th>{{year_levy_unpaid}}</th>
+                            <th>{{prev_levy_paid}}</th>
+                            <th>{{prev_levy_unpaid}}</th>
+                            <th>{{year_levy_paid + prev_levy_paid}}</th>
+                            <th>{{year_levy_unpaid+prev_levy_unpaid}}</th>
+                            <th>=>></th>
+                            <th>{{percentange/total_num}}</th>
+                        </tr>
+                    </tfoot>
                 </table>
+            </div>
 
+            <div v-if="ekhana.length>0" class="pt-[25px] text-center">
+                <table id="my-table" class="text-center m-auto" style="width:60%">
+                    <caption class="bg-[#030b59bd] text-white p-[8px] font-extrabold text-[20px] text-center h1div">চলিত অর্থ-বছরের সমস্ত আদায়ের সমষ্টি</caption>
+                    <thead>
+                      <tr>
+                        <th>হাল আদায়</th>
+                        <th>বকেয়া আদায়</th>
+                        <th>সর্বমোট আদায় (হাল আদায় + বকেয়া আদায়)</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td > {{ year_levy_paid }}</td>
+                        <td >{{ prev_levy_paid }}</td>
+                        <td >{{ year_levy_paid + prev_levy_paid }}</td>
 
+                    </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </AppLayout>
