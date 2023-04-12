@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Ekhana extends Model
 {
@@ -34,8 +35,12 @@ protected $fillable = ['phone','bn_name'];
         return $this->belongsTo(Word::class,'profession_id');
     }
 
+
+
     public function houseTaxDeposite($f_year_id){
         return $this->hasMany(HouseTaxDeposite::class,'ekhana_id')->where('paid_amount','<',1)->where('f_year_id',$f_year_id);
     }
+
+
 
 }

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Word extends Model
 {
@@ -31,5 +32,31 @@ class Word extends Model
     public function union(){
         return $this->belongsTo(Union::class,'union_id');
     }
+    public function village(){
+        return $this->hasMany(Village::class,'word_id');
+    }
+    public function ekhana(){
+        return $this->hasMany(Ekhana::class,'word_id');
+    }
+
+    public function paid(){
+        $tax = Tax::latest()->first();
+        return Ekhana::select('holding_no', 'yearly_house_rent', 'tax_paid', DB::raw("(yearly_house_rent *$tax->price)/100 as total_price"))->where('tax_paid','>',0)->get();
+    }
+
+    public function unpaid(){
+        $tax = Tax::latest()->first();
+        return Ekhana::all();
+    }
+    public function houseTax(){
+       return $this->hasManyThrough(HouseTaxDeposite::class,Ekhana::class);
+    }
+    public function houseTaxPaid(){
+       return $this->hasManyThrough(HouseTaxDeposite::class,Ekhana::class)->where('paid_amount','>',0);
+    }
+    public function houseTaxUnpaid(){
+       return $this->hasManyThrough(HouseTaxDeposite::class,Ekhana::class)->where('paid_amount','<',1);
+    }
+
 
 }

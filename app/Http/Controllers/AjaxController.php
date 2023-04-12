@@ -220,6 +220,29 @@ class AjaxController extends Controller
 
         return response()->json($n);
     }
+    public function TolistLevy(Request $req){
+        if(Auth::user()->role->name == 'Power'){
+            $n['toplist_levy'] = Word::with(["village","ekhana",'houseTaxPaid','houseTaxUnpaid',"houseTax" => function ($query) use ($req) {
+                $query->where('f_year_id', $req->f_year_id);}])
+                                        // ->where('union_id',Auth::user()->word->union_id)
+                                        ->get();
+        }
+        elseif(Auth::user()->role->name == 'Union'){
+            $n['toplist_levy'] = Word::with(["village","ekhana",'houseTaxPaid','houseTaxUnpaid',"houseTax" => function ($query) use ($req) {
+                $query->where('f_year_id', $req->f_year_id);}])
+                                        ->where('union_id',Auth::user()->word->union_id)
+                                        ->get();
+        }
+        else{
+            $n['toplist_levy'] = Word::with(["village","ekhana",'houseTaxPaid','houseTaxUnpaid',"houseTax" => function ($query) use ($req) {
+                $query->where('f_year_id', $req->f_year_id);}])
+                                        ->where('word_id',Auth::user()->word_id)
+                                        ->get();
+        }
+
+
+        return response()->json($n);
+    }
 
 }
 
