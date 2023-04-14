@@ -35,4 +35,7 @@ class Village extends Model
     public function word(){
         return $this->belongsTo(Word::class,'word_id');
     }
+    public function ekhana(){
+        return $this->hasMany(Ekhana::class,'village_id');
+    }
 }

@@ -33,7 +33,9 @@ class EkhanaReportController extends Controller
     return Inertia::render('Tax/Calculation/VillageLevy/Index',$n);
  }
 
- public function villLevyExpExl(){
-    
+ public function WordTopListLevy(){
+    $n['f_years'] = FinancialYear::where('deleted_at',null)->orderBy('id','desc')->get();
+
+    return Inertia::render('Tax/TopList/Levy/Index',$n);
  }
 }
