@@ -51,30 +51,8 @@ class AjaxController extends Controller
                    $data = Word::with(['division','district','upazila','union','createdBy','updatedBy'])->where($field,$val)->where('id',Auth::user()->word_id)->where('deleted_by',null)->orderBy('id','desc')->get();
                 }
             }
-
-            // elseif($modal == 'Village'){
-            //     if(Auth::user()->role->name == "Power"){
-            //         $data = Village::with(['division','district','upazila','union','word','createdBy','updatedBy'])->where('deleted_by',null)->orderBy('id','desc')->get();
-            //     }
-            //     elseif(Auth::user()->role->name == "Union"){
-            //         $data = Village::with(['division','district','upazila','union','word','createdBy','updatedBy'])->where('deleted_by',null)->where('union_id',Auth::user()->word->union_id)->orderBy('id','desc')->get();
-            //     }
-            //     else{
-            //         $data = Village::with(['division','district','upazila','union','word','createdBy','updatedBy'])->where('deleted_by',null)->where('union_id',Auth::user()->word->union_id)->where('word_id',Auth::user()->word_id)->orderBy('id','desc')->get();
-
-            //     }
-            // }
             elseif($modal == 'Ekhana'){
                 $data = $modalClass::with(['houseStruc','word','village','houseStruc.houseStruc','createdBy'])->where($field,$val)->where($field2,$val2)->where('deleted_by',null)->orderBy('id','desc')->get();
-                // if(Auth::user()->role->name == 'Power'){
-                //     $data = Ekhana::with(['createdBy','updatedBy','village','edQuali','religion','profession','houseStruc','word','houseStruc.houseStruc'])->where('deleted_by',null)->orderBy('id','desc')->get();
-                // }
-                // elseif(Auth::user()->role->name == 'Union'){
-                //     $data = Ekhana::with(['createdBy','updatedBy','village','edQuali','religion','profession','houseStruc','word','houseStruc.houseStruc'])->where('union_id',Auth::user()->word->union_id)->where('deleted_by',null)->orderBy('id','desc')->get();
-                // }
-                // else{
-                //     $data = Ekhana::with(['createdBy','updatedBy','village','edQuali','religion','profession','houseStruc','word','houseStruc.houseStruc'])->where('union_id',Auth::user()->word->union_id)->where('word_id',Auth::user()->word_id)->where('deleted_by',null)->orderBy('id','desc')->get();
-                // }
             }
             else{
                 $data = $modalClass::where($field,$val)->where('deleted_by',null)->orderBy('id','desc')->get();
@@ -90,14 +68,7 @@ class AjaxController extends Controller
                         ->where('word_id',$word_id)
                         ->latest()
                         ->first();
-                        // $n['union_id'] = Auth::user()->word->union_id;
-                        // $n['word_id'] = $word_id;
                         return response()->json($n);
-        // if($ekhana){
-        //     return $ekhana->id;
-        // }else{
-        //     return 'no ekhana id';
-        // }
     }
 
     public function khanaAutoSave(Request $request){
@@ -263,6 +234,10 @@ class AjaxController extends Controller
 
 
         return response()->json($n);
+    }
+
+    public function TolistDailyPosting(Request $req){
+        return 'daily postint';
     }
 
 }

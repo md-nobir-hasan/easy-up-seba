@@ -63,6 +63,7 @@ Route::prefix('/ajax')->name('ajax.')->group(function(){
     Route::post('/house-deposite/update',[AjaxController::class,'houseDepositeUpdate'])->name('house.deposite.update');
     Route::post('/ekhana/village/levy',[AjaxController::class,'ekhanaVillLevy'])->name('ekhana.vlevy');
     Route::post('/ekhana/toplist/levy',[AjaxController::class,'TolistLevy'])->name('ekhana.toplist.levy');
+    Route::post('/ekhana/toplist/daily/posting',[AjaxController::class,'TolistDailyPosting'])->name('ekhana.toplist.diily.posting');
 });
 
 
@@ -125,6 +126,8 @@ Route::middleware([
             // Reports
                 ///village levy
                 Route::get('/levy',[EkhanaReportController::class,'WordTopListLevy'])->name('levy');
+                //dail posting
+                Route::get('/daily/posting',[EkhanaReportController::class,'EkhanDailyPosting'])->name('diily.posting');
         });
 
     });

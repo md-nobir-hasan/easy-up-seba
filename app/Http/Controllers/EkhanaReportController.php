@@ -33,9 +33,25 @@ class EkhanaReportController extends Controller
     return Inertia::render('Tax/Calculation/VillageLevy/Index',$n);
  }
 
- public function WordTopListLevy(){
-    $n['f_years'] = FinancialYear::where('deleted_at',null)->orderBy('id','desc')->get();
+    public function WordTopListLevy(){
+        $n['f_years'] = FinancialYear::where('deleted_at',null)->orderBy('id','desc')->get();
 
-    return Inertia::render('Tax/TopList/Levy/Index',$n);
- }
+        return Inertia::render('Tax/TopList/Levy/Index',$n);
+    }
+
+
+    public function EkhanDailyPosting(){
+        if(Auth::user()->role->name == 'Power'){
+            $n['words'] = Word::with(['union'])->where('deleted_by',null)->get();
+        }
+        elseif(Auth::user()->role->name == 'Union'){
+            $n['words'] = Word::with(['union'])->where('deleted_by',null)->where('union_id',Auth::user()->word->union_id)->get();
+        }
+        else{
+            $n['words'] = Word::with(['union'])->where('deleted_by',null)->where('id',Auth::user()->word_id)->get();
+        }
+        $n['f_years'] = FinancialYear::where('deleted_at',null)->orderBy('id','desc')->get();
+
+        return Inertia::render('Tax/TopList/DailyPosting/Index',$n);
+    }
 }
