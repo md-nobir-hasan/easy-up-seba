@@ -5,17 +5,27 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
 import { Link, useForm, usePage } from '@inertiajs/vue3';
 import { ref,computed } from 'vue';
 import {CheckIcon,ChevronDownIcon} from '@heroicons/vue/24/solid';
-import printJS from 'print-js'
+import printJS from 'print-js';
+// Initialization for ES Users
+import {
+  Datepicker,
+  Input,
+  initTE,
+} from "tw-eliment";
+
 
 
 const pro = defineProps({
     f_years: Object,
+    words: Object,
 });
+initTE({ Datepicker, Input });
 //Extrace user
 const usr = usePage().props.auth.user;
 
 const form = useForm({
     f_year_id: '',
+    word_id: '',
 });
 
 //========= frontend validation ============
@@ -142,14 +152,25 @@ const total_num = 0;
 </script>
 
 <template>
-    <AppLayout title="দার্য/আদায় টপশীট">
+    <AppLayout title="ডেইলি পোষ্টিং">
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
             <SucMesgShow :message="$page.props.flash.suc_msg"></SucMesgShow>
             <div class="bg-white flex justify-between p-4">
-                <h2 class="float-left text-4xl font-extrabold">ওয়ার্ড ভিত্তিক দার্য/আদায় টপশীট</h2>
+                <h2 class="float-left text-4xl font-extrabold">ওয়ার্ড ভিত্তিক ডেইলি পোষ্টিং</h2>
             </div>
             <div class="mt-4 mb-2 p-4 bg-white">
                 <form @submit.prevent="submit" class="bg-[#008494db] text-[white] m-auto  rounded-lg p-6 pb-[2px] text-2lg max-w-md max-sm:max-w-sm">
+                    <!-- Word  -->
+                    <div class="mb-2 flex items-center">
+                        <label for="word_id" class="block min-w-[30%] text-md font-extrabold dark:text-white">ওয়ার্ড</label>
+                        <select id="word_id" v-model="form.word_id"
+                        class="border text-[black]  min-w-[65%]  border-gray-300 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                            <option selected value="">ওয়ার্ড নির্বাচন করুন</option>
+                            <option v-for="(word, key) in words" :value="word.id" :key="key">{{ word.name+'-'+word.union.name }}</option>
+                        </select>
+                        <InputError class="mt-2" :message="form.errors.eerr" />
+                        <InputError class="mt-2" :message="form.errors.word_id" />
+                    </div>
                      <!-- financial year  -->
                      <div class="mt-2 flex items-center">
                         <label for="f_year_id" class="block min-w-[30%] text-md font-extrabold dark:text-white">অর্থ-বছর</label>
@@ -161,6 +182,22 @@ const total_num = 0;
                         <InputError class="mt-2" :message="form.errors.eerr" />
                         <InputError class="mt-2" :message="form.errors.f_year_id" />
                     </div>
+
+                    <!-- Date  -->
+                        <div
+                            class="relative mb-3 xl:w-96"
+                            data-te-datepicker-init
+                            data-te-input-wrapper-init>
+                            <input
+                                type="text"
+                                class="peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 peer-focus:text-primary data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:peer-focus:text-primary [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
+                                placeholder="Select a date" />
+                            <label
+                                for="floatingInput"
+                                class="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[1.6] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[0.9rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[0.9rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary"
+                                >Select a date</label
+                            >
+                        </div>
 
                     <div class="flex items-center justify-center mt-8">
                         <button @click="ekhanaFetch" type="submit" class="text-white text-[18px] font-extrabold bg-gradient-to-r from-pink-400 via-pink-500 to-pink-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-pink-300 dark:focus:ring-pink-800 shadow-lg shadow-pink-500/50 dark:shadow-lg dark:shadow-pink-800/80  rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"

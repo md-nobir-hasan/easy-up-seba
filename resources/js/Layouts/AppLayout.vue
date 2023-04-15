@@ -45,8 +45,7 @@ const submenueItem =[
                         ]},
                         {title:'টপলিষ্ট/ডেইলি পোষ্টিং',name:'টপলিষ্ট/ডেইলি পোষ্টিং',active:false,route:'',url:'/admin/tax/toplist',icon:CalculatorIcon,children:[
                             {title:'দার্য/আদায় টপশীট',name:'দার্য/আদায় টপশীট',active:false,route:route('admin.tax.toplist.levy'),url:'/admin/tax/toplist/levy',icon:CircleStackIcon,children:[]},
-                            // {title:'কর জমা লিস্ট',name:'House Tax Deposite List',active:false,route:route('admin.tax.calculation.deposite.index'),url:'/admin/tax/calculation/deposite/index',icon:ListBulletIcon,children:[]},
-                            // {title:'গ্রাম ভিত্তিক ধার্য',name:'Village Based Levy',active:false,route:route('admin.tax.calculation.village-leavy.index'),url:'/admin/tax/calculation/village-leavy/index',icon:ChevronDoubleRightIcon,children:[]},
+                            {title:'ডেইলি পোষ্টিং',name:'ডেইলি পোষ্টিং',active:false,route:route('admin.tax.toplist.diily.posting'),url:'/admin/tax/toplist/daily/posting',icon:CircleStackIcon,children:[]},
                         ]},
                     ]},
                     {title:'অনুমোদন',name: 'Approval',active: false,url:'/admin/approval',icon:CheckBadgeIcon,children:
