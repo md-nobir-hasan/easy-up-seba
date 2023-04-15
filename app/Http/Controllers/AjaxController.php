@@ -241,6 +241,7 @@ class AjaxController extends Controller
             $n['dailypost'] = Word::with(["village",
                                             "houseTax" => function ($query) use ($req) {$query->where('f_year_id', $req->f_year_id)->whereBetween('deposite_date',[$req->from_date,$req->to_date]);},
                                             "houseTax.ekhana",
+                                            "houseTax.ekhana.village",
                                             ])
                                             ->find($req->word_id);
         }
@@ -248,6 +249,7 @@ class AjaxController extends Controller
             $n['dailypost'] = Word::with(["village",
                                             "houseTax" => function ($query) use ($req) {$query->where('f_year_id', $req->f_year_id)->whereBetween('deposite_date',[$req->from_date,$req->to_date]);},
                                              "houseTax.ekhana",
+                                             "houseTax.ekhana.village",
                                             ])
                                             ->find($req->word_id);
         }
@@ -255,6 +257,7 @@ class AjaxController extends Controller
             $n['dailypost'] = Word::with(["village",
                                             "houseTax" => function ($query) use ($req) {$query->where('f_year_id', $req->f_year_id)->whereBetween('deposite_date',[$req->from_date,$req->to_date]);},
                                             "houseTax.ekhana",
+                                            "houseTax.ekhana.village",
                                             ])
                                             // ->where('union_id',Auth::user()->word->union_id)
                                             // ->where('word_id',Auth::user()->word_id)
