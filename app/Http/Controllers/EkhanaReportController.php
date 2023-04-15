@@ -54,4 +54,11 @@ class EkhanaReportController extends Controller
 
         return Inertia::render('Tax/TopList/DailyPosting/Index',$n);
     }
+
+    public function EkhanDailyPostingTopsheet(){
+
+        $n['f_years'] = FinancialYear::where('deleted_at',null)->orderBy('id','desc')->get();
+
+        return Inertia::render('Tax/TopList/DailyPostingTopsheet/Index',$n);
+    }
 }

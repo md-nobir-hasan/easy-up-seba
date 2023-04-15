@@ -46,6 +46,7 @@ const submenueItem =[
                         {title:'টপলিষ্ট/ডেইলি পোষ্টিং',name:'টপলিষ্ট/ডেইলি পোষ্টিং',active:false,route:'',url:'/admin/tax/toplist',icon:CalculatorIcon,children:[
                             {title:'দার্য/আদায় টপশীট',name:'দার্য/আদায় টপশীট',active:false,route:route('admin.tax.toplist.levy'),url:'/admin/tax/toplist/levy',icon:CircleStackIcon,children:[]},
                             {title:'ডেইলি পোষ্টিং',name:'ডেইলি পোষ্টিং',active:false,route:route('admin.tax.toplist.diily.posting'),url:'/admin/tax/toplist/daily/posting',icon:CircleStackIcon,children:[]},
+                            {title:'ডেইলি পোষ্টিং টপশিট',name:'ডেইলি পোষ্টিং টপশিট',active:false,route:route('admin.tax.toplist.diily.posting.topsheet'),url:'/admin/tax/toplist/daily/postings/topsheet',icon:CircleStackIcon,children:[]},
                         ]},
                     ]},
                     {title:'অনুমোদন',name: 'Approval',active: false,url:'/admin/approval',icon:CheckBadgeIcon,children:

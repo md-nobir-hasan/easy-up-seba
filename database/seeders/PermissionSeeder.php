@@ -44,8 +44,9 @@ class PermissionSeeder extends Seeder
             ['role_id' => 1,'module_id' => 24,'add' => '1','show' => '1','edit' => '1','delete' => '1'], //টপলিষ্ট/ডেইলি পোষ্টিং
             ['role_id' => 1,'module_id' => 25,'add' => '1','show' => '1','edit' => '1','delete' => '1'], //ধর্য/আদায় টপশীট
             ['role_id' => 1,'module_id' => 26,'add' => '1','show' => '1','edit' => '1','delete' => '1'], //ডেইলি পোষ্টিং
-            ['role_id' => 1,'module_id' => 27,'add' => '1','show' => '1','edit' => '1','delete' => '1'], //Approval
-            ['role_id' => 1,'module_id' => 28,'add' => '1','show' => '1','edit' => '1','delete' => '1'], //Tax Deposite Approval
+            ['role_id' => 1,'module_id' => 27,'add' => '1','show' => '1','edit' => '1','delete' => '1'], //ডেইলি পোষ্টিং টপশিট
+            ['role_id' => 1,'module_id' => 28,'add' => '1','show' => '1','edit' => '1','delete' => '1'], //Approval
+            ['role_id' => 1,'module_id' => 29,'add' => '1','show' => '1','edit' => '1','delete' => '1'], //Tax Deposite Approval
         ];
 
          //This for Unon
