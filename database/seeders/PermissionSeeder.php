@@ -47,6 +47,7 @@ class PermissionSeeder extends Seeder
             ['role_id' => 1,'module_id' => 27,'add' => '1','show' => '1','edit' => '1','delete' => '1'], //ডেইলি পোষ্টিং টপশিট
             ['role_id' => 1,'module_id' => 28,'add' => '1','show' => '1','edit' => '1','delete' => '1'], //Approval
             ['role_id' => 1,'module_id' => 29,'add' => '1','show' => '1','edit' => '1','delete' => '1'], //Tax Deposite Approval
+            ['role_id' => 1,'module_id' => 30,'add' => '1','show' => '1','edit' => '1','delete' => '1'], //ওয়ার্ড ভিত্তিক ধার্য
         ];
 
          //This for Unon

@@ -121,6 +121,7 @@ Route::middleware([
             // Reports
                 ///village levy
                 Route::get('/village-leavy',[EkhanaReportController::class,'villageBasedLevy'])->name('village-leavy.index');
+                Route::get('/word-leavy',[EkhanaReportController::class,'wordBasedLevy'])->name('word-leavy.index');
         });
         //Top list/ daily posting
         Route::prefix('/toplist')->name('toplist.')->group(function(){
