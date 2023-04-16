@@ -237,9 +237,71 @@ class AjaxController extends Controller
     }
 
     public function TolistDailyPosting(Request $req){
-        return 'daily postint';
+        if(Auth::user()->role->name == 'Power'){
+            $n['dailypost'] = Word::with(["village",
+                                            "houseTax" => function ($query) use ($req) {$query->where('f_year_id', $req->f_year_id)->whereBetween('deposite_date',[$req->from_date,$req->to_date]);},
+                                            "houseTax.ekhana",
+                                            "houseTax.ekhana.village",
+                                            ])
+                                            ->find($req->word_id);
+        }
+        elseif(Auth::user()->role->name == 'Union'){
+            $n['dailypost'] = Word::with(["village",
+                                            "houseTax" => function ($query) use ($req) {$query->where('f_year_id', $req->f_year_id)->whereBetween('deposite_date',[$req->from_date,$req->to_date]);},
+                                             "houseTax.ekhana",
+                                             "houseTax.ekhana.village",
+                                            ])
+                                            ->find($req->word_id);
+        }
+        else{
+            $n['dailypost'] = Word::with(["village",
+                                            "houseTax" => function ($query) use ($req) {$query->where('f_year_id', $req->f_year_id)->whereBetween('deposite_date',[$req->from_date,$req->to_date]);},
+                                            "houseTax.ekhana",
+                                            "houseTax.ekhana.village",
+                                            ])
+                                            // ->where('union_id',Auth::user()->word->union_id)
+                                            // ->where('word_id',Auth::user()->word_id)
+                                            ->find($req->word_id);
+        }
+
+
+        return response()->json($n);
     }
 
+
+    public function TolistDailyPostingTopsheet(Request $req){
+        // dd($req->all());
+        if(Auth::user()->role->name == 'Power'){
+            $n['ajdata'] = Word::with([
+                                            "houseTax" => function ($query) use ($req) {$query->where('f_year_id', $req->f_year_id)->whereBetween('deposite_date',[$req->from_date,$req->to_date]);},
+                                             "houseTax.ekhana",
+                                             "houseTax.ekhana.village",
+                                             ])
+                                            ->get();
+        }
+        elseif(Auth::user()->role->name == 'Union'){
+            $n['ajdata'] = Word::with([
+                                            "houseTax" => function ($query) use ($req) {$query->where('f_year_id', $req->f_year_id)->whereBetween('deposite_date',[$req->from_date,$req->to_date]);},
+                                             "houseTax.ekhana",
+                                             "houseTax.ekhana.village",
+                                             ])
+                                            ->where('union_id',Auth::user()->word->union_id)
+                                            ->get();
+        }
+        else{
+            $n['ajdata'] = Word::with([
+                                            "houseTax" => function ($query) use ($req) {$query->where('f_year_id', $req->f_year_id)->whereBetween('deposite_date',[$req->from_date,$req->to_date]);},
+                                             "houseTax.ekhana",
+                                             "houseTax.ekhana.village",
+                                             ])
+                                            ->where('union_id',Auth::user()->word->union_id)
+                                            ->where('word_id',Auth::user()->word_id)
+                                            ->get();
+        }
+
+
+        return response()->json($n);
+    }
 }
 
 

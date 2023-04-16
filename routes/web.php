@@ -63,7 +63,8 @@ Route::prefix('/ajax')->name('ajax.')->group(function(){
     Route::post('/house-deposite/update',[AjaxController::class,'houseDepositeUpdate'])->name('house.deposite.update');
     Route::post('/ekhana/village/levy',[AjaxController::class,'ekhanaVillLevy'])->name('ekhana.vlevy');
     Route::post('/ekhana/toplist/levy',[AjaxController::class,'TolistLevy'])->name('ekhana.toplist.levy');
-    Route::post('/ekhana/toplist/daily/posting',[AjaxController::class,'TolistDailyPosting'])->name('ekhana.toplist.diily.posting');
+    Route::post('/ekhana/toplist/daily/posting',[AjaxController::class,'TolistDailyPosting'])->name('ekhana.toplist.daily.posting');
+    Route::post('/ekhana/toplist/daily/posting/topsheet',[AjaxController::class,'TolistDailyPostingTopsheet'])->name('ekhana.toplist.daily.posting.topsheet');
 });
 
 
@@ -120,14 +121,17 @@ Route::middleware([
             // Reports
                 ///village levy
                 Route::get('/village-leavy',[EkhanaReportController::class,'villageBasedLevy'])->name('village-leavy.index');
+                Route::get('/word-leavy',[EkhanaReportController::class,'wordBasedLevy'])->name('word-leavy.index');
         });
         //Top list/ daily posting
         Route::prefix('/toplist')->name('toplist.')->group(function(){
             // Reports
                 ///village levy
                 Route::get('/levy',[EkhanaReportController::class,'WordTopListLevy'])->name('levy');
+
                 //dail posting
                 Route::get('/daily/posting',[EkhanaReportController::class,'EkhanDailyPosting'])->name('diily.posting');
+                Route::get('/daily/topsheet',[EkhanaReportController::class,'EkhanDailyPostingTopsheet'])->name('diily.posting.topsheet');
         });
 
     });

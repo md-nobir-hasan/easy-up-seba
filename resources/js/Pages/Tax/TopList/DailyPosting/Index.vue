@@ -1,31 +1,22 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
 import SucMesgShow from '@/Components/SucMesgShow.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
 import { Link, useForm, usePage } from '@inertiajs/vue3';
 import { ref,computed } from 'vue';
-import {CheckIcon,ChevronDownIcon} from '@heroicons/vue/24/solid';
 import printJS from 'print-js';
-// Initialization for ES Users
-import {
-  Datepicker,
-  Input,
-  initTE,
-} from "tw-eliment";
-
-
 
 const pro = defineProps({
     f_years: Object,
     words: Object,
 });
-initTE({ Datepicker, Input });
+
 //Extrace user
 const usr = usePage().props.auth.user;
-
 const form = useForm({
     f_year_id: '',
     word_id: '',
+    from_date: '',
+    to_date: '',
 });
 
 //========= frontend validation ============
@@ -52,7 +43,7 @@ const ncheck = (ased) =>{
 
 // form submit
 // const submit = () => {
-//     form.post(route('ajax.ekhana.toplist.levy'), {
+//     form.post(route('ajax.ekhana.toplist.daily.posting'), {
 //         onFinish: () => {
 //             if(form.submit_btn != 'return'){
 //                 form.reset();
@@ -79,14 +70,12 @@ function DateFormate(date) {
     const ekhana = ref({});
     const ekhanaFetch = ()=>{
         if(!form.f_year_id){
-            eerr.value = 'অর্থ-বছর নির্বাচন করুন'
+            eerr.value = 'অর্থ-বছর নির্বাচন করুন';
             return false;
         }
-        console.log('i am form');
-            console.log(form);
-        axios.post(route('ajax.ekhana.toplist.levy'), form).then(res => {
-            console.log(res);
-            ekhana.value = res.data.toplist_levy;
+        axios.post(route('ajax.ekhana.toplist.daily.posting'), form).then(res => {
+            ekhana.value = res.data.dailypost;
+            console.log(res.data)
         }).catch(err =>{
             console.error(err)
         }).finally(() => {
@@ -109,8 +98,6 @@ const printTable = ()=>{
       printJS({
         printable: 'table',
         type: 'html',
-        // header: 'গ্রাম ভিত্তিক ধার্য তালিকা',
-        // headerStyle: 'font-weight: bolder; text-align:center; margin-bottom:15px;',
         style: '#my-table { border-collapse: collapse; width: 100%; font-size: 14px;margin-top:20px } #my-table th { background-color: #f2f2f2; color: #444; font-weight: bold; padding: 2px; text-align: left; border: 1px solid #ddd; } #my-table td { background-color: #fff; color: #444; padding: 2px; text-align: left; border: 1px solid #ddd; } #my-table tbody tr:nth-child(even) { background-color: #f2f2f2; } .h1div{font-size:40px !important; font-weight:bolder; text-align:center; margin-top:20px !important}',
         maxWidth: 800,
         font: 'Open Sans',
@@ -136,18 +123,9 @@ function paidSum(arr){
     });
     return sum;
 }
-const total_village = 0;
-const total_ekhana = 0;
-const paid_khana = 0;
-const total_year_levy = 0;
-const year_levy_paid = 0;
-const year_levy_unpaid = 0;
 const prev_levy_unpaid = 0;
 const prev_levy_paid = 0;
 const total_paid = 0;
-const total_arrears = 0;
-const percentange = 0;
-const total_num = 0;
 // const prev_levy_unpaid = ref(0);
 </script>
 
@@ -184,20 +162,17 @@ const total_num = 0;
                     </div>
 
                     <!-- Date  -->
-                        <div
-                            class="relative mb-3 xl:w-96"
-                            data-te-datepicker-init
-                            data-te-input-wrapper-init>
-                            <input
-                                type="text"
-                                class="peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 peer-focus:text-primary data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:peer-focus:text-primary [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
-                                placeholder="Select a date" />
-                            <label
-                                for="floatingInput"
-                                class="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[1.6] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[0.9rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[0.9rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary"
-                                >Select a date</label
-                            >
+                    <div class="mt-2 flex items-center">
+                        <label for="f_year_id" class="block min-w-[30%] text-md font-extrabold dark:text-white">তারিখ</label>
+                        <div class="flex min-w-[65%]">
+                            <input v-model="form.from_date" type="date"  class="border mr-2 text-[black]  border-gray-300 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <input v-model="form.to_date" type="date" class="border text-[black]  border-gray-300 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         </div>
+
+
+                        <InputError class="mt-2" :message="form.errors.eerr" />
+                        <InputError class="mt-2" :message="form.errors.f_year_id" />
+                    </div>
 
                     <div class="flex items-center justify-center mt-8">
                         <button @click="ekhanaFetch" type="submit" class="text-white text-[18px] font-extrabold bg-gradient-to-r from-pink-400 via-pink-500 to-pink-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-pink-300 dark:focus:ring-pink-800 shadow-lg shadow-pink-500/50 dark:shadow-lg dark:shadow-pink-800/80  rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
@@ -206,7 +181,6 @@ const total_num = 0;
                 </form>
 
             </div>
-
             <div v-if="ekhana.length>0">
                 <button type="button" @click="printTable()" class="text-white bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 shadow-lg shadow-cyan-500/50 dark:shadow-lg dark:shadow-cyan-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
                     তালিকা প্রিন্ট
@@ -275,78 +249,57 @@ const total_num = 0;
                     </tfoot>
                 </table>
             </div>
-
-            <div v-if="ekhana.length>0" class="pt-[25px] text-center">
-                <table id="my-table" class="text-center m-auto" style="width:60%">
-                    <caption class="bg-[#030b59bd] text-white p-[8px] font-extrabold text-[20px] text-center h1div">চলিত অর্থ-বছরের সমস্ত আদায়ের সমষ্টি</caption>
-                    <thead>
-                      <tr>
-                        <th>হাল আদায়</th>
-                        <th>বকেয়া আদায়</th>
-                        <th>সর্বমোট আদায় (হাল আদায় + বকেয়া আদায়)</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td > {{ year_levy_paid }}</td>
-                        <td >{{ prev_levy_paid }}</td>
-                        <td >{{ year_levy_paid + prev_levy_paid }}</td>
-
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
         </div>
     </AppLayout>
 </template>
 
 <style>
-/* CSS styles for table */
-#my-table {
-    border-collapse: collapse;
-    width: 100%;
-    font-size: 14px;
-    text-align: center;
-  }
+    /* CSS styles for table */
+    #my-table {
+        border-collapse: collapse;
+        width: 100%;
+        font-size: 14px;
+        text-align: center;
+    }
 
-  #my-table th {
-    background-color: #49e5ff;
-    color: #444;
-    font-weight: bold;
-    padding: 10px;
-    text-align: left;
-    border: 1px solid #ddd;
-    text-align: center;
-  }
+    #my-table th {
+        background-color: #49e5ff;
+        color: #444;
+        font-weight: bold;
+        padding: 10px;
+        text-align: left;
+        border: 1px solid #ddd;
+        text-align: center;
+    }
 
-  #my-table td {
-    background-color: #fff;
-    color: #444;
-    padding: 10px;
-    text-align: left;
-    border: 1px solid #ddd;
-    text-align: center;
-  }
+    #my-table td {
+        background-color: #fff;
+        color: #444;
+        padding: 10px;
+        text-align: left;
+        border: 1px solid #ddd;
+        text-align: center;
+    }
 
-  #my-table tbody tr:nth-child(even) {
-    background-color: #f2f2f2;
-  }
-  h1{
-    text-align: center;
-    color: green;
-}
-
-  @media print {
-    /* add your print-specific styles here */
-    body {
-      font-size: 12pt;
-      color: #000000;
-      background-color: #ffffff;
+    #my-table tbody tr:nth-child(even) {
+        background-color: #f2f2f2;
     }
     h1{
         text-align: center;
         color: green;
     }
-  }
+
+    @media print {
+        /* add your print-specific styles here */
+        body {
+        font-size: 12pt;
+        color: #000000;
+        background-color: #ffffff;
+        }
+        h1{
+            text-align: center;
+            color: green;
+        }
+    }
 
 </style>

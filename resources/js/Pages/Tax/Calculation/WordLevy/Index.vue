@@ -6,18 +6,41 @@ import { Link, useForm, usePage } from '@inertiajs/vue3';
 import { ref,computed } from 'vue';
 import {CheckIcon,ChevronDownIcon} from '@heroicons/vue/24/solid';
 import printJS from 'print-js'
-
+import {
+    Combobox,
+    ComboboxInput,
+    ComboboxOptions,
+    ComboboxOption,
+  } from '@headlessui/vue';
 
 const pro = defineProps({
     f_years: Object,
+    words: Object,
+    tax: Object,
+    vilgs: Object,
 });
 //Extrace user
 const usr = usePage().props.auth.user;
+
+//Today date
+    const date = new Date();
+    const today = (date.getMonth() + 1)+'/'+date.getDate()+'/'+date.getFullYear();
 
 const form = useForm({
     f_year_id: '',
 });
 
+
+// form submit
+// const submit = () => {
+//     form.post(route('ajax.ekhana.vlevy'), {
+//         onFinish: () => {
+//             if(form.submit_btn != 'return'){
+//                 form.reset();
+//             }
+//         }
+//     });
+// };
 //========= frontend validation ============
 const permisions = ref({});
 const user = usePage().props.auth.user;
@@ -40,17 +63,6 @@ const ncheck = (ased) =>{
 }
 //============ end frontend validation ============
 
-// form submit
-// const submit = () => {
-//     form.post(route('ajax.ekhana.toplist.levy'), {
-//         onFinish: () => {
-//             if(form.submit_btn != 'return'){
-//                 form.reset();
-//             }
-//         }
-//     });
-// };
-
 function DateFormate(date) {
     if (date) {
         const d = new Date(date);
@@ -61,22 +73,27 @@ function DateFormate(date) {
     }
     return date;
 }
-//Today date
-    const date = new Date();
-    const today = (date.getMonth() + 1)+'/'+date.getDate()+'/'+date.getFullYear();
 
-
+    const htdeposite = ref(null);
+    const eerr = ref('');
+    const eerr2 = ref('');
     const ekhana = ref({});
+    const deposite_date = ref(null);
+
     const ekhanaFetch = ()=>{
         if(!form.f_year_id){
             eerr.value = 'অর্থ-বছর নির্বাচন করুন'
             return false;
         }
+        if(!form.village_id){
+            eerr2.value = 'হল্ডিং নাম্বার নির্বাচন করুন'
+            return false;
+        }
         console.log('i am form');
             console.log(form);
-        axios.post(route('ajax.ekhana.toplist.levy'), form).then(res => {
+        axios.post(route('ajax.ekhana.vlevy'), form).then(res => {
             console.log(res);
-            ekhana.value = res.data.toplist_levy;
+            ekhana.value = res.data.village_levy;
         }).catch(err =>{
             console.error(err)
         }).finally(() => {
@@ -85,7 +102,42 @@ function DateFormate(date) {
     }
 
 
+// Village fetching
+const search_items = ref(pro.vilgs);
+const vdisable = ref(false);
+const villageFetching = ()=>{
 
+    axios.get(route('ajax.fetch',['Village','word_id',form.word_id]), form).then(res => {
+        console.log(res);
+        search_items.value = res.data;
+        console.log(search_items.value)
+        if(search_items.value.length == 0){
+            vdisable.value = true;
+            search_items.value = {};
+        }else{
+            vdisable.value = false;
+        }
+    }).catch(err =>{
+        vdisable.value = true;
+            search_items.value = {};
+        console.error(err)
+    }).finally(() => {
+        console.log('Village fetch done');
+    });
+}
+
+// Live search combobox headless ui
+// const livesearch = (sitem) =>{
+    console.dir(search_items)
+    const query = ref('')
+    const filteredsearch_items = computed(() =>
+    query.value === ''
+    ? search_items.value
+    : search_items.value.filter((nitem) => {
+    return nitem.name.includes(query.value)
+    })
+
+)
 
 const year_range = ref(null);
 const fYear = () =>{
@@ -95,6 +147,18 @@ const fYear = () =>{
     year_range.value = text;
 
 }
+// }
+// Print table
+// const printTable = ()=>{
+//     const printWindow = window.open('', '', 'height=600,width=1500');
+//       printWindow.document.write('<html><head><title>Table Print</title>');
+//       printWindow.document.write('</head><body>');
+//       printWindow.document.write(document.querySelector('#table').innerHTML);
+//       printWindow.document.write('</body></html>');
+//       printWindow.document.close();
+//       printWindow.print();
+
+// }
 const printTable = ()=>{
       printJS({
         printable: 'table',
@@ -111,45 +175,19 @@ const printTable = ()=>{
 const exportExcel = ()=>{
      table2excel.export(document.querySelectorAll("#my-table"));
 }
-function totalSum(arr){
-    let sum = 0;
-    arr.forEach(element => {
-        sum += Number(element.total_amount);
-    });
-    return sum;
-}
 
-function paidSum(arr){
-    let sum = 0;
-    arr.forEach(element => {
-        sum += Number(element.paid_amount);
-    });
-    return sum;
-}
-const total_village = 0;
-const total_ekhana = 0;
-const paid_khana = 0;
-const total_year_levy = 0;
-const year_levy_paid = 0;
-const year_levy_unpaid = 0;
-const prev_levy_unpaid = 0;
-const prev_levy_paid = 0;
-const total_paid = 0;
-const total_arrears = 0;
-const percentange = 0;
-const total_num = 0;
-// const prev_levy_unpaid = ref(0);
 </script>
 
 <template>
-    <AppLayout title="দার্য/আদায় টপশীট">
+    <AppLayout title="ওয়ার্ড ভিত্তিক ধার্য">
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
             <SucMesgShow :message="$page.props.flash.suc_msg"></SucMesgShow>
             <div class="bg-white flex justify-between p-4">
-                <h2 class="float-left text-4xl font-extrabold">ওয়ার্ড ভিত্তিক দার্য/আদায় টপশীট</h2>
+                <h2 class="float-left text-4xl font-extrabold">ওয়ার্ড ভিত্তিক ধার্য</h2>
             </div>
             <div class="mt-4 mb-2 p-4 bg-white">
                 <form @submit.prevent="submit" class="bg-[#008494db] text-[white] m-auto  rounded-lg p-6 pb-[2px] text-2lg max-w-md max-sm:max-w-sm">
+
                      <!-- financial year  -->
                      <div class="mt-2 flex items-center">
                         <label for="f_year_id" class="block min-w-[30%] text-md font-extrabold dark:text-white">অর্থ-বছর</label>
@@ -169,95 +207,69 @@ const total_num = 0;
                 </form>
 
             </div>
+            <div v-if="ekhana.house_tax">
 
-            <div v-if="ekhana.length>0">
-                <button type="button" @click="printTable()" class="text-white bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 shadow-lg shadow-cyan-500/50 dark:shadow-lg dark:shadow-cyan-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
-                    তালিকা প্রিন্ট
-                </button>
-                <button type="button" @click="exportExcel()" class="text-white bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 shadow-lg shadow-cyan-500/50 dark:shadow-lg dark:shadow-cyan-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
-                    Excel
-                </button>
+                <div >
+                    <button type="button" @click="printTable()" class="text-white bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 shadow-lg shadow-cyan-500/50 dark:shadow-lg dark:shadow-cyan-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
+                        তালিকা প্রিন্ট
+                    </button>
+                    <button type="button" @click="exportExcel()" class="text-white bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 shadow-lg shadow-cyan-500/50 dark:shadow-lg dark:shadow-cyan-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
+                        Excel
+                    </button>
+                </div>
             </div>
 
-            <div id="table" v-if="ekhana.length>0">
+            <div v-if="ekhana.house_tax">
+                <div id="table">
                 <div>
                     <h4 class="bg-[#f73532c2] text-white block p-[8px] font-extrabold text-[20px] text-center h1div">{{ $page.props.auth.user.word.name+' নং '+$page.props.auth.user.word.union.name}}</h4>
                 </div>
                 <table id="my-table" class="text-center">
-                    <caption class="bg-[yellow] p-[8px] font-extrabold text-[20px] text-center">ওয়ার্ড ভিত্তিক ধার্য কর ও আদায়ের টপশীট-({{ year_range }})</caption>
+                    <caption class="bg-[yellow] p-[8px] font-extrabold text-[20px] text-center">ডেইলি পোষ্টিং রিপোট কুয়েরী প্রিন্ট - ({{ year_range }}) - ({{ year_range }})</caption>
                     <thead>
                       <tr>
-                        <th>ওয়ার্ড নাম্বার</th>
-                        <th>গ্রামের সংখ্যা</th>
-                        <th>খানার সংখ্যা</th>
-                        <th>আদায়কৃত খানার সংখ্যা </th>
-                        <th>হাল ধার্য্য কর</th>
+                        <th>ক্রমিক নম্বর</th>
+                        <th>হোল্ডিং নাম্বার</th>
+                        <th>করদাতার নাম</th>
+                        <th>অর্থ-বছর </th>
+                        <th>আদায়ের তারিখ</th>
+                        <th>ওয়ার্ড নং</th>
+                        <th>গ্রামের নাম</th>
                         <th>হাল আদায়</th>
-                        <th>হাল বকেয়া</th>
-                        <th>পূর্বের বকেয়া </th>
                         <th>বকেয়া আদায় </th>
                         <th>সর্বমোট আদায় </th>
-                        <th>সর্বমোট বকেয়া (হাল বকেয়া + পূর্বের বকেয়া)</th>
-                        <th>অর্থ-বছর</th>
-                        <th>আদায়ের শতকরা হার</th>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr v-for="(value, key) in ekhana" :key="key">
-                        <td :data-val="total_num = key +1">  {{ value.name  }}</td>
-                        <td :data-val="total_village += value.village.length ">{{  value.village.length }}</td>
-                        <td :data-val="total_ekhana += value.ekhana.length ">{{ value.ekhana.length }}</td>
-                        <td :data-val="paid_khana += value.house_tax_paid.length ">{{ value.house_tax_paid.length }}</td>
-                        <td :data-val="total_year_levy += totalSum(value.house_tax) ">{{ totalSum(value.house_tax) }}</td>
-                        <td :data-val="year_levy_paid += paidSum(value.house_tax_paid)">{{paidSum(value.house_tax_paid) }}</td>
-                        <td :data-val="year_levy_unpaid += totalSum(value.house_tax_unpaid)">{{totalSum(value.house_tax_unpaid) }}</td>
-                        <td :data-val="prev_levy_unpaid += totalSum(value.prev_tax_unpaid)">{{totalSum(value.prev_tax_unpaid) }}</td>
-                        <td :data-val="prev_levy_paid += paidSum(value.prev_tax_paid)">{{paidSum(value.prev_tax_paid) }}</td>
-                        <td :data-val="total_paid += paidSum(value.house_tax_paid)">{{ paidSum(value.house_tax_paid) }}</td>
-                        <td :data-val="total_arrears += totalSum(value.house_tax_unpaid) ">{{ totalSum(value.house_tax_unpaid) }}</td>
+                      <tr v-for="(value, key) in ekhana.house_tax" :key="key">
+                        <td>  {{ key+1  }}</td>
+                        <td >  {{ value.ekhana.holding_no  }}</td>
+                        <td >  {{ value.ekhana.bn_name  }}</td>
                         <td >{{ year_range }}</td>
-                        <td :data-val="percentange +=  paidSum(value.house_tax_paid)/paidSum(value.house_tax_paid) ? paidSum(value.house_tax_paid)/paidSum(value.house_tax_paid)*100 : 100">{{ paidSum(value.house_tax_paid)/paidSum(value.house_tax_paid) ? paidSum(value.house_tax_paid)/paidSum(value.house_tax_paid)*100 : 100 }}</td>
+                        <td v-text="DateFormate(value.deposite_date)"></td>
+                        <td >  {{ ekhana.name  }}</td>
+                        <td >  {{ value.ekhana.village.name  }}</td>
+                        <td :data-val="prev_levy_paid += Number(value.paid_amount)">  {{ value.paid_amount  }}</td>
+                        <td :data-val="prev_levy_unpaid += value.total_amount - value.paid_amount ">  {{ value.total_amount - value.paid_amount }}</td>
+                        <td :data-val="total_paid += Number(value.paid_amount)">  {{ value.paid_amount  }}</td>
                       </tr>
                     </tbody>
                     <tfoot>
                         <tr>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
                             <th>সর্বমোট</th>
-                            <th>{{total_village}}</th>
-                            <th>{{total_ekhana}}</th>
-                            <th>{{paid_khana}}</th>
-                            <th>{{total_year_levy}}</th>
-                            <th>{{year_levy_paid}}</th>
-                            <th>{{year_levy_unpaid}}</th>
+                            <th>=</th>
                             <th>{{prev_levy_paid}}</th>
                             <th>{{prev_levy_unpaid}}</th>
-                            <th>{{year_levy_paid + prev_levy_paid}}</th>
-                            <th>{{year_levy_unpaid+prev_levy_unpaid}}</th>
-                            <th>=>></th>
-                            <th>{{percentange/total_num}}</th>
+                            <th>{{total_paid}}</th>
                         </tr>
                     </tfoot>
                 </table>
             </div>
-
-            <div v-if="ekhana.length>0" class="pt-[25px] text-center">
-                <table id="my-table" class="text-center m-auto" style="width:60%">
-                    <caption class="bg-[#030b59bd] text-white p-[8px] font-extrabold text-[20px] text-center h1div">চলিত অর্থ-বছরের সমস্ত আদায়ের সমষ্টি</caption>
-                    <thead>
-                      <tr>
-                        <th>হাল আদায়</th>
-                        <th>বকেয়া আদায়</th>
-                        <th>সর্বমোট আদায় (হাল আদায় + বকেয়া আদায়)</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td > {{ year_levy_paid }}</td>
-                        <td >{{ prev_levy_paid }}</td>
-                        <td >{{ year_levy_paid + prev_levy_paid }}</td>
-
-                    </tr>
-                    </tbody>
-                </table>
             </div>
         </div>
     </AppLayout>
