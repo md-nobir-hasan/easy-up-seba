@@ -131,7 +131,7 @@ Route::middleware([
 
                 //dail posting
                 Route::get('/daily/posting',[EkhanaReportController::class,'EkhanDailyPosting'])->name('diily.posting');
-                Route::get('/daily/postings/topsheet',[EkhanaReportController::class,'EkhanDailyPostingTopsheet'])->name('diily.posting.topsheet');
+                Route::get('/daily/topsheet',[EkhanaReportController::class,'EkhanDailyPostingTopsheet'])->name('diily.posting.topsheet');
         });
 
     });
