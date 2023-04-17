@@ -123,9 +123,9 @@ function paidSum(arr){
     });
     return sum;
 }
-const prev_levy_unpaid = 0;
-const prev_levy_paid = 0;
-const total_paid = 0;
+let prev_levy_unpaid = 0;
+let prev_levy_paid = 0;
+let total_paid = 0;
 // const prev_levy_unpaid = ref(0);
 </script>
 
