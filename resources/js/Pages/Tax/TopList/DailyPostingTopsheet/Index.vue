@@ -121,9 +121,9 @@ function paidSum(arr){
     });
     return sum;
 }
-const total_ekhana = 0;
-const paid_khana = 0;
-const total_paid = 0;
+let total_ekhana = 0;
+let paid_khana = 0;
+let total_paid = 0;
 // const prev_levy_unpaid = ref(0);
 </script>
 

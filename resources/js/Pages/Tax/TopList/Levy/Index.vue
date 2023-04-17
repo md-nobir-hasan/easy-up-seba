@@ -126,18 +126,18 @@ function paidSum(arr){
     });
     return sum;
 }
-const total_village = 0;
-const total_ekhana = 0;
-const paid_khana = 0;
-const total_year_levy = 0;
-const year_levy_paid = 0;
-const year_levy_unpaid = 0;
-const prev_levy_unpaid = 0;
-const prev_levy_paid = 0;
-const total_paid = 0;
-const total_arrears = 0;
-const percentange = 0;
-const total_num = 0;
+let total_village = 0;
+let total_ekhana = 0;
+let paid_khana = 0;
+let total_year_levy = 0;
+let year_levy_paid = 0;
+let year_levy_unpaid = 0;
+let prev_levy_unpaid = 0;
+let prev_levy_paid = 0;
+let total_paid = 0;
+let total_arrears = 0;
+let percentange = 0;
+let total_num = 0;
 // const prev_levy_unpaid = ref(0);
 </script>
 
