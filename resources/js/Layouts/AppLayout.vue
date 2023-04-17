@@ -208,7 +208,7 @@ return date;
 
                               <span
                                 class="absolute -mt-2.5 ml-2 rounded-full bg-red-600 py-[1px] px-1.5 text-[0.6rem] text-white"
-                                >{{$page.props.noty_not_read.length}}</span
+                                >{{$page.props.noty_not_read ? $page.props.noty_not_read.length : 0}}</span
                               >
                             </a>
                             <ul  id="notification_pan" @focusout="notyshow = false"
