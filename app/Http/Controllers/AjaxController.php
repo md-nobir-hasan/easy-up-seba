@@ -238,26 +238,26 @@ class AjaxController extends Controller
 
     public function TolistDailyPosting(Request $req){
         if(Auth::user()->role->name == 'Power'){
-            $n['dailypost'] = Word::with(["village",
-                                            "houseTax" => function ($query) use ($req) {$query->where('f_year_id', $req->f_year_id)->whereBetween('deposite_date',[$req->from_date,$req->to_date]);},
+            $n['dailypost'] = Word::with(["houseTax" => function ($query) use ($req) {$query->where('f_year_id', $req->f_year_id)->whereBetween('deposite_date',[$req->from_date,$req->to_date]);},
                                             "houseTax.ekhana",
                                             "houseTax.ekhana.village",
+                                            "houseTax.ekhana.word",
                                             ])
                                             ->find($req->word_id);
         }
         elseif(Auth::user()->role->name == 'Union'){
-            $n['dailypost'] = Word::with(["village",
-                                            "houseTax" => function ($query) use ($req) {$query->where('f_year_id', $req->f_year_id)->whereBetween('deposite_date',[$req->from_date,$req->to_date]);},
+            $n['dailypost'] = Word::with(["houseTax" => function ($query) use ($req) {$query->where('f_year_id', $req->f_year_id)->whereBetween('deposite_date',[$req->from_date,$req->to_date]);},
                                              "houseTax.ekhana",
                                              "houseTax.ekhana.village",
+                                             "houseTax.ekhana.word",
                                             ])
                                             ->find($req->word_id);
         }
         else{
-            $n['dailypost'] = Word::with(["village",
-                                            "houseTax" => function ($query) use ($req) {$query->where('f_year_id', $req->f_year_id)->whereBetween('deposite_date',[$req->from_date,$req->to_date]);},
+            $n['dailypost'] = Word::with(["houseTax" => function ($query) use ($req) {$query->where('f_year_id', $req->f_year_id)->whereBetween('deposite_date',[$req->from_date,$req->to_date]);},
                                             "houseTax.ekhana",
                                             "houseTax.ekhana.village",
+                                            "houseTax.ekhana.word",
                                             ])
                                             // ->where('union_id',Auth::user()->word->union_id)
                                             // ->where('word_id',Auth::user()->word_id)

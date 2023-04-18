@@ -68,6 +68,7 @@ function DateFormate(date) {
 
 
     const ekhana = ref({});
+    const data_check = ref(false);
     const ekhanaFetch = ()=>{
         if(!form.f_year_id){
             eerr.value = 'অর্থ-বছর নির্বাচন করুন';
@@ -75,7 +76,16 @@ function DateFormate(date) {
         }
         axios.post(route('ajax.ekhana.toplist.daily.posting'), form).then(res => {
             ekhana.value = res.data.dailypost;
-            console.log(res.data)
+            console.log(ekhana.value)
+            if(ekhana.value.house_tax){
+                console.log(ekhana.value.house_tax)
+                if(ekhana.value.house_tax.length < 1){
+                    data_check.value = true;
+                }else{
+                    data_check.value = false;
+                }
+            }
+
         }).catch(err =>{
             console.error(err)
         }).finally(() => {
@@ -123,8 +133,8 @@ function paidSum(arr){
     });
     return sum;
 }
-let prev_levy_unpaid = 0;
-let prev_levy_paid = 0;
+let year_levy_paid = 0;
+let arrear_paid = 0;
 let total_paid = 0;
 // const prev_levy_unpaid = ref(0);
 </script>
@@ -134,7 +144,7 @@ let total_paid = 0;
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
             <SucMesgShow :message="$page.props.flash.suc_msg"></SucMesgShow>
             <div class="bg-white flex justify-between p-4">
-                <h2 class="float-left text-4xl font-extrabold">ওয়ার্ড ভিত্তিক ডেইলি পোষ্টিং</h2>
+                <h2 class="float-left text-4xl font-extrabold">ডেইলি পোষ্টিং</h2>
             </div>
             <div class="mt-4 mb-2 p-4 bg-white">
                 <form @submit.prevent="submit" class="bg-[#008494db] text-[white] m-auto  rounded-lg p-6 pb-[2px] text-2lg max-w-md max-sm:max-w-sm">
@@ -181,73 +191,72 @@ let total_paid = 0;
                 </form>
 
             </div>
-            <div v-if="ekhana.length>0">
-                <button type="button" @click="printTable()" class="text-white bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 shadow-lg shadow-cyan-500/50 dark:shadow-lg dark:shadow-cyan-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
-                    তালিকা প্রিন্ট
-                </button>
-                <button type="button" @click="exportExcel()" class="text-white bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 shadow-lg shadow-cyan-500/50 dark:shadow-lg dark:shadow-cyan-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
-                    Excel
-                </button>
+            <div v-if="ekhana.house_tax">
+                <div v-if="ekhana.house_tax.length>0">
+                    <button type="button" @click="printTable()" class="text-white bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 shadow-lg shadow-cyan-500/50 dark:shadow-lg dark:shadow-cyan-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
+                        তালিকা প্রিন্ট
+                    </button>
+                    <button type="button" @click="exportExcel()" class="text-white bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 shadow-lg shadow-cyan-500/50 dark:shadow-lg dark:shadow-cyan-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
+                        Excel
+                    </button>
+                </div>
             </div>
 
-            <div id="table" v-if="ekhana.length>0">
-                <div>
-                    <h4 class="bg-[#f73532c2] text-white block p-[8px] font-extrabold text-[20px] text-center h1div">{{ $page.props.auth.user.word.name+' নং '+$page.props.auth.user.word.union.name}}</h4>
-                </div>
-                <table id="my-table" class="text-center">
-                    <caption class="bg-[yellow] p-[8px] font-extrabold text-[20px] text-center">গ্রাম ভিত্তিক ধার্য কর ও আদায়ের টপশীট-({{ year_range }}) - ({{ year_range }})</caption>
-                    <thead>
-                      <tr>
-                        <th>ওয়ার্ড নাম্বার</th>
-                        <th>গ্রামের সংখ্যা</th>
-                        <th>খানার সংখ্যা</th>
-                        <th>আদায়কৃত খানার সংখ্যা </th>
-                        <th>হাল ধার্য্য কর</th>
-                        <th>হাল আদায়</th>
-                        <th>হাল বকেয়া</th>
-                        <th>পূর্বের বকেয়া </th>
-                        <th>বকেয়া আদায় </th>
-                        <th>সর্বমোট আদায় </th>
-                        <th>সর্বমোট বকেয়া (হাল বকেয়া + পূর্বের বকেয়া)</th>
-                        <th>অর্থ-বছর</th>
-                        <th>আদায়ের শতকরা হার</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr v-for="(value, key) in ekhana" :key="key">
-                        <td :data-val="total_num = key +1">  {{ value.name  }}</td>
-                        <td :data-val="total_village += value.village.length ">{{  value.village.length }}</td>
-                        <td :data-val="total_ekhana += value.ekhana.length ">{{ value.ekhana.length }}</td>
-                        <td :data-val="paid_khana += value.house_tax_paid.length ">{{ value.house_tax_paid.length }}</td>
-                        <td :data-val="total_year_levy += totalSum(value.house_tax) ">{{ totalSum(value.house_tax) }}</td>
-                        <td :data-val="year_levy_paid += paidSum(value.house_tax_paid)">{{paidSum(value.house_tax_paid) }}</td>
-                        <td :data-val="year_levy_unpaid += totalSum(value.house_tax_unpaid)">{{totalSum(value.house_tax_unpaid) }}</td>
-                        <td :data-val="prev_levy_unpaid += totalSum(value.prev_tax_unpaid)">{{totalSum(value.prev_tax_unpaid) }}</td>
-                        <td :data-val="prev_levy_paid += paidSum(value.prev_tax_paid)">{{paidSum(value.prev_tax_paid) }}</td>
-                        <td :data-val="total_paid += paidSum(value.house_tax_paid)">{{ paidSum(value.house_tax_paid) }}</td>
-                        <td :data-val="total_arrears += totalSum(value.house_tax_unpaid) ">{{ totalSum(value.house_tax_unpaid) }}</td>
-                        <td >{{ year_range }}</td>
-                        <td :data-val="percentange +=  paidSum(value.house_tax_paid)/paidSum(value.house_tax_paid) ? paidSum(value.house_tax_paid)/paidSum(value.house_tax_paid)*100 : 100">{{ paidSum(value.house_tax_paid)/paidSum(value.house_tax_paid) ? paidSum(value.house_tax_paid)/paidSum(value.house_tax_paid)*100 : 100 }}</td>
-                      </tr>
-                    </tbody>
-                    <tfoot>
+            <div v-if="ekhana.house_tax">
+                <div id="table" v-if="ekhana.house_tax.length>0">
+                    <div>
+                        <h4 class="bg-[#f73532c2] text-white block p-[8px] font-extrabold text-[20px] text-center h1div">{{ $page.props.auth.user.word.name+' নং '+$page.props.auth.user.word.union.name}}</h4>
+                    </div>
+                    <table id="my-table" class="text-center">
+                        <caption class="bg-[yellow] p-[8px] font-extrabold text-[20px] text-center">ডেইলি পোষ্টিং-({{ year_range }})</caption>
+                        <thead>
                         <tr>
-                            <th>সর্বমোট</th>
-                            <th>{{total_village}}</th>
-                            <th>{{total_ekhana}}</th>
-                            <th>{{paid_khana}}</th>
-                            <th>{{total_year_levy}}</th>
-                            <th>{{year_levy_paid}}</th>
-                            <th>{{year_levy_unpaid}}</th>
-                            <th>{{prev_levy_paid}}</th>
-                            <th>{{prev_levy_unpaid}}</th>
-                            <th>{{year_levy_paid + prev_levy_paid}}</th>
-                            <th>{{year_levy_unpaid+prev_levy_unpaid}}</th>
-                            <th>=>></th>
-                            <th>{{percentange/total_num}}</th>
+                            <th>ক্রমিক নাম্বার</th>
+                            <th>হোল্ডিং নাম্বার</th>
+                            <th>করদাতার নাম</th>
+                            <th>অর্থ-বছর </th>
+                            <th>আদায়ের তারিখ</th>
+                            <th>ওয়ার্ড নং</th>
+                            <th>গ্রামের নাম</th>
+                            <th>হাল আদায়</th>
+                            <th>বকেয়া আদায়</th>
+                            <th>সর্বমোট আদায় </th>
                         </tr>
-                    </tfoot>
-                </table>
+                        </thead>
+                        <tbody>
+                        <tr v-for="(value, key) in ekhana.house_tax" :key="key">
+                            <td>{{ key+1 }}</td>
+                            <td>{{ value.ekhana.holding_no }}</td>
+                            <td>{{ value.ekhana.bn_name }}</td>
+                            <td >{{ year_range }}</td>
+                            <td>{{ value.deposite_date }}</td>
+                            <td>{{ value.ekhana.word.name }}</td>
+                            <td>{{ value.ekhana.village.name }}</td>
+                            <td :data-val="year_levy_paid += Number(value.paid_amount)">{{value.paid_amount }}</td>
+                            <td :data-val="arrear_paid += 0">{{0 }}</td>
+                            <td >{{ year_levy_paid + arrear_paid }}</td>
+                        </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th>সর্বমোট</th>
+                                <th>{{year_levy_paid}}</th>
+                                <th>{{arrear_paid}}</th>
+                                <th>{{year_levy_paid + arrear_paid}}</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+
+            <div v-if="data_check">
+                <p class="text-center text-[red]"> কোনো তথ্য পাওয়া যায় নাই</p>
             </div>
         </div>
     </AppLayout>
