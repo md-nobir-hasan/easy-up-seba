@@ -41,6 +41,8 @@ class ModuleSeeder extends Seeder
                     ['name' => 'ধার্য/আদায় টপশীট','a_union' => '1'],
                     ['name' => 'ডেইলি পোষ্টিং','a_union' => '1'],
                     ['name' => 'ডেইলি পোষ্টিং টপশিট','a_union' => '1'],
+                ['name' => 'বিল প্রিন্ট','a_union' => '1'],
+                    ['name' => 'সিঙ্গেল বিল প্রিন্ট (পুরাতন)','a_union' => '1'],
             ['name' => 'Approval','a_union' => null],
                 ['name' => 'Tax Deposite Approval','a_union' => null],
         ];

@@ -22,6 +22,9 @@ protected $fillable = ['phone','bn_name'];
     public function word(){
         return $this->belongsTo(Word::class,'word_id');
     }
+    public function union(){
+        return $this->belongsTo(Union::class,'word_id');
+    }
     public function village(){
         return $this->belongsTo(Village::class,'village_id');
     }

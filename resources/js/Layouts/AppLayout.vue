@@ -49,6 +49,9 @@ const submenueItem =[
                             {title:'ডেইলি পোষ্টিং',name:'ডেইলি পোষ্টিং',active:false,route:route('admin.tax.toplist.diily.posting'),url:'/admin/tax/toplist/daily/posting',icon:CircleStackIcon,children:[]},
                             {title:'ডেইলি পোষ্টিং টপশিট',name:'ডেইলি পোষ্টিং টপশিট',active:false,route:route('admin.tax.toplist.diily.posting.topsheet'),url:'/admin/tax/toplist/daily/topsheet',icon:CircleStackIcon,children:[]},
                         ]},
+                        {title:'বিল প্রিন্ট',name:'বিল প্রিন্ট',active:false,route:'',url:'/admin/tax/bill-print',icon:CalculatorIcon,children:[
+                            {title:'সিঙ্গেল বিল প্রিন্ট (পুরাতন)',name:'সিঙ্গেল বিল প্রিন্ট (পুরাতন)',active:false,route:route('admin.tax.bill.print.single.old'),url:'/admin/tax/bill-print/single/old',icon:CircleStackIcon,children:[]},
+                        ]},
                     ]},
                     {title:'অনুমোদন',name: 'Approval',active: false,url:'/admin/approval',icon:CheckBadgeIcon,children:
                         [

@@ -1,7 +1,6 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
 import SucMesgShow from '@/Components/SucMesgShow.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
 import { Link, useForm, usePage } from '@inertiajs/vue3';
 import { ref,computed } from 'vue';
 import {CheckIcon,ChevronDownIcon} from '@heroicons/vue/24/solid';
@@ -131,7 +130,7 @@ const villageFetching = ()=>{
 
 // Live search combobox headless ui
 // const livesearch = (sitem) =>{
-    console.dir(search_items)
+    // console.dir(search_items)
     const query = ref('')
     const filteredsearch_items = computed(() =>
     query.value === ''
