@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AjaxController;
+use App\Http\Controllers\BillPrintController;
 use App\Http\Controllers\DeleteController;
 use App\Http\Controllers\DistrictController;
 use App\Http\Controllers\DivisionController;
@@ -123,6 +124,7 @@ Route::middleware([
                 Route::get('/village-leavy',[EkhanaReportController::class,'villageBasedLevy'])->name('village-leavy.index');
                 Route::get('/word-leavy',[EkhanaReportController::class,'wordBasedLevy'])->name('word-leavy.index');
         });
+
         //Top list/ daily posting
         Route::prefix('/toplist')->name('toplist.')->group(function(){
             // Reports
@@ -132,6 +134,12 @@ Route::middleware([
                 //dail posting
                 Route::get('/daily/posting',[EkhanaReportController::class,'EkhanDailyPosting'])->name('diily.posting');
                 Route::get('/daily/topsheet',[EkhanaReportController::class,'EkhanDailyPostingTopsheet'])->name('diily.posting.topsheet');
+        });
+        //Bill Print
+        Route::prefix('/bill-print')->name('bill.print.')->group(function(){
+            ///Single bill print old
+                Route::get('/single/old',[BillPrintController::class,'singleOld'])->name('single.old');
+                Route::get('/single/old/show',[BillPrintController::class,'singleOldShow'])->name('single.old.show');
         });
 
     });

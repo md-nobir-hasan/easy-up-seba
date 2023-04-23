@@ -31,4 +31,14 @@ class HouseTaxDeposite extends Model
     public function word(){
         return $this->belongsTo(Word::class,'word_id');
     }
+
+    public function previousArrears(){
+
+        $q = HouseTaxDeposite::where('ekhana_id',$this->ekhana_id)->where('f_year_id','<',$this->f_year_id)->get();
+        $previous_arrears = 0;
+        foreach($q as $fd){
+            $previous_arrears += $fd->total_amount - $fd->paid_amount;
+        }
+       return  $previous_arrears;
+    }
 }
