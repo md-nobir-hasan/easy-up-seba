@@ -33,12 +33,13 @@ class BillPrintController extends Controller
     }
 
     public function singleOldShow(Request $req){
-        // dd($req->all());
-        $n['bill'] = HouseTaxDeposite::with(['fYear','ekhana','ekhana.word'])
+        $n['bill'] = HouseTaxDeposite::query()->with(['fYear','ekhana','ekhana.word'])
                                         ->where('ekhana_id',$req->ekhana_id)
                                         ->where('f_year_id',$req->f_y_id)
                                         ->where('deposite_date',$req->deposite_date)
                                         ->first();
+
+        $n['previous_arrears'] = $n['bill']->previousArrears();
 
         return Inertia::render('Tax/BillPrint/SingleOld/Show',$n);
     }
