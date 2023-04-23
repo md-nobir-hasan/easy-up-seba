@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\FinancialYear;
 use App\Http\Requests\StoreFinancialYearRequest;
 use App\Http\Requests\UpdateFinancialYearRequest;
+use App\Models\Ekhana;
+use App\Models\HouseTaxDeposite;
+use App\Models\Tax;
+use App\Models\Word;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -38,6 +42,24 @@ class FYearController extends Controller
         $insert->to = $request->to;
         $insert->created_by = Auth::user()->id;
         $insert->save();
+
+        //Insert data into ekhana tax bkkdn table
+        $tax = Tax::latest()->first();
+        $ekhanas = Ekhana::get();
+        $check = HouseTaxDeposite::where('f_year_id',$insert->id)->first();
+        if(!$check){
+            
+            foreach($ekhanas as $ekhana){
+                $total_amount = round($ekhana->yearly_house_rent*$tax->price/100);
+                $ht_insert = new HouseTaxDeposite();
+                $ht_insert->f_year_id = $insert->id;
+                $ht_insert->total_amount = $total_amount;
+                $ht_insert->union_id = $ekhana->union_id;
+                $ht_insert->word_id = $ekhana->word_id;
+                $ht_insert->ekhana_id = $ekhana->id;
+                $ht_insert->save();
+            }
+        }
         $request->session()->flash('suc_msg',$request->name.' সফলভাবে সরক্ষণ করা হয়েছে');
         if($request->submit_btn == 'return'){
             return redirect()->route('admin.setup.financial-year.index');
