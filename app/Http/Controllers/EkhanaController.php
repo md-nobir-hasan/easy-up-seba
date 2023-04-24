@@ -90,6 +90,7 @@ class EkhanaController extends Controller
      */
 public function store(StoreEkhanaRequest $request)
     {
+        // dd($request->all());
         if($request->id){
             $insert = Ekhana::find($request->id);
         }else{

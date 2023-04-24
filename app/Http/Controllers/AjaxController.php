@@ -132,15 +132,32 @@ class AjaxController extends Controller
     }
 
     public function update(Request $req, $model){
+
         $model = '\\App\\Models\\'.$model;
-        // return $model;
-        $model::find($req->id)->update($req->all());
+            // return $model;
+        $housetax = $model::find($req->id);
+        if($req->kisti == '1'){
+            $housetax->paid_amount += $req->paid_amount;
+            $housetax->f_kisti = $req->paid_amount;
+            $housetax->f_date = $req->deposite_date;
+        }elseif($req->kisti == '2'){
+             $housetax->paid_amount += $req->paid_amount;
+            $housetax->s_kisti = $req->paid_amount;
+            $housetax->s_date = $req->deposite_date;
+        }else{
+             $housetax->paid_amount += $req->paid_amount;
+            $housetax->t_kisti = $req->paid_amount;
+            $housetax->t_date = $req->deposite_date;
+        }
+        $housetax->deposite_date = $req->deposite_date;
+        $housetax->save();
+
         if($req->paid_amount && $req->ekhana_id){
             $ekhana_update = Ekhana::where('holding_no',$req->ekhana_id)->first();
-            $ekhana_update->tax_paid = $req->paid_amount;
+            $ekhana_update->tax_paid += $req->paid_amount;
             $ekhana_update->save();
         }
-        return  $model;
+        return  $housetax;
     }
     public function afieldUpdate(Request $req){
         $model = '\\App\\Models\\'.$req->model;

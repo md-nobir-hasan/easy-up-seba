@@ -215,7 +215,7 @@ console.log(pro.bill)
                 <div class="flex items-center justify-between mt-4 pl-[75px]">
                     <div class="">
                         <h4>ইউপি করের বিল</h4>
-                        <h4>ইউপি কপি</h4>
+                        <h4>গ্রাহক কপি</h4>
                     </div>
                     <div class="pl-8">
                         <h4>বছর : {{ekhana.f_year.from + '-' +ekhana.f_year.to}}</h4>
@@ -283,7 +283,7 @@ console.log(pro.bill)
                         <tbody>
                             <tr>
                                 <th class="border border-[black] p-2">হোল্ডিং কর</th>
-                                <td class="border border-[black] p-2"></td>
+                                <td class="border border-[black] p-2">{{ bill.total_amount - bill.paid_amount }}</td>
                                 <td class="border border-[black] p-2">{{bill.f_kisti}}</td>
                                 <td class="border border-[black] p-2">{{bill.s_kisti}}</td>
                                 <td class="border border-[black] p-2">{{bill.t_kisti}}</td>

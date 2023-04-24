@@ -21,6 +21,9 @@ return new class extends Migration
             $table->decimal('t_kisti')->default(0)->nullable();
             $table->decimal('fo_kisti')->default(0)->nullable();
             $table->timestamp('deposite_date')->nullable();
+            $table->timestamp('f_date')->nullable();
+            $table->timestamp('s_date')->nullable();
+            $table->timestamp('t_date')->nullable();
             $table->decimal('paid_amount')->default(0)->nullable();
             $table->decimal('arrears')->default(0)->nullable();
             $table->decimal('fine')->default(0)->nullable();

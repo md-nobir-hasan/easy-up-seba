@@ -91,31 +91,31 @@ const ekhanaFetch = ()=>{
 //Delele funciton for deleting data
     function deleting(id,modal){
         Swal.fire({
-    title: 'Are you sure?',
-    text: "You won't be able to revert this!",
-    icon: 'warning',
-    showCancelButton: true,
-    confirmButtonColor: '#3085d6',
-    cancelButtonColor: '#d33',
-    confirmButtonText: 'Yes, delete it!'
-    }).then((result) => {
-    if (result.isConfirmed) {
-        axios.get(route('admin.single.delete.fetch',[id,modal])).then(res => {
-            ekhana.value = res.data;
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+        if (result.isConfirmed) {
+            axios.get(route('admin.single.delete.fetch',[id,modal])).then(res => {
+                ekhana.value = res.data;
 
-            Swal.fire(
-        'Deleted!',
-        'Your file has been deleted.',
-        'success'
-        )
-        }).catch(err =>{
-            console.error(err)
-        }).finally(() => {
-            console.log('deleted');
-        });
+                Swal.fire(
+            'Deleted!',
+            'Your file has been deleted.',
+            'success'
+            )
+            }).catch(err =>{
+                console.error(err)
+            }).finally(() => {
+                console.log('deleted');
+            });
 
-    }
-    })
+        }
+        })
     }
 //End deleting
 </script>

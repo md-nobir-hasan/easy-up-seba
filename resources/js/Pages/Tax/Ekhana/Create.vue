@@ -25,7 +25,7 @@ defineProps({
 
 const form = useForm({
     id: '',
-    word_id: usePage().props.auth.user.word_id,
+    word_id: '',
     village_id: '',
     holding_no: '',
     yearly_income: '',

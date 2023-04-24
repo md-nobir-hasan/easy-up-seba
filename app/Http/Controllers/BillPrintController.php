@@ -36,9 +36,11 @@ class BillPrintController extends Controller
         $n['bill'] = HouseTaxDeposite::query()->with(['fYear','ekhana','ekhana.word'])
                                         ->where('ekhana_id',$req->ekhana_id)
                                         ->where('f_year_id',$req->f_y_id)
-                                        ->where('deposite_date',$req->deposite_date)
+                                        ->whereDate('deposite_date','=',$req->deposite_date)
                                         ->first();
-
+            if(!$n['bill']){
+                return back()->with('msg','কোন তথ্য পাওয়া যায়নি');
+            }
         $n['previous_arrears'] = $n['bill']->previousArrears();
 
         return Inertia::render('Tax/BillPrint/SingleOld/Show',$n);
