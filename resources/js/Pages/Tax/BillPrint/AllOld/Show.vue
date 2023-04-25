@@ -74,8 +74,8 @@ console.log(pro.bill)
                             <h4>বছর : {{bill.from + '-' +bill.to}}</h4>
                             <h4>
                                 কিস্তি :
-                                <span v-if="ekhana.s_kisti<1 && ekhana.t_kisti<1">১ম</span>
-                                    <span v-else-if="ekhana.t_kisti<1">২য়</span>
+                                <span v-if="bill.s_kisti<1 && bill.t_kisti<1">১ম</span>
+                                    <span v-else-if="bill.t_kisti<1">২য়</span>
                                     <span v-else>৩য়</span>
                             </h4>
                         </div>
@@ -225,8 +225,8 @@ console.log(pro.bill)
                             <h4>বছর : {{bill.from + '-' +bill.to}}</h4>
                             <h4>
                                 কিস্তি :
-                                <span v-if="ekhana.s_kisti<1 && ekhana.t_kisti<1">১ম</span>
-                                    <span v-else-if="ekhana.t_kisti<1">২য়</span>
+                                <span v-if="bill.s_kisti<1 && bill.t_kisti<1">১ম</span>
+                                    <span v-else-if="bill.t_kisti<1">২য়</span>
                                     <span v-else>৩য়</span>
                             </h4>
                         </div>
