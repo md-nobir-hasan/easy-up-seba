@@ -27,6 +27,7 @@ const form = useForm({
     fine: 0,
     deposite_date: null,
     id:0,
+    kisti: null,
 });
 const form2 = useForm({
     phone: '',
@@ -86,8 +87,8 @@ const htdeposite = ref(null);
         axios.post(route('ajax.ekhana.fetch'), form).then(res => {
             ekhana.value = res.data.ekhana;
             htdeposite.value = res.data.ht_deposite;
-            form.paid_amount = Math.round(res.data.ht_deposite.total_amount - (res.data.ht_deposite.paid_amount >0 ? res.data.ht_deposite.paid_amount : 0));
-            form.arrears = form.paid_amount;
+            form.paid_amount = Math.round(res.data.ht_deposite.total_amount/3);
+            form.arrears = res.data.ht_deposite.total_amount - (res.data.ht_deposite.paid_amount >0 ? res.data.ht_deposite.paid_amount : 0);
             form.fine = Math.round(res.data.ht_deposite.fine ?? 0);
             form.id = res.data.ht_deposite.id ?? 0;
             deposite_date.value = res.data.ht_deposite.deposite_date;
@@ -96,6 +97,11 @@ const htdeposite = ref(null);
             form2.spouse_name = res.data.ekhana.spouse_name;
             form2.mother_name = res.data.ekhana.mother_name;
             form2.phone = res.data.ekhana.phone;
+            if(res.data.ht_deposite.t_kisti>0){
+                form.paid_amount = 0;
+            }else if(res.data.ht_deposite.s_kisti>0 && res.data.ht_deposite.t_kisti<1){
+                form.paid_amount = form.arrears;
+            }
             console.log(res);
         }).catch(err =>{
             console.error(err)
@@ -113,7 +119,14 @@ const htdeposite = ref(null);
         }
         axios.post(route('ajax.update',['HouseTaxDeposite']), form).then(res => {
             htdeposite.value = res.data;
-            console.log(res);
+            form.paid_amount = Math.round(res.data.ht_deposite.total_amount/3);
+            if(res.data.t_kisti>0){
+                form.paid_amount = 0;
+            }else if(res.data.ht_deposite.s_kisti>0 && res.data.ht_deposite.t_kisti<1){
+                form.paid_amount = form.arrears;
+            }
+            form.arrears = res.data.total_amount - (res.data.paid_amount >0 ? res.data.paid_amount : 0);
+            form.fine = Math.round(res.data.fine ?? 0);
             alert('সফলভাবে কর জমা হয়েছে');
         }).catch(err =>{
             console.error(err)
@@ -179,6 +192,16 @@ console.dir(people)
         })
 
   )
+
+//   const submit = () => {
+//     form.post(route('admin.tax.ekhana.store'), {
+//         onFinish: () => {
+//             if(form.submit_btn != 'return'){
+//                 form.reset();
+//             }
+//         }
+//     });
+// };
 </script>
 
 <template>
@@ -351,12 +374,62 @@ console.dir(people)
                             <tr>
                                 <th class="border border-slate-300 p-2">জমার তারিখ</th>
                                 <td>
-                                    <span v-if="deposite_date" class="">{{DateFormate(deposite_date)}}</span>
+                                    <div v-if="htdeposite.f_kisti>0 && htdeposite.s_kisti>0 && htdeposite.t_kisti>0">
+                                        <input class="border-0"  type="date" disabled>
+                                    </div>
+                                    <!-- <span v-if="deposite_date" class="">{{DateFormate(deposite_date)}}</span> -->
                                     <input v-else class="border-0"  type="date" required  v-model="form.deposite_date" >
                                 </td>
                             </tr>
                             <tr>
-                                <td class="border border-slate-300 p-2">করের পরিমাণ</td>
+                                <th class="border border-slate-300 p-2">কিস্তি</th>
+                                <td class="border border-slate-300">
+                                    <div v-if="htdeposite.f_kisti>0 && htdeposite.s_kisti>0 && htdeposite.t_kisti>0">
+                                        <input class=" text-[#80808087]" id="kisti1" disabled checked type="radio" required value="1"  >
+                                        <label for="kisti1" class="text-[#80808087] ml-1">১ম</label>
+
+                                        <input class="ml-2 text-[#80808087]" disabled id="kisti2" checked  type="radio" required value="2" >
+                                        <label for="kisti2" class="ml-1 text-[#80808087]" disabled>২য়</label>
+
+                                        <input class="ml-2 text-[#80808087]" id="kisti3" checked disabled type="radio" required value="3" >
+                                        <label for="kisti3" class="ml-1 text-[#80808087]" checked disabled>৩য়</label>
+                                    </div>
+
+                                    <div v-else-if="htdeposite.s_kisti>0 && htdeposite.f_kisti>0">
+                                        <input class=" text-[#80808087]" id="kisti1" disabled checked type="radio" required value="1"  >
+                                        <label for="kisti1" class="text-[#80808087]">১ম</label>
+
+                                        <input class="ml-2 text-[#80808087]" disabled id="kisti2" checked  type="radio" required value="2" >
+                                        <label for="kisti2" class="ml-1 text-[#80808087]" disabled>২য়</label>
+
+                                        <input class="ml-2" id="kisti3"  type="radio" required value="3" v-model="form.kisti" >
+                                        <label for="kisti3" class="ml-1">৩য়</label>
+                                    </div>
+
+                                    <div v-else-if="htdeposite.f_kisti>0">
+                                        <input class=" text-[#80808087]" id="kisti1" disabled checked type="radio" required value="1"  >
+                                        <label for="kisti1" class="text-[#80808087] ml-1">১ম</label>
+
+                                        <input class="ml-2" id="kisti2"  type="radio" required value="2" v-model="form.kisti" >
+                                        <label for="kisti2" class="ml-1">২য়</label>
+
+                                        <input class="ml-2" id="kisti3"  type="radio" required value="3" v-model="form.kisti" >
+                                        <label for="kisti3" class="ml-1">৩য়</label>
+                                    </div>
+                                    <div v-else>
+                                        <input class="" id="kisti1"  type="radio" required value="1" v-model="form.kisti" >
+                                        <label for="kisti1" class="ml-1">১ম</label>
+
+                                        <input class="ml-2" id="kisti2"  type="radio" required value="2" v-model="form.kisti" >
+                                        <label for="kisti2" class="ml-1">২য়</label>
+
+                                        <input class="ml-2" id="kisti3"  type="radio" required value="3" v-model="form.kisti" >
+                                        <label for="kisti3" class="ml-1">৩য়</label>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="border border-slate-300 p-2 ">করের পরিমাণ</td>
                                 <td class="border border-slate-300  bg-gray-100">
                                     <input class="bg-gray-100 border-0" readonly type="text" v-model="form.paid_amount">
                                 </td>
@@ -376,18 +449,16 @@ console.dir(people)
                             </tbody>
                             <tfoot class="bg-[#11ff5999]">
                                 <tr>
-                                    <th v-if="htdeposite.paid_amount >0" colspan="2" class="border border-slate-300 p-2">
+                                    <th v-if="htdeposite.f_kisti>0 && htdeposite.s_kisti>0 && htdeposite.t_kisti>0" colspan="2" class="border border-slate-300 p-2">
                                         <component :is="CheckIcon" class="h-9 p-1 inline font-bold bg-[blue] text-white rounded-full"></component>
                                     </th>
                                     <th v-else colspan="2" class="border border-slate-300 p-2">
+
                                         <PrimaryButton type="button" @click="submitTax" class="ml-4"
                                         :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                                         জমা করুন
                                     </PrimaryButton>
                                     </th>
-
-
-
                                 </tr>
                             </tfoot>
                         </table>

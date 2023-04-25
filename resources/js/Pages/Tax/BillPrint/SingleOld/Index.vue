@@ -156,6 +156,25 @@ const search_items = ref(pro.ekhanas);
     })
 
 )
+// const sweetsuc = ()=>{
+//     Swal.fire({
+//         position: 'top-end',
+//         icon: 'success',
+//         title: usePage().props.flash.message,
+//         showConfirmButton: false,
+//         timer: 1500
+//     })
+// }
+if(usePage().props.flash.message){
+    Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        title: usePage().props.flash.message,
+        showConfirmButton: false,
+        timer: 1500
+    })
+}
+
 </script>
 
 <template>
@@ -165,6 +184,7 @@ const search_items = ref(pro.ekhanas);
             <div class="bg-white flex justify-between p-4">
                 <h2 class="float-left text-4xl font-extrabold">সিঙ্গেল বিল প্রিন্ট (পুরাতন)</h2>
             </div>
+            <!-- <button @click="sweetsuc">sldfjsdkf</button> -->
             <div class="mt-4 mb-2 p-4 bg-white">
                 <form :action="route('admin.tax.bill.print.single.old.show')" method="GET" target="_blank" class="bg-[#008494db] text-[white] m-auto  rounded-lg p-6 pb-[2px] text-2lg max-w-md max-sm:max-w-sm">
 

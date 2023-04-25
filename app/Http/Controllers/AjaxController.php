@@ -132,15 +132,32 @@ class AjaxController extends Controller
     }
 
     public function update(Request $req, $model){
+
         $model = '\\App\\Models\\'.$model;
-        // return $model;
-        $model::find($req->id)->update($req->all());
+            // return $model;
+        $housetax = $model::find($req->id);
+        if($req->kisti == '1'){
+            $housetax->paid_amount += $req->paid_amount;
+            $housetax->f_kisti = $req->paid_amount;
+            $housetax->f_date = $req->deposite_date;
+        }elseif($req->kisti == '2'){
+             $housetax->paid_amount += $req->paid_amount;
+            $housetax->s_kisti = $req->paid_amount;
+            $housetax->s_date = $req->deposite_date;
+        }else{
+             $housetax->paid_amount += $req->paid_amount;
+            $housetax->t_kisti = $req->paid_amount;
+            $housetax->t_date = $req->deposite_date;
+        }
+        $housetax->deposite_date = $req->deposite_date;
+        $housetax->save();
+
         if($req->paid_amount && $req->ekhana_id){
             $ekhana_update = Ekhana::where('holding_no',$req->ekhana_id)->first();
-            $ekhana_update->tax_paid = $req->paid_amount;
+            $ekhana_update->tax_paid += $req->paid_amount;
             $ekhana_update->save();
         }
-        return  $model;
+        return  $housetax;
     }
     public function afieldUpdate(Request $req){
         $model = '\\App\\Models\\'.$req->model;
@@ -300,6 +317,31 @@ class AjaxController extends Controller
         }
 
 
+        return response()->json($n);
+    }
+
+    public function allBillcountOld(Request $req){
+
+        // $n['bills'] = DB::table('house_tax_deposites')
+        //         ->join('financial_years','house_tax_deposites.f_year_id','=','financial_years.id')
+        //         ->join('ekhanas','house_tax_deposites.ekhana_id','=','ekhanas.id')
+        //         ->join('words','house_tax_deposites.ekhana_id','=','words.id')
+        //         ->where('ekhanas.word_id',$req->word_id)
+        //         ->where('ekhanas.village_id',$req->village_id)
+        //         ->where('house_tax_deposites.f_year_id',$req->f_y_id)
+        //         ->whereDate('house_tax_deposites.deposite_date','=',$req->deposite_date)
+        //         ->select('house_tax_deposites.*')
+        //         ->get();
+        $n['bills'] = DB::table('house_tax_deposites')
+        ->join('financial_years','house_tax_deposites.f_year_id','=','financial_years.id')
+        ->join('ekhanas','house_tax_deposites.ekhana_id','=','ekhanas.id')
+        ->join('words','house_tax_deposites.ekhana_id','=','words.id')
+        ->where('ekhanas.word_id',$req->word_id)
+        ->where('ekhanas.village_id',$req->village_id)
+        ->where('house_tax_deposites.f_year_id',$req->f_year_id)
+        ->whereDate('house_tax_deposites.deposite_date','=',$req->deposite_date)
+        ->select('house_tax_deposites.*','ekhanas.holding_no','ekhanas.bn_name','ekhanas.spouse_name','financial_years.from','financial_years.to','words.name as w_name')
+        ->get();
         return response()->json($n);
     }
 }

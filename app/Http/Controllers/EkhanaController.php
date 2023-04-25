@@ -8,7 +8,9 @@ use App\Models\Ekhana;
 use App\Http\Requests\StoreEkhanaRequest;
 use App\Http\Requests\UpdateEkhanaRequest;
 use App\Models\EducationQualification;
+use App\Models\FinancialYear;
 use App\Models\HouseStructure;
+use App\Models\HouseTaxDeposite;
 use App\Models\Tax;
 use App\Models\Profession;
 use App\Models\Religion;
@@ -88,6 +90,7 @@ class EkhanaController extends Controller
      */
 public function store(StoreEkhanaRequest $request)
     {
+        // dd($request->all());
         if($request->id){
             $insert = Ekhana::find($request->id);
         }else{
@@ -129,7 +132,21 @@ public function store(StoreEkhanaRequest $request)
         $insert->infrastructure = $request->infrastructure;
         $insert->created_by = Auth::user()->id;
         $insert->save();
-
+        $tax = Tax::latest()->first();
+        $f_years = FinancialYear::get();
+        $total_amount = round($insert->yearly_house_rent*$tax->price/100);
+        $check = HouseTaxDeposite::where('ekhana_id',$insert->id)->first();
+        if(!$check){
+            foreach($f_years as $f_year){
+                $ht_insert = new HouseTaxDeposite();
+                $ht_insert->ekhana_id = $insert->id;
+                $ht_insert->total_amount = $total_amount;
+                $ht_insert->union_id = Word::find($request->word_id)->union_id;
+                $ht_insert->word_id = $request->word_id;
+                $ht_insert->f_year_id = $f_year->id;
+                $ht_insert->save();
+            }
+        }
 
         $request->session()->flash('suc_msg',$request->bn_name.' সফলভাবে সরক্ষণ করা হয়েছে');
         if($request->submit_btn == 'return'){
