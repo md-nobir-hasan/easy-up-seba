@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class HouseTaxDeposite extends Model
 {
@@ -32,6 +33,7 @@ class HouseTaxDeposite extends Model
         return $this->belongsTo(Word::class,'word_id');
     }
 
+
     public function previousArrears(){
 
         $q = HouseTaxDeposite::where('ekhana_id',$this->ekhana_id)->where('f_year_id','<',$this->f_year_id)->get();
@@ -41,4 +43,6 @@ class HouseTaxDeposite extends Model
         }
        return  $previous_arrears;
     }
+
+
 }

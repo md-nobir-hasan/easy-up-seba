@@ -319,6 +319,31 @@ class AjaxController extends Controller
 
         return response()->json($n);
     }
+
+    public function allBillcountOld(Request $req){
+
+        // $n['bills'] = DB::table('house_tax_deposites')
+        //         ->join('financial_years','house_tax_deposites.f_year_id','=','financial_years.id')
+        //         ->join('ekhanas','house_tax_deposites.ekhana_id','=','ekhanas.id')
+        //         ->join('words','house_tax_deposites.ekhana_id','=','words.id')
+        //         ->where('ekhanas.word_id',$req->word_id)
+        //         ->where('ekhanas.village_id',$req->village_id)
+        //         ->where('house_tax_deposites.f_year_id',$req->f_y_id)
+        //         ->whereDate('house_tax_deposites.deposite_date','=',$req->deposite_date)
+        //         ->select('house_tax_deposites.*')
+        //         ->get();
+        $n['bills'] = DB::table('house_tax_deposites')
+        ->join('financial_years','house_tax_deposites.f_year_id','=','financial_years.id')
+        ->join('ekhanas','house_tax_deposites.ekhana_id','=','ekhanas.id')
+        ->join('words','house_tax_deposites.ekhana_id','=','words.id')
+        ->where('ekhanas.word_id',$req->word_id)
+        ->where('ekhanas.village_id',$req->village_id)
+        ->where('house_tax_deposites.f_year_id',$req->f_year_id)
+        ->whereDate('house_tax_deposites.deposite_date','=',$req->deposite_date)
+        ->select('house_tax_deposites.*','ekhanas.holding_no','ekhanas.bn_name','ekhanas.spouse_name','financial_years.from','financial_years.to','words.name as w_name')
+        ->get();
+        return response()->json($n);
+    }
 }
 
 

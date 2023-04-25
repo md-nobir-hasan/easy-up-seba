@@ -50,6 +50,9 @@ class PermissionSeeder extends Seeder
             ['role_id' => 1,'module_id' => 30,'add' => '1','show' => '1','edit' => '1','delete' => '1'], //ওয়ার্ড ভিত্তিক ধার্য
             ['role_id' => 1,'module_id' => 31,'add' => '1','show' => '1','edit' => '1','delete' => '1'], //
             ['role_id' => 1,'module_id' => 32,'add' => '1','show' => '1','edit' => '1','delete' => '1'], //
+            ['role_id' => 1,'module_id' => 33,'add' => '1','show' => '1','edit' => '1','delete' => '1'], //
+            ['role_id' => 1,'module_id' => 34,'add' => '1','show' => '1','edit' => '1','delete' => '1'], //
+            ['role_id' => 1,'module_id' => 35,'add' => '1','show' => '1','edit' => '1','delete' => '1'], //
         ];
 
          //This for Unon

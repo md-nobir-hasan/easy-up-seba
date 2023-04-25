@@ -66,6 +66,7 @@ Route::prefix('/ajax')->name('ajax.')->group(function(){
     Route::post('/ekhana/toplist/levy',[AjaxController::class,'TolistLevy'])->name('ekhana.toplist.levy');
     Route::post('/ekhana/toplist/daily/posting',[AjaxController::class,'TolistDailyPosting'])->name('ekhana.toplist.daily.posting');
     Route::post('/ekhana/toplist/daily/posting/topsheet',[AjaxController::class,'TolistDailyPostingTopsheet'])->name('ekhana.toplist.daily.posting.topsheet');
+    Route::post('/allbillcount',[AjaxController::class,'allBillcountOld'])->name('allbillcount');
 });
 
 
@@ -137,9 +138,23 @@ Route::middleware([
         });
         //Bill Print
         Route::prefix('/bill-print')->name('bill.print.')->group(function(){
+            ///Single bill print
+                Route::get('/single',[BillPrintController::class,'single'])->name('single');
+                Route::get('/single/show',[BillPrintController::class,'singleShow'])->name('single.show');
+
+            ///All bill print
+                Route::get('/all',[BillPrintController::class,'all'])->name('all');
+                Route::get('/all/show',[BillPrintController::class,'allShow'])->name('all.show');
+
             ///Single bill print old
                 Route::get('/single/old',[BillPrintController::class,'singleOld'])->name('single.old');
                 Route::get('/single/old/show',[BillPrintController::class,'singleOldShow'])->name('single.old.show');
+
+            ///All bill print old
+                Route::get('/all/old',[BillPrintController::class,'allOld'])->name('all.old');
+                Route::get('/all/old/show',[BillPrintController::class,'allOldShow'])->name('all.old.show');
+
+
         });
 
     });
