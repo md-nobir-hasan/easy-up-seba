@@ -4,7 +4,7 @@ import SucMesgShow from '@/Components/SucMesgShow.vue';
 import { Head,Link, useForm, usePage } from '@inertiajs/vue3';
 import { ref,computed } from 'vue';
 import printJS from 'print-js';
-
+// import QrcodeVue from 'qrcode.vue'
 const pro = defineProps({
     bill: Object,
     previous_arrears: String,
@@ -52,7 +52,6 @@ function DateFormate(date) {
     const today = (date.getMonth() + 1)+'/'+date.getDate()+'/'+date.getFullYear();
 console.log(pro.bill)
 </script>
-
 <template>
 
     <Head title="সিঙ্গেল বিল প্রিন্ট (পুরাতন)" />
@@ -215,12 +214,16 @@ console.log(pro.bill)
                 <div class="flex items-center">
                     <img src="/default/images/bd-logo.svg" class="h-14" alt="BD Logo">
                     <h1 class="ml-4 font-bold text-[24px]">{{ $page.props.auth.user.word.name }}- {{ $page.props.auth.user.word.union.name  }}</h1>
+                    <div class="ml-auto">
+                        <qrcode-vue :value="value" :size="size" level="H" style="width:60px;height:60px" />
+                    </div>
                 </div>
 
                 <div class="flex items-center justify-between mt-4 pl-[75px]">
                     <div class="">
                         <h4>ইউপি করের বিল</h4>
                         <h4>গ্রাহক কপি</h4>
+
                     </div>
                     <div class="pl-8">
                         <h4>বছর : {{ekhana.f_year.from + '-' +ekhana.f_year.to}}</h4>
@@ -363,7 +366,24 @@ console.log(pro.bill)
 
         </div>
     </div>
+
 </template>
+<script>
+  import QrcodeVue from 'qrcode.vue'
+
+  export default {
+    data() {
+      return {
+        value: 'https://admin.easyupsheba.com/',
+        size: 300,
+      }
+    },
+    components: {
+      QrcodeVue,
+    },
+  }
+</script>
+
 
 <style>
     body{

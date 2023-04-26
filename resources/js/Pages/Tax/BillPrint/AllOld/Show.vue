@@ -214,6 +214,9 @@ console.log(pro.bill)
                     <div class="flex items-center">
                         <img src="/default/images/bd-logo.svg" class="h-14" alt="BD Logo">
                         <h1 class="ml-4 font-bold text-[24px]">{{ $page.props.auth.user.word.name }}- {{ $page.props.auth.user.word.union.name  }}</h1>
+                        <div class="ml-auto">
+                            <qrcode-vue :value="value" :size="size" level="H" style="width:60px;height:60px" />
+                        </div>
                     </div>
 
                     <div class="flex items-center justify-between mt-4 pl-[75px]">
@@ -364,7 +367,21 @@ console.log(pro.bill)
         </div>
     </div>
 </template>
+<script>
+  import QrcodeVue from 'qrcode.vue'
 
+  export default {
+    data() {
+      return {
+        value: 'https://admin.easyupsheba.com/',
+        size: 300,
+      }
+    },
+    components: {
+      QrcodeVue,
+    },
+  }
+</script>
 <style>
     body{
         background: white;
