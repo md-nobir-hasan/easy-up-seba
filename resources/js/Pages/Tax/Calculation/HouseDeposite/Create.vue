@@ -119,7 +119,8 @@ const htdeposite = ref(null);
         }
         axios.post(route('ajax.update',['HouseTaxDeposite']), form).then(res => {
             htdeposite.value = res.data;
-            form.paid_amount = Math.round(res.data.ht_deposite.total_amount/3);
+            console.log(res.data);
+            form.paid_amount = Math.round(res.data.total_amount/3);
             if(res.data.t_kisti>0){
                 form.paid_amount = 0;
             }else if(res.data.ht_deposite.s_kisti>0 && res.data.ht_deposite.t_kisti<1){

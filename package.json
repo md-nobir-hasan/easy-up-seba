@@ -21,6 +21,7 @@
         "@headlessui/vue": "^1.7.12",
         "@heroicons/vue": "^2.0.16",
         "@inertiajs/vue3": "^1.0.2",
-        "print-js": "^1.6.0"
+        "print-js": "^1.6.0",
+        "qrcode.vue": "^3.4.0"
     }
 }
