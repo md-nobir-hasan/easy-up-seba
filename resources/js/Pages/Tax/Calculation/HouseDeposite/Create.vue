@@ -2,6 +2,7 @@
 import AppLayout from '@/Layouts/AppLayout.vue';
 import SucMesgShow from '@/Components/SucMesgShow.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
+import Dropdown from '@/Components/Dropdown.vue';
 import { Link, useForm, usePage } from '@inertiajs/vue3';
 import { ref,computed } from 'vue';
 import {CheckIcon,ChevronDownIcon} from '@heroicons/vue/24/solid';
@@ -18,6 +19,7 @@ const pro = defineProps({
 });
 
 const date = new Date();
+const print = ref(false);
 const today = (date.getMonth() + 1)+'/'+date.getDate()+'/'+date.getFullYear();
 const form = useForm({
     f_year_id: '',
@@ -121,9 +123,10 @@ const htdeposite = ref(null);
             htdeposite.value = res.data;
             console.log(res.data);
             form.paid_amount = Math.round(res.data.total_amount/3);
+            print.value = true;
             if(res.data.t_kisti>0){
                 form.paid_amount = 0;
-            }else if(res.data.ht_deposite.s_kisti>0 && res.data.ht_deposite.t_kisti<1){
+            }else if(res.data.s_kisti>0 && res.data.t_kisti<1){
                 form.paid_amount = form.arrears;
             }
             form.arrears = res.data.total_amount - (res.data.paid_amount >0 ? res.data.paid_amount : 0);
@@ -203,6 +206,7 @@ console.dir(people)
 //         }
 //     });
 // };
+const printdivshow = ref(false);
 </script>
 
 <template>
@@ -452,13 +456,82 @@ console.dir(people)
                                 <tr>
                                     <th v-if="htdeposite.f_kisti>0 && htdeposite.s_kisti>0 && htdeposite.t_kisti>0" colspan="2" class="border border-slate-300 p-2">
                                         <component :is="CheckIcon" class="h-9 p-1 inline font-bold bg-[blue] text-white rounded-full"></component>
+                                        <div class="relative inline-block float-right">
+                                            <button v-if="print"  @click="printdivshow ? printdivshow= false: printdivshow= true" type="button" class=" text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 shadow-lg shadow-purple-500/50 dark:shadow-lg dark:shadow-purple-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center  mb-2 mr-2">
+                                                প্রিন্ট
+
+                                            </button>
+                                            <div v-if="printdivshow" class='absolute w-[120px] top-10 right-0 shadow-lg border-2 bg-white px-4 py-2 rounded'>
+                                                <!-- POS bill form  -->
+                                                <form :action="route('admin.tax.bill.print.single.pos.show')" method="GET" target="_blank" class="mb-2">
+                                                    <input type="hidden" name="f_y_id" :value="form.f_year_id">
+                                                    <input type="hidden" name="ekhana_id" :value="ekhana.id">
+                                                    <input type="hidden" name="deposite_date" :value="form.deposite_date">
+
+                                                    <button class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-2 py-2 text-center">
+                                                        পোজ বিল
+                                                    </button>
+                                                </form>
+                                                <!-- <a href="#" class="block w-[89px] my-2">পোজ বিল</a> -->
+
+                                                <!-- New bill form  -->
+                                                <form :action="route('admin.tax.bill.print.single.show')" method="GET" target="_blank" class="mb-2">
+                                                    <input type="hidden" name="f_y_id" :value="form.f_year_id">
+                                                    <input type="hidden" name="ekhana_id" :value="ekhana.id">
+                                                    <input type="hidden" name="deposite_date" :value="form.deposite_date">
+
+                                                    <button class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-2 py-2 text-center">
+                                                        নতুন বিল
+                                                    </button>
+                                                </form>
+                                                <!-- <a href="#" class="block my-2">নতুন বিল</a> -->
+
+                                                <!-- Old bill form  -->
+                                                <form :action="route('admin.tax.bill.print.single.old.show')" method="GET" target="_blank">
+                                                    <input type="hidden" name="f_y_id" :value="form.f_year_id">
+                                                    <input type="hidden" name="ekhana_id" :value="ekhana.id">
+                                                    <input type="hidden" name="deposite_date" :value="form.deposite_date">
+
+                                                    <button class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-1 py-1 text-center">
+                                                        পুরাতন বিল
+                                                    </button>
+                                                </form>
+                                                <!-- <a href="#" class="block my-2">পুরাতন বিল</a> -->
+                                            </div>
+                                        </div >
                                     </th>
-                                    <th v-else colspan="2" class="border border-slate-300 p-2">
+                                    <th v-else colspan="2" class="border border-slate-300 p-2 ">
 
                                         <PrimaryButton type="button" @click="submitTax" class="ml-4"
                                         :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                                        জমা করুন
-                                    </PrimaryButton>
+                                            জমা করুন
+                                        </PrimaryButton>
+                                        <div class="relative inline-block float-right">
+                                            <button v-if="print"  @click="printdivshow ? printdivshow= false: printdivshow= true" type="button" class=" text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 shadow-lg shadow-purple-500/50 dark:shadow-lg dark:shadow-purple-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center  mb-2 mr-2">
+                                                প্রিন্ট
+
+                                            </button>
+                                            <div v-if="printdivshow" class='absolute top-10 right-0 shadow-lg border-2 bg-white px-4 py-2 rounded'>
+                                                <!-- POS bill form  -->
+                                                <form :action="route('admin.tax.bill.print.single.pos.show')" method="GET" target="_blank">
+                                                    <input type="hidden" name="f_y_id" :value="form.f_year_id">
+                                                    <input type="hidden" name="ekhana_id" :value="ekhana.holding_no">
+                                                    <input type="hidden" name="deposite_date" :value="form.deposite_date">
+
+                                                    <button class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-2 py-2 text-center">
+                                                        পোজ বিল
+                                                    </button>
+                                                </form>
+                                                <!-- <a href="#" class="block w-[89px] my-2">পোজ বিল</a> -->
+
+                                                <!-- New bill form  -->
+                                                <a href="#" class="block my-2">নতুন বিল</a>
+
+                                                <!-- Old bill form  -->
+                                                <a href="#" class="block my-2">পুরাতন বিল</a>
+                                            </div>
+                                        </div >
+
                                     </th>
                                 </tr>
                             </tfoot>
