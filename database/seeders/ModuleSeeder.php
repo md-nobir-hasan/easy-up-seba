@@ -46,6 +46,8 @@ class ModuleSeeder extends Seeder
                     ['name' => 'সমস্ত বিল প্রিন্ট','a_union' => '1'],
                     ['name' => 'সিঙ্গেল বিল প্রিন্ট (পুরাতন)','a_union' => '1'],
                     ['name' => 'সমস্ত বিল প্রিন্ট (পুরাতন)','a_union' => '1'],
+                    ['name' => 'সিঙ্গেল পোজ বিল','a_union' => '1'],
+                    ['name' => 'সমস্ত পোজ বিল','a_union' => '1'],
             ['name' => 'Approval','a_union' => null],
                 ['name' => 'Tax Deposite Approval','a_union' => null],
         ];
