@@ -9,6 +9,7 @@ defineProps({
     words: Object,
     house_strucs: Object,
     tax: Object,
+    all_access: String,
 });
 
 const form = useForm({
@@ -47,8 +48,10 @@ function DateFormate(date) {
     return date;
 }
 const vilages = ref({});
-const vdisable = ref(false);
+const vdisable = ref(true);
+const all_word = ref(false);
 const villageFetching = ()=>{
+    form.word_id == 'all' ? all_word.value= true : all_word.value= false;
     axios.get(route('ajax.fetch',['Village','word_id',form.word_id]), form).then(res => {
         vilages.value = res.data;
         form.village_id = '';
@@ -71,14 +74,21 @@ const villageFetching = ()=>{
     const eerr2 = ref('');
     const ekhana = ref(usePage().props.data);
 const ekhanaFetch = ()=>{
+    console.log(form.village_id,form.word_id)
     if(!form.word_id){
         eerr.value = 'ওয়ার্ড নির্বাচন করুন'
         return false;
     }
-    if(!form.village_id){
-        eerr2.value = 'গ্রাম নির্বাচন করুন'
-        return false;
+    if(!all_word.value){
+        if(!form.village_id){
+                eerr2.value = 'গ্রাম নির্বাচন করুন'
+                return false;
+            }
+    }else{
+        form.village_id = 'all';
     }
+    
+    console.log(form.village_id,form.word_id)
     axios.get(route('ajax.fetch',['Ekhana','village_id',form.village_id,'word_id',form.word_id]), form).then(res => {
         ekhana.value = res.data;
         console.log(res);
@@ -127,26 +137,28 @@ const ekhanaFetch = ()=>{
             <div class="bg-white flex justify-between p-4">
                 <h2 class="float-left text-4xl font-extrabold">ই-খানা</h2>
                 <Link :href="route('admin.tax.ekhana.create')">
-                <PrimaryButton v-if="ncheck('add')" class="font-extrabold">
+                <PrimaryButton v-if="ncheck('add')" class="font-extrabold text-2xl">
                      ই-খানা ডাটা এন্ট্রি
                 </PrimaryButton>
                 </Link>
             </div>
             <div class="bg-white mt-4 mb-2 p-4 m-auto">
-                <form @submit.prevent="submit" class="bg-[#11ff5999] rounded-lg p-6 text-2lg max-w-md m-auto max-sm:max-w-sm">
+                <form @submit.prevent="submit" class="bg-[#008494db] rounded-lg p-6 text-2lg max-w-md m-auto max-sm:max-w-sm">
                     <div class="mb-4 flex items-center">
-                        <label for="word_id" class="block text-md font-medium text-[blue] dark:text-white">ওয়ার্ডঃ</label>
-                        <select id="word_id" v-model="form.word_id" @change="villageFetching" class="border ml-4 border-gray-300 text-[blue] text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                        <label for="word_id" class="block text-[20px] text-[white] dark:text-white font-bold">ওয়ার্ডঃ</label>
+                        <select id="word_id" v-model="form.word_id" @change="villageFetching" class="border text-lg ml-4 border-gray-300 text-[blue]  rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
                             <option selected value="">ওয়ার্ড নির্বাচন করুন</option>
-                            <option v-for="(word, key) in words" :value="word.id" :key="key">{{ word.name }}</option>
+                            <option v-if="all_access" value="all">সব দেখুন</option>
+                            <option v-for="(word, key) in words" :key="key" :value="word.id">{{ word.name }} - {{ word.union.name }}</option>
                         </select>
                         <InputError class="mt-2" :message="form.errors.eerr" />
                         <InputError class="mt-2" :message="form.errors.word_id" />
                     </div>
                     <div class="mb-4 flex items-center">
-                        <label for="village_id" class="block text-md font-medium text-[blue] dark:text-white">গ্রামঃ</label>
-                        <select id="village_id" v-model="form.village_id" :disabled="vdisable" class="border ml-7 border-gray-300 text-[blue] text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                        <label for="village_id" class="block  text-[20px] text-[white] dark:text-white font-bold">গ্রামঃ</label>
+                        <select id="village_id" v-model="form.village_id" :disabled="vdisable || all_word" class="border text-lg ml-7 border-gray-300 text-[blue]  rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
                             <option selected value="">গ্রাম নির্বাচন করুন</option>
+                            <option value="all">সব দেখুন</option>
                             <option v-for="(village, key) in vilages" :value="village.id" :key="key">{{ village.name }}</option>
                         </select>
                         <InputError class="mt-2" :message="form.errors.eerr2" />
@@ -176,8 +188,8 @@ const ekhanaFetch = ()=>{
                     <!-- <Link :href="route('admin.ekhana.export')" >Export Excel </Link> -->
                 </div>
             </div>
-            <table class="w-full text-md text-left text-gray-500 dark:text-gray-400">
-                <thead class="text-md text-center text-gray-700 uppercase bg-[#11ff5999] dark:bg-gray-700 dark:text-gray-400">
+            <table class="w-full  text-left text-gray-500 dark:text-gray-400">
+                <thead class=" text-center text-gray-700 uppercase bg-[#11ff5999] dark:bg-gray-700 dark:text-gray-400">
                     <tr>
                         <th scope="col" class="px-6 py-3">
                             হোল্ডিং নাম্বার
