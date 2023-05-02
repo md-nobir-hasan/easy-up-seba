@@ -71,11 +71,13 @@ class AjaxController extends Controller
     public function holdingFetch(Request $request, $word_id){
         $word_id = (int)$word_id;
         $word = Word::find($word_id);
-        $n['ekhana'] = Ekhana::where('union_id',$word->union_id)
+        $latest_ekhana = Ekhana::where('union_id',$word->union_id)
                         ->where('word_id',$word_id)
                         ->latest()
                         ->first();
-                        return response()->json($n);
+        $holding_prefix = $word->union->code . $word->code . "0000";
+        $holding = $holding_prefix + $latest_ekhana->id;
+                        return response()->json($holding);
     }
 
     public function khanaAutoSave(Request $request){

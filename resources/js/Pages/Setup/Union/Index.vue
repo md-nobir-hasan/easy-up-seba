@@ -93,17 +93,21 @@ const mdata = ref(usePage().props.unions);
                 <thead class="text-md text-center text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
                         <th scope="col" class="px-6 py-3">
-                            বিভাগ
+                            ইউনিয়ন
                         </th>
                         <th scope="col" class="px-6 py-3">
-                            জেলা
+                            ইউনিয়ন কোড
                         </th>
                         <th scope="col" class="px-6 py-3">
                             উপজেলা
                         </th>
                         <th scope="col" class="px-6 py-3">
-                            ইউনিয়ন
+                            জেলা
                         </th>
+                        <th scope="col" class="px-6 py-3">
+                            বিভাগ
+                        </th>
+
                         <th scope="col" class="px-6 py-3">
                             তৈরির তারিখ
                         </th>
@@ -124,18 +128,21 @@ const mdata = ref(usePage().props.unions);
                 <tbody>
                     <tr v-for="(value, key) in mdata" :key="key"
                         class="bg-white text-center border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                        <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            {{ value.division.name }}
-                        </td>
                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            {{ value.district.name }}
+                            {{ value.name }}
+                        </th>
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            {{ value.code }}
                         </th>
                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             {{ value.upazila.name }}
                         </th>
                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            {{ value.name }}
+                            {{ value.district.name }}
                         </th>
+                        <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            {{ value.division.name }}
+                        </td>
                         <td v-text="DateFormate(value.created_at)" class="px-6 py-4">
                         </td>
                         <td class="px-6 py-4">
