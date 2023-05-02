@@ -218,9 +218,9 @@ const printdivshow = ref(false);
                 <h2 class="float-left text-4xl font-extrabold">কর জমা ফর্ম</h2>
             </div>
             <div class=" mt-4 mb-2 p-4 bg-white">
-                <form @submit.prevent="submit" class="bg-[#11ff5999] m-auto  rounded-lg p-6 text-2lg max-w-md max-sm:max-w-sm">
+                <form @submit.prevent="submit" class="bg-[#008494db] m-auto  rounded-lg p-6 text-2lg max-w-md max-sm:max-w-sm">
                     <div class="mb-4 flex items-center">
-                        <label for="f_year_id" class="block text-md font-medium text-[blue] dark:text-white mr-[27px]">অর্থ-বছর</label>
+                        <label for="f_year_id" class="block text-lg font-bold text-[white] dark:text-white mr-[27px]">অর্থ-বছর</label>
                         <select id="f_year_id" v-model="form.f_year_id"
                         class="border ml-6 border-gray-300 text-[blue] text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 pr-[50px] dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
                             <option selected value="">অর্থ-বছর নির্বাচন করুন</option>
@@ -231,7 +231,7 @@ const printdivshow = ref(false);
                     </div>
                     <Combobox v-model="form.ekhana_id">
                         <div class="flex">
-                            <label for="f_year_id" class="block text-md font-medium text-[blue] dark:text-white">হোল্ডিং নাম্বার</label>
+                            <label for="f_year_id" class="block text-lg font-bold text-[white] dark:text-white">হোল্ডিং নাম্বার</label>
                             <div class="relative">
                                 <ComboboxInput @change="query = $event.target.value" class="border ml-6 border-gray-300 text-[blue] text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 pr-[40px] dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
                                 <component :is="ChevronDownIcon" v-if="ChevronDownIcon" class="h-4 mr-1 absolute right-[11px] top-[13px]"></component>

@@ -87,7 +87,7 @@ const ekhanaFetch = ()=>{
     }else{
         form.village_id = 'all';
     }
-    
+
     console.log(form.village_id,form.word_id)
     axios.get(route('ajax.fetch',['Ekhana','village_id',form.village_id,'word_id',form.word_id]), form).then(res => {
         ekhana.value = res.data;
@@ -275,9 +275,9 @@ const ekhanaFetch = ()=>{
                         </th>
                         <th colspan="2" scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             <div class="flex items-center justify-between">
-                                <p >{{ value.paka_house }}</p>
-                                <p >{{ value.adhapaka_house }}</p>
-                                <p >{{ value.kasa_house }}</p>
+                                <p >{{ value.paka_house ?? 0}}</p>
+                                <p >{{ value.adhapaka_house ?? 0 }}</p>
+                                <p >{{ value.kasa_house ?? 0 }}</p>
                             </div>
                         </th>
                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
