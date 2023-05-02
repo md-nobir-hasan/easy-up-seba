@@ -17,6 +17,7 @@
         <style>
             body{
                 background-color: #22eeaf3d;
+                font-size: 18px !important;
             }
 
             /* site's background color handling  */

@@ -27,7 +27,7 @@ class AjaxController extends Controller
         $val = (int)$value;
         $val2 = (int)$value2;
         // if($with){
-        //     $data = $modalClass::with(['houseStruc','word','village','houseStruc.houseStruc','createdBy'])->where($field,$val)->where('word_id',Auth::user()->word_id)->where('deleted_by',null)->orderBy('id','desc')->get();
+        //     $data = $modalClass::with(['word','village','createdBy'])->where($field,$val)->where('word_id',Auth::user()->word_id)->where('deleted_by',null)->orderBy('id','desc')->get();
         // }else{
             if($modal == 'Union'){
                 if(Auth::user()->role->name == 'Power'){
@@ -52,7 +52,14 @@ class AjaxController extends Controller
                 }
             }
             elseif($modal == 'Ekhana'){
-                $data = $modalClass::with(['houseStruc','word','village','houseStruc.houseStruc','createdBy'])->where($field,$val)->where($field2,$val2)->where('deleted_by',null)->orderBy('id','desc')->get();
+
+                if($value2 == 'all'){ //word_id
+                    $data = $modalClass::with(['union','word','village','createdBy'])->where('deleted_by',null)->orderBy('id','desc')->get();
+                }elseif($value == 'all'){
+                    $data = $modalClass::with(['union','word','village','createdBy'])->where($field2,$val2)->where('deleted_by',null)->orderBy('id','desc')->get();
+                }else{
+                    $data = $modalClass::with(['union','word','village','createdBy'])->where($field,$val)->where($field2,$val2)->where('deleted_by',null)->orderBy('id','desc')->get();
+                }
             }
             else{
                 $data = $modalClass::where($field,$val)->where('deleted_by',null)->orderBy('id','desc')->get();
