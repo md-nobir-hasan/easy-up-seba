@@ -70,7 +70,8 @@ function DateFormate(date) {
     return date;
 }
 
-const htdeposite = ref(null);
+    const htdeposite = ref(null);
+
     const eerr = ref('');
     const eerr2 = ref('');
     const ekhana = ref({});
@@ -89,8 +90,8 @@ const htdeposite = ref(null);
         axios.post(route('ajax.ekhana.fetch'), form).then(res => {
             ekhana.value = res.data.ekhana;
             htdeposite.value = res.data.ht_deposite;
-            form.paid_amount = Math.round(res.data.ht_deposite.total_amount/3);
-            form.arrears = res.data.ht_deposite.total_amount - (res.data.ht_deposite.paid_amount >0 ? res.data.ht_deposite.paid_amount : 0);
+            // form.paid_amount = Math.round(res.data.ht_deposite.total_amount/3);
+            // form.arrears = res.data.ht_deposite.total_amount - (res.data.ht_deposite.paid_amount >0 ? res.data.ht_deposite.paid_amount : 0);
             form.fine = Math.round(res.data.ht_deposite.fine ?? 0);
             form.id = res.data.ht_deposite.id ?? 0;
             deposite_date.value = res.data.ht_deposite.deposite_date;
@@ -99,11 +100,11 @@ const htdeposite = ref(null);
             form2.spouse_name = res.data.ekhana.spouse_name;
             form2.mother_name = res.data.ekhana.mother_name;
             form2.phone = res.data.ekhana.phone;
-            if(res.data.ht_deposite.t_kisti>0){
-                form.paid_amount = 0;
-            }else if(res.data.ht_deposite.s_kisti>0 && res.data.ht_deposite.t_kisti<1){
-                form.paid_amount = form.arrears;
-            }
+            // if(res.data.ht_deposite.t_kisti>0){
+            //     form.paid_amount = 0;
+            // }else if(res.data.ht_deposite.s_kisti>0 && res.data.ht_deposite.t_kisti<1){
+            //     form.paid_amount = form.arrears;
+            // }
             console.log(res);
         }).catch(err =>{
             console.error(err)
@@ -112,11 +113,54 @@ const htdeposite = ref(null);
         });
     }
 
+    //kisti calculation
+    const payable_fy_tax = ref(null);
+    const f_kisti_checked = ref(false);
+    const s_kisti_checked = ref(false);
+    const t_kisti_checked = ref(false);
+    const fo_kisti_checked = ref(false);
+    function kisti(kisti_no){
+        switch(kisti_no){
+            case 1:
+                f_kisti_checked.value = true;
+                s_kisti_checked.value = false;
+                t_kisti_checked.value = false;
+                fo_kisti_checked.value = false;
+                break;
+            case 2:
+                f_kisti_checked.value = true;
+                s_kisti_checked.value = true;
+                t_kisti_checked.value = false;
+                fo_kisti_checked.value = false;
+                break;
+            case 3:
+                f_kisti_checked.value = true;
+                s_kisti_checked.value = true;
+                t_kisti_checked.value = true;
+                fo_kisti_checked.value = false;
+                break;
+            case 4:
+                f_kisti_checked.value = true;
+                s_kisti_checked.value = true;
+                t_kisti_checked.value = true;
+                fo_kisti_checked.value = true;
+                break;
+        }
+        // all_total.value = htdeposite.value.total_amount - htdeposite.value.paid_amount + htdeposite.value.prev_arrears;
+        payable_fy_tax.value = (htdeposite.value.total_amount*kisti_no)/4;
+        form.paid_amount = Number(payable_fy_tax.value) + Number(htdeposite.value.prev_arrears);
+        form.kisti = kisti_no;
+        // return true;
+    }
 
     const submitTax =()=>{
         console.log(form);
         if(!form.deposite_date){
             alert('জমার তারিখ নির্বাচন করুন');
+            return false;
+        }
+        if(form.kisti != 4){
+            alert('৪র্থ কিস্তিতে টিক চিহ্ন দিন');
             return false;
         }
         axios.post(route('ajax.update',['HouseTaxDeposite']), form).then(res => {
@@ -222,7 +266,7 @@ const printdivshow = ref(false);
                     <div class="mb-4 flex items-center">
                         <label for="f_year_id" class="block text-lg font-bold text-[white] dark:text-white mr-[27px]">অর্থ-বছর</label>
                         <select id="f_year_id" v-model="form.f_year_id"
-                        class="border ml-6 border-gray-300 text-[blue] text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 pr-[50px] dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                        class="border ml-[30px] border-gray-300 text-[blue] text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 pr-[50px] dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
                             <option selected value="">অর্থ-বছর নির্বাচন করুন</option>
                             <option v-for="(value1, key) in f_years" :value="value1.id" :key="key">{{ value1.from+'-'+value1.to }}</option>
                         </select>
@@ -387,20 +431,84 @@ const printdivshow = ref(false);
                                 </td>
                             </tr>
                             <tr>
+                                <td class="border border-slate-300 p-2 ">হাল করের পরিমাণ</td>
+                                <td class="border border-slate-300  bg-gray-100">
+                                    <input class="bg-gray-100 border-0" readonly type="text" v-model="htdeposite.total_amount">
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="border border-slate-300 p-2">বকেয়া পাওনা</td>
+                                <td class="border border-slate-300  bg-gray-100">
+                                    <input class="bg-gray-100 border-0" readonly type="number" v-model="htdeposite.prev_arrears">
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="border border-slate-300 p-2">দন্ড</td>
+                                <td class="border border-slate-300  bg-gray-100">
+                                    <input class="bg-gray-100 border-0" readonly type="number" v-model="form.fine">
+                                </td>
+                            </tr>
+
+                            <tr>
                                 <th class="border border-slate-300 p-2">কিস্তি</th>
                                 <td class="border border-slate-300">
-                                    <div v-if="htdeposite.f_kisti>0 && htdeposite.s_kisti>0 && htdeposite.t_kisti>0">
-                                        <input class=" text-[#80808087]" id="kisti1" disabled checked type="radio" required value="1"  >
+                                    <!-- <div>
+                                        <input class=" text-[#80808087]" id="kisti1" @click="kisti(1)" checked type="checkbox" value="1"  >
                                         <label for="kisti1" class="text-[#80808087] ml-1">১ম</label>
 
-                                        <input class="ml-2 text-[#80808087]" disabled id="kisti2" checked  type="radio" required value="2" >
-                                        <label for="kisti2" class="ml-1 text-[#80808087]" disabled>২য়</label>
+                                        <input class="ml-2 text-[#80808087]" @click="kisti(2)" id="kisti2"  type="checkbox" value="2" >
+                                        <label for="kisti2" class="ml-1 text-[#80808087]">২য়</label>
 
-                                        <input class="ml-2 text-[#80808087]" id="kisti3" checked disabled type="radio" required value="3" >
-                                        <label for="kisti3" class="ml-1 text-[#80808087]" checked disabled>৩য়</label>
+                                        <input class="ml-2 text-[#80808087]" id="kisti3"  @click="kisti(3)" type="checkbox" value="3" >
+                                        <label for="kisti3" class="ml-1 text-[#80808087]" >৩য়</label>
+
+                                        <input class="ml-2 text-[#80808087]" id="kisti3" @click="kisti(4)" type="checkbox" value="4" >
+                                        <label for="kisti3" class="ml-1 text-[#80808087]">৪র্থ</label>
+                                    </div> -->
+                                    <div class="flex items-center px-2">
+                                    <!-- First kisti  -->
+                                    <div v-if="htdeposite.f_kisti>0">
+                                        <input class=" text-[#80808087]" id="kisti1" checked disabled type="checkbox" value="1"  >
+                                        <label for="kisti1" class="text-[#80808087] ml-1">১ম</label>
+                                    </div>
+                                    <div v-else>
+                                        <input class=" text-[#80808087]" id="kisti1" @click="kisti(1)" :checked="f_kisti_checked" type="checkbox" value="1"  >
+                                        <label for="kisti1" class="text-[blac] ml-1">১ম</label>
                                     </div>
 
-                                    <div v-else-if="htdeposite.s_kisti>0 && htdeposite.f_kisti>0">
+                                    <!-- Second kisti  -->
+                                    <div v-if="htdeposite.s_kisti>0">
+                                        <input class="ml-2 text-[#80808087]" checked disabled id="kisti2"   type="checkbox" value="2" >
+                                        <label for="kisti2" class="ml-1 text-[#80808087]">২য়</label>
+                                    </div>
+                                    <div v-else>
+                                        <input class="ml-2 text-[#80808087]" @click="kisti(2)" :checked="s_kisti_checked"  id="kisti2"  type="checkbox" value="2" >
+                                        <label for="kisti2" class="ml-1 text-[black]">২য়</label>
+                                    </div>
+
+                                    <!-- Third kisti  -->
+                                    <div v-if="htdeposite.t_kisti>0">
+                                        <input class="ml-2 text-[#80808087]" id="kisti3"  checked disabled type="checkbox" value="3" >
+                                        <label for="kisti3" class="ml-1 text-[#80808087]" >৩য়</label>
+                                    </div>
+                                    <div v-else>
+                                        <input class="ml-2 text-[#80808087]" id="kisti3"  @click="kisti(3)" :checked="t_kisti_checked" type="checkbox" value="3" >
+                                        <label for="kisti3" class="ml-1 text-[black]" >৩য়</label>
+                                    </div>
+
+                                    <!-- Fourth kisti  -->
+                                    <div v-if="htdeposite.fo_kisti>0">
+                                        <input class="ml-2 text-[#80808087]" id="kisti4"  checked disabled type="checkbox" value="4" >
+                                        <label for="kisti4" class="ml-1 text-[black]">৪র্থ</label>
+                                    </div>
+                                    <div v-else>
+                                        <input class="ml-2 text-[#80808087]" id="kisti4" @click="kisti(4)" :checked="fo_kisti_checked" required type="checkbox" value="4" >
+                                        <label for="kisti4" class="ml-1 text-[#80808087]">৪র্থ</label>
+                                    </div>
+                                </div>
+                                    <!-- <div v-else-if="htdeposite.s_kisti>0 && htdeposite.f_kisti>0">
                                         <input class=" text-[#80808087]" id="kisti1" disabled checked type="radio" required value="1"  >
                                         <label for="kisti1" class="text-[#80808087]">১ম</label>
 
@@ -430,25 +538,19 @@ const printdivshow = ref(false);
 
                                         <input class="ml-2" id="kisti3"  type="radio" required value="3" v-model="form.kisti" >
                                         <label for="kisti3" class="ml-1">৩য়</label>
-                                    </div>
+                                    </div> -->
                                 </td>
                             </tr>
-                            <tr>
-                                <td class="border border-slate-300 p-2 ">করের পরিমাণ</td>
+                            <tr v-if="payable_fy_tax">
+                                <td class="border border-slate-300 p-2 ">পরিশধযোগ্য হাল কর</td>
+                                <td class="border border-slate-300  bg-gray-100">
+                                    <input class="bg-gray-100 border-0" readonly type="text" :value="payable_fy_tax">
+                                </td>
+                            </tr>
+                            <tr v-if="form.paid_amount">
+                                <td class="border border-slate-300 p-2 ">সর্বমোট(হাল কর+বকেয়া+দন্ড)</td>
                                 <td class="border border-slate-300  bg-gray-100">
                                     <input class="bg-gray-100 border-0" readonly type="text" v-model="form.paid_amount">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="border border-slate-300 p-2">বকেয়া পাওনা</td>
-                                <td class="border border-slate-300  bg-gray-100">
-                                    <input class="bg-gray-100 border-0" readonly type="number" v-model="form.arrears">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="border border-slate-300 p-2">দন্ড</td>
-                                <td class="border border-slate-300  bg-gray-100">
-                                    <input class="bg-gray-100 border-0" readonly type="number" v-model="form.fine">
                                 </td>
                             </tr>
                             </tbody>
@@ -459,7 +561,6 @@ const printdivshow = ref(false);
                                         <div class="relative inline-block float-right">
                                             <button v-if="print"  @click="printdivshow ? printdivshow= false: printdivshow= true" type="button" class=" text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 shadow-lg shadow-purple-500/50 dark:shadow-lg dark:shadow-purple-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center  mb-2 mr-2">
                                                 প্রিন্ট
-
                                             </button>
                                             <div v-if="printdivshow" class='absolute w-[120px] top-10 right-0 shadow-lg border-2 bg-white px-4 py-2 rounded'>
                                                 <!-- POS bill form  -->
@@ -472,7 +573,6 @@ const printdivshow = ref(false);
                                                         পোজ বিল
                                                     </button>
                                                 </form>
-                                                <!-- <a href="#" class="block w-[89px] my-2">পোজ বিল</a> -->
 
                                                 <!-- New bill form  -->
                                                 <form :action="route('admin.tax.bill.print.single.show')" method="GET" target="_blank" class="mb-2">
@@ -484,7 +584,6 @@ const printdivshow = ref(false);
                                                         নতুন বিল
                                                     </button>
                                                 </form>
-                                                <!-- <a href="#" class="block my-2">নতুন বিল</a> -->
 
                                                 <!-- Old bill form  -->
                                                 <form :action="route('admin.tax.bill.print.single.old.show')" method="GET" target="_blank">
@@ -496,7 +595,6 @@ const printdivshow = ref(false);
                                                         পুরাতন বিল
                                                     </button>
                                                 </form>
-                                                <!-- <a href="#" class="block my-2">পুরাতন বিল</a> -->
                                             </div>
                                         </div >
                                     </th>
@@ -513,22 +611,37 @@ const printdivshow = ref(false);
                                             </button>
                                             <div v-if="printdivshow" class='absolute top-10 right-0 shadow-lg border-2 bg-white px-4 py-2 rounded'>
                                                 <!-- POS bill form  -->
-                                                <form :action="route('admin.tax.bill.print.single.pos.show')" method="GET" target="_blank">
+                                                <form :action="route('admin.tax.bill.print.single.pos.show')" method="GET" target="_blank" class="mb-2">
                                                     <input type="hidden" name="f_y_id" :value="form.f_year_id">
-                                                    <input type="hidden" name="ekhana_id" :value="ekhana.holding_no">
+                                                    <input type="hidden" name="ekhana_id" :value="ekhana.id">
                                                     <input type="hidden" name="deposite_date" :value="form.deposite_date">
 
                                                     <button class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-2 py-2 text-center">
                                                         পোজ বিল
                                                     </button>
                                                 </form>
-                                                <!-- <a href="#" class="block w-[89px] my-2">পোজ বিল</a> -->
 
                                                 <!-- New bill form  -->
-                                                <a href="#" class="block my-2">নতুন বিল</a>
+                                                <form :action="route('admin.tax.bill.print.single.show')" method="GET" target="_blank" class="mb-2">
+                                                    <input type="hidden" name="f_y_id" :value="form.f_year_id">
+                                                    <input type="hidden" name="ekhana_id" :value="ekhana.id">
+                                                    <input type="hidden" name="deposite_date" :value="form.deposite_date">
+
+                                                    <button class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-2 py-2 text-center">
+                                                        নতুন বিল
+                                                    </button>
+                                                </form>
 
                                                 <!-- Old bill form  -->
-                                                <a href="#" class="block my-2">পুরাতন বিল</a>
+                                                <form :action="route('admin.tax.bill.print.single.old.show')" method="GET" target="_blank">
+                                                    <input type="hidden" name="f_y_id" :value="form.f_year_id">
+                                                    <input type="hidden" name="ekhana_id" :value="ekhana.id">
+                                                    <input type="hidden" name="deposite_date" :value="form.deposite_date">
+
+                                                    <button class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-1 py-1 text-center">
+                                                        পুরাতন বিল
+                                                    </button>
+                                                </form>
                                             </div>
                                         </div >
 

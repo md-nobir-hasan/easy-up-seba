@@ -23,6 +23,7 @@ class StoreUpazilaRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
+            'code' => "required|numeric|max:255",
             'division_id' => 'required|integer|max:255|exists:divisions,id',
             'district_id' => 'required|integer|max:255|exists:districts,id',
         ];

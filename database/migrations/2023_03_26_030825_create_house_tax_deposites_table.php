@@ -24,8 +24,10 @@ return new class extends Migration
             $table->timestamp('f_date')->nullable();
             $table->timestamp('s_date')->nullable();
             $table->timestamp('t_date')->nullable();
+            $table->timestamp('fo_date')->nullable();
             $table->decimal('paid_amount')->default(0)->nullable();
             $table->decimal('arrears')->default(0)->nullable();
+            $table->decimal('prev_arrears')->default(0)->nullable();
             $table->decimal('fine')->default(0)->nullable();
             $table->enum('approval',[1,2,3])->default(1);
             $table->unsignedBigInteger('created_by')->nullable();

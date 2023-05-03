@@ -14,6 +14,7 @@ defineProps({
 
 const form = useForm({
     name: '',
+    code: '',
     division_id: '',
     district_id: '',
     submit_btn:'',
@@ -87,6 +88,19 @@ const districtFetch = ()=>{
                             autocomplete="name"
                         />
                         <InputError class="mt-2" :message="form.errors.name" />
+                    </div>
+
+                    <!-- Code  -->
+                    <div>
+                        <InputLabel for="code" value="উপজেলা কোড" />
+                        <TextInput
+                            id="code"
+                            v-model="form.code"
+                            type="number"
+                            class="mt-1 block w-full"
+                            required
+                        />
+                        <InputError class="mt-2" :message="form.errors.code" />
                     </div>
 
                     <div class="flex items-center justify-center mt-4">

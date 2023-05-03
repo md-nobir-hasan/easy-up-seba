@@ -544,7 +544,7 @@ const autoSave = () =>{
                                 <InputLabel for="kasa_house" class="text-sm text-center" :value="'কাঁচা'" />
                                 <TextInput @change="HouseTaxCal" @keyup="HouseTaxCal"
                                     data-price="3200"
-                                    v-model="form.kase_house"
+                                    v-model="form.kasa_house"
                                     type="number"
                                     class="mt-1 block w-full house-tax-cal"
                                     min="0"

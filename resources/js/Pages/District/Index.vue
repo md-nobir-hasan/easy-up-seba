@@ -90,11 +90,16 @@ const mdata = ref(usePage().props.data);
             <table class="w-full text-md text-left text-gray-500 dark:text-gray-400">
                 <thead class="text-md text-center text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
-                        <th scope="col" class="px-6 py-3">
-                            বিভাগ
-                        </th>
+
                         <th scope="col" class="px-6 py-3">
                             জেলা
+                        </th>
+
+                        <th scope="col" class="px-6 py-3">
+                            কোড
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            বিভাগ
                         </th>
                         <th scope="col" class="px-6 py-3">
                             তৈরির তারিখ
@@ -116,12 +121,16 @@ const mdata = ref(usePage().props.data);
                 <tbody>
                     <tr v-for="(value, key) in mdata" :key="key"
                         class="bg-white text-center border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                        <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            {{ value.division.name }}
-                        </td>
+
                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             {{ value.name }}
                         </th>
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            {{ value.code }}
+                        </th>
+                        <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            {{ value.division.name }}
+                        </td>
                         <td v-text="DateFormate(value.created_at)" class="px-6 py-4">
 
                         </td>

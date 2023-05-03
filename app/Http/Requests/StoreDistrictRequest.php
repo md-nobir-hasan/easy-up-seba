@@ -23,6 +23,7 @@ class StoreDistrictRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255|unique:districts,name',
+            'code' => "required|numeric|max:255",
             'division_id' => 'required|integer|max:255|exists:divisions,id',
         ];
     }
