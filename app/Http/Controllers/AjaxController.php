@@ -73,11 +73,10 @@ class AjaxController extends Controller
         $word = Word::find($word_id);
         $latest_ekhana = Ekhana::where('union_id',$word->union_id)
                         ->where('word_id',$word_id)
-                        ->latest()
-                        ->first();
+                        ->get();
         $holding_prefix = $word->union->code . $word->code . "0000";
-        $holding = $holding_prefix + $latest_ekhana->id;
-                        return response()->json($holding);
+        $holding = $holding_prefix + count($latest_ekhana);
+    return response()->json($holding);
     }
 
     public function khanaAutoSave(Request $request){
@@ -118,6 +117,9 @@ class AjaxController extends Controller
         $autosave->land_house = $request->land_house;
         $autosave->land_cultivate = $request->land_cultivate;
         $autosave->infrastructure = $request->infrastructure;
+        $autosave->infrastructure = $request->paka_house;
+        $autosave->infrastructure = $request->adhapaka_house;
+        $autosave->infrastructure = $request->kasa_house;
         $autosave->save();
         return response()->json($autosave);
     }
