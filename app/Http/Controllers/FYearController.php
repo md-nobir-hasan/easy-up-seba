@@ -47,13 +47,16 @@ class FYearController extends Controller
         $tax = Tax::latest()->first();
         $ekhanas = Ekhana::get();
         $check = HouseTaxDeposite::where('f_year_id',$insert->id)->first();
+
         if(!$check){
-            
             foreach($ekhanas as $ekhana){
                 $total_amount = round($ekhana->yearly_house_rent*$tax->price/100);
+                $subek_htd = HouseTaxDeposite::where('ekhana_id',$ekhana->id)->latest()->first();
+                $prev_arrears = $subek_htd->total_amount + $subek_htd->prev_arrears - $subek_htd->paid_amount;
                 $ht_insert = new HouseTaxDeposite();
                 $ht_insert->f_year_id = $insert->id;
                 $ht_insert->total_amount = $total_amount;
+                $ht_insert->prev_arrears = $prev_arrears;
                 $ht_insert->union_id = $ekhana->union_id;
                 $ht_insert->word_id = $ekhana->word_id;
                 $ht_insert->ekhana_id = $ekhana->id;

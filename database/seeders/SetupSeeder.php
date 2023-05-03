@@ -22,17 +22,17 @@ class SetupSeeder extends Seeder
 
         //================  District ==============================
         $n =[
-            ['name'=>'ঢাকা','division_id'=>1],
-            ['name'=>'খুলনা','division_id'=>2],
-            ['name'=>'চুয়াডাঙ্গা','division_id'=>2],
+            ['name'=>'ঢাকা','code'=>21,'division_id'=>1],
+            ['name'=>'খুলনা','code'=>22,'division_id'=>2],
+            ['name'=>'চুয়াডাঙ্গা','code'=>23,'division_id'=>2],
         ];
         DB::table('districts')->insert($n);
 
 
         //================  upazila ==============================
         $n =[
-            ['name'=>'মিরপুর','division_id'=>1,'district_id'=>1],
-            ['name'=>'দর্শনা','division_id'=>2,'district_id'=>3],
+            ['name'=>'মিরপুর','code'=>32,'division_id'=>1,'district_id'=>1],
+            ['name'=>'দর্শনা','code'=>35,'division_id'=>2,'district_id'=>3],
         ];
         DB::table('upazilas')->insert($n);
 
@@ -68,7 +68,7 @@ class SetupSeeder extends Seeder
 
         //================  Tax ==============================
         $n =[
-            ['name'=>'বাসাবাড়ির কর','price'=>8.729],
+            ['name'=>'বাসাবাড়ির কর','price'=>2.5],
         ];
         DB::table('taxes')->insert($n);
 

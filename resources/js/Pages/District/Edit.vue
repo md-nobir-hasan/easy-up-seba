@@ -14,6 +14,7 @@ defineProps({
 });
 const form = useForm({
     name: usePage().props.district.name,
+    code: usePage().props.district.code,
     division_id: usePage().props.district.division.id,
 });
 const submit = () => {
@@ -59,6 +60,19 @@ const submit = () => {
                             autocomplete="name"
                         />
                         <InputError class="mt-2" :message="form.errors.name" />
+                    </div>
+
+                    <!-- Code  -->
+                    <div>
+                        <InputLabel for="code" value="জেলা কোড" />
+                        <TextInput
+                            id="code"
+                            v-model="form.code"
+                            type="number"
+                            class="mt-1 block w-full"
+                            required
+                        />
+                        <InputError class="mt-2" :message="form.errors.code" />
                     </div>
 
                     <div class="flex items-center justify-center mt-4">

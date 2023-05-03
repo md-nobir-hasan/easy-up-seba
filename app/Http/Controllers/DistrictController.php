@@ -38,6 +38,7 @@ class DistrictController extends Controller
         $insert = new District();
         $insert->division_id = $request->division_id;
         $insert->name = $request->name;
+        $insert->code = $request->code;
         $insert->created_by = Auth::user()->id;
         $insert->save();
         $request->session()->flash('suc_msg',$request->name.' সফলভাবে সরক্ষণ করা হয়েছে');
@@ -73,6 +74,7 @@ class DistrictController extends Controller
     {
         $district->division_id = $request->division_id;
         $district->name = $request->name;
+        $district->code = $request->code;
         $district->updated_at = Carbon::now();
         $district->updated_by = Auth::user()->id;
         $district->save();

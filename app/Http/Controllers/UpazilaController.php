@@ -40,6 +40,7 @@ class UpazilaController extends Controller
         $insert->division_id = $request->division_id;
         $insert->district_id = $request->district_id;
         $insert->name = $request->name;
+        $insert->code = $request->code;
         $insert->created_by = Auth::user()->id;
         $insert->save();
         $request->session()->flash('suc_msg',$request->name.' সফলভাবে সরক্ষণ করা হয়েছে');
@@ -76,6 +77,7 @@ class UpazilaController extends Controller
         $upazila->division_id = $request->division_id;
         $upazila->district_id = $request->district_id;
         $upazila->name = $request->name;
+        $upazila->code = $request->code;
         $upazila->updated_at = Carbon::now();
         $upazila->updated_by = Auth::user()->id;
         $upazila->save();

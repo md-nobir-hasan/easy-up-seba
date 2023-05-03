@@ -32,10 +32,6 @@ const submenueItem =[
                         {title:'অর্থ-বছর',name:'Financial Year',active:false,route:route('admin.setup.financial-year.index'),url:'/admin/setup/finalcial-year',icon:MinusIcon,children:[]},
                         // {title:'কাঠামো',name:'House Structure',active:false,route:route('admin.setup.house-structure.index'),url:'/admin/setup/house-structure',icon:MinusIcon,children:[]},
                     ]},
-                    {title:'ইউজার ম্যানেজমেন্ট',name: 'User Management',active: false,url:'/admin/user',icon:UserIcon,children:[
-                        {title:'রোল',name:'Role',active:false,route:route('admin.user.role.index'),url:'/admin/user/role',icon:ArrowsRightLeftIcon,children:[]},
-                        {title:'ইউজার',name:'User',active:false,route:route('admin.user.user.index'),url:'/admin/user/user',icon:UserGroupIcon,children:[]},
-                    ]},
                     {title:'কর',name: 'Tax',active: false,url:'/admin/tax',icon:BanknotesIcon,children:[
                         {title:'ই-খানা',name:'E-Khana',active:false,route:route('admin.tax.ekhana.index'),url:'/admin/tax/ekhana',icon:UserPlusIcon,children:[]},
                         {title:'হিসাব',name:'Calculation',active:false,route:'',url:'/admin/tax/calculation',icon:CalculatorIcon,children:[
@@ -63,6 +59,10 @@ const submenueItem =[
                             {title:'কর জমা ডেলেট',name:'Tax Deposite Approval',active:false,route:route('admin.approval.tax-deposite.index'),url:'/admin/approval/tax-deposite',icon:MinusIcon,children:[]},
                         ]
                     },
+                    {title:'ইউজার ম্যানেজমেন্ট',name: 'User Management',active: false,url:'/admin/user',icon:UserIcon,children:[
+                        {title:'রোল',name:'Role',active:false,route:route('admin.user.role.index'),url:'/admin/user/role',icon:ArrowsRightLeftIcon,children:[]},
+                        {title:'ইউজার',name:'User',active:false,route:route('admin.user.user.index'),url:'/admin/user/user',icon:UserGroupIcon,children:[]},
+                    ]},
                     ];
 //========= End Side menu ============
 

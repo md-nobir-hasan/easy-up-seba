@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('upazilas', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->integer('code');
             $table->unsignedBigInteger('division_id')->nullable();
             $table->unsignedBigInteger('district_id')->nullable();
             $table->unsignedBigInteger('created_by')->nullable();

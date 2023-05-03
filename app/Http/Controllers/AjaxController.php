@@ -74,7 +74,7 @@ class AjaxController extends Controller
         $latest_ekhana = Ekhana::where('union_id',$word->union_id)
                         ->where('word_id',$word_id)
                         ->get();
-        $holding_prefix = $word->union->code . $word->code . "0000";
+        $holding_prefix = $word->union->upazila->district->code .$word->union->upazila->code .$word->union->code . $word->code . "0000";
         $holding = $holding_prefix + count($latest_ekhana);
     return response()->json($holding);
     }
@@ -143,23 +143,41 @@ class AjaxController extends Controller
     }
 
     public function update(Request $req, $model){
-
         $model = '\\App\\Models\\'.$model;
             // return $model;
+            // return response()->json($req->all());
         $housetax = $model::find($req->id);
-        if($req->kisti == '1'){
-            $housetax->paid_amount += $req->paid_amount;
+
+        if($req->kisti == 1){
+            $housetax->paid_amount = $req->paid_amount;
             $housetax->f_kisti = $req->paid_amount;
             $housetax->f_date = $req->deposite_date;
-        }elseif($req->kisti == '2'){
-             $housetax->paid_amount += $req->paid_amount;
-            $housetax->s_kisti = $req->paid_amount;
+        }
+        elseif($req->kisti == 2){
+            $housetax->paid_amount = $req->paid_amount;
+            $housetax->prev_arrears = ceil($housetax->prev_arrears/2) ;
+            $housetax->f_kisti = ceil($req->paid_amount/2);
+            $housetax->s_kisti = $req->paid_amount - $housetax->f_kisti;
             $housetax->s_date = $req->deposite_date;
-        }else{
-             $housetax->paid_amount += $req->paid_amount;
-            $housetax->t_kisti = $req->paid_amount;
+        }
+        elseif($req->kisti == 3){
+            $housetax->paid_amount = $req->paid_amount;
+            $housetax->prev_arrears = ceil($housetax->prev_arrears/3) ;
+            $housetax->f_kisti = ceil($req->paid_amount/3);
+            $housetax->s_kisti = ceil($req->paid_amount/3);
+            $housetax->t_kisti = $req->paid_amount - $housetax->f_kisti - $housetax->s_kisti;
             $housetax->t_date = $req->deposite_date;
         }
+        elseif($req->kisti == 4){
+            $housetax->paid_amount = $req->paid_amount;
+            $housetax->prev_arrears = 0;
+            $housetax->f_kisti = ceil($req->paid_amount/4);
+            $housetax->s_kisti = ceil($req->paid_amount/4);
+            $housetax->t_kisti = ceil($req->paid_amount/4);
+            $housetax->fo_kisti = $req->paid_amount - $housetax->f_kisti - $housetax->s_kisti - $housetax->t_kisti;
+            $housetax->fo_date = $req->deposite_date;
+        }
+
         $housetax->deposite_date = $req->deposite_date;
         $housetax->save();
 

@@ -24,6 +24,7 @@ class UpdateDistrictRequest extends FormRequest
         $this->district ? $id = $this->district->id.',id' : $id  = '' ;
         return [
             'name' => "required|string|max:255|unique:districts,name,$id",
+            'code' => "required|numeric|max:255",
             'division_id' => 'required|integer|max:255|exists:divisions,id',
         ];
     }
