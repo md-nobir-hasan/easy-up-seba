@@ -159,6 +159,10 @@ function DateFormate(date) {
             alert('জমার তারিখ নির্বাচন করুন');
             return false;
         }
+        if(form.kisti != 4){
+            alert('৪র্থ কিস্তিতে টিক চিহ্ন দিন');
+            return false;
+        }
         axios.post(route('ajax.update',['HouseTaxDeposite']), form).then(res => {
             htdeposite.value = res.data;
             console.log(res.data);
@@ -262,7 +266,7 @@ const printdivshow = ref(false);
                     <div class="mb-4 flex items-center">
                         <label for="f_year_id" class="block text-lg font-bold text-[white] dark:text-white mr-[27px]">অর্থ-বছর</label>
                         <select id="f_year_id" v-model="form.f_year_id"
-                        class="border ml-6 border-gray-300 text-[blue] text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 pr-[50px] dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                        class="border ml-[30px] border-gray-300 text-[blue] text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 pr-[50px] dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
                             <option selected value="">অর্থ-বছর নির্বাচন করুন</option>
                             <option v-for="(value1, key) in f_years" :value="value1.id" :key="key">{{ value1.from+'-'+value1.to }}</option>
                         </select>
@@ -471,7 +475,7 @@ const printdivshow = ref(false);
                                     </div>
                                     <div v-else>
                                         <input class=" text-[#80808087]" id="kisti1" @click="kisti(1)" :checked="f_kisti_checked" type="checkbox" value="1"  >
-                                        <label for="kisti1" class="text-[#80808087] ml-1">১ম</label>
+                                        <label for="kisti1" class="text-[blac] ml-1">১ম</label>
                                     </div>
 
                                     <!-- Second kisti  -->
@@ -481,7 +485,7 @@ const printdivshow = ref(false);
                                     </div>
                                     <div v-else>
                                         <input class="ml-2 text-[#80808087]" @click="kisti(2)" :checked="s_kisti_checked"  id="kisti2"  type="checkbox" value="2" >
-                                        <label for="kisti2" class="ml-1 text-[#80808087]">২য়</label>
+                                        <label for="kisti2" class="ml-1 text-[black]">২য়</label>
                                     </div>
 
                                     <!-- Third kisti  -->
@@ -491,13 +495,13 @@ const printdivshow = ref(false);
                                     </div>
                                     <div v-else>
                                         <input class="ml-2 text-[#80808087]" id="kisti3"  @click="kisti(3)" :checked="t_kisti_checked" type="checkbox" value="3" >
-                                        <label for="kisti3" class="ml-1 text-[#80808087]" >৩য়</label>
+                                        <label for="kisti3" class="ml-1 text-[black]" >৩য়</label>
                                     </div>
 
                                     <!-- Fourth kisti  -->
                                     <div v-if="htdeposite.fo_kisti>0">
                                         <input class="ml-2 text-[#80808087]" id="kisti4"  checked disabled type="checkbox" value="4" >
-                                        <label for="kisti4" class="ml-1 text-[#80808087]">৪র্থ</label>
+                                        <label for="kisti4" class="ml-1 text-[black]">৪র্থ</label>
                                     </div>
                                     <div v-else>
                                         <input class="ml-2 text-[#80808087]" id="kisti4" @click="kisti(4)" :checked="fo_kisti_checked" required type="checkbox" value="4" >

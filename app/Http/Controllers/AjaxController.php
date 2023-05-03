@@ -2,23 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\HouseTaxDepositeAproval;
 use App\Models\Ekhana;
 use App\Models\FinancialYear;
 use App\Models\HouseTaxDeposite;
-use App\Models\Notification;
 use App\Models\Tax;
 use App\Models\Union;
 use App\Models\User;
-use App\Models\Village;
 use App\Models\Word;
 use App\Notifications\HTaxDepoDelAproval;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Inertia\Inertia;
-
-use function Termwind\render;
 
 class AjaxController extends Controller
 {
@@ -183,7 +177,7 @@ class AjaxController extends Controller
 
         if($req->paid_amount && $req->ekhana_id){
             $ekhana_update = Ekhana::where('holding_no',$req->ekhana_id)->first();
-            $ekhana_update->tax_paid += $req->paid_amount;
+            $ekhana_update->tax_paid = $req->paid_amount;
             $ekhana_update->save();
         }
         return  $housetax;
