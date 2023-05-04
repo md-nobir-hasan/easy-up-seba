@@ -233,7 +233,7 @@ let total_paid = 0;
                             <td>{{ value.ekhana.word.name }}</td>
                             <td>{{ value.ekhana.village.name }}</td>
                             <td :data-val="year_levy_paid += Number(value.paid_amount)">{{value.paid_amount }}</td>
-                            <td :data-val="arrear_paid += 0">{{0 }}</td>
+                            <td :data-val="arrear_paid += value.paid_prev_arrears">{{Number(value.paid_prev_arrears) }}</td>
                             <td >{{ year_levy_paid + arrear_paid }}</td>
                         </tr>
                         </tbody>

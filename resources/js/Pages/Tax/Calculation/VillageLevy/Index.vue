@@ -189,65 +189,72 @@ const exportExcel = ()=>{
             </div>
             <div class="mt-4 mb-2 p-4 bg-white">
                 <form @submit.prevent="submit" class="bg-[#008494db] text-[white] m-auto  rounded-lg p-6 pb-[2px] text-2lg max-w-md max-sm:max-w-sm">
+                   <div class="flex items-center justify-center">
+                        <div>
+                            <label for="word_id" class="block py-[14px] text-md font-extrabold dark:text-white">ওয়ার্ড</label>
+                            <label for="f_year_id" class="block py-[14px] font-extrabold text-md dark:text-white">গ্রাম</label>
+                            <label for="infrastructure" class="block py-[14px] text-md font-extrabold dark:text-white">প্রতিষ্ঠানের ধরন</label>
+                            <label for="f_year_id" class="block py-[14px] text-md font-extrabold dark:text-white">অর্থ-বছর</label>
+                        </div>
 
-                    <!-- Word  -->
-                    <div class="mb-2 flex items-center">
-                        <label for="word_id" class="block min-w-[30%] text-md font-extrabold dark:text-white">ওয়ার্ড</label>
-                        <select id="word_id" v-model="form.word_id" @change="villageFetching"
-                        class="border text-[black]  min-w-[65%]  border-gray-300 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
-                            <option selected value="">ওয়ার্ড নির্বাচন করুন</option>
-                            <option v-for="(word, key) in words" :value="word.id" :key="key">{{ word.name+'-'+word.union.name }}</option>
-                        </select>
-                        <InputError class="mt-2" :message="form.errors.eerr" />
-                        <InputError class="mt-2" :message="form.errors.word_id" />
-                    </div>
-
-                    <!-- Village (Live search by combobox) -->
-                    <Combobox v-model="form.village_id">
-                        <div class="flex">
-                            <label for="f_year_id" class="block min-w-[30%] font-extrabold text-md dark:text-white">গ্রাম</label>
-                            <div class="relative min-w-[65%]">
-                                <ComboboxInput @change="query = $event.target.value" :displayValue="(nitem) => nitem.name" type="text" class="border text-[black] min-w-[100%] border-gray-300 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
-                                <component :is="ChevronDownIcon" v-if="ChevronDownIcon" class="h-4  mr-1 absolute  right-[11px] top-[13px]"></component>
+                        <div class="ml-2">
+                            <!-- Word  -->
+                            <div class="mb-2 flex items-center">
+                                <select id="word_id" v-model="form.word_id" @change="villageFetching"
+                                class="border text-[black]  w-full  border-gray-300 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                                    <option selected value="">ওয়ার্ড নির্বাচন করুন</option>
+                                    <option v-for="(word, key) in words" :value="word.id" :key="key">{{ word.name+'-'+word.union.name }}</option>
+                                </select>
+                                <InputError class="mt-2" :message="form.errors.eerr" />
+                                <InputError class="mt-2" :message="form.errors.word_id" />
                             </div>
-                        </div>
-                        <div class="relative">
-                            <ComboboxOptions class="absolute text-[black] p-4 mt-1 bg-[white] left-[115px] w-[222px] rounded-lg">
-                                <ComboboxOption class="cursor-pointer" autocomplete="off"
-                                    v-for="nitem in filteredsearch_items"
-                                    :key="nitem.id"
-                                    :value="nitem"
-                                >
-                                    {{ nitem.name }}
-                                </ComboboxOption>
-                                </ComboboxOptions>
-                        </div>
-                    </Combobox>
 
-                     <!-- Type of organization  -->
-                     <div class="mt-2 flex items-center">
-                        <label for="infrastructure" class="block min-w-[30%] text-md font-extrabold dark:text-white">প্রতিষ্ঠানের ধরন</label>
-                        <select id="infrastructure" v-model="form.infrastructure"
-                        class="border  min-w-[65%] text-[black] border-gray-300 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
-                            <option selected value="">প্রতিষ্ঠানের ধরন নির্বাচন করুন</option>
-                            <option value="আবাসিক">আবাসিক</option>
-                            <option value="বানিজ্যিক">বানিজ্যিক</option>
-                        </select>
-                        <InputError class="mt-2" :message="form.errors.eerr" />
-                        <InputError class="mt-2" :message="form.errors.infrastructure" />
-                    </div>
+                            <!-- Village (Live search by combobox) -->
+                            <Combobox v-model="form.village_id">
+                                <div class="flex">
+                                    <div class="relative w-full">
+                                        <ComboboxInput @change="query = $event.target.value" :displayValue="(nitem) => nitem.name" type="text" class="border text-[black] min-w-[100%] border-gray-300 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
+                                        <component :is="ChevronDownIcon" v-if="ChevronDownIcon" class="h-4  mr-1 absolute  right-[11px] top-[13px]"></component>
+                                    </div>
+                                </div>
+                                <div class="relative">
+                                    <ComboboxOptions class="absolute text-[black] p-4 mt-1 bg-[white] left-[16px] w-[222px] rounded-lg">
+                                        <ComboboxOption class="cursor-pointer" autocomplete="off"
+                                            v-for="nitem in filteredsearch_items"
+                                            :key="nitem.id"
+                                            :value="nitem"
+                                        >
+                                            {{ nitem.name }}
+                                        </ComboboxOption>
+                                        </ComboboxOptions>
+                                </div>
+                            </Combobox>
 
-                     <!-- financial year  -->
-                     <div class="mt-2 flex items-center">
-                        <label for="f_year_id" class="block min-w-[30%] text-md font-extrabold dark:text-white">অর্থ-বছর</label>
-                        <select @change="fYear" id="f_year_id" v-model="form.f_year_id"
-                        class="border min-w-[65%] text-[black]  border-gray-300 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
-                            <option selected value="">অর্থ-বছর নির্বাচন করুন</option>
-                            <option v-for="(f_year, key) in f_years" :value="f_year.id" :key="key">{{ f_year.from+'-'+f_year.to }}</option>
-                        </select>
-                        <InputError class="mt-2" :message="form.errors.eerr" />
-                        <InputError class="mt-2" :message="form.errors.f_year_id" />
-                    </div>
+                            <!-- Type of organization  -->
+                            <div class="mt-2 flex items-center">
+                                <select id="infrastructure" v-model="form.infrastructure"
+                                class="border  w-full text-[black] border-gray-300 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                                    <option selected value="">প্রতিষ্ঠানের ধরন নির্বাচন করুন</option>
+                                    <option value="আবাসিক">আবাসিক</option>
+                                    <option value="বানিজ্যিক">বানিজ্যিক</option>
+                                </select>
+                                <InputError class="mt-2" :message="form.errors.eerr" />
+                                <InputError class="mt-2" :message="form.errors.infrastructure" />
+                            </div>
+
+                            <!-- financial year  -->
+                            <div class="mt-2 flex items-center">
+                                <select @change="fYear" id="f_year_id" v-model="form.f_year_id"
+                                class="border w-full text-[black]  border-gray-300 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                                    <option selected value="">অর্থ-বছর নির্বাচন করুন</option>
+                                    <option v-for="(f_year, key) in f_years" :value="f_year.id" :key="key">{{ f_year.from+'-'+f_year.to }}</option>
+                                </select>
+                                <InputError class="mt-2" :message="form.errors.eerr" />
+                                <InputError class="mt-2" :message="form.errors.f_year_id" />
+                            </div>
+
+                        </div>
+                   </div>
 
                     <div class="flex items-center justify-center mt-8">
                         <button @click="ekhanaFetch" type="submit" class="text-white text-[18px] font-extrabold bg-gradient-to-r from-pink-400 via-pink-500 to-pink-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-pink-300 dark:focus:ring-pink-800 shadow-lg shadow-pink-500/50 dark:shadow-lg dark:shadow-pink-800/80  rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
@@ -310,9 +317,9 @@ const exportExcel = ()=>{
                         <td>{{ value.kasa_house }}</td>
                         <td>{{ new Intl.NumberFormat().format(value.yearly_house_rent) }}/=</td>
                         <td> {{value.fy_from+'-'+ value.fy_to }}</td>
-                        <td> {{ new Intl.NumberFormat().format(Math.round(value.yearly_house_rent*tax.price/100)) }}/=</td>
-                        <td>{{ new Intl.NumberFormat().format(Math.round(value.yearly_house_rent*tax.price/100)- value.tax_paid) }}/=</td>
-                        <td> {{ new Intl.NumberFormat().format(Math.round(value.yearly_house_rent*tax.price/100)) }}/=</td>
+                        <td> {{ new Intl.NumberFormat().format(Math.round(value.total_amount)) }}/=</td>
+                        <td>{{ new Intl.NumberFormat().format(Math.round(value.prev_arrears)) }}/=</td>
+                        <td> {{ new Intl.NumberFormat().format(Math.round(value.paid_amount)) }}/=</td>
                         <!-- <td></td> -->
                       </tr>
                     </tbody>

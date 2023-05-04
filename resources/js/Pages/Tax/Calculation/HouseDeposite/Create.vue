@@ -501,11 +501,11 @@ const printdivshow = ref(false);
                                     <!-- Fourth kisti  -->
                                     <div v-if="htdeposite.fo_kisti>0">
                                         <input class="ml-2 text-[#80808087]" id="kisti4"  checked disabled type="checkbox" value="4" >
-                                        <label for="kisti4" class="ml-1 text-[black]">৪র্থ</label>
+                                        <label for="kisti4" class="ml-1 text-[#80808087]">৪র্থ</label>
                                     </div>
                                     <div v-else>
                                         <input class="ml-2 text-[#80808087]" id="kisti4" @click="kisti(4)" :checked="fo_kisti_checked" required type="checkbox" value="4" >
-                                        <label for="kisti4" class="ml-1 text-[#80808087]">৪র্থ</label>
+                                        <label for="kisti4" class="ml-1 text-[black]">৪র্থ</label>
                                     </div>
                                 </div>
                                     <!-- <div v-else-if="htdeposite.s_kisti>0 && htdeposite.f_kisti>0">

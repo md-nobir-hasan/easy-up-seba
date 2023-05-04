@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('house_tax_deposites', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('union_id');
+            $table->unsignedBigInteger('word_id');
             $table->unsignedBigInteger('ekhana_id');
             $table->unsignedBigInteger('f_year_id');
             $table->decimal('total_amount');
@@ -28,14 +30,13 @@ return new class extends Migration
             $table->decimal('paid_amount')->default(0)->nullable();
             $table->decimal('arrears')->default(0)->nullable();
             $table->decimal('prev_arrears')->default(0)->nullable();
+            $table->decimal('paid_prev_arrears')->default(0)->nullable();
             $table->decimal('fine')->default(0)->nullable();
             $table->enum('approval',[1,2,3])->default(1);
             $table->unsignedBigInteger('created_by')->nullable();
             $table->unsignedBigInteger('updated_by')->nullable();
             $table->timestamp('deleted_at')->nullable();
             $table->unsignedBigInteger('deleted_by')->nullable();
-            $table->unsignedBigInteger('union_id');
-            $table->unsignedBigInteger('word_id');
             $table->timestamps();
         });
         Schema::table('house_tax_deposites', function (Blueprint $table) {

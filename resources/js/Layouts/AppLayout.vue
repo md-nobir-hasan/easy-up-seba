@@ -37,7 +37,7 @@ const submenueItem =[
                         {title:'হিসাব',name:'Calculation',active:false,route:'',url:'/admin/tax/calculation',icon:CalculatorIcon,children:[
                             {title:'কর জামা ফর্ম',name:'House Tax Deposite',active:false,route:route('admin.tax.calculation.deposite.create'),url:'/admin/tax/calculation/deposite/create',icon:CircleStackIcon,children:[]},
                             {title:'কর জমা লিস্ট',name:'House Tax Deposite List',active:false,route:route('admin.tax.calculation.deposite.index'),url:'/admin/tax/calculation/deposite/index',icon:ListBulletIcon,children:[]},
-                            {title:'গ্রাম ভিত্তিক ধার্য',name:'Village Based Levy',active:false,route:route('admin.tax.calculation.village-leavy.index'),url:'/admin/tax/calculation/village-leavy/index',icon:ChevronDoubleRightIcon,children:[]},
+                            {title:'গ্রাম ভিত্তিক ধার্য',name:'Village Based Levy',active:false,route:route('admin.tax.calculation.village-leavy.index'),url:'/admin/tax/calculation/village-leavy',icon:ChevronDoubleRightIcon,children:[]},
                             // {title:'ওয়ার্ড ভিত্তিক ধার্য',name:'ওয়ার্ড ভিত্তিক ধার্য',active:false,route:route('admin.tax.calculation.word-leavy.index'),url:'/admin/tax/calculation/word-leavy/index',icon:ChevronDoubleRightIcon,children:[]},
                         ]},
                         {title:'টপলিষ্ট/ডেইলি পোষ্টিং',name:'টপলিষ্ট/ডেইলি পোষ্টিং',active:false,route:'',url:'/admin/tax/toplist',icon:CalculatorIcon,children:[

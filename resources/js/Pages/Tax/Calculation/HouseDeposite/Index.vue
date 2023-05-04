@@ -157,13 +157,13 @@ const form = useForm({
                                         করের পরিমাণ
                                     </th>
                                     <th scope="col" class="px-6 py-3">
+                                        বকেয়া
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
                                         পরিশোধ
                                     </th>
                                     <th scope="col" class="px-6 py-3">
                                         পরিশোধের তারিখ
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        বকেয়া
                                     </th>
                                     <th scope="col" class="px-6 py-3">
                                         তৈরির তারিখ
@@ -204,19 +204,19 @@ const form = useForm({
                                     </td>
                                     <td scope="row"
                                         class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        {{ value.total_amount }}
+                                       {{ new Intl.NumberFormat().format(value.total_amount) }}/=
                                     </td>
                                     <td scope="row"
                                         class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        {{ value.paid_amount }}
+                                       {{ new Intl.NumberFormat().format(value.prev_arrears) }}/=
+                                    </td>
+                                    <td scope="row"
+                                        class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                        {{ new Intl.NumberFormat().format(value.paid_amount) }}/=
                                     </td>
                                     <td scope="row"
                                         class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                        <span  v-text="DateFormate(value.deposite_date)"></span>
-                                    </td>
-                                    <td scope="row"
-                                        class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        {{ value.arrears }}
                                     </td>
 
                                     <td  class="px-6 py-4">

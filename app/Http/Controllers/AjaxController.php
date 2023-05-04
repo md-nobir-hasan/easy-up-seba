@@ -111,9 +111,10 @@ class AjaxController extends Controller
         $autosave->land_house = $request->land_house;
         $autosave->land_cultivate = $request->land_cultivate;
         $autosave->infrastructure = $request->infrastructure;
-        $autosave->infrastructure = $request->paka_house;
-        $autosave->infrastructure = $request->adhapaka_house;
-        $autosave->infrastructure = $request->kasa_house;
+        $autosave->paka_house = $request->paka_house;
+        $autosave->adhapaka_house = $request->adhapaka_house;
+        $autosave->kasa_house = $request->kasa_house;
+
         $autosave->save();
         return response()->json($autosave);
     }
@@ -149,14 +150,14 @@ class AjaxController extends Controller
         }
         elseif($req->kisti == 2){
             $housetax->paid_amount = $req->paid_amount;
-            $housetax->prev_arrears = ceil($housetax->prev_arrears/2) ;
+            $housetax->paid_prev_arrears = ceil($housetax->prev_arrears/2) ;
             $housetax->f_kisti = ceil($req->paid_amount/2);
             $housetax->s_kisti = $req->paid_amount - $housetax->f_kisti;
             $housetax->s_date = $req->deposite_date;
         }
         elseif($req->kisti == 3){
             $housetax->paid_amount = $req->paid_amount;
-            $housetax->prev_arrears = ceil($housetax->prev_arrears/3) ;
+            $housetax->paid_prev_arrears = ceil($housetax->prev_arrears*3/4) ;
             $housetax->f_kisti = ceil($req->paid_amount/3);
             $housetax->s_kisti = ceil($req->paid_amount/3);
             $housetax->t_kisti = $req->paid_amount - $housetax->f_kisti - $housetax->s_kisti;
@@ -164,7 +165,7 @@ class AjaxController extends Controller
         }
         elseif($req->kisti == 4){
             $housetax->paid_amount = $req->paid_amount;
-            $housetax->prev_arrears = 0;
+            $housetax->paid_prev_arrears = $req->prev_arrears;
             $housetax->f_kisti = ceil($req->paid_amount/4);
             $housetax->s_kisti = ceil($req->paid_amount/4);
             $housetax->t_kisti = ceil($req->paid_amount/4);

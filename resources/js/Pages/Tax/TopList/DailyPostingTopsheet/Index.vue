@@ -117,7 +117,7 @@ function totalSum(arr){
 function paidSum(arr){
     let sum = 0;
     arr.forEach(element => {
-        sum += Number(element.paid_amount);
+        sum += Number(element.paid_amount) + Number(element.paid_prev_arrears);
     });
     return sum;
 }
@@ -188,7 +188,7 @@ let total_paid = 0;
                       <tr>
                         <th>ওয়ার্ড নাম্বার</th>
                         <th>খানার সংখ্যা</th>
-                        <th>আদায়</th>
+                        <th>আদায় (হাল + বকেয়া আদায়)</th>
                       </tr>
                     </thead>
                     <tbody>
