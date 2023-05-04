@@ -284,7 +284,7 @@ const ekhanaFetch = ()=>{
                             {{ new Intl.NumberFormat().format(value.yearly_house_rent) }}/=
                         </th>
                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            {{ value.tax_paid ? 0 : new Intl.NumberFormat().format(Math.round(value.yearly_house_rent*tax.price/100)) }}/=
+                            {{ value.tax_paid > 0 ? 0 : new Intl.NumberFormat().format(Math.round(value.yearly_house_rent*tax.price/100)) }}/=
                         </th>
                         <td v-text="DateFormate(value.created_at)" class="px-6 py-4">
 

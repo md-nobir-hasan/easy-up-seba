@@ -37,7 +37,7 @@ const submenueItem =[
                         {title:'হিসাব',name:'Calculation',active:false,route:'',url:'/admin/tax/calculation',icon:CalculatorIcon,children:[
                             {title:'কর জামা ফর্ম',name:'House Tax Deposite',active:false,route:route('admin.tax.calculation.deposite.create'),url:'/admin/tax/calculation/deposite/create',icon:CircleStackIcon,children:[]},
                             {title:'কর জমা লিস্ট',name:'House Tax Deposite List',active:false,route:route('admin.tax.calculation.deposite.index'),url:'/admin/tax/calculation/deposite/index',icon:ListBulletIcon,children:[]},
-                            {title:'গ্রাম ভিত্তিক ধার্য',name:'Village Based Levy',active:false,route:route('admin.tax.calculation.village-leavy.index'),url:'/admin/tax/calculation/village-leavy/index',icon:ChevronDoubleRightIcon,children:[]},
+                            {title:'গ্রাম ভিত্তিক ধার্য',name:'Village Based Levy',active:false,route:route('admin.tax.calculation.village-leavy.index'),url:'/admin/tax/calculation/village-leavy',icon:ChevronDoubleRightIcon,children:[]},
                             // {title:'ওয়ার্ড ভিত্তিক ধার্য',name:'ওয়ার্ড ভিত্তিক ধার্য',active:false,route:route('admin.tax.calculation.word-leavy.index'),url:'/admin/tax/calculation/word-leavy/index',icon:ChevronDoubleRightIcon,children:[]},
                         ]},
                         {title:'টপলিষ্ট/ডেইলি পোষ্টিং',name:'টপলিষ্ট/ডেইলি পোষ্টিং',active:false,route:'',url:'/admin/tax/toplist',icon:CalculatorIcon,children:[
@@ -48,8 +48,8 @@ const submenueItem =[
                         {title:'বিল প্রিন্ট',name:'বিল প্রিন্ট',active:false,route:'',url:'/admin/tax/bill-print',icon:CalculatorIcon,children:[
                             {title:'সিঙ্গেল বিল প্রিন্ট',name:'সিঙ্গেল বিল প্রিন্ট',active:false,route:route('admin.tax.bill.print.single'),url:'/admin/tax/bill-print/single',icon:CircleStackIcon,children:[]},
                             {title:'সমস্ত বিল প্রিন্ট',name:'সমস্ত বিল প্রিন্ট',active:false,route:route('admin.tax.bill.print.all'),url:'/admin/tax/bill-print/all',icon:CircleStackIcon,children:[]},
-                            {title:'সিঙ্গেল বিল প্রিন্ট (পুরাতন)',name:'সিঙ্গেল বিল প্রিন্ট (পুরাতন)',active:false,route:route('admin.tax.bill.print.single.old'),url:'/admin/tax/bill-print/single/old',icon:CircleStackIcon,children:[]},
-                            {title:'সমস্ত বিল প্রিন্ট (পুরাতন)',name:'সমস্ত বিল প্রিন্ট (পুরাতন)',active:false,route:route('admin.tax.bill.print.all.old'),url:'/admin/tax/bill-print/all/old',icon:CircleStackIcon,children:[]},
+                            {title:'সিঙ্গেল বিল প্রিন্ট (পুরাতন)',name:'সিঙ্গেল বিল প্রিন্ট (পুরাতন)',active:false,route:route('admin.tax.bill.print.single.old'),url:'/admin/tax/bill-print/old/single',icon:CircleStackIcon,children:[]},
+                            {title:'সমস্ত বিল প্রিন্ট (পুরাতন)',name:'সমস্ত বিল প্রিন্ট (পুরাতন)',active:false,route:route('admin.tax.bill.print.all.old'),url:'/admin/tax/bill-print/old/all',icon:CircleStackIcon,children:[]},
                             {title:'সিঙ্গেল পোজ বিল',name:'সিঙ্গেল পোজ বিল',active:false,route:route('admin.tax.bill.print.single.pos'),url:'/admin/tax/bill-print/single/pos',icon:CircleStackIcon,children:[]},
                             {title:'সমস্ত পোজ বিল',name:'সমস্ত পোজ বিল',active:false,route:route('admin.tax.bill.print.all.pos'),url:'/admin/tax/bill-print/all/pos',icon:CircleStackIcon,children:[]},
                         ]},

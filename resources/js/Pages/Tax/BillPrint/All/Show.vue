@@ -63,12 +63,13 @@ console.log(pro.bill)
                     <div class="flex items-center">
                         <img src="/default/images/bd-logo.svg" class="h-14" alt="BD Logo">
                         <h1 class="ml-4 font-bold text-[24px]">{{ $page.props.auth.user.word.name }}- {{ $page.props.auth.user.word.union.name  }}</h1>
+                       
                     </div>
 
                     <div class="flex items-center justify-between mt-4 pl-[75px]">
                         <div class="">
                             <h4>ইউপি করের বিল</h4>
-                            <h4>ইউপি কপি</h4>
+                            <h4>গ্রাহক কপি</h4>
                         </div>
                         <div class="pl-8">
                             <h4>
@@ -77,9 +78,7 @@ console.log(pro.bill)
                             </h4>
                             <h4>
                                 <!-- কিস্তি : -->
-                                <span v-if="bill.s_kisti<1 && bill.t_kisti<1">১ম</span>
-                                    <span v-else-if="bill.t_kisti<1">২য়</span>
-                                    <span v-else>৩য়</span>
+                                <span>৪র্থ</span>
                             </h4>
                         </div>
                     </div>
@@ -153,6 +152,7 @@ console.log(pro.bill)
                                     <th></th>
                                     <th></th>
                                     <th></th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -163,18 +163,18 @@ console.log(pro.bill)
                                     <td class=" p-2">{{bill.f_kisti}}</td>
                                     <td class=" p-2">{{bill.s_kisti}}</td>
                                     <td class=" p-2">{{bill.t_kisti}}</td>
-                                    <!-- <td class=" p-2">{{bill.fo_kisti}}</td> -->
+                                    <td class=" p-2">{{bill.fo_kisti}}</td>
                                     <td class=" p-2 ">{{bill.paid_amount}}</td>
                                 </tr>
                                 <tr>
                                     <!-- <th class=" p-2">পূর্বের বকেয়া</th> -->
                                     <th></th>
-                                    <td class=" p-2">{{ $page.props[`pars${bill.id}`] }}</td>
+                                    <td class=" p-2">{{ bill.prev_arrears }}</td>
                                     <td class=" p-2"></td>
                                     <td class=" p-2"></td>
                                     <td class=" p-2"></td>
-                                    <!-- <td class=" p-2"></td> -->
-                                    <td class=" p-2 ">{{ $page.props[`pars${bill.id}`] }}</td>
+                                    <td class=" p-2"></td>
+                                    <td class=" p-2 ">{{ bill.paid_prev_arrears }}</td>
                                 </tr>
                                 <tr>
                                     <!-- <th class=" p-2">দন্ড</th> -->
@@ -183,7 +183,7 @@ console.log(pro.bill)
                                     <td class=" p-2"></td>
                                     <td class=" p-2"></td>
                                     <td class=" p-2"></td>
-                                    <!-- <td class=" p-2"></td> -->
+                                    <td class=" p-2"></td>
                                     <td class=" p-2 "></td>
                                 </tr>
                                 <tr class="">
@@ -191,10 +191,10 @@ console.log(pro.bill)
                                     <td></td>
                                     <td></td>
                                     <td></td>
-                                    <!-- <td></td> -->
+                                    <td></td>
                                     <!-- <th>সর্বমোট</th> -->
                                     <th></th>
-                                    <th class=" p-2 ">{{Number(bill.paid_amount) + Number($page.props[`pars${bill.id}`])}}</th>
+                                    <th class=" p-2 ">{{Number(bill.paid_amount) + Number(bill.paid_prev_arrears)}}</th>
                                 </tr>
                             </tbody>
                         </table>
@@ -207,7 +207,7 @@ console.log(pro.bill)
                             <tbody>
                                 <tr>
                                     <!-- <th class=" p-2">প্রাপ্ত টাকা</th>
-                                    <td class=" p-2">{{Number(bill.paid_amount) + Number($page.props[`pars${bill.id}`])}}/-</td> -->
+                                    <td class=" p-2">{{Number(bill.paid_amount) + Number(bill.paid_prev_arrears)}}/-</td> -->
                                     <td class=" p-2">
                                         <img src="/images/my-signature.png" class="h-12 m-auto" alt="Easy Up Seba">
                                         <!-- <span>চেয়ারম্যান স্বাক্ষর</span> -->
@@ -250,9 +250,7 @@ console.log(pro.bill)
                             </h4>
                             <h4>
                                 <!-- কিস্তি : -->
-                                <span v-if="bill.s_kisti<1 && bill.t_kisti<1">১ম</span>
-                                    <span v-else-if="bill.t_kisti<1">২য়</span>
-                                    <span v-else>৩য়</span>
+                                <span>৪র্থ</span>
                             </h4>
                         </div>
                     </div>
@@ -326,6 +324,7 @@ console.log(pro.bill)
                                     <th></th>
                                     <th></th>
                                     <th></th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -336,18 +335,18 @@ console.log(pro.bill)
                                     <td class=" p-2">{{bill.f_kisti}}</td>
                                     <td class=" p-2">{{bill.s_kisti}}</td>
                                     <td class=" p-2">{{bill.t_kisti}}</td>
-                                    <!-- <td class=" p-2">{{bill.fo_kisti}}</td> -->
+                                    <td class=" p-2">{{bill.fo_kisti}}</td>
                                     <td class=" p-2 ">{{bill.paid_amount}}</td>
                                 </tr>
                                 <tr>
                                     <!-- <th class=" p-2">পূর্বের বকেয়া</th> -->
                                     <th></th>
-                                    <td class=" p-2">{{ $page.props[`pars${bill.id}`] }}</td>
+                                    <td class=" p-2">{{ bill.prev_arrears }}</td>
                                     <td class=" p-2"></td>
                                     <td class=" p-2"></td>
                                     <td class=" p-2"></td>
-                                    <!-- <td class=" p-2"></td> -->
-                                    <td class=" p-2 ">{{ $page.props[`pars${bill.id}`] }}</td>
+                                    <td class=" p-2"></td>
+                                    <td class=" p-2 ">{{ bill.paid_prev_arrears }}</td>
                                 </tr>
                                 <tr>
                                     <!-- <th class=" p-2">দন্ড</th> -->
@@ -356,7 +355,7 @@ console.log(pro.bill)
                                     <td class=" p-2"></td>
                                     <td class=" p-2"></td>
                                     <td class=" p-2"></td>
-                                    <!-- <td class=" p-2"></td> -->
+                                    <td class=" p-2"></td>
                                     <td class=" p-2 "></td>
                                 </tr>
                                 <tr class="">
@@ -364,10 +363,10 @@ console.log(pro.bill)
                                     <td></td>
                                     <td></td>
                                     <td></td>
-                                    <!-- <td></td> -->
+                                    <td></td>
                                     <!-- <th>সর্বমোট</th> -->
                                     <th></th>
-                                    <th class=" p-2 ">{{Number(bill.paid_amount) + Number($page.props[`pars${bill.id}`])}}</th>
+                                    <th class=" p-2 ">{{Number(bill.paid_amount) + Number(bill.paid_prev_arrears)}}</th>
                                 </tr>
                             </tbody>
                         </table>
@@ -380,7 +379,7 @@ console.log(pro.bill)
                             <tbody>
                                 <tr>
                                     <!-- <th class=" p-2">প্রাপ্ত টাকা</th>
-                                    <td class=" p-2">{{Number(bill.paid_amount) + Number($page.props[`pars${bill.id}`])}}/-</td> -->
+                                    <td class=" p-2">{{Number(bill.paid_amount) + Number(bill.paid_prev_arrears)}}/-</td> -->
                                     <td class=" p-2">
                                         <img src="/images/my-signature.png" class="h-12 m-auto" alt="Easy Up Seba">
                                         <!-- <span>চেয়ারম্যান স্বাক্ষর</span> -->
@@ -422,6 +421,7 @@ console.log(pro.bill)
         body{
             padding: 0 !important;
             margin: 0 !important;
+            font-size: 14px !important;
         }
 
         .device-height{

@@ -111,21 +111,64 @@ const printTable = ()=>{
 const exportExcel = ()=>{
      table2excel.export(document.querySelectorAll("#my-table"));
 }
-function totalSum(arr){
+function totalTax(arr){
     let sum = 0;
     arr.forEach(element => {
         sum += Number(element.total_amount);
     });
     return sum;
 }
+function halBokeya(arr){
+    let sum = 0;
+    arr.forEach(element => {
+        sum += (Number(element.total_amount) - Number(element.paid_amount));
+    });
+    return sum;
+}
+function prevArrears(arr){
+    let sum = 0;
+    arr.forEach(element => {
+        sum += Number(element.prev_arrears) ;
+    });
+    return sum;
+}
+function paidPrevArrears(arr){
+    let sum = 0;
+    arr.forEach(element => {
+        sum += Number(element.paid_prev_arrears) ;
+    });
+    return sum;
+}
+function TotalPaid(arr){
+    let sum = 0;
+    arr.forEach(element => {
+        sum += Number(element.paid_prev_arrears) + Number(element.paid_amount) ;
+    });
+    return sum;
+}
+function totalArrear(arr){
+    let sum = 0;
+    arr.forEach(element => {
+        sum += Number(element.total_amount) + Number(element.prev_arrears) ;
+    });
+    return sum;
+}
+function percent(arr){
+    let sum = 0;
+    arr.forEach(element => {
+        sum += Number(element.total_amount) + Number(element.prev_arrears) ;
+    });
+    return sum;
+}
 
-function paidSum(arr){
+function taxPaid(arr){
     let sum = 0;
     arr.forEach(element => {
         sum += Number(element.paid_amount);
     });
     return sum;
 }
+
 let total_village = 0;
 let total_ekhana = 0;
 let paid_khana = 0;
@@ -204,19 +247,40 @@ let total_num = 0;
                     </thead>
                     <tbody>
                       <tr v-for="(value, key) in ekhana" :key="key">
-                        <td :data-val="total_num = key +1">  {{ value.name  }}</td>
+                        <td >  {{ value.name  }}</td>
                         <td :data-val="total_village += value.village.length ">{{  value.village.length }}</td>
                         <td :data-val="total_ekhana += value.ekhana.length ">{{ value.ekhana.length }}</td>
                         <td :data-val="paid_khana += value.house_tax_paid.length ">{{ value.house_tax_paid.length }}</td>
-                        <td :data-val="total_year_levy += totalSum(value.house_tax) ">{{ totalSum(value.house_tax) }}</td>
-                        <td :data-val="year_levy_paid += paidSum(value.house_tax_paid)">{{paidSum(value.house_tax_paid) }}</td>
-                        <td :data-val="year_levy_unpaid += totalSum(value.house_tax_unpaid)">{{totalSum(value.house_tax_unpaid) }}</td>
-                        <td :data-val="prev_levy_unpaid += totalSum(value.prev_tax_unpaid)">{{totalSum(value.prev_tax_unpaid) }}</td>
-                        <td :data-val="prev_levy_paid += paidSum(value.prev_tax_paid)">{{paidSum(value.prev_tax_paid) }}</td>
-                        <td :data-val="total_paid += paidSum(value.house_tax_paid)">{{ paidSum(value.house_tax_paid) }}</td>
-                        <td :data-val="total_arrears += totalSum(value.house_tax_unpaid) ">{{ totalSum(value.house_tax_unpaid) }}</td>
+
+                        <td :data-val="total_year_levy += totalTax(value.house_tax) ">
+                            {{ totalTax(value.house_tax) }}
+
+                        </td>
+                        <td :data-val="year_levy_paid += taxPaid(value.house_tax)">
+                            {{taxPaid(value.house_tax) }}
+                        </td>
+                        <td :data-val="year_levy_unpaid += halBokeya(value.house_tax)">
+                            {{halBokeya(value.house_tax) }}
+                        </td>
+                        <td :data-val="prev_levy_unpaid += prevArrears(value.house_tax)">
+                            {{prevArrears(value.house_tax) }}
+                        </td>
+                        <td :data-val="prev_levy_paid += paidPrevArrears(value.house_tax)">
+                            {{paidPrevArrears(value.house_tax) }}
+                        </td>
+                        <td :data-val="total_paid += taxPaid(value.house_tax)+Number(paidPrevArrears(value.house_tax))">
+                            {{ taxPaid(value.house_tax)+Number(paidPrevArrears(value.house_tax)) }}
+                        </td>
+                        <td :data-val="total_arrears += totalArrear(value.house_tax) ">
+                            {{ totalArrear(value.house_tax) }}
+                        </td>
                         <td >{{ year_range }}</td>
-                        <td :data-val="percentange +=  paidSum(value.house_tax_paid)/paidSum(value.house_tax_paid) ? paidSum(value.house_tax_paid)/paidSum(value.house_tax_paid)*100 : 100">{{ paidSum(value.house_tax_paid)/paidSum(value.house_tax_paid) ? paidSum(value.house_tax_paid)/paidSum(value.house_tax_paid)*100 : 100 }}</td>
+                        <td >
+                            <span v-if="value.house_tax.length" :data-value="total_num += 1" :data-val="percentange +=  Number((taxPaid(value.house_tax))+ Number(paidPrevArrears(value.house_tax)))/ (Number(totalTax(value.house_tax)) + Number(prevArrears(value.house_tax)))">
+                                {{  Number((taxPaid(value.house_tax))+Number(paidPrevArrears(value.house_tax)))/ (Number(totalTax(value.house_tax)) + Number(prevArrears(value.house_tax)))*100 }}
+                            </span>
+                            <span v-else >0</span>
+                        </td>
                       </tr>
                     </tbody>
                     <tfoot>
@@ -233,7 +297,7 @@ let total_num = 0;
                             <th>{{year_levy_paid + prev_levy_paid}}</th>
                             <th>{{year_levy_unpaid+prev_levy_unpaid}}</th>
                             <th>=>></th>
-                            <th>{{percentange/total_num}}</th>
+                            <th>{{percentange/total_num*100}}</th>
                         </tr>
                     </tfoot>
                 </table>

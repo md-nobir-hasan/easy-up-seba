@@ -147,12 +147,12 @@ Route::middleware([
                 Route::get('/all/show',[BillPrintController::class,'allShow'])->name('all.show');
 
             ///Single bill print old
-                Route::get('/single/old',[BillPrintController::class,'singleOld'])->name('single.old');
+                Route::get('/old/single',[BillPrintController::class,'singleOld'])->name('single.old');
                 Route::get('/single/old/show',[BillPrintController::class,'singleOldShow'])->name('single.old.show');
 
             ///All bill print old
-                Route::get('/all/old',[BillPrintController::class,'allOld'])->name('all.old');
-                Route::get('/all/old/show',[BillPrintController::class,'allOldShow'])->name('all.old.show');
+                Route::get('/old/all',[BillPrintController::class,'allOld'])->name('all.old');
+                Route::get('/old/all/show',[BillPrintController::class,'allOldShow'])->name('all.old.show');
 
             ///All POS bill print
                 Route::get('/all/pos',[BillPrintController::class,'allpos'])->name('all.pos');
