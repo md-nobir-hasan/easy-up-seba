@@ -48,8 +48,8 @@ const submenueItem =[
                         {title:'বিল প্রিন্ট',name:'বিল প্রিন্ট',active:false,route:'',url:'/admin/tax/bill-print',icon:CalculatorIcon,children:[
                             {title:'সিঙ্গেল বিল প্রিন্ট',name:'সিঙ্গেল বিল প্রিন্ট',active:false,route:route('admin.tax.bill.print.single'),url:'/admin/tax/bill-print/single',icon:CircleStackIcon,children:[]},
                             {title:'সমস্ত বিল প্রিন্ট',name:'সমস্ত বিল প্রিন্ট',active:false,route:route('admin.tax.bill.print.all'),url:'/admin/tax/bill-print/all',icon:CircleStackIcon,children:[]},
-                            {title:'সিঙ্গেল বিল প্রিন্ট (পুরাতন)',name:'সিঙ্গেল বিল প্রিন্ট (পুরাতন)',active:false,route:route('admin.tax.bill.print.single.old'),url:'/admin/tax/bill-print/single/old',icon:CircleStackIcon,children:[]},
-                            {title:'সমস্ত বিল প্রিন্ট (পুরাতন)',name:'সমস্ত বিল প্রিন্ট (পুরাতন)',active:false,route:route('admin.tax.bill.print.all.old'),url:'/admin/tax/bill-print/all/old',icon:CircleStackIcon,children:[]},
+                            {title:'সিঙ্গেল বিল প্রিন্ট (পুরাতন)',name:'সিঙ্গেল বিল প্রিন্ট (পুরাতন)',active:false,route:route('admin.tax.bill.print.single.old'),url:'/admin/tax/bill-print/old/single',icon:CircleStackIcon,children:[]},
+                            {title:'সমস্ত বিল প্রিন্ট (পুরাতন)',name:'সমস্ত বিল প্রিন্ট (পুরাতন)',active:false,route:route('admin.tax.bill.print.all.old'),url:'/admin/tax/bill-print/old/all',icon:CircleStackIcon,children:[]},
                             {title:'সিঙ্গেল পোজ বিল',name:'সিঙ্গেল পোজ বিল',active:false,route:route('admin.tax.bill.print.single.pos'),url:'/admin/tax/bill-print/single/pos',icon:CircleStackIcon,children:[]},
                             {title:'সমস্ত পোজ বিল',name:'সমস্ত পোজ বিল',active:false,route:route('admin.tax.bill.print.all.pos'),url:'/admin/tax/bill-print/all/pos',icon:CircleStackIcon,children:[]},
                         ]},

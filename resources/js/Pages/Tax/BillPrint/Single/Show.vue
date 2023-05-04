@@ -55,13 +55,12 @@ console.log(pro.bill)
 
 <template>
 
-    <Head title="সিঙ্গেল বিল প্রিন্ট (পুরাতন)" />
+    <Head title="সিঙ্গেল বিল প্রিন্ট" />
     <div v-if="bill" class="p-8 main-div" >
         <div class="flex justify-between">
 
             <!-- Up copy  -->
-             <!-- User copy  -->
-             <div class="w-[49%]">
+            <div class="w-[49%]">
                 <div class="flex items-center">
                     <img src="/default/images/bd-logo.svg" class="h-14" alt="BD Logo">
                     <h1 class="ml-4 font-bold text-[24px]">{{ $page.props.auth.user.word.name }}- {{ $page.props.auth.user.word.union.name  }}</h1>
@@ -78,9 +77,7 @@ console.log(pro.bill)
                             {{ekhana.f_year.from + '-' +ekhana.f_year.to}}</h4>
                         <h4>
                             <!-- কিস্তি : -->
-                            <span v-if="bill.s_kisti<1 && bill.t_kisti<1">১ম</span>
-                                <span v-else-if="bill.t_kisti<1">২য়</span>
-                                <span v-else>৩য়</span>
+                            <span>৪র্থ</span>
                         </h4>
                     </div>
                 </div>
@@ -148,7 +145,9 @@ console.log(pro.bill)
                                 <!-- <th class=" p-2">১ম কিস্তি</th>
                                 <th class=" p-2">২য় কিস্তি</th>
                                 <th class=" p-2">৩য় কিস্তি</th>
+                                <th class=" p-2">৪র্থ কিস্তি</th>
                                 <th class=" p-2">মোট</th> -->
+                                <th></th>
                                 <th></th>
                                 <th></th>
                                 <th></th>
@@ -163,20 +162,23 @@ console.log(pro.bill)
                                 <td class=" p-2">{{bill.f_kisti}}</td>
                                 <td class=" p-2">{{bill.s_kisti}}</td>
                                 <td class=" p-2">{{bill.t_kisti}}</td>
+                                <td class=" p-2">{{bill.fo_kisti}}</td>
                                 <td class=" p-2 ">{{bill.paid_amount}}</td>
                             </tr>
                             <tr>
                                 <!-- <th class=" p-2">পূর্বের বকেয়া</th> -->
                                 <th></th>
-                                <td class=" p-2">{{ previous_arrears }}</td>
+                                <td class=" p-2">{{ bill.prev_arrears }}</td>
                                 <td class=" p-2"></td>
                                 <td class=" p-2"></td>
                                 <td class=" p-2"></td>
-                                <td class=" p-2 ">{{ previous_arrears }}</td>
+                                <td class=" p-2"></td>
+                                <td class=" p-2 ">{{ bill.paid_prev_arrears }}</td>
                             </tr>
                             <tr>
                                 <!-- <th class=" p-2">দন্ড</th> -->
                                 <th></th>
+                                <td class=" p-2"></td>
                                 <td class=" p-2"></td>
                                 <td class=" p-2"></td>
                                 <td class=" p-2"></td>
@@ -188,9 +190,10 @@ console.log(pro.bill)
                                 <td></td>
                                 <td></td>
                                 <td></td>
+                                <td></td>
                                 <!-- <th>সর্বমোট</th> -->
                                 <th></th>
-                                <th class=" p-2 ">{{Number(bill.paid_amount) + Number(previous_arrears)}}</th>
+                                <th class=" p-2 ">{{Number(bill.paid_amount) + Number(bill.paid_prev_arrears)}}</th>
                             </tr>
                         </tbody>
                     </table>
@@ -204,7 +207,7 @@ console.log(pro.bill)
                             <tr>
                                 <!-- <th class=" p-2">প্রাপ্ত টাকা</th> -->
                                 <th></th>
-                                <!-- <td class=" p-2">{{Number(bill.paid_amount) + Number(previous_arrears)}}/-</td> -->
+                                <!-- <td class=" p-2">{{Number(bill.paid_amount) + Number(bill.paid_prev_arrears)}}/-</td> -->
                                 <td class=" p-2">
                                     <img src="/images/my-signature.png" class="h-12 m-auto" alt="Easy Up Seba">
                                     <!-- <span>চেয়ারম্যান স্বাক্ষর</span> -->
@@ -249,9 +252,7 @@ console.log(pro.bill)
                             {{ekhana.f_year.from + '-' +ekhana.f_year.to}}</h4>
                         <h4>
                             <!-- কিস্তি : -->
-                            <span v-if="ekhana.s_kisti<1 && ekhana.t_kisti<1">১ম</span>
-                                <span v-else-if="ekhana.t_kisti<1">২য়</span>
-                                <span v-else>৩য়</span>
+                            <span>৪র্থ</span>
                         </h4>
                     </div>
                 </div>
@@ -319,7 +320,9 @@ console.log(pro.bill)
                                 <!-- <th class=" p-2">১ম কিস্তি</th>
                                 <th class=" p-2">২য় কিস্তি</th>
                                 <th class=" p-2">৩য় কিস্তি</th>
+                                <th class=" p-2">৪র্থ কিস্তি</th>
                                 <th class=" p-2">মোট</th> -->
+                                <th></th>
                                 <th></th>
                                 <th></th>
                                 <th></th>
@@ -334,20 +337,23 @@ console.log(pro.bill)
                                 <td class=" p-2">{{bill.f_kisti}}</td>
                                 <td class=" p-2">{{bill.s_kisti}}</td>
                                 <td class=" p-2">{{bill.t_kisti}}</td>
+                                <td class=" p-2">{{bill.fo_kisti}}</td>
                                 <td class=" p-2 ">{{bill.paid_amount}}</td>
                             </tr>
                             <tr>
                                 <!-- <th class=" p-2">পূর্বের বকেয়া</th> -->
                                 <th></th>
-                                <td class=" p-2">{{ previous_arrears }}</td>
+                                <td class=" p-2">{{ bill.prev_arrears }}</td>
                                 <td class=" p-2"></td>
                                 <td class=" p-2"></td>
                                 <td class=" p-2"></td>
-                                <td class=" p-2 ">{{ previous_arrears }}</td>
+                                <td class=" p-2"></td>
+                                <td class=" p-2 ">{{ bill.paid_prev_arrears }}</td>
                             </tr>
                             <tr>
                                 <!-- <th class=" p-2">দন্ড</th> -->
                                 <th></th>
+                                <td class=" p-2"></td>
                                 <td class=" p-2"></td>
                                 <td class=" p-2"></td>
                                 <td class=" p-2"></td>
@@ -359,9 +365,10 @@ console.log(pro.bill)
                                 <td></td>
                                 <td></td>
                                 <td></td>
+                                <td></td>
                                 <!-- <th>সর্বমোট</th> -->
                                 <th></th>
-                                <th class=" p-2 ">{{Number(bill.paid_amount) + Number(previous_arrears)}}</th>
+                                <th class=" p-2 ">{{Number(bill.paid_amount) + Number(bill.paid_prev_arrears)}}</th>
                             </tr>
                         </tbody>
                     </table>
@@ -375,7 +382,7 @@ console.log(pro.bill)
                             <tr>
                                 <!-- <th class=" p-2">প্রাপ্ত টাকা</th> -->
                                 <th></th>
-                                <!-- <td class=" p-2">{{Number(bill.paid_amount) + Number(previous_arrears)}}/-</td> -->
+                                <!-- <td class=" p-2">{{Number(bill.paid_amount) + Number(bill.paid_prev_arrears)}}/-</td> -->
                                 <td class=" p-2">
                                     <img src="/images/my-signature.png" class="h-12 m-auto" alt="Easy Up Seba">
                                     <!-- <span>চেয়ারম্যান স্বাক্ষর</span> -->
@@ -416,9 +423,10 @@ console.log(pro.bill)
         body{
             padding: 0 !important;
             margin: 0 !important;
+            font-size: 14px !important;
         }
         .main-div{
-
+            margin-top: 40px !important;
         }
         .table,table th, table td {
             padding: 0 !important;

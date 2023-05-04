@@ -71,7 +71,7 @@ console.log(pro.bill)
                 <div class="flex items-center justify-between mt-4 pl-[75px]">
                     <div class="">
                         <h4>ইউপি করের বিল</h4>
-                        <h4>গ্রাহক কপি</h4>
+                        <h4>ইউপি কপি</h4>
 
                     </div>
                     <div class="pl-8">
