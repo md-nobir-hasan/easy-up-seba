@@ -10,6 +10,10 @@ const pro = defineProps({
     previous_arrears: String,
 });
 
+//================  Language conversation =========================================
+    let en2bn = n => String(n).replace(/\d/g, d => "০১২৩৪৫৬৭৮৯" [d]);
+// End Language conversation
+
 //Extrace user
 const usr = usePage().props.auth.user;
 
@@ -42,7 +46,7 @@ function DateFormate(date) {
         let da = d.getDate();
         let month = d.getMonth();
         let year = d.getFullYear();
-        return da + '/' + month + '/' + year;
+        return en2bn(da) + '/' + en2bn(month) + '/' + en2bn(year);
     }
     return date;
 }
@@ -62,13 +66,13 @@ console.log(pro.bill)
             <div class="">
                 <div class="text-center">
                     <img src="/default/images/bd-logo.svg" class="h-14 m-auto mb-4" alt="BD Logo">
-                    <h1 class="ml-4 font-bold text-[24px]">{{ $page.props.auth.user.word.name }}- {{ $page.props.auth.user.word.union.name  }}</h1>
+                    <h1 class="ml-4 font-bold text-[24px]">{{ en2bn($page.props.auth.user.word.name) }}- {{ $page.props.auth.user.word.union.name  }}</h1>
 
                 </div>
 
                 <div class="flex items-center justify-between mt-4 pl-[75px]">
                     <div class="">
-                        <h4><span class="font-bold">অর্থ-বছর :</span> {{ekhana.f_year.from + '-' +ekhana.f_year.to}}</h4>
+                        <h4><span class="font-bold">অর্থ-বছর :</span> {{en2bn(ekhana.f_year.from) + '-' +en2bn(ekhana.f_year.to)}}</h4>
                         <!-- <h4>গ্রাহক কপি</h4> -->
                     </div>
                     <div class="pl-8">
@@ -89,12 +93,12 @@ console.log(pro.bill)
 
                             <tr>
                                 <th>করদাতার নাম</th>
-                                <td>:{{ bill.ekhana.bn_name }}</td>
+                                <td>:{{ en2bn(bill.ekhana.bn_name) }}</td>
                             </tr>
 
                             <tr>
                                 <th>হোল্ডিং নং</th>
-                                <td>:{{ bill.ekhana.holding_no }}</td>
+                                <td>:{{ en2bn(bill.ekhana.holding_no) }}</td>
                             </tr>
 
                             <tr>
@@ -103,7 +107,7 @@ console.log(pro.bill)
                             </tr>
                             <tr>
                                 <th>মোবাইল নং</th>
-                                <td>: {{ bill.ekhana.phone }}</td>
+                                <td>: {{ en2bn(bill.ekhana.phone) }}</td>
                             </tr>
                             <tr>
                                 <th>বিল ইস্যুর তারিখ</th>
@@ -133,21 +137,21 @@ console.log(pro.bill)
                         <tbody>
                             <tr>
                                 <th class="border border-[black] p-2">হোল্ডিং কর</th>
-                                <td class="border border-[black] p-2">{{ bill.total_amount - bill.paid_amount }}</td>
-                                <td class="border border-[black] p-2">{{bill.f_kisti}}</td>
-                                <td class="border border-[black] p-2">{{bill.s_kisti}}</td>
-                                <td class="border border-[black] p-2">{{bill.t_kisti}}</td>
-                                <!-- <td class="border border-[black] p-2">{{bill.fo_kisti}}</td> -->
-                                <td class="border border-[black] p-2 bg-[#00ffc95c]">{{bill.paid_amount}}</td>
+                                <td class="border border-[black] p-2">{{ en2bn(bill.total_amount - bill.paid_amount) }}</td>
+                                <td class="border border-[black] p-2">{{en2bn(bill.f_kisti)}}</td>
+                                <td class="border border-[black] p-2">{{en2bn(bill.s_kisti)}}</td>
+                                <td class="border border-[black] p-2">{{en2bn(bill.t_kisti)}}</td>
+                                <!-- <td class="border border-[black] p-2">{{bill.fo_kisti)}}</td> -->
+                                <td class="border border-[black] p-2 bg-[#00ffc95c]">{{en2bn(bill.paid_amount)}}</td>
                             </tr>
                             <tr>
                                 <th class="border border-[black] p-2">পূর্বের বকেয়া</th>
-                                <td class="border border-[black] p-2">{{ previous_arrears }}</td>
+                                <td class="border border-[black] p-2">{{ en2bn(previous_arrears) }}</td>
                                 <td class="border border-[black] p-2"></td>
                                 <td class="border border-[black] p-2"></td>
                                 <td class="border border-[black] p-2"></td>
                                 <!-- <td class="border border-[black] p-2"></td> -->
-                                <td class="border border-[black] p-2 bg-[#00ffc95c]">{{ previous_arrears }}</td>
+                                <td class="border border-[black] p-2 bg-[#00ffc95c]">{{ en2bn(previous_arrears) }}</td>
                             </tr>
                             <tr>
                                 <th class="border border-[black] p-2">দন্ড</th>
@@ -165,7 +169,7 @@ console.log(pro.bill)
                                 <td></td>
                                 <!-- <td></td> -->
                                 <th>সর্বমোট</th>
-                                <th class="border border-[black] p-2 ">{{Number(bill.paid_amount) + Number(previous_arrears)}}</th>
+                                <th class="border border-[black] p-2 ">{{en2bn(Number(bill.paid_amount) + Number(previous_arrears))}}</th>
                             </tr>
                         </tbody>
                     </table>

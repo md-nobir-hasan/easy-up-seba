@@ -18,6 +18,11 @@ const pro = defineProps({
     tax: Object,
     vilgs: Object,
 });
+
+//================  Language conversation =========================================
+let en2bn = n => String(n).replace(/\d/g, d => "০১২৩৪৫৬৭৮৯" [d]);
+// End Language conversation
+
 //Extrace user
 const usr = usePage().props.auth.user;
 
@@ -71,7 +76,7 @@ function DateFormate(date) {
         let da = d.getDate();
         let month = d.getMonth();
         let year = d.getFullYear();
-        return da + '/' + month + '/' + year;
+        return en2bn(da) + '/' + en2bn(month) + '/' + en2bn(year);
     }
     return date;
 }
@@ -303,23 +308,23 @@ const exportExcel = ()=>{
                     </thead>
                     <tbody>
                       <tr v-for="(value, key) in ekhana" :key="key">
-                        <td>  {{ value.holding_no  }}</td>
+                        <td>  {{ en2bn(value.holding_no)  }}</td>
                         <td>{{ value.bn_name }}</td>
-                        <td>{{new Intl.NumberFormat().format(value.yearly_income) }}/=</td>
+                        <td>{{en2bn(new Intl.NumberFormat().format(value.yearly_income)) }}/=</td>
                         <td>{{ value.spouse_name }}</td>
                         <td>{{ value.mother_name }}</td>
-                        <td>{{ value.nid }}</td>
-                        <td>{{ value.phone }}</td>
+                        <td>{{ en2bn(value.nid) }}</td>
+                        <td>{{ en2bn(value.phone) }}</td>
                         <td>{{ value.vill_name }}</td>
-                        <td>{{ value.w_name }}</td>
-                        <td>{{ value.paka_house }}</td>
-                        <td>{{ value.adhapaka_house }}</td>
-                        <td>{{ value.kasa_house }}</td>
-                        <td>{{ new Intl.NumberFormat().format(value.yearly_house_rent) }}/=</td>
-                        <td> {{value.fy_from+'-'+ value.fy_to }}</td>
-                        <td> {{ new Intl.NumberFormat().format(Math.round(value.total_amount)) }}/=</td>
-                        <td>{{ new Intl.NumberFormat().format(Math.round(value.prev_arrears)) }}/=</td>
-                        <td> {{ new Intl.NumberFormat().format(Math.round(value.paid_amount)) }}/=</td>
+                        <td>{{ en2bn(value.w_name) }}</td>
+                        <td>{{ en2bn(value.paka_house) }}</td>
+                        <td>{{ en2bn(value.adhapaka_house) }}</td>
+                        <td>{{ en2bn(value.kasa_house) }}</td>
+                        <td>{{ en2bn(new Intl.NumberFormat().format(value.yearly_house_rent)) }}/=</td>
+                        <td> {{en2bn(value.fy_from)+'-'+ en2bn(value.fy_to) }}</td>
+                        <td> {{ en2bn(new Intl.NumberFormat().format(Math.round(value.total_amount))) }}/=</td>
+                        <td>{{ en2bn(new Intl.NumberFormat().format(Math.round(value.prev_arrears))) }}/=</td>
+                        <td> {{ en2bn(new Intl.NumberFormat().format(Math.round(value.paid_amount))) }}/=</td>
                         <!-- <td></td> -->
                       </tr>
                     </tbody>

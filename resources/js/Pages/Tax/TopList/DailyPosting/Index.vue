@@ -10,6 +10,10 @@ const pro = defineProps({
     words: Object,
 });
 
+//================  Language conversation =========================================
+    let en2bn = n => String(n).replace(/\d/g, d => "০১২৩৪৫৬৭৮৯" [d]);
+// End Language conversation
+
 //Extrace user
 const usr = usePage().props.auth.user;
 const form = useForm({
@@ -58,7 +62,7 @@ function DateFormate(date) {
         let da = d.getDate();
         let month = d.getMonth();
         let year = d.getFullYear();
-        return da + '/' + month + '/' + year;
+        return en2bn(da) + '/' + en2bn(month) + '/' + en2bn(year);
     }
     return date;
 }
@@ -154,7 +158,7 @@ let total_paid = 0;
                         <select id="word_id" v-model="form.word_id"
                         class="border text-[black]  min-w-[65%]  border-gray-300 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
                             <option selected value="">ওয়ার্ড নির্বাচন করুন</option>
-                            <option v-for="(word, key) in words" :value="word.id" :key="key">{{ word.name+'-'+word.union.name }}</option>
+                            <option v-for="(word, key) in words" :value="word.id" :key="key">{{ en2bn(word.name)+'-'+word.union.name }}</option>
                         </select>
                         <InputError class="mt-2" :message="form.errors.eerr" />
                         <InputError class="mt-2" :message="form.errors.word_id" />
@@ -165,7 +169,7 @@ let total_paid = 0;
                         <select @change="fYear" id="f_year_id" v-model="form.f_year_id"
                         class="border min-w-[65%] text-[black]  border-gray-300 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
                             <option selected value="">অর্থ-বছর নির্বাচন করুন</option>
-                            <option v-for="(f_year, key) in f_years" :value="f_year.id" :key="key">{{ f_year.from+'-'+f_year.to }}</option>
+                            <option v-for="(f_year, key) in f_years" :value="f_year.id" :key="key">{{ en2bn(f_year.from)+'-'+en2bn(f_year.to) }}</option>
                         </select>
                         <InputError class="mt-2" :message="form.errors.eerr" />
                         <InputError class="mt-2" :message="form.errors.f_year_id" />
@@ -205,7 +209,7 @@ let total_paid = 0;
             <div v-if="ekhana.house_tax">
                 <div id="table" v-if="ekhana.house_tax.length>0">
                     <div>
-                        <h4 class="bg-[#f73532c2] text-white block p-[8px] font-extrabold text-[20px] text-center h1div">{{ $page.props.auth.user.word.name+' নং '+$page.props.auth.user.word.union.name}}</h4>
+                        <h4 class="bg-[#f73532c2] text-white block p-[8px] font-extrabold text-[20px] text-center h1div">{{ en2bn($page.props.auth.user.word.name)+' নং '+$page.props.auth.user.word.union.name}}</h4>
                     </div>
                     <table id="my-table" class="text-center">
                         <caption class="bg-[yellow] p-[8px] font-extrabold text-[20px] text-center">ডেইলি পোষ্টিং-({{ year_range }})</caption>
@@ -226,15 +230,15 @@ let total_paid = 0;
                         <tbody>
                         <tr v-for="(value, key) in ekhana.house_tax" :key="key">
                             <td>{{ key+1 }}</td>
-                            <td>{{ value.ekhana.holding_no }}</td>
+                            <td>{{ en2bn(value.ekhana.holding_no) }}</td>
                             <td>{{ value.ekhana.bn_name }}</td>
                             <td >{{ year_range }}</td>
-                            <td>{{ value.deposite_date }}</td>
-                            <td>{{ value.ekhana.word.name }}</td>
+                            <td>{{ DateFormate(value.deposite_date) }}</td>
+                            <td>{{ en2bn(value.ekhana.word.name) }}</td>
                             <td>{{ value.ekhana.village.name }}</td>
-                            <td :data-val="year_levy_paid += Number(value.paid_amount)">{{value.paid_amount }}</td>
-                            <td :data-val="arrear_paid += value.paid_prev_arrears">{{Number(value.paid_prev_arrears) }}</td>
-                            <td >{{ year_levy_paid + arrear_paid }}</td>
+                            <td :data-val="year_levy_paid += Number(value.paid_amount)">{{en2bn(value.paid_amount) }}</td>
+                            <td :data-val="arrear_paid += value.paid_prev_arrears">{{en2bn(Number(value.paid_prev_arrears)) }}</td>
+                            <td >{{ en2bn(year_levy_paid + arrear_paid) }}</td>
                         </tr>
                         </tbody>
                         <tfoot>
@@ -246,9 +250,9 @@ let total_paid = 0;
                                 <th></th>
                                 <th></th>
                                 <th>সর্বমোট</th>
-                                <th>{{year_levy_paid}}</th>
-                                <th>{{arrear_paid}}</th>
-                                <th>{{year_levy_paid + arrear_paid}}</th>
+                                <th>{{en2bn(year_levy_paid)}}</th>
+                                <th>{{en2bn(arrear_paid)}}</th>
+                                <th>{{en2bn(year_levy_paid + arrear_paid)}}</th>
                             </tr>
                         </tfoot>
                     </table>
