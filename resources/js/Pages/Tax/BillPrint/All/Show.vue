@@ -13,6 +13,10 @@ const pro = defineProps({
 //Extrace user
 const usr = usePage().props.auth.user;
 
+//================  Language conversation =========================================
+    let en2bn = n => String(n).replace(/\d/g, d => "০১২৩৪৫৬৭৮৯" [d]);
+// End Language conversation
+
 //========= frontend validation ============
 const permisions = ref({});
 const user = usePage().props.auth.user;
@@ -41,7 +45,7 @@ function DateFormate(date) {
         let da = d.getDate();
         let month = d.getMonth();
         let year = d.getFullYear();
-        return da + '/' + month + '/' + year;
+        return en2bn(da) + '/' + en2bn(month) + '/' + en2bn(year);
     }
     return date;
 }
@@ -62,19 +66,19 @@ console.log(pro.bill)
                 <div class="w-[49%]">
                     <div class="flex items-center">
                         <img src="/default/images/bd-logo.svg" class="h-14" alt="BD Logo">
-                        <h1 class="ml-4 font-bold text-[24px]">{{ $page.props.auth.user.word.name }}- {{ $page.props.auth.user.word.union.name  }}</h1>
-                       
+                        <h1 class="ml-4 font-bold text-[24px]">{{  en2bn($page.props.auth.user.word.name) }}- {{ $page.props.auth.user.word.union.name  }}</h1>
+
                     </div>
 
                     <div class="flex items-center justify-between mt-4 pl-[75px]">
                         <div class="">
                             <h4>ইউপি করের বিল</h4>
-                            <h4>গ্রাহক কপি</h4>
+                            <h4>ইউপি কপি</h4>
                         </div>
                         <div class="pl-8">
                             <h4>
                                 <!-- বছর : -->
-                                {{bill.from + '-' +bill.to}}
+                                {{ en2bn(bill.from) + '-' + en2bn(bill.to)}}
                             </h4>
                             <h4>
                                 <!-- কিস্তি : -->
@@ -90,12 +94,12 @@ console.log(pro.bill)
                                 <tr>
                                     <!-- <th>ওয়ার্ড</th> -->
                                     <th></th>
-                                    <td>:{{ bill.w_name }}</td>
+                                    <td>:{{  en2bn(bill.w_name) }}</td>
                                 </tr>
                                 <tr>
                                     <!-- <th>হোল্ডিং নং</th> -->
                                     <th class="w-[60%]"></th>
-                                    <td>:{{ bill.holding_no }}</td>
+                                    <td>:{{  en2bn(bill.holding_no) }}</td>
                                 </tr>
                                 <tr>
                                     <!-- <th>করদাতার নাম</th> -->
@@ -159,22 +163,22 @@ console.log(pro.bill)
                                 <tr>
                                     <!-- <th class=" p-2">হোল্ডিং কর</th> -->
                                     <th></th>
-                                    <td class=" p-2">{{ bill.total_amount - bill.paid_amount }}</td>
-                                    <td class=" p-2">{{bill.f_kisti}}</td>
-                                    <td class=" p-2">{{bill.s_kisti}}</td>
-                                    <td class=" p-2">{{bill.t_kisti}}</td>
-                                    <td class=" p-2">{{bill.fo_kisti}}</td>
-                                    <td class=" p-2 ">{{bill.paid_amount}}</td>
+                                    <td class=" p-2">{{  en2bn(bill.total_amount - bill.paid_amount) }}</td>
+                                    <td class=" p-2">{{ en2bn(bill.f_kisti)}}</td>
+                                    <td class=" p-2">{{ en2bn(bill.s_kisti)}}</td>
+                                    <td class=" p-2">{{ en2bn(bill.t_kisti)}}</td>
+                                    <td class=" p-2">{{ en2bn(bill.fo_kisti)}}</td>
+                                    <td class=" p-2 ">{{ en2bn(bill.paid_amount)}}</td>
                                 </tr>
                                 <tr>
                                     <!-- <th class=" p-2">পূর্বের বকেয়া</th> -->
                                     <th></th>
-                                    <td class=" p-2">{{ bill.prev_arrears }}</td>
+                                    <td class=" p-2">{{  en2bn(bill.prev_arrears) }}</td>
                                     <td class=" p-2"></td>
                                     <td class=" p-2"></td>
                                     <td class=" p-2"></td>
                                     <td class=" p-2"></td>
-                                    <td class=" p-2 ">{{ bill.paid_prev_arrears }}</td>
+                                    <td class=" p-2 ">{{  en2bn(Number(bill.paid_prev_arrears)) }}</td>
                                 </tr>
                                 <tr>
                                     <!-- <th class=" p-2">দন্ড</th> -->
@@ -194,7 +198,7 @@ console.log(pro.bill)
                                     <td></td>
                                     <!-- <th>সর্বমোট</th> -->
                                     <th></th>
-                                    <th class=" p-2 ">{{Number(bill.paid_amount) + Number(bill.paid_prev_arrears)}}</th>
+                                    <th class=" p-2 ">{{ en2bn(Number(bill.paid_amount) + Number(bill.paid_prev_arrears))}}</th>
                                 </tr>
                             </tbody>
                         </table>
@@ -207,7 +211,7 @@ console.log(pro.bill)
                             <tbody>
                                 <tr>
                                     <!-- <th class=" p-2">প্রাপ্ত টাকা</th>
-                                    <td class=" p-2">{{Number(bill.paid_amount) + Number(bill.paid_prev_arrears)}}/-</td> -->
+                                    <td class=" p-2">{{Number(bill.paid_amount) + Number(bill.paid_prev_arrears))}}/-</td> -->
                                     <td class=" p-2">
                                         <img src="/images/my-signature.png" class="h-12 m-auto" alt="Easy Up Seba">
                                         <!-- <span>চেয়ারম্যান স্বাক্ষর</span> -->
@@ -234,19 +238,19 @@ console.log(pro.bill)
                 <div class="w-[49%]">
                     <div class="flex items-center">
                         <img src="/default/images/bd-logo.svg" class="h-14" alt="BD Logo">
-                        <h1 class="ml-4 font-bold text-[24px]">{{ $page.props.auth.user.word.name }}- {{ $page.props.auth.user.word.union.name  }}</h1>
-                       
+                        <h1 class="ml-4 font-bold text-[24px]">{{  en2bn($page.props.auth.user.word.name) }}- {{ $page.props.auth.user.word.union.name  }}</h1>
+
                     </div>
 
                     <div class="flex items-center justify-between mt-4 pl-[75px]">
                         <div class="">
                             <h4>ইউপি করের বিল</h4>
-                            <h4>ইউপি কপি</h4>
+                            <h4>গ্রাহক কপি</h4>
                         </div>
                         <div class="pl-8">
                             <h4>
                                 <!-- বছর : -->
-                                {{bill.from + '-' +bill.to}}
+                                {{ en2bn(bill.from) + '-' + en2bn(bill.to)}}
                             </h4>
                             <h4>
                                 <!-- কিস্তি : -->
@@ -262,12 +266,12 @@ console.log(pro.bill)
                                 <tr>
                                     <!-- <th>ওয়ার্ড</th> -->
                                     <th></th>
-                                    <td>:{{ bill.w_name }}</td>
+                                    <td>:{{  en2bn(bill.w_name) }}</td>
                                 </tr>
                                 <tr>
                                     <!-- <th>হোল্ডিং নং</th> -->
                                     <th class="w-[60%]"></th>
-                                    <td>:{{ bill.holding_no }}</td>
+                                    <td>:{{  en2bn(bill.holding_no) }}</td>
                                 </tr>
                                 <tr>
                                     <!-- <th>করদাতার নাম</th> -->
@@ -331,22 +335,22 @@ console.log(pro.bill)
                                 <tr>
                                     <!-- <th class=" p-2">হোল্ডিং কর</th> -->
                                     <th></th>
-                                    <td class=" p-2">{{ bill.total_amount - bill.paid_amount }}</td>
-                                    <td class=" p-2">{{bill.f_kisti}}</td>
-                                    <td class=" p-2">{{bill.s_kisti}}</td>
-                                    <td class=" p-2">{{bill.t_kisti}}</td>
-                                    <td class=" p-2">{{bill.fo_kisti}}</td>
-                                    <td class=" p-2 ">{{bill.paid_amount}}</td>
+                                    <td class=" p-2">{{  en2bn(bill.total_amount - bill.paid_amount) }}</td>
+                                    <td class=" p-2">{{ en2bn(bill.f_kisti)}}</td>
+                                    <td class=" p-2">{{ en2bn(bill.s_kisti)}}</td>
+                                    <td class=" p-2">{{ en2bn(bill.t_kisti)}}</td>
+                                    <td class=" p-2">{{ en2bn(bill.fo_kisti)}}</td>
+                                    <td class=" p-2 ">{{ en2bn(bill.paid_amount)}}</td>
                                 </tr>
                                 <tr>
                                     <!-- <th class=" p-2">পূর্বের বকেয়া</th> -->
                                     <th></th>
-                                    <td class=" p-2">{{ bill.prev_arrears }}</td>
+                                    <td class=" p-2">{{  en2bn(bill.prev_arrears) }}</td>
                                     <td class=" p-2"></td>
                                     <td class=" p-2"></td>
                                     <td class=" p-2"></td>
                                     <td class=" p-2"></td>
-                                    <td class=" p-2 ">{{ bill.paid_prev_arrears }}</td>
+                                    <td class=" p-2 ">{{  en2bn(Number(bill.paid_prev_arrears)) }}</td>
                                 </tr>
                                 <tr>
                                     <!-- <th class=" p-2">দন্ড</th> -->
@@ -366,7 +370,7 @@ console.log(pro.bill)
                                     <td></td>
                                     <!-- <th>সর্বমোট</th> -->
                                     <th></th>
-                                    <th class=" p-2 ">{{Number(bill.paid_amount) + Number(bill.paid_prev_arrears)}}</th>
+                                    <th class=" p-2 ">{{ en2bn(Number(bill.paid_amount) + Number(bill.paid_prev_arrears))}}</th>
                                 </tr>
                             </tbody>
                         </table>
@@ -379,7 +383,7 @@ console.log(pro.bill)
                             <tbody>
                                 <tr>
                                     <!-- <th class=" p-2">প্রাপ্ত টাকা</th>
-                                    <td class=" p-2">{{Number(bill.paid_amount) + Number(bill.paid_prev_arrears)}}/-</td> -->
+                                    <td class=" p-2">{{Number(bill.paid_amount) + Number(bill.paid_prev_arrears))}}/-</td> -->
                                     <td class=" p-2">
                                         <img src="/images/my-signature.png" class="h-12 m-auto" alt="Easy Up Seba">
                                         <!-- <span>চেয়ারম্যান স্বাক্ষর</span> -->

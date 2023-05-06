@@ -9,6 +9,10 @@ const pro = defineProps({
     f_years: Object,
 });
 
+//================  Language conversation =========================================
+    let en2bn = n => String(n).replace(/\d/g, d => "০১২৩৪৫৬৭৮৯" [d]);
+// End Language conversation
+
 //Extrace user
 const usr = usePage().props.auth.user;
 const form = useForm({
@@ -56,7 +60,7 @@ function DateFormate(date) {
         let da = d.getDate();
         let month = d.getMonth();
         let year = d.getFullYear();
-        return da + '/' + month + '/' + year;
+        return en2bn(da) + '/' + en2bn(month) + '/' + en2bn(year);
     }
     return date;
 }
@@ -180,10 +184,10 @@ let total_paid = 0;
 
             <div id="table" v-if="ekhana.length>0">
                 <div>
-                    <h4 class="bg-[#f73532c2] text-white block p-[8px] font-extrabold text-[20px] text-center h1div">{{ $page.props.auth.user.word.name+' নং '+$page.props.auth.user.word.union.name}}</h4>
+                    <h4 class="bg-[#f73532c2] text-white block p-[8px] font-extrabold text-[20px] text-center h1div">{{ en2bn($page.props.auth.user.word.name)+' নং '+$page.props.auth.user.word.union.name}}</h4>
                 </div>
                 <table id="my-table" class="text-center">
-                    <caption class="bg-[yellow] p-[8px] font-extrabold text-[20px] text-center">{{ form.from_date }} হইতে {{ form.to_date }} তারিখের আদায়ের টপশীট</caption>
+                    <caption class="bg-[yellow] p-[8px] font-extrabold text-[20px] text-center">{{ DateFormate(form.from_date) }} হইতে {{ DateFormate(form.to_date) }} তারিখের আদায়ের টপশীট</caption>
                     <thead>
                       <tr>
                         <th>ওয়ার্ড নাম্বার</th>
@@ -194,15 +198,15 @@ let total_paid = 0;
                     <tbody>
                       <tr v-for="(value, key) in ekhana" :key="key">
                         <td>{{ value.name }}</td>
-                        <td :data-val="total_ekhana += Number(value.house_tax.length) ">{{ value.house_tax.length }}</td>
-                        <td :data-val="paid_khana += Number(paidSum(value.house_tax) )">{{ paidSum(value.house_tax)  }}</td>
+                        <td :data-val="total_ekhana += Number(value.house_tax.length) ">{{en2bn( value.house_tax.length) }}</td>
+                        <td :data-val="paid_khana += Number(paidSum(value.house_tax) )">{{en2bn( paidSum(value.house_tax))  }}</td>
                       </tr>
                     </tbody>
                     <tfoot>
                         <tr>
                             <th>সর্বমোট</th>
-                            <th>{{total_ekhana}}</th>
-                            <th>{{paid_khana}}</th>
+                            <th>{{en2bn(total_ekhana)}}</th>
+                            <th>{{en2bn(paid_khana)}}</th>
                         </tr>
                     </tfoot>
                 </table>

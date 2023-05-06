@@ -54,7 +54,7 @@ const submenueItem =[
                             {title:'সমস্ত পোজ বিল',name:'সমস্ত পোজ বিল',active:false,route:route('admin.tax.bill.print.all.pos'),url:'/admin/tax/bill-print/all/pos',icon:CircleStackIcon,children:[]},
                         ]},
                     ]},
-                    {title:'অনুমোদন',name: 'Approval',active: false,url:'/admin/approval',icon:CheckBadgeIcon,children:
+                    {title:'অনুমোদন',name:'Approval',active: false,url:'/admin/approval',icon:CheckBadgeIcon,children:
                         [
                             {title:'কর জমা ডেলেট',name:'Tax Deposite Approval',active:false,route:route('admin.approval.tax-deposite.index'),url:'/admin/approval/tax-deposite',icon:MinusIcon,children:[]},
                         ]
@@ -65,6 +65,8 @@ const submenueItem =[
                     ]},
                     ];
 //========= End Side menu ============
+
+
 
 //========= frontend validation ============
 // const permisions = ref({});

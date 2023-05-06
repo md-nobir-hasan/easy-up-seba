@@ -16,6 +16,11 @@ const form = useForm({
     word_id: '',
     village_id: '',
 });
+
+//================  Language conversation =========================================
+    let en2bn = n => String(n).replace(/\d/g, d => "০১২৩৪৫৬৭৮৯" [d]);
+// End Language conversation
+
 //========= frontend validation ============
 const permisions = ref({});
 const user = usePage().props.auth.user;
@@ -43,7 +48,7 @@ function DateFormate(date) {
         let da = d.getDate();
         let month = d.getMonth();
         let year = d.getFullYear();
-        return da + '/' + month + '/' + year;
+        return en2bn(da) + '/' + en2bn(month) + '/' + en2bn(year);
     }
     return date;
 }
@@ -128,6 +133,9 @@ const ekhanaFetch = ()=>{
         })
     }
 //End deleting
+// function bn(n){
+//     this.$en2bn(n)
+// }
 </script>
 
 <template>
@@ -247,13 +255,13 @@ const ekhanaFetch = ()=>{
                     <tr v-for="(value, key) in ekhana" :key="key"
                         class="bg-white text-center border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            {{ value.holding_no  }}
+                            {{en2bn(value.holding_no)  }}
                         </th>
                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             {{ value.bn_name }}
                         </th>
                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            {{new Intl.NumberFormat().format(value.yearly_income) }}/=
+                            {{en2bn(new Intl.NumberFormat().format(value.yearly_income)) }}/=
                         </th>
                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             {{ value.spouse_name }}
@@ -262,29 +270,29 @@ const ekhanaFetch = ()=>{
                             {{ value.mother_name }}
                         </th>
                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            {{ value.nid }}
+                            {{ en2bn(value.nid) }}
                         </th>
                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            {{ value.phone }}
+                            {{ en2bn(value.phone) }}
                         </th>
                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             {{ value.village ? value.village.name : '' }}
                         </th>
                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            {{ value.word ? value.word.name : '' }}
+                            {{ en2bn(value.word ? value.word.name : '') }}
                         </th>
                         <th colspan="2" scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             <div class="flex items-center justify-between">
-                                <p >{{ value.paka_house ?? 0}}</p>
-                                <p >{{ value.adhapaka_house ?? 0 }}</p>
-                                <p >{{ value.kasa_house ?? 0 }}</p>
+                                <p >{{ en2bn(value.paka_house) ?? '০'}}</p>
+                                <p >{{ en2bn(value.adhapaka_house) ?? '০' }}</p>
+                                <p >{{ en2bn(value.kasa_house) ?? '০' }}</p>
                             </div>
                         </th>
                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            {{ new Intl.NumberFormat().format(value.yearly_house_rent) }}/=
+                            {{ en2bn(new Intl.NumberFormat().format(value.yearly_house_rent)) }}/=
                         </th>
                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            {{ value.tax_paid > 0 ? 0 : new Intl.NumberFormat().format(Math.round(value.yearly_house_rent*tax.price/100)) }}/=
+                            {{ en2bn(value.tax_paid > 0 ? 0 : new Intl.NumberFormat().format(Math.round(value.yearly_house_rent*tax.price/100))) }}/=
                         </th>
                         <td v-text="DateFormate(value.created_at)" class="px-6 py-4">
 

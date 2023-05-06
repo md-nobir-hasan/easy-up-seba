@@ -8,6 +8,10 @@ defineProps({
     data: Object,
 });
 
+//================  Language conversation =========================================
+let en2bn = n => String(n).replace(/\d/g, d => "০১২৩৪৫৬৭৮৯" [d]);
+// End Language conversation
+
 //========= frontend validation ============
 const permisions = ref({});
 
@@ -39,7 +43,7 @@ function DateFormate(date){
           let da = d.getDate();
           let month = d.getMonth();
           let year = d.getFullYear();
-          return da + '/' + month + '/' + year;
+          return en2bn(da) + '/' + en2bn(month) + '/' + en2bn(year);
     }
 return date;
 }
@@ -191,28 +195,28 @@ const form = useForm({
                                     </td>
                                     <td scope="row"
                                         class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        {{ value.ekhana.holding_no }}
+                                        {{ en2bn(value.ekhana.holding_no) }}
                                     </td>
 
                                     <td scope="row"
                                         class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        {{ value.ekhana.phone }}
+                                        {{ en2bn(value.ekhana.phone) }}
                                     </td>
                                     <td scope="row"
                                     class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                    {{ value.f_year.from+'-'+value.f_year.to }}
+                                    {{ en2bn(value.f_year.from)+'-'+ en2bn(value.f_year.to) }}
                                     </td>
                                     <td scope="row"
                                         class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                       {{ new Intl.NumberFormat().format(value.total_amount) }}/=
+                                       {{ en2bn(new Intl.NumberFormat().format(value.total_amount)) }}/=
                                     </td>
                                     <td scope="row"
                                         class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                       {{ new Intl.NumberFormat().format(value.prev_arrears) }}/=
+                                       {{ en2bn(new Intl.NumberFormat().format(value.prev_arrears)) }}/=
                                     </td>
                                     <td scope="row"
                                         class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        {{ new Intl.NumberFormat().format(value.paid_amount) }}/=
+                                        {{ en2bn(new Intl.NumberFormat().format(value.paid_amount)) }}/=
                                     </td>
                                     <td scope="row"
                                         class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">

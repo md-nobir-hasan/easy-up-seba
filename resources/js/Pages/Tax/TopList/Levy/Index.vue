@@ -18,6 +18,10 @@ const form = useForm({
     f_year_id: '',
 });
 
+//================  Language conversation =========================================
+let en2bn = n => String(n).replace(/\d/g, d => "০১২৩৪৫৬৭৮৯" [d]);
+// End Language conversation
+
 //========= frontend validation ============
 const permisions = ref({});
 const user = usePage().props.auth.user;
@@ -57,7 +61,7 @@ function DateFormate(date) {
         let da = d.getDate();
         let month = d.getMonth();
         let year = d.getFullYear();
-        return da + '/' + month + '/' + year;
+        return en2bn(da) + '/' + en2bn(month) + '/' + en2bn(year);
     }
     return date;
 }
@@ -199,7 +203,7 @@ let total_num = 0;
                         <select @change="fYear" id="f_year_id" v-model="form.f_year_id"
                         class="border min-w-[65%] text-[black]  border-gray-300 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
                             <option selected value="">অর্থ-বছর নির্বাচন করুন</option>
-                            <option v-for="(f_year, key) in f_years" :value="f_year.id" :key="key">{{ f_year.from+'-'+f_year.to }}</option>
+                            <option v-for="(f_year, key) in f_years" :value="f_year.id" :key="key">{{ en2bn(f_year.from)+'-'+en2bn(f_year.to) }}</option>
                         </select>
                         <InputError class="mt-2" :message="form.errors.eerr" />
                         <InputError class="mt-2" :message="form.errors.f_year_id" />
@@ -224,7 +228,7 @@ let total_num = 0;
 
             <div id="table" v-if="ekhana.length>0">
                 <div>
-                    <h4 class="bg-[#f73532c2] text-white block p-[8px] font-extrabold text-[20px] text-center h1div">{{ $page.props.auth.user.word.name+' নং '+$page.props.auth.user.word.union.name}}</h4>
+                    <h4 class="bg-[#f73532c2] text-white block p-[8px] font-extrabold text-[20px] text-center h1div">{{ en2bn($page.props.auth.user.word.name)+' নং '+$page.props.auth.user.word.union.name}}</h4>
                 </div>
                 <table id="my-table" class="text-center">
                     <caption class="bg-[yellow] p-[8px] font-extrabold text-[20px] text-center">ওয়ার্ড ভিত্তিক ধার্য কর ও আদায়ের টপশীট-({{ year_range }})</caption>
@@ -247,57 +251,57 @@ let total_num = 0;
                     </thead>
                     <tbody>
                       <tr v-for="(value, key) in ekhana" :key="key">
-                        <td >  {{ value.name  }}</td>
-                        <td :data-val="total_village += value.village.length ">{{  value.village.length }}</td>
-                        <td :data-val="total_ekhana += value.ekhana.length ">{{ value.ekhana.length }}</td>
-                        <td :data-val="paid_khana += value.house_tax_paid.length ">{{ value.house_tax_paid.length }}</td>
+                        <td >  {{ en2bn(value.name)  }}</td>
+                        <td :data-val="total_village += value.village.length ">{{  en2bn(value.village.length) }}</td>
+                        <td :data-val="total_ekhana += value.ekhana.length ">{{ en2bn(value.ekhana.length) }}</td>
+                        <td :data-val="paid_khana += value.house_tax_paid.length ">{{ en2bn(value.house_tax_paid.length) }}</td>
 
                         <td :data-val="total_year_levy += totalTax(value.house_tax) ">
-                            {{ totalTax(value.house_tax) }}
+                            {{ en2bn(totalTax(value.house_tax)) }}
 
                         </td>
                         <td :data-val="year_levy_paid += taxPaid(value.house_tax)">
-                            {{taxPaid(value.house_tax) }}
+                            {{en2bn(taxPaid(value.house_tax)) }}
                         </td>
                         <td :data-val="year_levy_unpaid += halBokeya(value.house_tax)">
-                            {{halBokeya(value.house_tax) }}
+                            {{en2bn(halBokeya(value.house_tax)) }}
                         </td>
                         <td :data-val="prev_levy_unpaid += prevArrears(value.house_tax)">
-                            {{prevArrears(value.house_tax) }}
+                            {{en2bn(prevArrears(value.house_tax)) }}
                         </td>
                         <td :data-val="prev_levy_paid += paidPrevArrears(value.house_tax)">
-                            {{paidPrevArrears(value.house_tax) }}
+                            {{en2bn(paidPrevArrears(value.house_tax)) }}
                         </td>
                         <td :data-val="total_paid += taxPaid(value.house_tax)+Number(paidPrevArrears(value.house_tax))">
-                            {{ taxPaid(value.house_tax)+Number(paidPrevArrears(value.house_tax)) }}
+                            {{ en2bn(taxPaid(value.house_tax)+Number(paidPrevArrears(value.house_tax))) }}
                         </td>
                         <td :data-val="total_arrears += totalArrear(value.house_tax) ">
-                            {{ totalArrear(value.house_tax) }}
+                            {{ en2bn(totalArrear(value.house_tax)) }}
                         </td>
                         <td >{{ year_range }}</td>
                         <td >
                             <span v-if="value.house_tax.length" :data-value="total_num += 1" :data-val="percentange +=  Number((taxPaid(value.house_tax))+ Number(paidPrevArrears(value.house_tax)))/ (Number(totalTax(value.house_tax)) + Number(prevArrears(value.house_tax)))">
-                                {{  Number((taxPaid(value.house_tax))+Number(paidPrevArrears(value.house_tax)))/ (Number(totalTax(value.house_tax)) + Number(prevArrears(value.house_tax)))*100 }}
+                                {{  en2bn(Number((taxPaid(value.house_tax))+Number(paidPrevArrears(value.house_tax)))/ (Number(totalTax(value.house_tax)) + Number(prevArrears(value.house_tax)))*100) }}
                             </span>
-                            <span v-else >0</span>
+                            <span v-else >০</span>
                         </td>
                       </tr>
                     </tbody>
                     <tfoot>
                         <tr>
                             <th>সর্বমোট</th>
-                            <th>{{total_village}}</th>
-                            <th>{{total_ekhana}}</th>
-                            <th>{{paid_khana}}</th>
-                            <th>{{total_year_levy}}</th>
-                            <th>{{year_levy_paid}}</th>
-                            <th>{{year_levy_unpaid}}</th>
-                            <th>{{prev_levy_paid}}</th>
-                            <th>{{prev_levy_unpaid}}</th>
-                            <th>{{year_levy_paid + prev_levy_paid}}</th>
-                            <th>{{year_levy_unpaid+prev_levy_unpaid}}</th>
+                            <th>{{en2bn(total_village)}}</th>
+                            <th>{{en2bn(total_ekhana)}}</th>
+                            <th>{{en2bn(paid_khana)}}</th>
+                            <th>{{en2bn(total_year_levy)}}</th>
+                            <th>{{en2bn(year_levy_paid)}}</th>
+                            <th>{{en2bn(year_levy_unpaid)}}</th>
+                            <th>{{en2bn(prev_levy_paid)}}</th>
+                            <th>{{en2bn(prev_levy_unpaid)}}</th>
+                            <th>{{en2bn(year_levy_paid + prev_levy_paid)}}</th>
+                            <th>{{en2bn(year_levy_unpaid+prev_levy_unpaid)}}</th>
                             <th>=>></th>
-                            <th>{{percentange/total_num*100}}</th>
+                            <th>{{en2bn(percentange/total_num*100)}}</th>
                         </tr>
                     </tfoot>
                 </table>
@@ -315,9 +319,9 @@ let total_num = 0;
                     </thead>
                     <tbody>
                       <tr>
-                        <td > {{ year_levy_paid }}</td>
-                        <td >{{ prev_levy_paid }}</td>
-                        <td >{{ year_levy_paid + prev_levy_paid }}</td>
+                        <td > {{ en2bn(year_levy_paid) }}</td>
+                        <td >{{ en2bn(prev_levy_paid) }}</td>
+                        <td >{{ en2bn(year_levy_paid + prev_levy_paid) }}</td>
 
                     </tr>
                     </tbody>
