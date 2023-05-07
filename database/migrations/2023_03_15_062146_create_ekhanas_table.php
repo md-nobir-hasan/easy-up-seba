@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('union_id')->nullable();
             $table->unsignedBigInteger('word_id')->nullable();
             $table->unsignedBigInteger('village_id')->nullable();
-            $table->string('holding_no')->nullable();
+            $table->unsignedBigInteger('holding_no')->nullable();
             $table->string('yearly_income')->nullable();
             $table->string('name')->nullable();
             $table->string('bn_name')->nullable();

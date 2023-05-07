@@ -26,7 +26,7 @@ class StoreEkhanaRequest extends FormRequest
         return [
             'word_id' => 'required|numeric|exists:words,id',
             'village_id' => 'required|numeric|exists:villages,id',
-            'holding_no' => 'required|numeric|unique:ekhanas,holding_no,'.$this->id,
+            'holding_no' => 'required|unique:ekhanas,holding_no,'.$this->id,
             'yearly_income' => 'required|numeric',
             'bn_name' => 'required|string|max:255',
             'name' => 'required|string|max:255',
