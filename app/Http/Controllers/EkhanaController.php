@@ -17,6 +17,7 @@ use App\Models\Religion;
 use App\Models\Village;
 use App\Models\Word;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -103,7 +104,7 @@ public function store(StoreEkhanaRequest $request)
         $insert->union_id = Word::find($request->word_id)->union_id;
         $insert->word_id = $request->word_id;
         $insert->village_id = $request->village_id;
-        $insert->holding_no =  $request->holding_no;
+        // $insert->holding_no =  $request->holding_no;
         $insert->yearly_income = $request->yearly_income;
         $insert->bn_name = $request->bn_name;
         $insert->name = $request->name;
@@ -135,6 +136,11 @@ public function store(StoreEkhanaRequest $request)
         $insert->infrastructure = $request->infrastructure;
         $insert->created_by = Auth::user()->id;
         $insert->save();
+        DB::table('ekhanas')
+        ->where('id', $request->id)
+        ->update([
+            'holding_no' => $request->holding_no,
+        ]);
         $tax = Tax::latest()->first();
         $f_years = FinancialYear::get();
         $total_amount = round($insert->yearly_house_rent*$tax->price/100);
@@ -142,7 +148,7 @@ public function store(StoreEkhanaRequest $request)
         if(!$check){
             foreach($f_years as $f_year){
                 $ht_insert = new HouseTaxDeposite();
-                $ht_insert->ekhana_id = $insert->id;
+                $ht_insert->ekhana_id = $request->id;
                 $ht_insert->total_amount = $total_amount;
                 $ht_insert->union_id = Word::find($request->word_id)->union_id;
                 $ht_insert->word_id = $request->word_id;
