@@ -173,7 +173,7 @@ const autoSave = () =>{
                         <TextInput @focusout="autoSave"
                             id="holding_no"
                             v-model="form.holding_no"
-                            type="number"
+                            type="text"
                             class="mt-1 block w-full"
                             required
                             readonly
