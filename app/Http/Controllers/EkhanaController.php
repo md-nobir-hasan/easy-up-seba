@@ -104,7 +104,6 @@ public function store(StoreEkhanaRequest $request)
         $insert->union_id = Word::find($request->word_id)->union_id;
         $insert->word_id = $request->word_id;
         $insert->village_id = $request->village_id;
-        // $insert->holding_no =  $request->holding_no;
         $insert->yearly_income = $request->yearly_income;
         $insert->bn_name = $request->bn_name;
         $insert->name = $request->name;
@@ -136,11 +135,11 @@ public function store(StoreEkhanaRequest $request)
         $insert->infrastructure = $request->infrastructure;
         $insert->created_by = Auth::user()->id;
         $insert->save();
-        DB::table('ekhanas')
-        ->where('id', $request->id)
-        ->update([
-            'holding_no' => $request->holding_no,
-        ]);
+
+        $conn = mysqli_connect('localhost',$_ENV['DB_USERNAME'],$_ENV['DB_PASSWORD'],$_ENV['DB_DATABASE']);
+        $sql = "UPDATE ekhanas SET holding_no = $request->holding_no WHERE id= $insert->id";
+        $conn->query($sql);
+
         $tax = Tax::latest()->first();
         $f_years = FinancialYear::get();
         $total_amount = round($insert->yearly_house_rent*$tax->price/100);
