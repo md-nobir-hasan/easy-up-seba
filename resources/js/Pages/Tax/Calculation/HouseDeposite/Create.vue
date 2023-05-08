@@ -29,7 +29,7 @@ const form = useForm({
     fine: 0,
     deposite_date: null,
     id:0,
-    kisti: null,
+    kisti: 4,
 });
 const form2 = useForm({
     phone: '',
@@ -69,9 +69,9 @@ function DateFormate(date) {
     }
     return date;
 }
-
+    const printdivshow = ref(false);
     const htdeposite = ref(null);
-
+    const paid = ref(false);
     const eerr = ref('');
     const eerr2 = ref('');
     const ekhana = ref({});
@@ -100,6 +100,15 @@ function DateFormate(date) {
             form2.spouse_name = res.data.ekhana.spouse_name;
             form2.mother_name = res.data.ekhana.mother_name;
             form2.phone = res.data.ekhana.phone;
+            if(htdeposite.value.paid_amount <1){
+                paid.value = Number(htdeposite.value.total_amount);
+                form.paid_amount = Number(htdeposite.value.total_amount) + Number(htdeposite.value.prev_arrears);
+            }else{
+                print.value = true;
+                paid.value = 0;
+                form.paid_amount = 0;
+            }
+
             // if(res.data.ht_deposite.t_kisti>0){
             //     form.paid_amount = 0;
             // }else if(res.data.ht_deposite.s_kisti>0 && res.data.ht_deposite.t_kisti<1){
@@ -114,7 +123,6 @@ function DateFormate(date) {
     }
 
     //kisti calculation
-    const payable_fy_tax = ref(null);
     const f_kisti_checked = ref(false);
     const s_kisti_checked = ref(false);
     const t_kisti_checked = ref(false);
@@ -147,8 +155,8 @@ function DateFormate(date) {
                 break;
         }
         // all_total.value = htdeposite.value.total_amount - htdeposite.value.paid_amount + htdeposite.value.prev_arrears;
-        payable_fy_tax.value = (htdeposite.value.total_amount*kisti_no)/4;
-        form.paid_amount = Number(payable_fy_tax.value) + Number(htdeposite.value.prev_arrears);
+        // paid.value = (htdeposite.value.total_amount*kisti_no)/4;
+        // form.paid_amount = Number(paid.value) + Number(htdeposite.value.prev_arrears);
         form.kisti = kisti_no;
         // return true;
     }
@@ -159,20 +167,20 @@ function DateFormate(date) {
             alert('জমার তারিখ নির্বাচন করুন');
             return false;
         }
-        if(form.kisti != 4){
-            alert('৪র্থ কিস্তিতে টিক চিহ্ন দিন');
-            return false;
-        }
+        // if(form.kisti != 4){
+        //     alert('৪র্থ কিস্তিতে টিক চিহ্ন দিন');
+        //     return false;
+        // }
         axios.post(route('ajax.update',['HouseTaxDeposite']), form).then(res => {
             htdeposite.value = res.data;
             console.log(res.data);
-            form.paid_amount = Math.round(res.data.total_amount/3);
+            // form.paid_amount = Math.round(res.data.total_amount/3);
             print.value = true;
-            if(res.data.t_kisti>0){
-                form.paid_amount = 0;
-            }else if(res.data.s_kisti>0 && res.data.t_kisti<1){
-                form.paid_amount = form.arrears;
-            }
+            // if(res.data.t_kisti>0){
+                paid.value = 0;
+            // }else if(res.data.s_kisti>0 && res.data.t_kisti<1){
+            //     form.paid_amount = form.arrears;
+            // }
             form.arrears = res.data.total_amount - (res.data.paid_amount >0 ? res.data.paid_amount : 0);
             form.fine = Math.round(res.data.fine ?? 0);
             alert('সফলভাবে কর জমা হয়েছে');
@@ -250,7 +258,6 @@ console.dir(people)
 //         }
 //     });
 // };
-const printdivshow = ref(false);
 </script>
 
 <template>
@@ -423,11 +430,11 @@ const printdivshow = ref(false);
                             <tr>
                                 <th class="border border-slate-300 p-2">জমার তারিখ</th>
                                 <td>
-                                    <div v-if="htdeposite.f_kisti>0 && htdeposite.s_kisti>0 && htdeposite.t_kisti>0">
-                                        <input class="border-0"  type="date" disabled>
+                                    <div v-if="paid == 0">
+                                        <input  class="border-0"  type="date" required  disabled >
                                     </div>
                                     <!-- <span v-if="deposite_date" class="">{{DateFormate(deposite_date)}}</span> -->
-                                    <input v-else class="border-0"  type="date" required  v-model="form.deposite_date" >
+                                    <input v-else class="border-0"  type="date" v-model="form.deposite_date">
                                 </td>
                             </tr>
                             <tr>
@@ -474,7 +481,7 @@ const printdivshow = ref(false);
                                         <label for="kisti1" class="text-[#80808087] ml-1">১ম</label>
                                     </div>
                                     <div v-else>
-                                        <input class=" text-[#80808087]" id="kisti1" @click="kisti(1)" :checked="f_kisti_checked" type="checkbox" value="1"  >
+                                        <input class=" text-[#80808087]" id="kisti1"  checked type="checkbox" value="1"  >
                                         <label for="kisti1" class="text-[blac] ml-1">১ম</label>
                                     </div>
 
@@ -484,7 +491,7 @@ const printdivshow = ref(false);
                                         <label for="kisti2" class="ml-1 text-[#80808087]">২য়</label>
                                     </div>
                                     <div v-else>
-                                        <input class="ml-2 text-[#80808087]" @click="kisti(2)" :checked="s_kisti_checked"  id="kisti2"  type="checkbox" value="2" >
+                                        <input class="ml-2 text-[#80808087]"  checked  id="kisti2"  type="checkbox" value="2" >
                                         <label for="kisti2" class="ml-1 text-[black]">২য়</label>
                                     </div>
 
@@ -494,7 +501,7 @@ const printdivshow = ref(false);
                                         <label for="kisti3" class="ml-1 text-[#80808087]" >৩য়</label>
                                     </div>
                                     <div v-else>
-                                        <input class="ml-2 text-[#80808087]" id="kisti3"  @click="kisti(3)" :checked="t_kisti_checked" type="checkbox" value="3" >
+                                        <input class="ml-2 text-[#80808087]" id="kisti3"  checked type="checkbox" value="3" >
                                         <label for="kisti3" class="ml-1 text-[black]" >৩য়</label>
                                     </div>
 
@@ -503,8 +510,9 @@ const printdivshow = ref(false);
                                         <input class="ml-2 text-[#80808087]" id="kisti4"  checked disabled type="checkbox" value="4" >
                                         <label for="kisti4" class="ml-1 text-[#80808087]">৪র্থ</label>
                                     </div>
+                                    <!-- @click="kisti(4)" -->
                                     <div v-else>
-                                        <input class="ml-2 text-[#80808087]" id="kisti4" @click="kisti(4)" :checked="fo_kisti_checked" required type="checkbox" value="4" >
+                                        <input   class="ml-2 text-[#80808087]" id="kisti4" checked required type="checkbox" value="4" >
                                         <label for="kisti4" class="ml-1 text-[black]">৪র্থ</label>
                                     </div>
                                 </div>
@@ -541,13 +549,13 @@ const printdivshow = ref(false);
                                     </div> -->
                                 </td>
                             </tr>
-                            <tr v-if="payable_fy_tax">
+                            <tr>
                                 <td class="border border-slate-300 p-2 ">পরিশধযোগ্য হাল কর</td>
                                 <td class="border border-slate-300  bg-gray-100">
-                                    <input class="bg-gray-100 border-0" readonly type="text" :value="payable_fy_tax">
+                                    <input class="bg-gray-100 border-0" readonly type="text" :value="paid">
                                 </td>
                             </tr>
-                            <tr v-if="form.paid_amount">
+                            <tr>
                                 <td class="border border-slate-300 p-2 ">সর্বমোট(হাল কর+বকেয়া+দন্ড)</td>
                                 <td class="border border-slate-300  bg-gray-100">
                                     <input class="bg-gray-100 border-0" readonly type="text" v-model="form.paid_amount">
@@ -556,7 +564,7 @@ const printdivshow = ref(false);
                             </tbody>
                             <tfoot class="bg-[#11ff5999]">
                                 <tr>
-                                    <th v-if="htdeposite.f_kisti>0 && htdeposite.s_kisti>0 && htdeposite.t_kisti>0" colspan="2" class="border border-slate-300 p-2">
+                                    <th v-if="paid == 0" colspan="2" class="border border-slate-300 p-2">
                                         <component :is="CheckIcon" class="h-9 p-1 inline font-bold bg-[blue] text-white rounded-full"></component>
                                         <div class="relative inline-block float-right">
                                             <button v-if="print"  @click="printdivshow ? printdivshow= false: printdivshow= true" type="button" class=" text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 shadow-lg shadow-purple-500/50 dark:shadow-lg dark:shadow-purple-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center  mb-2 mr-2">

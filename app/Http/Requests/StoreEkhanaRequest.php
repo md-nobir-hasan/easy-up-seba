@@ -31,7 +31,7 @@ class StoreEkhanaRequest extends FormRequest
             'bn_name' => 'required|string|max:255',
             'name' => 'required|string|max:255',
             'ed_quali_id' => 'required|numeric|exists:education_qualifications,id',
-            'phone' => 'required|string|digits:11|unique:ekhanas,phone,'.$this->id,
+            'phone' => 'required|string|unique:ekhanas,phone,'.$this->id,
             'spouse_name' => 'required|string|max:255',
             'mother_name' => 'required|string|max:255',
             'm_male' => 'nullable|numeric',
