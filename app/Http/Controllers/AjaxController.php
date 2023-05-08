@@ -143,27 +143,35 @@ class AjaxController extends Controller
             // return response()->json($req->all());
         $housetax = $model::find($req->id);
 
-        if($req->kisti == 1){
-            $housetax->paid_amount = $req->paid_amount;
-            $housetax->f_kisti = $req->paid_amount;
-            $housetax->f_date = $req->deposite_date;
-        }
-        elseif($req->kisti == 2){
-            $housetax->paid_amount = $req->paid_amount;
-            $housetax->paid_prev_arrears = ceil($housetax->prev_arrears/2) ;
-            $housetax->f_kisti = ceil($req->paid_amount/2);
-            $housetax->s_kisti = $req->paid_amount - $housetax->f_kisti;
-            $housetax->s_date = $req->deposite_date;
-        }
-        elseif($req->kisti == 3){
-            $housetax->paid_amount = $req->paid_amount;
-            $housetax->paid_prev_arrears = ceil($housetax->prev_arrears*3/4) ;
-            $housetax->f_kisti = ceil($req->paid_amount/3);
-            $housetax->s_kisti = ceil($req->paid_amount/3);
-            $housetax->t_kisti = $req->paid_amount - $housetax->f_kisti - $housetax->s_kisti;
-            $housetax->t_date = $req->deposite_date;
-        }
-        elseif($req->kisti == 4){
+        // if($req->kisti == 1){
+        //     $housetax->paid_amount = $req->paid_amount;
+        //     $housetax->f_kisti = $req->paid_amount;
+        //     $housetax->f_date = $req->deposite_date;
+        // }
+        // elseif($req->kisti == 2){
+        //     $housetax->paid_amount = $req->paid_amount;
+        //     $housetax->paid_prev_arrears = ceil($housetax->prev_arrears/2) ;
+        //     $housetax->f_kisti = ceil($req->paid_amount/2);
+        //     $housetax->s_kisti = $req->paid_amount - $housetax->f_kisti;
+        //     $housetax->s_date = $req->deposite_date;
+        // }
+        // elseif($req->kisti == 3){
+        //     $housetax->paid_amount = $req->paid_amount;
+        //     $housetax->paid_prev_arrears = ceil($housetax->prev_arrears*3/4) ;
+        //     $housetax->f_kisti = ceil($req->paid_amount/3);
+        //     $housetax->s_kisti = ceil($req->paid_amount/3);
+        //     $housetax->t_kisti = $req->paid_amount - $housetax->f_kisti - $housetax->s_kisti;
+        //     $housetax->t_date = $req->deposite_date;
+        // }
+        // elseif($req->kisti == 4){
+        //     $housetax->paid_amount = $req->paid_amount;
+        //     $housetax->paid_prev_arrears = $req->prev_arrears;
+        //     $housetax->f_kisti = ceil($req->paid_amount/4);
+        //     $housetax->s_kisti = ceil($req->paid_amount/4);
+        //     $housetax->t_kisti = ceil($req->paid_amount/4);
+        //     $housetax->fo_kisti = $req->paid_amount - $housetax->f_kisti - $housetax->s_kisti - $housetax->t_kisti;
+        //     $housetax->fo_date = $req->deposite_date;
+        // }
             $housetax->paid_amount = $req->paid_amount;
             $housetax->paid_prev_arrears = $req->prev_arrears;
             $housetax->f_kisti = ceil($req->paid_amount/4);
@@ -171,8 +179,6 @@ class AjaxController extends Controller
             $housetax->t_kisti = ceil($req->paid_amount/4);
             $housetax->fo_kisti = $req->paid_amount - $housetax->f_kisti - $housetax->s_kisti - $housetax->t_kisti;
             $housetax->fo_date = $req->deposite_date;
-        }
-
         $housetax->deposite_date = $req->deposite_date;
         $housetax->save();
 
