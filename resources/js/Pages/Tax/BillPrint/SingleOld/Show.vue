@@ -68,7 +68,7 @@ console.log(pro.bill)
                     <img src="/default/images/bd-logo.svg" class="h-14" alt="BD Logo">
                     <h1 class="ml-4 font-bold text-[24px]">{{ en2bn($page.props.auth.user.word.name) }}- {{ $page.props.auth.user.word.union.name  }}</h1>
                     <div class="ml-auto">
-                        <qrcode-vue :value="value" :size="size" level="H" style="width:60px;height:60px" />
+                        <qrcode-vue :value="'Holding No: '+bill.ekhana.holding_no+', name: '+ bill.ekhana.name + ', Phone: '+ bill.ekhana.phone" :size="size" level="H" />
                     </div>
                 </div>
 
@@ -221,7 +221,7 @@ console.log(pro.bill)
                     <img src="/default/images/bd-logo.svg" class="h-14" alt="BD Logo">
                     <h1 class="ml-4 font-bold text-[24px]">{{ en2bn($page.props.auth.user.word.name) }}- {{ $page.props.auth.user.word.union.name  }}</h1>
                     <div class="ml-auto">
-                        <qrcode-vue :value="value" :size="size" level="H" style="width:60px;height:60px" />
+                        <qrcode-vue :value="'হোল্ডিং নম্বরঃ '+en2bn(bill.ekhana.holding_no)+', নামঃ '+ bill.ekhana.bn_name + ', অর্থ-বছরঃ '+en2bn(ekhana.f_year.from) + '-' +en2bn(ekhana.f_year.to)+', সর্বমোট বিলঃ '+en2bn(Number(bill.paid_amount) + Number(bill.paid_previous_arrears ?? 0))" :size="size" level="H" />
                     </div>
                 </div>
 
@@ -379,7 +379,7 @@ console.log(pro.bill)
     data() {
       return {
         value: 'https://admin.easyupsheba.com/',
-        size: 300,
+        size: 100,
       }
     },
     components: {

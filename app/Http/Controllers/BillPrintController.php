@@ -167,7 +167,7 @@ class BillPrintController extends Controller
                             ->whereDate('house_tax_deposites.deposite_date','=',$req->deposite_date)
                             ->where('house_tax_deposites.id','>=',$req->page_start)
                             ->limit($req->page_no)
-                            ->select('house_tax_deposites.*','ekhanas.holding_no','ekhanas.bn_name','ekhanas.spouse_name','financial_years.from','financial_years.to','words.name as w_name')
+                            ->select('house_tax_deposites.*','ekhanas.holding_no','ekhanas.phone','ekhanas.bn_name','ekhanas.spouse_name','financial_years.from','financial_years.to','words.name as w_name')
                             ->get();
             if(count($n['bills'])<1){
                 return back()->with('msg','কোন তথ্য পাওয়া যায়নি');
@@ -236,7 +236,7 @@ class BillPrintController extends Controller
                             ->whereDate('house_tax_deposites.deposite_date','=',$req->deposite_date)
                             ->where('house_tax_deposites.id','>=',$req->page_start)
                             ->limit($req->page_no)
-                            ->select('house_tax_deposites.*','ekhanas.holding_no','ekhanas.bn_name','ekhanas.spouse_name','financial_years.from','financial_years.to','words.name as w_name')
+                            ->select('house_tax_deposites.*','ekhanas.holding_no','ekhanas.bn_name','ekhanas.phone','ekhanas.spouse_name','financial_years.from','financial_years.to','words.name as w_name')
                             ->get();
             if(count($n['bills'])<1){
                 return back()->with('msg','কোন তথ্য পাওয়া যায়নি');

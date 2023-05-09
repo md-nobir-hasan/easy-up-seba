@@ -205,7 +205,7 @@ console.log(pro.bill)
 
             </div>
             <div class="m-auto text-center mt-8">
-                <qrcode-vue :value="value" :size="size" level="H" class="m-auto" />
+                <qrcode-vue :value="'হোল্ডিং নম্বরঃ '+en2bn(bill.ekhana.holding_no)+', নামঃ '+ bill.ekhana.bn_name + ', অর্থ-বছরঃ '+en2bn(ekhana.f_year.from) + '-' +en2bn(ekhana.f_year.to)+', সর্বমোট বিলঃ '+en2bn(Number(bill.paid_amount) + Number(bill.paid_previous_arrears ?? 0))" :size="size" level="H" class="m-auto" />
             </div>
         </div>
 
