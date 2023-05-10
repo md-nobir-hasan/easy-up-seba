@@ -31,12 +31,13 @@ const form = useForm({
     id:0,
     kisti: 4,
 });
-const form2 = useForm({
+const simpleUpdateForm = useForm({
+    model: 'Ekhana',
     phone: '',
     bn_name: '',
     spouse_name: '',
     mother_name: '',
-    id:0,
+    id:null,
 });
 
 //========= frontend validation ============
@@ -95,11 +96,11 @@ function DateFormate(date) {
             form.fine = Math.round(res.data.ht_deposite.fine ?? 0);
             form.id = res.data.ht_deposite.id ?? 0;
             deposite_date.value = res.data.ht_deposite.deposite_date;
-            form2.id = res.data.ekhana.id;
-            form2.bn_name = res.data.ekhana.bn_name;
-            form2.spouse_name = res.data.ekhana.spouse_name;
-            form2.mother_name = res.data.ekhana.mother_name;
-            form2.phone = res.data.ekhana.phone;
+            simpleUpdateForm.id = res.data.ekhana.id;
+            simpleUpdateForm.bn_name = res.data.ekhana.bn_name;
+            simpleUpdateForm.spouse_name = res.data.ekhana.spouse_name;
+            simpleUpdateForm.mother_name = res.data.ekhana.mother_name;
+            simpleUpdateForm.phone = res.data.ekhana.phone;
             if(htdeposite.value.paid_amount <1){
                 paid.value = Number(htdeposite.value.total_amount);
                 form.paid_amount = Number(htdeposite.value.total_amount) + Number(htdeposite.value.prev_arrears);
@@ -221,7 +222,7 @@ function DateFormate(date) {
 //End deleting
     const edit = ref(false);
     const ekhanaUpdate = () =>{
-        axios.post(route('ajax.update',['Ekhana']), form2).then(res => {
+        axios.post(route('ajax.simple_update'), simpleUpdateForm).then(res => {
             edit.value = false;
             alert('সফলভাবে আপলোড হয়েছে')
         }).catch(err =>{
@@ -334,7 +335,7 @@ console.dir(people)
                             <td scope="row"
                             class="border border-slate-300 px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                             :class="[edit ? ' p-2' : '']">
-                                <input  :class="[edit ? 'border-[blue]' : 'border-0 text-center']" type="tel" required :readonly="!edit" v-model="form2.bn_name" >
+                                <input  :class="[edit ? 'border-[blue]' : 'border-0 text-center']" type="tel" required :readonly="!edit" v-model="simpleUpdateForm.bn_name" >
                             </td>
                         </tr>
                         <tr>
@@ -352,7 +353,7 @@ console.dir(people)
                             <td scope="row"
                             class="border border-slate-300 px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                             :class="[edit ? ' p-2' : '']">
-                                <input  :class="[edit ? 'border-[blue]' : 'border-0 text-center']" type="tel" required :readonly="!edit" v-model="form2.spouse_name" >
+                                <input  :class="[edit ? 'border-[blue]' : 'border-0 text-center']" type="tel" required :readonly="!edit" v-model="simpleUpdateForm.spouse_name" >
                             </td>
                         </tr>
                         <tr>
@@ -362,7 +363,7 @@ console.dir(people)
                             <td scope="row"
                             class="border border-slate-300 px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                             :class="[edit ? ' p-2' : '']">
-                                <input  :class="[edit ? 'border-[blue]' : 'border-0 text-center']" type="tel" required :readonly="!edit" v-model="form2.mother_name" >
+                                <input  :class="[edit ? 'border-[blue]' : 'border-0 text-center']" type="tel" required :readonly="!edit" v-model="simpleUpdateForm.mother_name" >
                             </td>
                         </tr>
                         <tr>
@@ -380,7 +381,7 @@ console.dir(people)
                             <td scope="row"
                              class="border border-slate-300 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                              :class="[edit ? ' p-2' : '']">
-                                <input  :class="[edit ? 'border-[blue]' : 'border-0 text-center']" type="tel" required :readonly="!edit" v-model="form2.phone" >
+                                <input  :class="[edit ? 'border-[blue]' : 'border-0 text-center']" type="tel" required :readonly="!edit" v-model="simpleUpdateForm.phone" >
                             </td>
                         </tr>
                         <tr>
@@ -430,10 +431,9 @@ console.dir(people)
                             <tr>
                                 <th class="border border-slate-300 p-2">জমার তারিখ</th>
                                 <td>
-                                    <div v-if="paid == 0">
-                                        <input  class="border-0"  type="date" required  disabled >
+                                    <div v-if="htdeposite.deposite_date">
+                                        {{DateFormate(form.deposite_date = htdeposite.deposite_date)}}
                                     </div>
-                                    <!-- <span v-if="deposite_date" class="">{{DateFormate(deposite_date)}}</span> -->
                                     <input v-else class="border-0"  type="date" v-model="form.deposite_date">
                                 </td>
                             </tr>

@@ -58,6 +58,7 @@ Route::prefix('/ajax')->name('ajax.')->group(function(){
     Route::get('/holding/fetch/{vil_id}',[AjaxController::class,'holdingFetch'])->name('holding.fetch');
     Route::post('/ekhana/autosave',[AjaxController::class,'khanaAutoSave'])->name('khana.autosave');
     Route::post('/ekhana/fetch',[AjaxController::class,'ekhana'])->name('ekhana.fetch');
+    Route::post('/simpleupdate',[AjaxController::class,'simpleUpdate'])->name('simple_update');
     Route::post('/update/{model}',[AjaxController::class,'update'])->name('update');
     Route::post('/afield/update',[AjaxController::class,'afieldUpdate'])->name('afield.update');
     Route::post('/noty/read',[AjaxController::class,'notyRead'])->name('noty.read');
