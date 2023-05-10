@@ -101,7 +101,7 @@ function DateFormate(date) {
             simpleUpdateForm.spouse_name = res.data.ekhana.spouse_name;
             simpleUpdateForm.mother_name = res.data.ekhana.mother_name;
             simpleUpdateForm.phone = res.data.ekhana.phone;
-            if(htdeposite.value.paid_amount <1){
+            if(Number(htdeposite.value.paid_amount) <1){
                 paid.value = Number(htdeposite.value.total_amount);
                 form.paid_amount = Number(htdeposite.value.total_amount) + Number(htdeposite.value.prev_arrears);
             }else{
