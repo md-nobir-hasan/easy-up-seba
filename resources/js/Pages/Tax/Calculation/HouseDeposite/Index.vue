@@ -58,7 +58,7 @@ const form = useForm({
     function deleting(id,model){
         Swal.fire({
         title: 'মুছে ফেলার জন্য আবেদন',
-        text: "এই তথ্য মুছে ফেলার জন্য এডমিনের নিকট অনুরোধ করা হবে",
+        text: "এই তথ্য মুছে ফেলার জন্য সচিবের নিকট অনুরোধ করা হবে",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',

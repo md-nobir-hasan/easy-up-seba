@@ -32,7 +32,7 @@ const usr = usePage().props.auth.user;
 
 const form = useForm({
     f_year_id: '',
-    word_id: usr.word_id,
+    word_id:'',
     village_id: '',
     infrastructure: '',
 });
@@ -80,12 +80,10 @@ function DateFormate(date) {
     }
     return date;
 }
-
-    const htdeposite = ref(null);
+    const search_datas = ref(null);
     const eerr = ref('');
     const eerr2 = ref('');
     const ekhana = ref({});
-    const deposite_date = ref(null);
 
     const ekhanaFetch = ()=>{
         if(!form.f_year_id){
@@ -101,6 +99,9 @@ function DateFormate(date) {
         axios.post(route('ajax.ekhana.vlevy'), form).then(res => {
             console.log(res);
             ekhana.value = res.data.village_levy;
+            if(ekhana.value.length <1){
+                search_datas.value = "কোন তথ্য পাওয়া যায় নাই।"
+            }
         }).catch(err =>{
             console.error(err)
         }).finally(() => {
@@ -329,8 +330,9 @@ const exportExcel = ()=>{
                       </tr>
                     </tbody>
                 </table>
-
-
+            </div>
+            <div v-if="search_datas">
+                <h2 class="text-center my-10 text-[red] text-bold">{{ search_datas }}</h2>
             </div>
         </div>
     </AppLayout>

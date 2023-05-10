@@ -195,7 +195,7 @@ console.log(pro.bill)
                 </div>
             </div>
             <div class="m-auto text-center mt-8">
-                <qrcode-vue :value="'হোল্ডিং নম্বরঃ '+en2bn(bill.holding_no)+', নামঃ '+ bill.bn_name + ', অর্থ-বছরঃ '+en2bn(bill.from) + '-' +en2bn(bill.to)+', সর্বমোট বিলঃ '+en2bn(Number(bill.paid_amount) + Number(bill.paid_prev_arrears))" :size="size" level="H" class="m-auto" />
+                <qrcode-vue :value="'হোল্ডিং নম্বরঃ '+en2bn(bill.holding_no)+', নামঃ '+ bill.bn_name + ', অর্থ-বছরঃ '+en2bn(bill.from) + '-' +en2bn(bill.to)+', সর্বমোট বিলঃ '+en2bn(Number(bill.paid_amount) + Number(bill.paid_prev_arrears)) +', স্ট্যাটাস: ' + ((Number(bill.paid_amount)+Number(bill.paid_prev_arrears))> 0 ? 'পরিশোধ' : 'দ্রুত কর পরিশোধ করুন।')" :size="size" level="H" class="m-auto" />
             </div>
             <p class="h-2 bg-black seperatior"></p>
         </div>

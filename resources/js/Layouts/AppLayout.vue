@@ -56,7 +56,7 @@ const submenueItem =[
                     ]},
                     {title:'অনুমোদন',name:'Approval',active: false,url:'/admin/approval',icon:CheckBadgeIcon,children:
                         [
-                            {title:'কর জমা ডেলেট',name:'Tax Deposite Approval',active:false,route:route('admin.approval.tax-deposite.index'),url:'/admin/approval/tax-deposite',icon:MinusIcon,children:[]},
+                            {title:'কর জমা ডিলেট',name:'Tax Deposite Approval',active:false,route:route('admin.approval.tax-deposite.index'),url:'/admin/approval/tax-deposite',icon:MinusIcon,children:[]},
                         ]
                     },
                     {title:'ইউজার ম্যানেজমেন্ট',name: 'User Management',active: false,url:'/admin/user',icon:UserIcon,children:[

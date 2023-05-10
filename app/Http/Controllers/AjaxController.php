@@ -137,6 +137,12 @@ class AjaxController extends Controller
         return response()->json($n);
     }
 
+    public function simpleUpdate(Request $req){
+        $model = '\\App\\Models\\'.$req->model;
+        $update = $model::find($req->id);
+        $update->update($req->all());
+        return response($update);
+    }
     public function update(Request $req, $model){
         $model = '\\App\\Models\\'.$model;
             // return $model;
