@@ -27,12 +27,18 @@ class HTDepositeController extends Controller
         elseif(Auth::user()->role->name == 'Union'){
             $n['data'] = HouseTaxDeposite::with(['createdBy','updatedBy','ekhana','fYear','word','union'])
             ->where('union_id',Auth::user()->word->union_id)
-            ->where('deleted_by',null)->orderBy('id','desc')->get();
+            ->where('deleted_by',null)->orderBy('id','desc')
+            ->where('deposite_date','!=',null)
+            ->get();
         }
         else{
             $n['data'] = HouseTaxDeposite::with(['createdBy','updatedBy','ekhana','fYear','word','union'])
             ->where('union_id',Auth::user()->word->union_id)
-            ->where('word_id',Auth::user()->word_id)->where('deleted_by',null)->orderBy('id','desc')->get();
+            ->where('word_id',Auth::user()->word_id)
+            ->where('deleted_by',null)
+            ->where('deposite_date','!=',null)
+            ->orderBy('id','desc')
+            ->get();
         }
         // $n['data'] = HouseTaxDeposite::with(['createdBy','updatedBy','ekhana','fYear'])->where('deleted_by',null)->orderBy('id','desc')->get();
         return Inertia::render('Tax/Calculation/HouseDeposite/Index',$n);
