@@ -92,22 +92,22 @@ const mdata = ref(usePage().props.villages);
                 <thead class="text-md text-center text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
                         <th scope="col" class="px-6 py-3">
-                            বিভাগ
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            জেলা
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            উপজেলা
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            ইউনিয়ন
+                            গ্রাম
                         </th>
                         <th scope="col" class="px-6 py-3">
                             ওয়ার্ড
                         </th>
                         <th scope="col" class="px-6 py-3">
-                            গ্রাম
+                            ইউনিয়ন
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            উপজেলা
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            জেলা
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            বিভাগ
                         </th>
                         <th scope="col" class="px-6 py-3">
                             তৈরির তারিখ
@@ -123,24 +123,26 @@ const mdata = ref(usePage().props.villages);
                 <tbody>
                     <tr v-for="(value, key) in mdata" :key="key"
                         class="bg-white text-center border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            {{ value.name }}{{ value.code }}
+                        </th>
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            {{ value.word.name }}({{ value.word.code }})
+                        </th>
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            {{ value.union.name }}({{ value.union.code }})
+                        </th>
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            {{ value.upazila.name }}({{ value.upazila.code }})
+                        </th>
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            {{ value.district.name }}({{ value.district.code }})
+                        </th>
                         <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             {{ value.division.name }}
                         </td>
-                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            {{ value.district.name }}
-                        </th>
-                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            {{ value.upazila.name }}
-                        </th>
-                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            {{ value.union.name }}
-                        </th>
-                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            {{ value.word.name }}
-                        </th>
-                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            {{ value.name }}
-                        </th>
+
                         <td v-text="DateFormate(value.created_at)" class="px-6 py-4">
                         </td>
                         <td class="px-6 py-4">

@@ -136,13 +136,13 @@ const mdata = ref(usePage().props.words);
                             {{ value.code }}
                         </th>
                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            {{ value.union.name }}
+                            {{ value.union.name }}({{ value.union.code }})
                         </th>
                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            {{ value.upazila.name }}
+                            {{ value.upazila.name }}({{ value.upazila.code }})
                         </th>
                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            {{ value.district.name }}
+                            {{ value.district.name }}({{ value.district.code }})
                         </th>
                         <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             {{ value.division.name }}

@@ -8,6 +8,7 @@ use App\Models\HouseTaxDeposite;
 use App\Models\Tax;
 use App\Models\Union;
 use App\Models\User;
+use App\Models\Village;
 use App\Models\Word;
 use App\Notifications\HTaxDepoDelAproval;
 use Illuminate\Http\Request;
@@ -62,14 +63,15 @@ class AjaxController extends Controller
         return response()->json($data);
     }
 
-    public function holdingFetch(Request $request, $word_id){
-        $word_id = (int)$word_id;
+    public function holdingFetch(Request $request){
+        $word_id = $request->word_id;
         $word = Word::find($word_id);
-        $latest_ekhana = Ekhana::where('union_id',$word->union_id)
+        $village = Village::find($request->village_id);
+        $latest_ekhana = Ekhana::where('village_id',$request->village_id)
                         ->where('word_id',$word_id)
                         ->get();
-        $holding_prefix = $word->union->upazila->district->code .$word->union->upazila->code .$word->union->code . $word->code . "0000";
-        $holding = $holding_prefix + count($latest_ekhana);
+        $holding_prefix = $word->union->upazila->district->code .$word->union->upazila->code .$word->union->code . $word->code.$village->code . "0000";
+        $holding = $holding_prefix + count($latest_ekhana)+1;
     return response()->json($holding);
     }
 

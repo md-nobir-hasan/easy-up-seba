@@ -50,6 +50,20 @@ function DateFormate(date) {
     return date;
 }
 
+//Determine a date which is 10 days ago from a specific days
+function befor10days(date) {
+    if (date) {
+        let d = new Date(date);
+        d.setDate(d.getDate()-10);
+        let new_d = d;
+        let da = new_d.getDate();
+        let month = new_d.getMonth();
+        let year = new_d.getFullYear();
+        return en2bn(da) + '/' + en2bn(month) + '/' + en2bn(year);
+    }
+    return date;
+}
+
 //Today date
     const date = new Date();
     const today = (date.getMonth() + 1)+'/'+date.getDate()+'/'+date.getFullYear();
@@ -66,7 +80,7 @@ console.log(pro.bill)
                 <div class="w-[49%]">
                     <div class="flex items-center">
                         <img src="/default/images/bd-logo.svg" class="h-14" alt="BD Logo">
-                        <h1 class="ml-4 font-bold text-[24px]">{{  en2bn($page.props.auth.user.word.name) }}- {{ $page.props.auth.user.word.union.name  }}</h1>
+                        <h1 class="ml-4 font-bold text-[24px]">{{ $page.props.auth.user.word.union.name  }}</h1>
 
                     </div>
 
@@ -123,7 +137,7 @@ console.log(pro.bill)
                                 <tr>
                                     <!-- <th>জমাদানের শেষ তারিখ</th> -->
                                     <th class="w-[60%]"></th>
-                                    <td>: ?</td>
+                                    <td>: {{ befor10days(bill.deposite_date) }}</td>
                                 </tr>
                                 <tr>
                                     <!-- <th>ব্যাংকের নাম ও হিসাব নাম্বার</th> -->
@@ -238,7 +252,7 @@ console.log(pro.bill)
                 <div class="w-[49%]">
                     <div class="flex items-center">
                         <img src="/default/images/bd-logo.svg" class="h-14" alt="BD Logo">
-                        <h1 class="ml-4 font-bold text-[24px]">{{  en2bn($page.props.auth.user.word.name) }}- {{ $page.props.auth.user.word.union.name  }}</h1>
+                        <h1 class="ml-4 font-bold text-[24px]">{{ $page.props.auth.user.word.union.name  }}</h1>
 
                     </div>
 
@@ -295,7 +309,7 @@ console.log(pro.bill)
                                 <tr>
                                     <!-- <th>জমাদানের শেষ তারিখ</th> -->
                                     <th class="w-[60%]"></th>
-                                    <td>: ?</td>
+                                    <td>: {{  befor10days(bill.deposite_date) }}</td>
                                 </tr>
                                 <tr>
                                     <!-- <th>ব্যাংকের নাম ও হিসাব নাম্বার</th> -->

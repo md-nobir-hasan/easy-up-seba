@@ -53,7 +53,19 @@ function DateFormate(date) {
 //Today date
     const date = new Date();
     const today = (date.getMonth() + 1)+'/'+date.getDate()+'/'+date.getFullYear();
-console.log(pro.bills)
+//Determine a date which is 10 days ago from a specific days
+function befor10days(date) {
+    if (date) {
+        let d = new Date(date);
+        d.setDate(d.getDate()-10);
+        let new_d = d;
+        let da = new_d.getDate();
+        let month = new_d.getMonth();
+        let year = new_d.getFullYear();
+        return en2bn(da) + '/' + en2bn(month) + '/' + en2bn(year);
+    }
+    return date;
+}
 </script>
 
 <template>
@@ -66,7 +78,7 @@ console.log(pro.bills)
                 <div class="w-[49%]">
                     <div class="flex items-center">
                         <img src="/default/images/bd-logo.svg" class="h-14" alt="BD Logo">
-                        <h1 class="ml-4 font-bold text-[24px]">{{ en2bn($page.props.auth.user.word.name) }}- {{ $page.props.auth.user.word.union.name  }}</h1>
+                        <h1 class="ml-4 font-bold text-[24px]">{{ $page.props.auth.user.word.union.name  }}</h1>
                         <div class="ml-auto">
                             <qrcode-vue :value="'Holding No: '+bill.holding_no+', name: '+ bill.bn_name + ', Phone: '+ bill.phone + ', Status: ' + ((bill.paid_amount+bill.paid_prev_arrears)> 0 ? 'Paid' : 'Please Paid Soon')" :size="size" level="H" />
                         </div>
@@ -116,7 +128,7 @@ console.log(pro.bills)
                                 </tr>
                                 <tr>
                                     <th>জমাদানের শেষ তারিখ</th>
-                                    <td>: ?</td>
+                                    <td>:  {{ befor10days(bill.deposite_date) }}</td>
                                 </tr>
                                 <tr>
                                     <th>ব্যাংকের নাম ও হিসাব নাম্বার</th>
@@ -217,7 +229,7 @@ console.log(pro.bills)
                 <div class="w-[49%]">
                     <div class="flex items-center">
                         <img src="/default/images/bd-logo.svg" class="h-14" alt="BD Logo">
-                        <h1 class="ml-4 font-bold text-[24px]">{{ en2bn($page.props.auth.user.word.name) }}- {{ $page.props.auth.user.word.union.name  }}</h1>
+                        <h1 class="ml-4 font-bold text-[24px]">{{ $page.props.auth.user.word.union.name  }}</h1>
                         <div class="ml-auto">
                             <qrcode-vue :value="'হোল্ডিং নম্বরঃ '+en2bn(bill.holding_no)+', নামঃ '+ bill.bn_name + ', অর্থ-বছরঃ '+en2bn(bill.from) + '-' +en2bn(bill.to)+', সর্বমোট বিলঃ '+en2bn(Number(bill.paid_amount) + Number(bill.paid_prev_arrears)) +', স্ট্যাটাস: ' + ((Number(bill.paid_amount)+Number(bill.paid_prev_arrears))> 0 ? 'পরিশোধ' : 'দ্রুত কর পরিশোধ করুন।')" :size="size" level="H"/>
                         </div>
@@ -267,7 +279,7 @@ console.log(pro.bills)
                                 </tr>
                                 <tr>
                                     <th>জমাদানের শেষ তারিখ</th>
-                                    <td>: ?</td>
+                                    <td>:  {{ befor10days(bill.deposite_date) }}</td>
                                 </tr>
                                 <tr>
                                     <th>ব্যাংকের নাম ও হিসাব নাম্বার</th>
