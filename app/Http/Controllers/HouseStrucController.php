@@ -16,7 +16,7 @@ class HouseStrucController extends Controller
      */
     public function index()
     {
-        $n['data'] = HouseStructure::with(['createdBy','updatedBy'])->where('deleted_by',null)->orderBy('id','desc')->get();
+        $n['data'] = HouseStructure::with(['createdBy','updatedBy'])->where('deleted_by',null)->orderBy('serial','asc')->get();
         return Inertia::render('Setup/HouseStructure/Index',$n);
     }
 
@@ -33,9 +33,11 @@ class HouseStrucController extends Controller
      */
     public function store(StoreHouseStructureRequest $request)
     {
+        $serial = HouseStructure::get();
         $insert = new HouseStructure();
         $insert->name = $request->name;
         $insert->price = $request->price;
+        $insert->serial = count($serial)+1;
         $insert->des = $request->des;
         $insert->created_by = Auth::user()->id;
         $insert->save();
@@ -72,6 +74,7 @@ class HouseStrucController extends Controller
         $HouseStructure->name = $request->name;
         $HouseStructure->price = $request->price;
         $HouseStructure->des = $request->des;
+        $HouseStructure->serial = $request->serial;
         $HouseStructure->updated_at = Carbon::now();
         $HouseStructure->updated_by = Auth::user()->id;
         $HouseStructure->save();

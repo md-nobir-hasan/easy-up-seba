@@ -82,11 +82,69 @@ const villageFetching = ()=>{
     });
 }
 
+// use sweet alert as a toaster
+
 const submit = () => {
     form.post(route('admin.tax.ekhana.store'), {
         onFinish: () => {
-            if(form.submit_btn != 'return'){
-                form.reset();
+           let msg = form.bn_name+" সফলভাবে সরক্ষণ করা হয়েছে";
+            let timerInterval
+            Swal.fire({
+                title: 'Auto close alert!',
+                html: msg,
+                timer: 3000,
+                timerProgressBar: true,
+                // didOpen: () => {
+                //     Swal.showLoading()
+                //     const b = Swal.getHtmlContainer().querySelector('b')
+                //     timerInterval = setInterval(() => {
+                //     b.textContent = Swal.getTimerLeft()
+                //     }, 100)
+                // },
+                willClose: () => {
+                    clearInterval(timerInterval)
+                }
+                }).then((result) => {
+                /* Read more about handling dismissals below */
+                if (result.dismiss === Swal.DismissReason.timer) {
+                    console.log('I was closed by the timer')
+                }
+            });
+            if(form.submit_btn == 'new'){
+                form.id = '';
+                form.word_id = '';
+                form.village_id = '';
+                form.holding_no = '';
+                form.yearly_income = '';
+                form.bn_name = '';
+                form.name = '';
+                form.ed_quali_id = '';
+                form.phone = '';
+                form.spouse_name = '';
+                form.mother_name = '';
+                form.m_male = '';
+                form.m_female = '';
+                form.m_child = '';
+                form.dob = '';
+                form.birth_no = '';
+                form.nid = '';
+                form.gender = '';
+                form.religion_id = '';
+                form.profession_id = '';
+                form.tuboil = '';
+                form.toilet_type = '';
+                form.sc_past = '';
+                form.sc_present = '';
+                form.sc_future = '';
+                form.paka_house = '';
+                form.adhapaka_house = '';
+                form.kasa_house = '';
+                form.yearly_house_rent = '';
+                form.rent_type = '';
+                form.land_house = '';
+                form.land_cultivate = '';
+                form.infrastructure = '';
+                form.submit_btn = '';
             }
         }
     });
@@ -106,7 +164,7 @@ const holdingFetch = () =>{
         word_id : form.word_id,
         village_id : form.village_id,
     })
-    axios.get(route('ajax.holding.fetch',[form.word_id]), form2).then(res => {
+    axios.post(route('ajax.holding.fetch'), form2).then(res => {
         console.log(res)
         // let holding = usePage().props.auth.user.word.union.code + usePage().props.auth.user.word.code+'0000';
         // holding = Number(holding)+ res.data.ekhana.id;
@@ -130,6 +188,7 @@ const autoSave = () =>{
         spinner_hide.value = false;
     });
 }
+
 
 </script>
 <template>
@@ -160,7 +219,7 @@ const autoSave = () =>{
                         <InputError class="mt-2" :message="form.errors.word_id" />
                     </div>
                     <div class="mb-4 border-2 border-blue-800 p-4 border-dashed rounded">
-                        <label for="village_id" class="block text-md font-medium font-bold  text-xl dark:text-white">গ্রাম</label>
+                        <label for="village_id" class="block text-md font-bold  text-xl dark:text-white">গ্রাম</label>
                         <select id="village_id" v-model="form.village_id" @change="holdingFetch" @focusout="autoSave" class="border border-gray-300 font-bold text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
                             <option selected value="">গ্রাম নির্বাচন করুন</option>
                             <option v-for="(val1, key) in vilages" :key="key" :value="val1.id">{{ val1.name }}</option>
@@ -438,7 +497,7 @@ const autoSave = () =>{
                         <InputError class="mt-2" :message="form.errors.tuboil" />
                     </div>
 
-                    <div class="mb-4 mb-4 border-2 border-blue-800 p-4 border-dashed rounded">
+                    <div class="mb-4 border-2 border-blue-800 p-4 border-dashed rounded">
                         <InputLabel for="toilet_type" value="পায়খানার ধরণ" />
                         <div class="flex items-center">
                             <div class="flex items-center mb-4 ml-8">
@@ -464,7 +523,7 @@ const autoSave = () =>{
                     </div>
 
                     <div class="mb-4 border-2 border-blue-800 p-4 border-dashed rounded">
-                        <label for="" class="block text-md font-medium font-bold  text-xl dark:text-white">সামাজিক সুবিধা</label>
+                        <label for="" class="block text-md font-bold  text-xl dark:text-white">সামাজিক সুবিধা</label>
                        <div class="ml-8">
                         <div class="mb-4">
                             <InputLabel style="font-size:16px" class="text-sm" for="sc_past" value="কি ধরনের সামাজিক সুরক্ষা সুবিধা অতীতে পেয়েছেন" />
@@ -511,23 +570,54 @@ const autoSave = () =>{
                        </div>
                     </div>
 
-                    <div class="mb-4 mb-4 border-2 border-blue-800 p-4 border-dashed rounded">
+                    <div class="mb-4 border-2 border-blue-800 p-4 border-dashed rounded">
                         <InputLabel for="" value="অবকাঠামোর ধরণ" />
                         <div class="flex ml-8">
-                            <div>
-                                <InputLabel for="paka_house" class="text-sm text-center" :value="'পাকা'" />
-                                <TextInput @change="HouseTaxCal" @keyup="HouseTaxCal"
-                                    data-price="8400"
-                                    v-model="form.paka_house"
-                                    type="number"
-                                    class="mt-1 block w-full house-tax-cal"
-                                    min="0"
-                                    @focusout="autoSave"
-                                    placeholder="সংখ্যা"
-                                />
-                                <InputError class="mt-2" :message="form.errors.paka_house" />
+
+                            <div v-for="(hs,key) in house_strucs" :key="key">
+
+                                <div v-if="hs.name == 'পাকা'">
+                                    <InputLabel :for="'h'+key" class="text-sm text-center" :value="hs.name" />
+                                    <TextInput  @change="HouseTaxCal" @keyup="HouseTaxCal" :id="'h'+key"
+                                        :data-price="hs.price"
+                                        v-model="form.paka_house"
+                                        type="number"
+                                        class="mt-1 block w-full house-tax-cal"
+                                        min="0"
+                                        @focusout="autoSave"
+                                        placeholder="সংখ্যা"
+                                    />
+                                    <InputError class="mt-2" :message="form.errors.paka_house" />
+                                </div>
+                                <div v-else-if="hs.name == 'আধা পাকা'" >
+                                    <InputLabel :for="'h'+key" class="text-sm text-center" :value="hs.name" />
+                                    <TextInput @change="HouseTaxCal" @keyup="HouseTaxCal" :id="'h'+key"
+                                        :data-price="hs.price"
+                                        v-model="form.adhapaka_house"
+                                        type="number"
+                                        class="mt-1 block w-full house-tax-cal"
+                                        min="0"
+                                        @focusout="autoSave"
+                                        placeholder="সংখ্যা"
+                                    />
+                                    <InputError class="mt-2" :message="form.errors.adhapaka_house" />
+                                </div>
+                                <div v-else-if="hs.name == 'কাঁচা'" >
+                                    <InputLabel :for="'h'+key" class="text-sm text-center" :value="hs.name" />
+                                    <TextInput @change="HouseTaxCal" @keyup="HouseTaxCal" :id="'h'+key"
+                                        :data-price="hs.price"
+                                        v-model="form.kasa_house"
+                                        type="number"
+                                        class="mt-1 block w-full house-tax-cal"
+                                        min="0"
+                                        @focusout="autoSave"
+                                        placeholder="সংখ্যা"
+                                    />
+                                    <InputError class="mt-2" :message="form.errors.kasa_house" />
+                                </div>
+
                             </div>
-                            <div>
+                            <!-- <div>
                                 <InputLabel for="adhapaka_house" class="text-sm text-center" :value="'আধা পাকা'" />
                                 <TextInput @change="HouseTaxCal" @keyup="HouseTaxCal"
                                     data-price="4800"
@@ -552,11 +642,11 @@ const autoSave = () =>{
                                     placeholder="সংখ্যা"
                                 />
                                 <InputError class="mt-2" :message="form.errors.kasa_house" />
-                            </div>
+                            </div> -->
                         </div>
                     </div>
 
-                    <div class="mb-4 mb-4 border-2 border-blue-800 p-4 border-dashed rounded">
+                    <div class="mb-4 border-2 border-blue-800 p-4 border-dashed rounded">
                         <InputLabel for="yearly_house_rent" value="বাৎসরিক ভাড়া" />
                         <TextInput
                             id="yearly_house_rent"
@@ -573,32 +663,32 @@ const autoSave = () =>{
                         <InputError class="mt-2" :message="form.errors.yearly_house_rent" />
                     </div>
 
-                    <div class="mb-4 mb-4 border-2 border-blue-800 p-4 border-dashed rounded">
+                    <div class="mb-4 border-2 border-blue-800 p-4 border-dashed rounded">
                         <InputLabel for="" value="বসবাসের ধরণ" />
                         <div class="flex items-center">
                             <div class="flex items-center mb-4 ml-8">
                                 <input v-model="form.rent_type" @focusout="autoSave" id="self" name="rent_type" type="radio" value="নিজে বসবাস"
                                     class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                 <label for="self"
-                                    class="ml-2 text-md font-medium font-bold  dark:text-gray-300">নিজে বসবাস</label>
+                                    class="ml-2 text-md font-bold  dark:text-gray-300">নিজে বসবাস</label>
                             </div>
                             <div class="flex items-center mb-4 ml-8">
                                 <input v-model="form.rent_type" @focusout="autoSave" id="rent" name="rent_type" type="radio" value="ভাড়া দেওয়া"
                                     class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                 <label for="rent"
-                                    class="ml-2 text-md font-medium font-bold  dark:text-gray-300">ভাড়া দেওয়া</label>
+                                    class="ml-2 text-md font-bold  dark:text-gray-300">ভাড়া দেওয়া</label>
                             </div>
                             <div class="flex items-center mb-4 ml-8">
                                 <input v-model="form.rent_type" @focusout="autoSave" id="both" name="rent_type" type="radio" value="উভয়"
                                     class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                 <label for="both"
-                                    class="ml-2 text-md font-medium font-bold  dark:text-gray-300">উভয়</label>
+                                    class="ml-2 text-md font-bold  dark:text-gray-300">উভয়</label>
                             </div>
                         </div>
                         <InputError class="mt-2" :message="form.errors.rent_type" />
                     </div>
 
-                    <div class="mb-4 mb-4 border-2 border-blue-800 p-4 border-dashed rounded">
+                    <div class="mb-4 border-2 border-blue-800 p-4 border-dashed rounded">
                         <InputLabel for="" value="জমির পরিমাণ" />
                         <div class="flex ml-8">
                             <div>
@@ -633,20 +723,20 @@ const autoSave = () =>{
                     </div>
 
 
-                    <div class="mb-4 mb-4 border-2 border-blue-800 p-4 border-dashed rounded">
+                    <div class="mb-4 border-2 border-blue-800 p-4 border-dashed rounded">
                         <InputLabel for="" value="অবকাঠামোর ধরণ" />
                         <div class="flex items-center">
                             <div class="flex items-center mb-4 ml-8">
                                 <input v-model="form.infrastructure" @focusout="autoSave" id="residential" name="infrastructure" type="radio" value="আবাসিক"
                                     class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                 <label for="residential"
-                                    class="ml-2 text-md font-medium font-bold  dark:text-gray-300">আবাসিক</label>
+                                    class="ml-2 text-md font-bold  dark:text-gray-300">আবাসিক</label>
                             </div>
                             <div class="flex items-center mb-4 ml-8">
                                 <input v-model="form.infrastructure" @focusout="autoSave" id="business_area" name="infrastructure" type="radio" value="বানিজ্যিক"
                                     class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                 <label for="business_area"
-                                    class="ml-2 text-md font-medium font-bold  dark:text-gray-300">বানিজ্যিক</label>
+                                    class="ml-2 text-md font-bold  dark:text-gray-300">বানিজ্যিক</label>
                             </div>
                         </div>
                         <InputError class="mt-2" :message="form.errors.infrastructure" />

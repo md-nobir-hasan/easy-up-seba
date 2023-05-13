@@ -14,6 +14,7 @@ defineProps({
 const form = useForm({
     name: usePage().props.mdata.name,
     price: usePage().props.mdata.price,
+    serial: usePage().props.mdata.serial,
     des: usePage().props.mdata.des,
 });
 const submit = () => {
@@ -58,6 +59,12 @@ const submit = () => {
                         <TextInput id="price" v-model="form.price" type="number" class="mt-1 block w-full" required
                             autocomplete="price" />
                         <InputError class="mt-2" :message="form.errors.price" />
+                    </div>
+                    <div class="mt-6">
+                        <InputLabel for="serial" value="সিরিয়াল" />
+                        <TextInput id="serial" v-model="form.serial" type="number" class="mt-1 block w-full" required
+                            autocomplete="serial" />
+                        <InputError class="mt-2" :message="form.errors.serial" />
                     </div>
                     <div class="mt-8">
                         <label for="message"

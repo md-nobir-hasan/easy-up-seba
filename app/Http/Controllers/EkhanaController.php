@@ -81,7 +81,8 @@ class EkhanaController extends Controller
         $n['religions'] = Religion::where('deleted_by',null)->get();
         $n['professions'] = Profession::where('deleted_by',null)->orderBy('id','desc')->get();
         $n['edqualis'] = EducationQualification::where('deleted_by',null)->orderBy('id','desc')->get();
-        $n['house_strucs'] = HouseStructure::where('deleted_by',null)->orderBy('id','desc')->get();
+        // $n['house_strucs'] = HouseStructure::where('deleted_by',null)->orderBy('id','desc')->get();
+        $n['house_strucs'] = HouseStructure::with(['createdBy','updatedBy'])->where('deleted_by',null)->orderBy('serial','asc')->get();
         $n['ksum'] = $n['ekhanas']->sum('yearly_house_rent');
         $n['kcount'] = count($n['ekhanas']);
 
@@ -156,7 +157,7 @@ public function store(StoreEkhanaRequest $request)
             }
         }
 
-        $request->session()->flash('suc_msg',$request->bn_name.' সফলভাবে সরক্ষণ করা হয়েছে');
+        $request->session()->flash('msg',$request->bn_name.' সফলভাবে সরক্ষণ করা হয়েছে');
         if($request->submit_btn == 'return'){
             return redirect()->route('admin.tax.ekhana.index');
         }else{
@@ -183,12 +184,12 @@ public function store(StoreEkhanaRequest $request)
         // }else{
             // $n['words'] = Word::where('deleted_by',null)->where('word_id',Auth::user()->word->union_id)->orderBy('id','desc')->get();
         // }
-        $n['ekhana'] = Ekhana::with(['village','edQuali','religion','profession','word'])->find($ekhana->id);
+        $n['ekhana'] = Ekhana::with(['village','edQuali','religion','profession','word','word.union'])->find($ekhana->id);
         $n['religions'] = Religion::where('deleted_by',null)->get();
         $n['professions'] = Profession::where('deleted_by',null)->orderBy('id','desc')->get();
         $n['villages'] = Village::where('deleted_by',null)->where('word_id',Auth::user()->word_id)->orderBy('id','desc')->get();
         $n['edqualis'] = EducationQualification::where('deleted_by',null)->orderBy('id','desc')->get();
-        $n['house_strucs'] = HouseStructure::where('deleted_by',null)->orderBy('id','desc')->get();
+        $n['house_strucs'] = HouseStructure::with(['createdBy','updatedBy'])->where('deleted_by',null)->orderBy('serial','asc')->get();
         return Inertia::render('Tax/Ekhana/Edit',$n);
     }
 

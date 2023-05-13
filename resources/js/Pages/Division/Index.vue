@@ -88,7 +88,6 @@ return date;
                                  বিভাগ যোগকরুন
                             </PrimaryButton>
                         </Link>
-
                         </div>
                         <hr class="mb-1">
                         <table class="w-full text-md text-left text-gray-500 dark:text-gray-400">

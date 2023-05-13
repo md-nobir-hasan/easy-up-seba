@@ -20,7 +20,7 @@ defineProps({
 });
 
 const form = useForm({
-    word_id: usePage().props.auth.user.word_id,
+    word_id: usePage().props.ekhana.word_id,
     village_id: usePage().props.ekhana.village_id,
     holding_no: usePage().props.ekhana.holding_no,
     yearly_income: usePage().props.ekhana.yearly_income,
@@ -133,7 +133,7 @@ const submit = () => {
                         <label for="word_id" class="block text-md font-medium text-gray-900 dark:text-white">ওয়ার্ড</label>
                         <select id="word_id" v-model="form.word_id" @change="villageFetching" class="border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
                             <!-- <option selected value="">ওয়ার্ড নির্বাচন করুন</option> -->
-                            <option :value="$page.props.auth.user.word_id">{{ $page.props.auth.user.word.name }}</option>
+                            <option :value="$page.props.ekhana.word_id">{{ $page.props.ekhana.word.name }} - {{ $page.props.ekhana.word.union.name }}</option>
                         </select>
                         <InputError class="mt-2" :message="form.errors.word_id" />
                     </div>
@@ -141,7 +141,7 @@ const submit = () => {
                         <label for="village_id" class="block text-md font-medium text-gray-900 dark:text-white">গ্রাম</label>
                         <select id="village_id" v-model="form.village_id" @change="holdingFetch" class="border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
                             <option selected value="">গ্রাম নির্বাচন করুন</option>
-                            <option v-for="(val1, key) in villages" :value="val1.id">{{ val1.name }}</option>
+                            <option v-for="(val1, key) in villages" :key="key" :value="val1.id">{{ val1.name }}</option>
                         </select>
                         <InputError class="mt-2" :message="form.errors.village_id" />
                     </div>
@@ -210,7 +210,7 @@ const submit = () => {
                         <label for="ed_quali_id" class="block text-md font-medium text-gray-900 dark:text-white">শিক্ষাগত যোগ্যতা</label>
                         <select id="ed_quali_id" v-model="form.ed_quali_id" class="border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
                             <option selected value="">শিক্ষাগত যোগ্যতা নির্বাচন করুন</option>
-                            <option v-for="(pro, key) in edqualis" :value="pro.id">{{ pro.name }}</option>
+                            <option v-for="(pro, key) in edqualis" :key="key" :value="pro.id">{{ pro.name }}</option>
                         </select>
                         <InputError class="mt-2" :message="form.errors.ed_quali_id" />
                     </div>
@@ -378,7 +378,7 @@ const submit = () => {
                     <div class="mb-4 border-2 border-blue-800 p-4 border-dashed rounded">
                         <InputLabel for="religion_id" value="খানা প্রধানের ধর্ম" />
                         <div class="flex items-center">
-                            <div v-for="(religion, rkey) in religions" class="flex items-center mb-4 ml-8">
+                            <div v-for="(religion, rkey) in religions" :key="rkey" class="flex items-center mb-4 ml-8">
                                 <input v-model="form.religion_id" :id="religion+rkey" :value="religion.id" name="religion" type="radio"
                                     class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                 <label :for="religion+rkey"
@@ -392,7 +392,7 @@ const submit = () => {
                         <label for="profession_id" class="block text-md font-medium text-gray-900 dark:text-white">পেশা</label>
                         <select id="profession_id" v-model="form.profession_id" class="border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
                             <option selected value="">পেশা নির্বাচন করুন</option>
-                            <option v-for="(p, key) in professions" :value="p.id">{{ p.name }}</option>
+                            <option v-for="(p, key) in professions" :key="key" :value="p.id">{{ p.name }}</option>
                         </select>
                         <InputError class="mt-2" :message="form.errors.profession_id" />
                     </div>
@@ -416,7 +416,7 @@ const submit = () => {
                         <InputError class="mt-2" :message="form.errors.tuboil" />
                     </div>
 
-                    <div class="mb-4 mb-4 border-2 border-blue-800 p-4 border-dashed rounded">
+                    <div class="mb-4 border-2 border-blue-800 p-4 border-dashed rounded">
                         <InputLabel for="toilet_type" value="পায়খানার ধরণ" />
                         <div class="flex items-center">
                             <div class="flex items-center mb-4 ml-8">
@@ -489,7 +489,53 @@ const submit = () => {
                        </div>
                     </div>
 
-                    <div class="mb-4 mb-4 border-2 border-blue-800 p-4 border-dashed rounded">
+                    <div class="mb-4 border-2 border-blue-800 p-4 border-dashed rounded">
+                        <InputLabel for="" value="অবকাঠামোর ধরণ" />
+                        <div class="flex ml-8">
+                            <div v-for="(hs,key) in house_strucs" :key="key">
+                                <div v-if="hs.name == 'পাকা'">
+                                    <InputLabel :for="'h'+key" class="text-sm text-center" :value="hs.name" />
+                                    <TextInput  @change="HouseTaxCal" @keyup="HouseTaxCal" :id="'h'+key"
+                                        :data-price="hs.price"
+                                        v-model="form.paka_house"
+                                        type="number"
+                                        class="mt-1 block w-full house-tax-cal"
+                                        min="0"
+                                        @focusout="autoSave"
+                                        placeholder="সংখ্যা"
+                                    />
+                                    <InputError class="mt-2" :message="form.errors.paka_house" />
+                                </div>
+                                <div v-else-if="hs.name == 'আধা পাকা'" >
+                                    <InputLabel :for="'h'+key" class="text-sm text-center" :value="hs.name" />
+                                    <TextInput @change="HouseTaxCal" @keyup="HouseTaxCal" :id="'h'+key"
+                                        :data-price="hs.price"
+                                        v-model="form.adhapaka_house"
+                                        type="number"
+                                        class="mt-1 block w-full house-tax-cal"
+                                        min="0"
+                                        @focusout="autoSave"
+                                        placeholder="সংখ্যা"
+                                    />
+                                    <InputError class="mt-2" :message="form.errors.adhapaka_house" />
+                                </div>
+                                <div v-else-if="hs.name == 'কাঁচা'" >
+                                    <InputLabel :for="'h'+key" class="text-sm text-center" :value="hs.name" />
+                                    <TextInput @change="HouseTaxCal" @keyup="HouseTaxCal" :id="'h'+key"
+                                        :data-price="hs.price"
+                                        v-model="form.kasa_house"
+                                        type="number"
+                                        class="mt-1 block w-full house-tax-cal"
+                                        min="0"
+                                        @focusout="autoSave"
+                                        placeholder="সংখ্যা"
+                                    />
+                                    <InputError class="mt-2" :message="form.errors.kasa_house" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="mb-4 border-2 border-blue-800 p-4 border-dashed rounded">
                         <InputLabel for="" value="অবকাঠামোর ধরণ" />
                         <div class="flex ml-8">
                             <div>
@@ -532,9 +578,9 @@ const submit = () => {
                                 <InputError class="mt-2" :message="form.errors.kasa_house" />
                             </div>
                         </div>
-                    </div>
+                    </div> -->
 
-                    <div class="mb-4 mb-4 border-2 border-blue-800 p-4 border-dashed rounded">
+                    <div class="mb-4 border-2 border-blue-800 p-4 border-dashed rounded">
                         <InputLabel for="yearly_house_rent" value="বাৎসরিক ভাড়া" />
                         <TextInput
                             id="yearly_house_rent"
@@ -549,7 +595,7 @@ const submit = () => {
                         <InputError class="mt-2" :message="form.errors.yearly_house_rent" />
                     </div>
 
-                    <div class="mb-4 mb-4 border-2 border-blue-800 p-4 border-dashed rounded">
+                    <div class="mb-4 border-2 border-blue-800 p-4 border-dashed rounded">
                         <InputLabel for="" value="বসবাসের ধরণ" />
                         <div class="flex items-center">
                             <div class="flex items-center mb-4 ml-8">
@@ -574,7 +620,7 @@ const submit = () => {
                         <InputError class="mt-2" :message="form.errors.rent_type" />
                     </div>
 
-                    <div class="mb-4 mb-4 border-2 border-blue-800 p-4 border-dashed rounded">
+                    <div class="mb-4 border-2 border-blue-800 p-4 border-dashed rounded">
                         <InputLabel for="" value="জমির পরিমাণ" />
                         <div class="flex ml-8">
                             <div>
@@ -609,7 +655,7 @@ const submit = () => {
                     </div>
 
 
-                    <div class="mb-4 mb-4 border-2 border-blue-800 p-4 border-dashed rounded">
+                    <div class="mb-4 border-2 border-blue-800 p-4 border-dashed rounded">
                         <InputLabel for="" value="অবকাঠামোর ধরণ" />
                         <div class="flex items-center">
                             <div class="flex items-center mb-4 ml-8">

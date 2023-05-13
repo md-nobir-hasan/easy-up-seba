@@ -101,5 +101,14 @@ class SetupSeeder extends Seeder
             ['from'=>2023,'to'=>2024],
         ];
         DB::table('financial_years')->insert($n);
+
+
+        //================  House Structure ==============================
+        $n =[
+            ['name'=>'পাকা','price'=>8400,'serial'=>1],
+            ['name'=>'আধা পাকা','price'=>4800,'serial'=>2],
+            ['name'=>'কাঁচা','price'=>3200,'serial'=>3],
+        ];
+        DB::table('house_structures')->insert($n);
     }
 }
