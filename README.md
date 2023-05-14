@@ -1,3 +1,6 @@
+## Contact with Developer <a href="https://nobir-hasan.com"> Md Nobir Hasan</a>
+## <a href="https://websites.nobir-hasan.com/easy-up-seba">Live demo</a>
+
 <p align="center"><a href="https://nobir-hasan.com" target="_blank"><img src="https://raw.githubusercontent.com/md-nobir-hasan/easy-up-seba/main/public/default/images/bd-logo.png?token=GHSAT0AAAAAACCDL5HHQVWXECW2EFKVYPIIZDANEAQ" width="400" alt="Easy UP Seba"></a></p>
 
 <p align="center">
@@ -7,9 +10,9 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-## About Laravel
+## About Easu Up Seba
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+This application is for Union Management.This application is easy to understand and very smooth and fast. Al system ofLaravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
 
 - [Simple, fast routing engine](https://laravel.com/docs/routing).
 - [Powerful dependency injection container](https://laravel.com/docs/container).
