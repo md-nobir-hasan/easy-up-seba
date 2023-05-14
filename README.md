@@ -1,4 +1,4 @@
-<p align="center"><a href="https://nobir-hasan.com" target="_blank"><img src="[https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg](https://raw.githubusercontent.com/md-nobir-hasan/easy-up-seba/main/public/default/images/bd-logo.png?token=GHSAT0AAAAAACCDL5HGWYZ3GQDQD4X2U4WQZDANCQA)" width="400" alt="Laravel Logo"></a></p>
+<p align="center"><a href="https://nobir-hasan.com" target="_blank"><img src="https://raw.githubusercontent.com/md-nobir-hasan/easy-up-seba/main/public/default/images/bd-logo.png?token=GHSAT0AAAAAACCDL5HHQVWXECW2EFKVYPIIZDANEAQ" width="400" alt="Easy UP Seba"></a></p>
 
 <p align="center">
 <a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
