@@ -12,7 +12,7 @@
 
 ## About Easy Up Seba
 
-This application is for Union Management.This application is easy to understand and very smooth and fast. Thae tecnologies that are use in this application:
+This application is for Union Management.This application is easy to understand and very smooth and fast. The tecnologies that are used in this application:
 
 - [Laravel](https://laravel.com).
 - [Vue](https://vue.org/).
