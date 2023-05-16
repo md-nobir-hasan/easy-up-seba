@@ -11,3 +11,5 @@ yarn-error.log
 /.vscode
 /public/image
 /storage
+/node_modules
+/vendor
