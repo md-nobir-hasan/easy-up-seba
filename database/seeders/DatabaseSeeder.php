@@ -24,5 +24,6 @@ class DatabaseSeeder extends Seeder
         $this->call(PermissionSeeder::class);
         $this->call(SetupSeeder::class);
         $this->call(TradeLicenseSeeder::class);
+        $this->call(AddressSeeder::class);
     }
 }
