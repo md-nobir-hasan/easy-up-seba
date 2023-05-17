@@ -15,4 +15,4 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::resource('/trade-license', TradeLicenseController::class, ['except' => ['update']]);
-Route::post('/update', [TradeLicenseController::class,'index'])->name('update');
+Route::post('/trade-license/update/{tradeLicense}', [TradeLicenseController::class,'update'])->name('update');

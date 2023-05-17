@@ -21,13 +21,13 @@ return new class () extends Migration {
             $table->text('title');
             $table->foreignIdFor(Village::class)->constrained(); 
             $table->foreignIdFor(Union::class)->constrained();
-            $table->string('postal_code', 50)->nullable();
+            $table->string('postal_code', 100)->nullable();
             $table->string('ward_number')->nullable();
             $table->foreignIdFor(Upazila::class)->constrained();
             $table->foreignIdFor(District::class)->constrained();
             $table->foreignIdFor(Division::class)->constrained();
             $table->string('country', 100)->default('Bangladesh');
-            $table->foreignIdFor(TradeLicense::class)->constrained();
+            $table->foreignIdFor(TradeLicense::class)->constrained()->cascadeOnDelete();
             $table->softDeletes();
             $table->timestamps();
         });

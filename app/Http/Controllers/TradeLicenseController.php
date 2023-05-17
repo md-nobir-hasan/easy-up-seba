@@ -5,11 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreTradeLicenseRequest;
 use App\Http\Requests\UpdateTradeLicenseRequest;
 use App\Http\Resources\TradeLicenseResource;
-use App\Models\District;
+use App\Models\Division;
 use App\Models\TradeLicense;
-use App\Models\Union;
-use App\Models\Upazila;
-use App\Models\Village;
 use Illuminate\Support\Facades\DB;
 
 class TradeLicenseController extends Controller
@@ -21,7 +18,7 @@ class TradeLicenseController extends Controller
     {
         return response()->json([
             'message' => 'Trade license created successfully.',
-            'trade_licenses' => TradeLicenseResource::collection(TradeLicense::with('addresses.village', 'addresses.union', 'addresses.upazila', 'addresses.district', 'businessType', 'businessCapital')->get())
+            'trade_licenses' => TradeLicenseResource::collection(TradeLicense::with('addresses.village', 'addresses.union', 'addresses.upazila', 'addresses.district', 'businessType', 'businessCapital')->orderByDesc('id')->get())
         ], 200);
     }
 
@@ -30,12 +27,9 @@ class TradeLicenseController extends Controller
      */
     public function create()
     {
-        $villages = Village::all();
-        $unions = Union::all();
-        $upazilas = Upazila::all();
-        $districts = District::all();
-
-        dd($villages);
+        return response()->json([
+            'Division' => Division::with(['districts', 'districts.upazilas',  'districts.upazilas.unions',  'districts.upazilas.unions.villages', ])->get(),
+        ], 200);
     }
 
     /**
@@ -45,43 +39,19 @@ class TradeLicenseController extends Controller
     {
         try {
             DB::beginTransaction();
-            $tradeLicenses = TradeLicense::create($request->only(
-                'name',
-                'fathers_name',
-                'mothers_name',
-                'email',
-                'phone',
-                'nationality',
-                'nid_number',
-                'fee',
-                'e_fee',
-                'business_name',
-                'business_type_id',
-                'business_capital_id',
-                'business_starting_date',
-                'ownership',
-                'business_space_rant',
-                'status',
-                'code_number'
-            ));
+            $tradeLicenses = TradeLicense::create($request->all());
 
-            $tradeLicenses->addresses()->create($request->only(
-                'title',
-                'village_id',
-                'union_id',
-                'postal_code',
-                'ward_number',
-                'upazila_id',
-                'district_id',
-                'division_id',
-                'country'
-            ));
+            $tradeLicenses->addresses()->createMany([
+                $request->present_address,
+                $request->permanent_address,
+                $request->business_address,
+            ]);
 
             DB::commit();
 
             return response()->json([
                 'message' => 'Trade license created successfully.',
-                'trade_license' => $tradeLicenses->load('addresses.village', 'addresses.union', 'addresses.upazila', 'addresses.district', 'businessType', 'businessCapital')
+                'trade_license' => $tradeLicenses
             ], 201);
 
         } catch (\Exception $e) {
@@ -115,10 +85,7 @@ class TradeLicenseController extends Controller
         return response()->json([
             'message' => 'Trade license retrieved successfully.',
             'trade_license' => $tradeLicense->load('addresses.village', 'addresses.union', 'addresses.upazila', 'addresses.district', 'businessType', 'businessCapital'),
-            'villages' => Village::all(),
-            'unions' => Union::all(),
-            'upazilas' => Upazila::all(),
-            'districts' => District::all(),
+            'Division' => Division::with(['districts', 'districts.upazilas',  'districts.upazilas.unions',  'districts.upazilas.unions.villages', ])->get(),
         ], 200);
     }
 
@@ -131,38 +98,19 @@ class TradeLicenseController extends Controller
         try {
             DB::beginTransaction();
 
-            $tradeLicense->update($request->only([
-                'name',
-                'fathers_name',
-                'mothers_name',
-                'email',
-                'phone',
-                'nationality',
-                'nid_number',
-                'fee',
-                'e_fee',
-                'business_name',
-                'business_type_id',
-                'business_capital_id',
-                'business_starting_date',
-                'ownership',
-                'business_space_rant',
-                'status',
-                'code_number'
-            ]));
+            $tradeLicense->update($request->all());
 
-            $tradeLicense->address()->update($request->only([
-                'title',
-                'village_id',
-                'union_id',
-                'postal_code',
-                'ward_number',
-                'upazila_id',
-                'district_id',
-                'division_id',
-                'trade_license_id',
-                'country'
-            ]));
+            $tradeLicense->addresses()
+                ->where('title', 'Present')
+                ->updateOrCreate([], $request->present_address);
+
+            $tradeLicense->addresses()
+                ->where('title', 'Permanent')
+                ->updateOrCreate([], $request->permanent_address);
+
+            $tradeLicense->addresses()
+                ->where('title', 'Business')
+                ->updateOrCreate([], $request->business_address);
 
             DB::commit();
 
@@ -186,7 +134,12 @@ class TradeLicenseController extends Controller
      */
     public function destroy(TradeLicense $tradeLicense)
     {
-        return $tradeLicense->delete();
+        $tradeLicense->delete();
+
+        return response()->json([
+            'message' => 'Trade license deleted successfully.',
+            'trade_license' => $tradeLicense
+        ], 201);
 
     }
 }
