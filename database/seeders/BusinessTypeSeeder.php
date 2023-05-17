@@ -2,12 +2,12 @@
 
 namespace Database\Seeders;
 
-use App\Models\Address;
-use App\Models\TradeLicense;
+use App\Models\BusinessCapital;
+use App\Models\BusinessType;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Schema;
 
-class TradeLicenseSeeder extends Seeder
+class BusinessTypeSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,8 +15,8 @@ class TradeLicenseSeeder extends Seeder
     public function run(): void
     {
         Schema::disableForeignKeyConstraints();
-        TradeLicense::truncate();
+        BusinessType::truncate();
         Schema::enableForeignKeyConstraints();
-        TradeLicense::factory()->has(Address::factory()->count(3))->count(10)->create();
+        BusinessType::factory()->has(BusinessCapital::factory()->count(3))->count(10)->create();
     }
 }

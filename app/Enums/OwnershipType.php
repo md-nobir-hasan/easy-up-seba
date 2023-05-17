@@ -4,7 +4,7 @@ namespace App\Enums;
 
 use App\Traits\EnumToArray;
 
-enum BusinessSpaceOwnershipType: string
+enum OwnershipType: string
 {
     use EnumToArray;
 

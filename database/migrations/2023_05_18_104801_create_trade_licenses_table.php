@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\BusinessCapital;
+use App\Models\BusinessType;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -22,12 +24,14 @@ return new class () extends Migration {
             $table->decimal('fee', 8, 2)->nullable();
             $table->decimal('e_fee', 8, 2)->nullable();
             $table->string('business_name', 100);
-            $table->string('type_of_business', 100);
-            $table->decimal('liquid_capital', 8, 2)->nullable();
+            $table->foreignIdFor(BusinessType::class)->constrained();
+            $table->foreignIdFor(BusinessCapital::class)->constrained();
             $table->dateTime('business_starting_date')->nullable();
-            $table->string('business_space_ownership')->nullable();
+            $table->string('ownership')->nullable();
             $table->decimal('business_space_rant', 8, 2)->nullable();
             $table->string('size_of_signboard')->nullable();
+            $table->string('code_number');
+            $table->string('status')->default('Pending');
             $table->softDeletes();
             $table->timestamps();
         });

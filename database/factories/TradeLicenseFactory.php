@@ -2,7 +2,9 @@
 
 namespace Database\Factories;
 
-use App\Enums\BusinessSpaceOwnershipType;
+use App\Enums\OwnershipType;
+use App\Models\BusinessCapital;
+use App\Models\BusinessType;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -16,8 +18,8 @@ class TradeLicenseFactory extends Factory
      * @return array<string, mixed>
      */
     public function definition(): array
-    { 
-        $businessSpaceOwnership = BusinessSpaceOwnershipType::values();
+    {
+        $ownershipType = OwnershipType::values();
 
         return [
             'name' => $this->faker->name(),
@@ -30,10 +32,10 @@ class TradeLicenseFactory extends Factory
             'fee' => $this->faker->randomFloat(2, 100, 9999),
             'e_fee' => $this->faker->randomFloat(2, 100, 9999),
             'business_name' => $this->faker->name(),
-            'type_of_business' => $this->faker->name(),
-            'liquid_capital' => $this->faker->randomFloat(2, 100, 9999),
+            'business_type_id' => $this->faker->randomElement(BusinessType::pluck('id')->toArray()),
+            'business_capital_id' => $this->faker->randomElement(BusinessCapital::pluck('id')->toArray()),
             'business_starting_date' => $this->faker->dateTime(),
-            'business_space_ownership' =>  $this->faker->randomElement($businessSpaceOwnership),
+            'ownership' =>  $this->faker->randomElement($ownershipType),
             'business_space_rant' => $this->faker->randomFloat(2, 100, 9999),
         ];
     }
