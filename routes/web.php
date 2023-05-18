@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AjaxController;
+use App\Http\Controllers\BazarController;
 use App\Http\Controllers\BillPrintController;
 use App\Http\Controllers\DeleteController;
 use App\Http\Controllers\DistrictController;
@@ -111,6 +112,7 @@ Route::middleware([
         Route::resource('/religion',ReligionController::class);
         Route::resource('/profession',ProfessionController::class);
         Route::resource('/financial-year',FYearController::class);
+        Route::resource('/bazar',BazarController::class);
 
     });
     //Tax Management

@@ -31,6 +31,7 @@ const submenueItem =[
                         {title:'শিক্ষাগত যোগ্যতা',name:'Education Qualification',active:false,route:route('admin.setup.education-qualification.index'),url:'/admin/setup/education-qualification',icon:MinusIcon,children:[]},
                         {title:'অর্থ-বছর',name:'Financial Year',active:false,route:route('admin.setup.financial-year.index'),url:'/admin/setup/finalcial-year',icon:MinusIcon,children:[]},
                         {title:'অবকাঠামো কর',name:'House Structure',active:false,route:route('admin.setup.house-structure.index'),url:'/admin/setup/house-structure',icon:MinusIcon,children:[]},
+                        {title:'বাজার',name:'Bazar',active:false,route:route('admin.setup.bazar.index'),url:'/admin/setup/bazar',icon:MinusIcon,children:[]},
                     ]},
                     {title:'কর',name: 'Tax',active: false,url:'/admin/tax',icon:BanknotesIcon,children:[
                         {title:'ই-খানা',name:'E-Khana',active:false,route:route('admin.tax.ekhana.index'),url:'/admin/tax/ekhana',icon:UserPlusIcon,children:[]},
