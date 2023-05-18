@@ -178,7 +178,7 @@ const wordFetch = () => {
                                 class="border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 required>
                                 <option selected value="">বিভাগ নির্বাচন করুন</option>
-                                <option v-for="(division, key) in divisions" :value="division.id">{{ division.name }}
+                                <option v-for="(division, key) in divisions" :value="division.id" :key="key">{{ division.name }}
                                 </option>
                             </select>
                         </div>
@@ -190,7 +190,7 @@ const wordFetch = () => {
                                 class="border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 required>
                                 <option selected value="">জেলা নির্বাচন করুন</option>
-                                <option v-for="(district, key) in dists" :value="district.id">{{ district.name }}</option>
+                                <option v-for="(district, key) in dists" :value="district.id" :key="key">{{ district.name }}</option>
                             </select>
                         </div>
                         <div class="mb-4">
@@ -201,7 +201,7 @@ const wordFetch = () => {
                                 class="border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 required>
                                 <option selected value="">উপজেলা নির্বাচন করুন</option>
-                                <option v-for="(upzil, key) in upzils" :value="upzil.id">{{ upzil.name }}</option>
+                                <option v-for="(upzil, key) in upzils" :value="upzil.id" :key="key">{{ upzil.name }}</option>
                             </select>
                         </div>
                         <div class="mb-4">
@@ -212,7 +212,7 @@ const wordFetch = () => {
                                 :class="[uniondisable || updisable || ddisable ? 'disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none invalid:border-pink-500 invalid:text-pink-600' : '']"
                                 required>
                                 <option selected value="">ইউনিয়ন নির্বাচন করুন</option>
-                                <option v-for="(un, key) in uns" :value="un.id">{{ un.name }}</option>
+                                <option v-for="(un, key) in uns" :value="un.id" :key="key">{{ un.name }}</option>
                             </select>
                         </div>
                         <div class="mb-4">
@@ -224,7 +224,7 @@ const wordFetch = () => {
                                 :class="[worddisable || uniondisable || updisable || ddisable ? 'disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none invalid:border-pink-500 invalid:text-pink-600' : '']"
                                 required>
                                 <option selected value="">ওয়ার্ড নির্বাচন করুন</option>
-                                <option v-for="(wor, key) in wrds" :value="wor.id">{{ wor.name }}</option>
+                                <option v-for="(wor, key) in wrds" :value="wor.id" :key="key">{{ wor.name }}</option>
                             </select>
                         </div>
                     </div>
@@ -302,7 +302,7 @@ const wordFetch = () => {
                             class="border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             required>
                             <option selected value="">Choose a role</option>
-                            <option v-for="(role, key) in roles" :value="role.id">{{ role.name }}</option>
+                            <option v-for="(role, key) in roles" :value="role.id" :key="key">{{ role.name }}</option>
                         </select>
                         <InputError class="mt-2" :message="form.errors.role_id" />
                     </div>
