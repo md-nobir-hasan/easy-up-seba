@@ -7,35 +7,28 @@ import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import FormLayout from '@/Components/FormLayout.vue';
+import { usePage } from '@inertiajs/vue3';
 defineProps({
     unions: Object,
+    bazar: Object,
 });
-
 const form = useForm({
-    name: '',
-    code: '',
-    union_id: '',
-    submit_btn:'',
+    name: usePage().props.bazar.name,
+    code: usePage().props.bazar.code,
+    union_id: usePage().props.bazar.union.id,
 });
-
 const submit = () => {
-    form.post(route('admin.setup.bazar.store'), {
-        onFinish: () => {
-            form.name = ''
-            form.code = ''
-            form.union_id = ''
-            form.submit_btn = ''
-        }
+    form.put(route('admin.setup.bazar.update',usePage().props.bazar.id), {
+        onFinish: () => form.reset('name'),
     });
 };
-
 </script>
 
 <template>
     <AppLayout title="বাজার">
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
             <div class="bg-white flex justify-between p-4">
-                <h2 class="float-left text-3xl font-extrabold">বাজার যোগ</h2>
+                <h2 class="float-left text-3xl font-extrabold">বাজার আপডেট</h2>
                 <Link :href="route('admin.setup.bazar.index')">
                 <PrimaryButton class="font-extrabold">
                     ফিরে যান
@@ -54,10 +47,9 @@ const submit = () => {
                             <option v-for="(union, key) in unions" :value="union.id" :key="key">{{ union.name }}</option>
                         </select>
                     </div>
-
-                    <!-- Name  -->
                     <div>
                         <InputLabel for="name" value="বাজারর নাম" />
+                        <input type="hidden" name="id" :value="$page.props.bazar.id">
                         <TextInput
                             id="name"
                             v-model="form.name"
@@ -84,12 +76,10 @@ const submit = () => {
                     </div>
 
                     <div class="flex items-center justify-center mt-4">
-                        <PrimaryButton @click="form.submit_btn = 'return'" class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                            সংরক্ষণ
+                        <PrimaryButton class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                            আপডেট
                         </PrimaryButton>
-                        <PrimaryButton  @click="form.submit_btn = 'new'" class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                            সংরক্ষণ এবং নতুন
-                        </PrimaryButton>
+
                     </div>
                 </form>
             </FormLayout>

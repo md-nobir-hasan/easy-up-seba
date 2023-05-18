@@ -11,7 +11,7 @@ class UpdateBazarRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,9 @@ class UpdateBazarRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => "required|string|max:255",
+            'code' => "required|numeric|max:999999",
+            'union_id' => 'required|exists:unions,id',
         ];
     }
 }

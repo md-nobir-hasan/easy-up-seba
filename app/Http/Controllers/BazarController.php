@@ -56,7 +56,7 @@ class BazarController extends Controller
     public function edit(Bazar $bazar)
     {
         $n['unions'] = Union::orderBy('id','desc')->get();
-        $n['bazar'] = $bazar;
+        $n['bazar'] = Bazar::with(['union'])->find($bazar->id);
         return Inertia::render('Setup/Bazar/Edit',$n);
     }
 
