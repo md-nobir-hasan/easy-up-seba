@@ -118,5 +118,19 @@ class SetupSeeder extends Seeder
         //     ['name'=>'বাজার-২','code'=>44,'union_id'=>1],
         // ];
         // DB::table('bazars')->insert($bazar);
+
+          //============= User word bkdn seeder =================
+          $user_word_bkdns =[
+            [
+                'user_id' => 1,
+                'word_id' => 1,
+            ],
+            [
+                'user_id' => 2,
+                'word_id' => 1,
+            ],
+        ];
+
+        DB::table('user_word_bkdns')->insert($user_word_bkdns);
     }
 }

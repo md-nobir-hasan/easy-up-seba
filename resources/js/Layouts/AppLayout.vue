@@ -159,7 +159,18 @@ function DateFormate(date){
 return date;
 
 }
-console.log(usePage().props.noty_not_read)
+function word(){
+    let words = '';
+    let i = 1;
+    usePage().props.auth.user.uwbkdn.forEach((item,index)=>{
+        if(i==1){
+            words = item.words.name;
+        }else{
+            words = words+", "+item.words.name;
+        }
+    });
+    return words;
+}
 </script>
 
 <template>
@@ -167,8 +178,8 @@ console.log(usePage().props.noty_not_read)
         <Head :title="title" />
         <div class="fixed w-full sm:hidden text-center text-3xl bg-[#0edda2] z-50">
             <h1 v-if="$page.props.auth.user.role.name == 'Power'" class="font-extrabold p-3">Super Admin</h1>
-            <h1 v-else-if="$page.props.auth.user.role.name == 'Union'" class="font-extrabold p-3">{{$page.props.auth.user.word.union.name}}</h1>
-            <h1 v-else class="font-extrabold p-3">{{$page.props.auth.user.word.name + "নং" + $page.props.auth.user.word.union.name}}</h1>
+            <h1 v-else-if="$page.props.auth.user.role.name == 'Union'" class="font-extrabold p-3">{{$page.props.auth.user.union.name}}</h1>
+            <h1 v-else class="font-extrabold p-3">{{ word() + " " + $page.props.auth.user.union.name}}</h1>
             <!-- <h1 v-else class="font-extrabold p-3">{{  ($page.props.auth.user.word ? $page.props.auth.user.word.union ? $page.props.auth.user.word.name + "নং" + $page.props.auth.user.word.union.name : "Super Admin" : 'Super Admin')}}</h1> -->
         </div>
         <nav class="fixed top-0 max-sm:top-14 z-50 w-full max-sm:bg-white bg-[#0edda2] border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
@@ -195,8 +206,8 @@ console.log(usePage().props.noty_not_read)
 
                     <div class="text-center text-3xl max-sm:hidden">
                         <h1 v-if="$page.props.auth.user.role.name == 'Power'" class="font-extrabold p-3">Super Admin</h1>
-            <h1 v-else-if="$page.props.auth.user.role.name == 'Union'" class="font-extrabold p-3">{{$page.props.auth.user.word.union.name}}</h1>
-            <h1 v-else class="font-extrabold p-3">{{$page.props.auth.user.word.name + "নং" + $page.props.auth.user.word.union.name}}</h1>
+                        <h1 v-else-if="$page.props.auth.user.role.name == 'Union'" class="font-extrabold p-3">{{$page.props.auth.user.union.name}}</h1>
+                        <h1 v-else class="font-extrabold p-3">{{ word() + " " + $page.props.auth.user.union.name}}</h1>
                     </div>
 
                     <div class="flex items-center">

@@ -78,7 +78,7 @@ function befor10days(date) {
             <div class="w-[49%]">
                 <div class="flex items-center">
                     <img src="/default/images/bd-logo.svg" class="h-14" alt="BD Logo">
-                    <h1 class="ml-4 font-bold text-[24px]">{{ $page.props.auth.user.word.union.name  }}</h1>
+                    <h1 class="ml-4 font-bold text-[24px]">{{ $page.props.auth.user.union.name  }}</h1>
                     <div class="ml-auto">
                         <qrcode-vue :value="'Holding No: '+bill.ekhana.holding_no+', name: '+ bill.ekhana.name + ', Phone: '+ bill.ekhana.phone +', Status: ' + (Number((bill.paid_amount)+Number(bill.paid_prev_arrears)) >  0 ? 'Paid' : 'Please Paid Soon')" :size="size" level="H" />
                     </div>
@@ -231,7 +231,7 @@ function befor10days(date) {
             <div class="w-[49%]">
                 <div class="flex items-center">
                     <img src="/default/images/bd-logo.svg" class="h-14" alt="BD Logo">
-                    <h1 class="ml-4 font-bold text-[24px]">{{ $page.props.auth.user.word.union.name  }}</h1>
+                    <h1 class="ml-4 font-bold text-[24px]">{{ $page.props.auth.user.union.name  }}</h1>
                     <div class="ml-auto">
                         <qrcode-vue :value="'হোল্ডিং নম্বরঃ '+en2bn(bill.ekhana.holding_no)+', নামঃ '+ bill.ekhana.bn_name + ', অর্থ-বছরঃ '+en2bn(ekhana.f_year.from) + '-' +en2bn(ekhana.f_year.to)+', সর্বমোট বিলঃ '+en2bn(Number(bill.paid_amount) + Number(bill.paid_previous_arrears ?? 0)) +', স্ট্যাটাস: ' + ((Number(bill.paid_amount)+Number(bill.paid_prev_arrears))> 0 ? 'পরিশোধ' : 'দ্রুত কর পরিশোধ করুন।')" :size="size" level="H" />
                     </div>

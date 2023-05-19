@@ -48,8 +48,8 @@ Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
+        // 'laravelVersion' => Application::VERSION,
+        // 'phpVersion' => PHP_VERSION,
     ]);
 });
 
@@ -84,10 +84,11 @@ Route::middleware([
             $n['ekhanas'] = Ekhana::where('deleted_by',null)->orderBy('id','desc')->get();
         }
         elseif(Auth::user()->role->name == 'Union'){
-            $n['ekhanas'] = Ekhana::where('deleted_by',null)->where('union_id',Auth::user()->word->union_id)->orderBy('id','desc')->get();
+            $n['ekhanas'] = Ekhana::where('deleted_by',null)->where('union_id',Auth::user()->union_id)->orderBy('id','desc')->get();
         }
         else{
-            $n['ekhanas'] = Ekhana::where('deleted_by',null)->where('word_id',Auth::user()->word_id)->orderBy('id','desc')->get();
+            $n['ekhanas'] = Ekhana::get();
+            $n['ekhanas'] = wordFetch($n['ekhanas']);
         }
         $n['ksum'] = $n['ekhanas']->sum('yearly_income');
         $n['kcount'] = count($n['ekhanas']);

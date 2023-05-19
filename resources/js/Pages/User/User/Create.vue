@@ -8,6 +8,13 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import FormLayout from '@/Components/FormLayout.vue';
 import { ref } from 'vue';
+import {
+        Listbox,
+        ListboxButton,
+        ListboxOptions,
+        ListboxOption,
+      } from '@headlessui/vue';
+      import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/20/solid';
 defineProps({
     roles: Object,
     divisions: Object,
@@ -27,6 +34,8 @@ const form = useForm({
     union_id: '',
     word_id: '',
     submit_btn: '',
+    points: null,
+    words: [],
 });
 
 const showHide = ref(false)
@@ -133,11 +142,16 @@ const unionFetch = () => {
 
 //============ Word fetch ===============
 let wrds = ref({});
+const people = ref({});
+// const selectedPeople = ref({})
 const worddisable = ref(true);
 const wordFetch = () => {
     axios.get(route('ajax.fetch', ['Word', 'union_id', form.union_id]), form).then(res => {
         form.word_id = ''
         wrds.value = res.data;
+        people.value = res.data;
+         form.words.value = [people.value[0]];
+         console.log(form.words.value)
         if (wrds.value.length == 0) {
             worddisable.value = true;
         } else {
@@ -151,6 +165,12 @@ const wordFetch = () => {
 }
 //============ end Word fetch =============
 
+//========== Multiple select box ===========
+//  people.value = [
+//         { id: 1, name: 'ওয়ার্ড নির্বাচন করুন' },
+//       ]
+
+// form.words = form.words.value;
 </script>
 
 <template>
@@ -215,18 +235,83 @@ const wordFetch = () => {
                                 <option v-for="(un, key) in uns" :value="un.id" :key="key">{{ un.name }}</option>
                             </select>
                         </div>
-                        <div class="mb-4">
+
+                       <div v-if="people.length>0" class="mb-4">
                             <label for="word_id"
-                                class="block text-md font-medium text-gray-900 dark:text-white">ওয়ার্ড</label>
-                            <select id="word_id" v-model="form.word_id"
-                                :disabled="worddisable || uniondisable || updisable || ddisable"
-                                class="border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                :class="[worddisable || uniondisable || updisable || ddisable ? 'disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none invalid:border-pink-500 invalid:text-pink-600' : '']"
-                                required>
-                                <option selected value="">ওয়ার্ড নির্বাচন করুন</option>
-                                <option v-for="(wor, key) in wrds" :value="wor.id" :key="key">{{ wor.name }}</option>
-                            </select>
-                        </div>
+                                    class="block text-md font-medium text-gray-900 dark:text-white"
+                                >ওয়ার্ড</label>
+                            <div id="word_id" class="border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                <Listbox v-model="form.words" multiple>
+                                    <!-- <ListboxLabel>ওয়ার্ড নির্বাচন করুন:</ListboxLabel> -->
+                                <div class="relative mt-1">
+                                    <ListboxButton
+                                    class="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm"
+                                    >
+
+                                        <span class="block truncate"> {{ form.words.map((person) => person.name).join(', ') }}</span>
+                                        <span
+                                            class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2"
+                                        >
+                                            <ChevronUpDownIcon
+                                            class="h-5 w-5 text-gray-400"
+                                            aria-hidden="true"
+                                            />
+                                        </span>
+                                    </ListboxButton>
+                                    <transition
+                                    leave-active-class="transition duration-100 ease-in"
+                                    leave-from-class="opacity-100"
+                                    leave-to-class="opacity-0"
+                                    >
+                                    <ListboxOptions
+                                        class="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
+                                    >
+                                        <ListboxOption
+                                        v-slot="{ active, selected }"
+                                        v-for="person in people"
+                                        :key="person.id"
+                                        :value="person"
+                                        as="template"
+                                        >
+                                        <li
+                                            :class="[
+                                            active ? 'bg-amber-100 text-amber-900' : 'text-gray-900',
+                                            'relative cursor-default select-none py-2 pl-10 pr-4',
+                                            ]"
+                                        >
+                                            <span
+                                            :class="[
+                                                selected ? 'font-medium' : 'font-normal',
+                                                'block truncate',
+                                            ]"
+                                            >{{ person.name }}</span
+                                            >
+                                            <span
+                                            v-if="selected"
+                                            class="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600"
+                                            >
+                                            <CheckIcon class="h-5 w-5" aria-hidden="true" />
+                                            </span>
+                                        </li>
+                                        </ListboxOption>
+                                    </ListboxOptions>
+                                    </transition>
+                                </div>
+                                </Listbox>
+                            </div>
+                       </div>
+                       <div v-else class="mb-4">
+                        <label for="word_id"
+                            class="block text-md font-medium text-gray-900 dark:text-white">ওয়ার্ড</label>
+                        <select id="word_id" v-model="form.word_id"
+                            :disabled="worddisable || uniondisable || updisable || ddisable"
+                            class="border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            :class="[worddisable || uniondisable || updisable || ddisable ? 'disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none invalid:border-pink-500 invalid:text-pink-600' : '']"
+                            required>
+                            <option selected value="">ওয়ার্ড নির্বাচন করুন</option>
+                            <option v-for="(wor, key) in wrds" :value="wor.id" :key="key">{{ wor.name }}</option>
+                        </select>
+                    </div>
                     </div>
                     <div class="border p-3 mb-8">
                         <h2 class="text-blue-800 text-center underline font-extrabold pb-2">ইউজারের তথ্য</h2>
@@ -295,17 +380,28 @@ const wordFetch = () => {
                         </div>
                     </div>
                     <div class="border p-3 mb-4">
-                        <h2 class="text-blue-800 text-center underline font-extrabold pb-2">ইউজার পারমিশন</h2>
-                        <label for="division_id"
-                            class="block text-md font-medium text-gray-900 dark:text-white">Roles</label>
-                        <select id="division_id" v-model="form.role_id"
-                            class="border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            required>
-                            <option selected value="">Choose a role</option>
-                            <option v-for="(role, key) in roles" :value="role.id" :key="key">{{ role.name }}</option>
-                        </select>
-                        <InputError class="mt-2" :message="form.errors.role_id" />
+                        <div  class="mb-4">
+                            <h2 class="text-blue-800 text-center underline font-extrabold pb-2">User Permission</h2>
+                            <label for="division_id"
+                                class="block text-md font-medium text-gray-900 dark:text-white">Roles</label>
+                            <select id="division_id" v-model="form.role_id"
+                                class="border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                required>
+                                <option selected value="">Choose a role</option>
+                                <option v-for="(role, key) in roles" :value="role.id" :key="key">{{ role.name }}</option>
+                            </select>
+                            <InputError class="mt-2" :message="form.errors.role_id" />
+                        </div>
+
+                        <div class="mb-4">
+                            <InputLabel for="points" value="Points" />
+                            <TextInput id="points" v-model="form.points" type="number" class="mt-1 block w-full" required
+                                autocomplete="text" />
+                            <InputError class="mt-2" :message="form.errors.points" />
+                        </div>
                     </div>
+
+
 
                     <div class="flex items-center justify-center mt-4">
                         <PrimaryButton @click="form.submit_btn = 'return'" class="ml-4"

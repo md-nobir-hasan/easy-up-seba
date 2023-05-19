@@ -17,38 +17,49 @@ class EkhanaReportController extends Controller
         $n['words'] = Word::with(['union'])->where('deleted_by',null)->get();
     }
     elseif(Auth::user()->role->name == 'Union'){
-        $n['words'] = Word::with(['union'])->where('deleted_by',null)->where('union_id',Auth::user()->word->union_id)->get();
+        $n['words'] = Word::with(['union'])->where('deleted_by',null)->where('union_id',Auth::user()->union_id)->get();
     }
     else{
-        $n['words'] = Word::with(['union'])->where('deleted_by',null)->where('id',Auth::user()->word_id)->get();
+        $n['words'] = Word::with(['union'])->where('deleted_by',null)
+                        // ->where('id',Auth::user()->word_id)
+                        ->get();
+        $n['words'] = wordFetch($n['words']);
     }
 
     $n['f_years'] = FinancialYear::where('deleted_at',null)->orderBy('id','desc')->get();
     $n['tax'] = Tax::where('deleted_at',null)->orderBy('id','desc')->first();
     $n['villages'] = Village::where('deleted_at',null)
-                    ->where('word_id',auth::user()->word_id)
+                    // ->where('word_id',auth::user()->word_id)
                     ->orderBy('id','desc')
                     ->get();
-    // dd($n);
+
+    $n['villages'] = wordFetch($n['villages']);
     return Inertia::render('Tax/Calculation/VillageLevy/Index',$n);
  }
+
  public function wordBasedLevy(){
     if(Auth::user()->role->name == 'Power'){
         $n['words'] = Word::with(['union'])->where('deleted_by',null)->get();
     }
     elseif(Auth::user()->role->name == 'Union'){
-        $n['words'] = Word::with(['union'])->where('deleted_by',null)->where('union_id',Auth::user()->word->union_id)->get();
+        $n['words'] = Word::with(['union'])->where('deleted_by',null)->where('union_id',Auth::user()->union_id)->get();
     }
     else{
-        $n['words'] = Word::with(['union'])->where('deleted_by',null)->where('id',Auth::user()->word_id)->get();
+        $n['words'] = Word::with(['union'])->where('deleted_by',null)
+                        // ->where('id',Auth::user()->word_id)
+                        ->get();
+        $n['words'] = wordFetch($n['words']);
     }
 
     $n['f_years'] = FinancialYear::where('deleted_at',null)->orderBy('id','desc')->get();
     $n['tax'] = Tax::where('deleted_at',null)->orderBy('id','desc')->first();
     $n['villages'] = Village::where('deleted_at',null)
-                    ->where('word_id',auth::user()->word_id)
+                    // ->where('word_id',auth::user()->word_id)
                     ->orderBy('id','desc')
                     ->get();
+
+    $n['villages'] = wordFetch($n['villages']);
+
     // dd($n);
     return Inertia::render('Tax/Calculation/WordLevy/Index',$n);
  }
@@ -65,10 +76,12 @@ class EkhanaReportController extends Controller
             $n['words'] = Word::with(['union'])->where('deleted_by',null)->get();
         }
         elseif(Auth::user()->role->name == 'Union'){
-            $n['words'] = Word::with(['union'])->where('deleted_by',null)->where('union_id',Auth::user()->word->union_id)->get();
+            $n['words'] = Word::with(['union'])->where('deleted_by',null)->where('union_id',Auth::user()->union_id)->get();
         }
         else{
-            $n['words'] = Word::with(['union'])->where('deleted_by',null)->where('id',Auth::user()->word_id)->get();
+            $n['words'] = Word::with(['union'])->where('deleted_by',null)
+                            ->get();
+            $n['words'] = wordFetch($n['words']);
         }
         $n['f_years'] = FinancialYear::where('deleted_at',null)->orderBy('id','desc')->get();
 
