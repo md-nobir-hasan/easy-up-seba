@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('phone')->unique();
             $table->string('show_pass');
             $table->text('address')->nullable();
-            $table->bigInteger('points')->default(0)->nullable();
+            $table->bigInteger('points')->nullable();
             $table->unsignedBigInteger('role_id');
             $table->unsignedBigInteger('union_id');
             // $table->unsignedBigInteger('word_id');

@@ -39,7 +39,18 @@ class HTDepositeController extends Controller
                         ->orderBy('id','desc')
                         ->get();
 
-            $n['data'] = wordFetch($n['data']);
+                //word wise data fetch
+        $i = 1;
+        foreach(Auth::user()->uwbkdn as $word){
+            // dd($word);
+            if($i == 1){
+                    $n['data'] =  $n['data']->where('word_id',$word->word_id);
+            }else{
+                    $n['data'] =  $n['data']->orWhere('word_id',$word->word_id);
+            }
+            $i++;
+        }
+    //End word wise data fetch
         }
         return Inertia::render('Tax/Calculation/HouseDeposite/Index',$n);
     }
@@ -60,7 +71,18 @@ class HTDepositeController extends Controller
                             ->where('union_id',Auth::user()->union_id)
                             ->orderBy('id','desc')->get();
 
-            $n['ekhanas'] = wordFetch($n['ekhanas']);
+                  //word wise data fetch
+        $i = 1;
+        foreach(Auth::user()->uwbkdn as $word){
+            // dd($word);
+            if($i == 1){
+                    $n['ekhanas'] =  $n['ekhanas']->where('word_id',$word->word_id);
+            }else{
+                    $n['ekhanas'] =  $n['ekhanas']->orWhere('word_id',$word->word_id);
+            }
+            $i++;
+        }
+    //End word wise data fetch
         }
         $n['f_years'] = FinancialYear::where('deleted_by',null)->orderBy('id','desc')->get();
         $n['taxes'] = Tax::where('deleted_by',null)->orderBy('id','desc')->get();

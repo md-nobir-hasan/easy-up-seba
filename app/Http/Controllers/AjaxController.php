@@ -56,7 +56,18 @@ class AjaxController extends Controller
                             ->where('deleted_by',null)
                             ->orderBy('id','desc')->get();
 
-                    $data = wordFetch($data);
+                        //word wise data fetch
+                        $i = 1;
+                        foreach(Auth::user()->uwbkdn as $word){
+                            // dd($word);
+                            if($i == 1){
+                                $data =  $data->where('word_id',$word->word_id);
+                            }else{
+                                $data =  $data->orWhere('word_id',$word->word_id);
+                            }
+                            $i++;
+                        }
+                    //End word wise data fetch
                 }
             }
             elseif($modal == 'Ekhana'){
@@ -168,6 +179,22 @@ class AjaxController extends Controller
             // return response()->json($req->all());
         $housetax = $model::find($req->id);
 
+        //points check
+        $user = User::find(Auth::user()->id);
+        if( $user->points != null){
+            if($user->points<1){
+                return 'কোন ক্রেডিট নাই।';
+            }else{
+                if($user->points > $req->paid_amount){
+                    $user->points = $user->points - $req->paid_amount;
+                }else{
+                    $user->points = 0;
+                }
+                $user->save();
+            }
+        }
+
+        
         // if($req->kisti == 1){
         //     $housetax->paid_amount = $req->paid_amount;
         //     $housetax->f_kisti = $req->paid_amount;
@@ -212,6 +239,10 @@ class AjaxController extends Controller
             $ekhana_update->tax_paid = $req->paid_amount;
             $ekhana_update->save();
         }
+
+
+
+
         return  $housetax;
     }
     public function afieldUpdate(Request $req){
@@ -302,7 +333,18 @@ class AjaxController extends Controller
                                             ->where('union_id',Auth::user()->union_id)
                                             // ->where('word_id',Auth::user()->word_id)
                                             ->get();
-            $n['toplist_levy'] = wordFetch($n['toplist_levy']);
+                //word wise data fetch
+        $i = 1;
+        foreach(Auth::user()->uwbkdn as $word){
+            // dd($word);
+            if($i == 1){
+                    $n['toplist_levy'] =  $n['toplist_levy']->where('word_id',$word->word_id);
+            }else{
+                    $n['toplist_levy'] =  $n['toplist_levy']->orWhere('word_id',$word->word_id);
+            }
+            $i++;
+        }
+    //End word wise data fetch
         }
 
 
@@ -368,7 +410,18 @@ class AjaxController extends Controller
                                         ])->where('union_id',Auth::user()->union_id)
                                         // ->where('word_id',Auth::user()->word_id)
                                         ->get();
-            $n['ajdata'] = wordFetch($n['ajdata']);
+                    //word wise data fetch
+                    $i = 1;
+                    foreach(Auth::user()->uwbkdn as $word){
+                        // dd($word);
+                        if($i == 1){
+                                $n['ajdata'] =  $n['ajdata']->where('word_id',$word->word_id);
+                        }else{
+                                $n['ajdata'] =  $n['ajdata']->orWhere('word_id',$word->word_id);
+                        }
+                        $i++;
+                    }
+                //End word wise data fetch
         }
 
 

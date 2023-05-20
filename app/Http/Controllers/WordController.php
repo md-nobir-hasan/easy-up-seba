@@ -31,7 +31,18 @@ class WordController extends Controller
                             // ->where('id',Auth::user()->word_id)
                             ->where('deleted_by',null)
                             ->orderBy('id','desc')->get();
-            $n['words'] = wordFetch($n['words']);
+                //word wise data fetch
+                    $i = 1;
+                    foreach(Auth::user()->uwbkdn as $word){
+                        // dd($word);
+                        if($i == 1){
+                                $n['words'] =  $n['words']->where('word_id',$word->word_id);
+                        }else{
+                                $n['words'] =  $n['words']->orWhere('word_id',$word->word_id);
+                        }
+                        $i++;
+                    }
+                //End word wise data fetch
         }
         return Inertia::render('Setup/Word/Index',$n);
     }

@@ -36,7 +36,18 @@ class ExportController extends Controller
                         // ->where('word_id',Auth::user()->word_id)
                         ->where('deleted_by',null)
                         ->orderBy('id','desc')->get();
-            $ekhana = wordFetch($ekhana);
+                           //word wise data fetch
+        $i = 1;
+        foreach(Auth::user()->uwbkdn as $word){
+            // dd($word);
+            if($i == 1){
+                    $ekhana =  $ekhana->where('word_id',$word->word_id);
+            }else{
+                    $ekhana =  $ekhana->orWhere('word_id',$word->word_id);
+            }
+            $i++;
+        }
+    //End word wise data fetch
         }
 
         $html = '<html><head><style>body { font-family: siyam-rupali; }</style></head><body><p>আমি বাংলায় গান গাই।</p></body></html>';

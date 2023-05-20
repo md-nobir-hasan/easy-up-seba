@@ -50,10 +50,42 @@ class EkhanaController extends Controller
             $n['data'] = Ekhana::with(['createdBy','updatedBy','village','edQuali','religion','profession','word'])
                                 ->where('union_id',Auth::user()->union_id)
                                 ->where('deleted_by',null)->orderBy('id','desc')->get();
-            $n['words'] = wordFetch($n['words']);
-            $n['villages'] = wordFetch($n['villages']);
-
-            $n['data'] = wordFetch($n['data']);
+        //word wise data fetch
+        $i = 1;
+        foreach(Auth::user()->uwbkdn as $word){
+            // dd($word);
+            if($i == 1){
+                    $n['words'] =  $n['words']->where('word_id',$word->word_id);
+            }else{
+                    $n['words'] =  $n['words']->orWhere('word_id',$word->word_id);
+            }
+            $i++;
+        }
+    //End word wise data fetch
+        //word wise data fetch
+        $i = 1;
+        foreach(Auth::user()->uwbkdn as $word){
+            // dd($word);
+            if($i == 1){
+                    $n['villages'] =  $n['villages']->where('word_id',$word->word_id);
+            }else{
+                    $n['villages'] =  $n['villages']->orWhere('word_id',$word->word_id);
+            }
+            $i++;
+        }
+    //End word wise data fetch
+        //word wise data fetch
+            $i = 1;
+            foreach(Auth::user()->uwbkdn as $word){
+                // dd($word);
+                if($i == 1){
+                        $n['data'] =  $n['data']->where('word_id',$word->word_id);
+                }else{
+                        $n['data'] =  $n['data']->orWhere('word_id',$word->word_id);
+                }
+                $i++;
+            }
+        //End word wise data fetch
         }
         $n['tax'] = Tax::latest()->first();
         $n['house_strucs'] = HouseStructure::where('deleted_by',null)->orderBy('id','desc')->get();
@@ -72,8 +104,18 @@ class EkhanaController extends Controller
                             ->where('union_id',Auth::user()->union_id)
                             // ->where('word_id',Auth::user()->word_id)
                             ->orderBy('id','desc')->get();
-
-            $n['villages'] = wordFetch($n['villages']);
+                //word wise data fetch
+        $i = 1;
+        foreach(Auth::user()->uwbkdn as $word){
+            // dd($word);
+            if($i == 1){
+                    $n['villages'] =  $n['villages']->where('word_id',$word->word_id);
+            }else{
+                    $n['villages'] =  $n['villages']->orWhere('word_id',$word->word_id);
+            }
+            $i++;
+        }
+    //End word wise data fetch
             $n['ekhanas'] = Ekhana::with(['createdBy','updatedBy','village','edQuali','religion','profession','word','word.union'])
                             ->where('deleted_by',null)->orderBy('id','desc')->get();
         }
@@ -83,7 +125,19 @@ class EkhanaController extends Controller
                             ->where('union_id',Auth::user()->union_id)
                             // ->where('word_id',Auth::user()->word_id)
                             ->orderBy('id','desc')->get();
-            $n['villages'] = wordFetch($n['villages']);
+                //word wise data fetch
+        $i = 1;
+        foreach(Auth::user()->uwbkdn as $word){
+            // dd($word);
+            if($i == 1){
+                    $n['villages'] =  $n['villages']->where('word_id',$word->word_id);
+            }else{
+                    $n['villages'] =  $n['villages']->orWhere('word_id',$word->word_id);
+            }
+            $i++;
+        }
+    //End word wise data fetch
+
 
             $n['ekhanas'] = Ekhana::with(['createdBy','updatedBy','village','edQuali','religion','profession','word','word.union'])
                                     ->where('union_id',Auth::user()->union_id)
@@ -102,8 +156,31 @@ class EkhanaController extends Controller
                                     ->where('deleted_by',null)
                                     ->orderBy('id','desc')
                                     ->get();
-            $n['words'] = wordFetch($n['words']);
-            $n['villages'] = wordFetch($n['villages']);
+
+                //word wise data fetch
+        $i = 1;
+        foreach(Auth::user()->uwbkdn as $word){
+            // dd($word);
+            if($i == 1){
+                    $n['words'] =  $n['words']->where('word_id',$word->word_id);
+            }else{
+                    $n['words'] =  $n['words']->orWhere('word_id',$word->word_id);
+            }
+            $i++;
+        }
+    //End word wise data fetch
+        //word wise data fetch
+        $i = 1;
+        foreach(Auth::user()->uwbkdn as $word){
+            // dd($word);
+            if($i == 1){
+                    $n['villages'] =  $n['villages']->where('word_id',$word->word_id);
+            }else{
+                    $n['villages'] =  $n['villages']->orWhere('word_id',$word->word_id);
+            }
+            $i++;
+        }
+    //End word wise data fetch
         }
         // if(Auth::user()->role_id == 1){
         //     $n['words'] = Word::where('deleted_by',null)->orderBy('id','desc')->get();
@@ -225,7 +302,18 @@ public function store(StoreEkhanaRequest $request)
         $n['villages'] = Village::where('deleted_by',null)
                         // ->where('word_id',Auth::user()->word_id)
                         ->orderBy('id','desc')->get();
-        $n['villages'] = wordFetch($n['villages']);
+           //word wise data fetch
+        $i = 1;
+        foreach(Auth::user()->uwbkdn as $word){
+            // dd($word);
+            if($i == 1){
+                    $n['villages'] =  $n['villages']->where('word_id',$word->word_id);
+            }else{
+                    $n['villages'] =  $n['villages']->orWhere('word_id',$word->word_id);
+            }
+            $i++;
+        }
+    //End word wise data fetch
         $n['edqualis'] = EducationQualification::where('deleted_by',null)->orderBy('id','desc')->get();
         $n['house_strucs'] = HouseStructure::with(['createdBy','updatedBy'])->where('deleted_by',null)->orderBy('serial','asc')->get();
         return Inertia::render('Tax/Ekhana/Edit',$n);
