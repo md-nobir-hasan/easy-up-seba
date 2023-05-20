@@ -16,7 +16,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('code');
-            $table->foreignIdFor(Union::class)->constrained();
+            $table->foreignIdFor(Union::class)->constrained()->cascadeOnDelete();;
             $table->unsignedBigInteger('created_by')->nullable();
             $table->unsignedBigInteger('updated_by')->nullable();
             $table->timestamp('deleted_at')->nullable();

@@ -67,7 +67,7 @@ class ShareInertiaData
             },
         ]));
         if(Auth::user()){
-            $user = User::with(['word','role','word.union'])->find(Auth::user()->id);
+            $user = User::with(['uwbkdn','role','union','union.upazila','uwbkdn.words'])->find(Auth::user()->id);
             Inertia::share('auth.user',$user);
             $n['noty_not_read'] =  Auth::user()->unreadNotifications ;
             $n['noty_read'] =  Auth::user()->readNotifications;

@@ -26,13 +26,18 @@ class AjaxController extends Controller
         // }else{
             if($modal == 'Union'){
                 if(Auth::user()->role->name == 'Power'){
-                   $data = Union::with(['division','district','upazila','createdBy','updatedBy'])->where($field,$val)->where('deleted_by',null)->orderBy('id','desc')->get();
+                   $data = Union::with(['division','district','upazila','createdBy','updatedBy'])
+                            ->where($field,$val)->where('deleted_by',null)->orderBy('id','desc')->get();
                 }
                 elseif(Auth::user()->role->name == 'Union'){
-                   $data = Union::with(['division','district','upazila','createdBy','updatedBy'])->where($field,$val)->where('id',Auth::user()->word->union_id)->where('deleted_by',null)->orderBy('id','desc')->get();
+                   $data = Union::with(['division','district','upazila','createdBy','updatedBy'])
+                            ->where($field,$val)->where('id',Auth::user()->union_id)->where('deleted_by',null)->orderBy('id','desc')->get();
                 }
                 else{
-                    $data = Union::with(['division','district','upazila','createdBy','updatedBy'])->where($field,$val)->where('id',Auth::user()->word->union_id)->where('deleted_by',null)->orderBy('id','desc')->get();
+                    $data = Union::with(['division','district','upazila','createdBy','updatedBy'])
+                            ->where($field,$val)
+                            ->where('id',Auth::user()->union_id)
+                            ->where('deleted_by',null)->orderBy('id','desc')->get();
                 }
             }
             elseif($modal == 'Word'){
@@ -40,20 +45,42 @@ class AjaxController extends Controller
                    $data = Word::with(['division','district','upazila','union','createdBy','updatedBy'])->where($field,$val)->where('deleted_by',null)->orderBy('id','desc')->get();
                 }
                 elseif(Auth::user()->role->name == 'Union'){
-                   $data = Word::with(['division','district','upazila','union','createdBy','updatedBy'])->where($field,$val)->where('union_id',Auth::user()->word->union_id)->where('deleted_by',null)->orderBy('id','desc')->get();
+                   $data = Word::with(['division','district','upazila','union','createdBy','updatedBy'])
+                            ->where($field,$val)->where('union_id',Auth::user()->union_id)
+                            ->where('deleted_by',null)->orderBy('id','desc')->get();
                 }
                 else{
-                   $data = Word::with(['division','district','upazila','union','createdBy','updatedBy'])->where($field,$val)->where('id',Auth::user()->word_id)->where('deleted_by',null)->orderBy('id','desc')->get();
+                   $data = Word::with(['division','district','upazila','union','createdBy','updatedBy'])
+                            ->where($field,$val)
+                            // ->where('id',Auth::user()->word_id)
+                            ->where('deleted_by',null)
+                            ->orderBy('id','desc')->get();
+
+                        //word wise data fetch
+                        $i = 1;
+                        foreach(Auth::user()->uwbkdn as $word){
+                            // dd($word);
+                            if($i == 1){
+                                $data =  $data->where('word_id',$word->word_id);
+                            }else{
+                                $data =  $data->orWhere('word_id',$word->word_id);
+                            }
+                            $i++;
+                        }
+                    //End word wise data fetch
                 }
             }
             elseif($modal == 'Ekhana'){
 
                 if($value2 == 'all'){ //word_id
-                    $data = $modalClass::with(['union','word','village','createdBy'])->where('deleted_by',null)->orderBy('id','desc')->get();
+                    $data = $modalClass::with(['union','word','village','createdBy'])
+                            ->where('deleted_by',null)->orderBy('id','desc')->get();
                 }elseif($value == 'all'){
-                    $data = $modalClass::with(['union','word','village','createdBy'])->where($field2,$val2)->where('deleted_by',null)->orderBy('id','desc')->get();
+                    $data = $modalClass::with(['union','word','village','createdBy'])
+                            ->where($field2,$val2)->where('deleted_by',null)->orderBy('id','desc')->get();
                 }else{
-                    $data = $modalClass::with(['union','word','village','createdBy'])->where($field,$val)->where($field2,$val2)->where('deleted_by',null)->orderBy('id','desc')->get();
+                    $data = $modalClass::with(['union','word','village','createdBy'])
+                            ->where($field,$val)->where($field2,$val2)->where('deleted_by',null)->orderBy('id','desc')->get();
                 }
             }
             else{
@@ -124,7 +151,8 @@ class AjaxController extends Controller
     public function ekhana(Request $req){
         $n['ekhana'] = Ekhana::with(['village','word'])->where('holding_no',$req->ekhana_id)->first();
         $tax = Tax::latest()->first();
-       $n['ht_deposite'] = HouseTaxDeposite::where('ekhana_id',$n['ekhana']->id)->where('f_year_id',$req->f_year_id)->first();
+       $n['ht_deposite'] = HouseTaxDeposite::where('ekhana_id',$n['ekhana']->id)
+                            ->where('f_year_id',$req->f_year_id)->first();
         if(!$n['ht_deposite']){
             $insert = new HouseTaxDeposite();
             $insert->union_id =  $n['ekhana']->union_id;
@@ -151,6 +179,22 @@ class AjaxController extends Controller
             // return response()->json($req->all());
         $housetax = $model::find($req->id);
 
+        //points check
+        $user = User::find(Auth::user()->id);
+        if( $user->points != null){
+            if($user->points<1){
+                return 'কোন ক্রেডিট নাই।';
+            }else{
+                if($user->points > $req->paid_amount){
+                    $user->points = $user->points - $req->paid_amount;
+                }else{
+                    $user->points = 0;
+                }
+                $user->save();
+            }
+        }
+
+        
         // if($req->kisti == 1){
         //     $housetax->paid_amount = $req->paid_amount;
         //     $housetax->f_kisti = $req->paid_amount;
@@ -195,6 +239,10 @@ class AjaxController extends Controller
             $ekhana_update->tax_paid = $req->paid_amount;
             $ekhana_update->save();
         }
+
+
+
+
         return  $housetax;
     }
     public function afieldUpdate(Request $req){
@@ -270,7 +318,7 @@ class AjaxController extends Controller
                                             "prevTaxUnpaid" => function ($query) use ($req) {$query->where('f_year_id','<', $req->f_year_id);},
                                             "prevTaxPaid" => function ($query) use ($req,$f_year) {$query->where('f_year_id','<', $req->f_year_id)->whereBetween('house_tax_deposites.updated_at',["01/01/$f_year->from","01/01/$f_year->to"]);},
                                             ])
-                                            ->where('union_id',Auth::user()->word->union_id)
+                                            ->where('union_id',Auth::user()->union_id)
                                             ->get();
         }
         else{
@@ -282,9 +330,21 @@ class AjaxController extends Controller
                                             "prevTaxUnpaid" => function ($query) use ($req) {$query->where('f_year_id','<', $req->f_year_id);},
                                             "prevTaxPaid" => function ($query) use ($req,$f_year) {$query->where('f_year_id','<', $req->f_year_id)->whereBetween('house_tax_deposites.updated_at',["01/01/$f_year->from","01/01/$f_year->to"]);},
                                             ])
-                                            ->where('union_id',Auth::user()->word->union_id)
-                                            ->where('word_id',Auth::user()->word_id)
+                                            ->where('union_id',Auth::user()->union_id)
+                                            // ->where('word_id',Auth::user()->word_id)
                                             ->get();
+                //word wise data fetch
+        $i = 1;
+        foreach(Auth::user()->uwbkdn as $word){
+            // dd($word);
+            if($i == 1){
+                    $n['toplist_levy'] =  $n['toplist_levy']->where('word_id',$word->word_id);
+            }else{
+                    $n['toplist_levy'] =  $n['toplist_levy']->orWhere('word_id',$word->word_id);
+            }
+            $i++;
+        }
+    //End word wise data fetch
         }
 
 
@@ -314,7 +374,7 @@ class AjaxController extends Controller
                                             "houseTax.ekhana.village",
                                             "houseTax.ekhana.word",
                                             ])
-                                            // ->where('union_id',Auth::user()->word->union_id)
+                                            // ->where('union_id',Auth::user()->union_id)
                                             // ->where('word_id',Auth::user()->word_id)
                                             ->find($req->word_id);
         }
@@ -340,18 +400,28 @@ class AjaxController extends Controller
                                              "houseTax.ekhana",
                                              "houseTax.ekhana.village",
                                              ])
-                                            ->where('union_id',Auth::user()->word->union_id)
+                                            ->where('union_id',Auth::user()->union_id)
                                             ->get();
         }
         else{
-            $n['ajdata'] = Word::with([
-                                            "houseTax" => function ($query) use ($req) {$query->where('f_year_id', $req->f_year_id)->whereBetween('deposite_date',[$req->from_date,$req->to_date]);},
-                                             "houseTax.ekhana",
-                                             "houseTax.ekhana.village",
-                                             ])
-                                            ->where('union_id',Auth::user()->word->union_id)
-                                            ->where('word_id',Auth::user()->word_id)
-                                            ->get();
+            $n['ajdata'] = Word::with(["houseTax" => function ($query) use ($req) {$query->where('f_year_id', $req->f_year_id)->whereBetween('deposite_date',[$req->from_date,$req->to_date]);},
+                                        "houseTax.ekhana",
+                                        "houseTax.ekhana.village",
+                                        ])->where('union_id',Auth::user()->union_id)
+                                        // ->where('word_id',Auth::user()->word_id)
+                                        ->get();
+                    //word wise data fetch
+                    $i = 1;
+                    foreach(Auth::user()->uwbkdn as $word){
+                        // dd($word);
+                        if($i == 1){
+                                $n['ajdata'] =  $n['ajdata']->where('word_id',$word->word_id);
+                        }else{
+                                $n['ajdata'] =  $n['ajdata']->orWhere('word_id',$word->word_id);
+                        }
+                        $i++;
+                    }
+                //End word wise data fetch
         }
 
 

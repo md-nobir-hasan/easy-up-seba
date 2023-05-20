@@ -58,19 +58,28 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
-      public function createdBy(){
+
+    public function createdBy(){
         return $this->belongsTo(User::class,'created_by');
     }
+
     public function updatedBy(){
         return $this->belongsTo(User::class,'updated_by');
     }
+
     public function deletedBy(){
         return $this->belongsTo(User::class,'deleted_by');
     }
+
     public function role(){
         return $this->belongsTo(Role::class,'role_id');
     }
-    public function word(){
-        return $this->belongsTo(Word::class,'word_id');
+
+    public function union(){
+        return $this->belongsTo(Union::class,'union_id');
+    }
+
+    public function uwbkdn(){
+        return $this->hasMany(UserWordBkdn::class,'user_id');
     }
 }

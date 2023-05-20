@@ -7,6 +7,7 @@ use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\Division;
 use App\Models\Role;
+use App\Models\UserWordBkdn;
 use App\Models\Word;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -21,14 +22,14 @@ class UserController extends Controller
     public function index()
     {
         if(Auth::user()->role->name == 'Power'){
-            $n['users'] = User::with(['createdBy','updatedBy','role','word'])->where('deleted_by',null)->orderBy('id','desc')->get();
+            $n['users'] = User::with(['createdBy','updatedBy','role','union','uwbkdn','uwbkdn.words'])->where('deleted_by',null)
+                            ->orderBy('id','desc')->get();
         }elseif(Auth::user()->role->name == 'Union'){
-            $words = Word::where('union_id',Auth::user()->word->union_id)->get();
-            $n['users'] = User::with(['createdBy','updatedBy','role','word'])->where(function($q)  use ($words){
-                foreach($words as $key => $value){
-                    $q->orWhere('word_id','=',$value->id);
-                }
-            })->where('deleted_by',null)->orderBy('id','desc')->get();
+            $words = Word::where('union_id',Auth::user()->union_id)->get();
+            $n['users'] = User::with(['createdBy','updatedBy','role','union','uwbkdn','uwbkdn.words'])
+                            ->where('union_id',Auth::user()->union_id)
+                            ->where('deleted_by',null)
+                            ->orderBy('id','desc')->get();
         }else{
             $n['users'] = [];
         }
@@ -67,9 +68,18 @@ class UserController extends Controller
         $insert->password = Hash::make($request->password);
         $insert->address = $request->address;
         $insert->role_id = $request->role_id;
-        $insert->word_id = $request->word_id;
+
+        $insert->points = $request->points;
         $insert->created_by = Auth::user()->id;
         $insert->save();
+
+        foreach($request->words as $word){
+            $uwbkdn_insert = new UserWordBkdn();
+            $uwbkdn_insert->word_id = $word['id'];
+            $uwbkdn_insert->user_id = $insert->id;
+            $uwbkdn_insert->save();
+        }
+
         $request->session()->flash('suc_msg',$request->name.' Saved Successfully');
         if($request->submit_btn == 'return'){
             return redirect()->route('admin.user.user.index');

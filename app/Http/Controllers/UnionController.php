@@ -24,7 +24,7 @@ class UnionController extends Controller
             $n['unions'] = Union::with(['division','district','upazila','createdBy','updatedBy'])->where('deleted_by',null)->orderBy('id','desc')->get();
         }
         elseif(Auth::user()->role->name == 'Union'){
-            $n['unions'] = Union::with(['division','district','upazila','createdBy','updatedBy'])->where('id',Auth::user()->word->union_id)->where('deleted_by',null)->orderBy('id','desc')->get();
+            $n['unions'] = Union::with(['division','district','upazila','createdBy','updatedBy'])->where('id',Auth::user()->union_id)->where('deleted_by',null)->orderBy('id','desc')->get();
         }
         else{
             $n['unions'] = [];

@@ -20,27 +20,38 @@ class HTDepositeController extends Controller
     {
         if(Auth::user()->role->name == 'Power'){
             $n['data'] = HouseTaxDeposite::with(['createdBy','updatedBy','ekhana','fYear','word','union'])
-            ->where('deleted_by',null)
-            ->where('deposite_date','!=',null)
-            ->orderBy('id','desc')->get();
-        }
+                        ->where('deleted_by',null)
+                        ->where('deposite_date','!=',null)
+                        ->orderBy('id','desc')->get();
+            }
         elseif(Auth::user()->role->name == 'Union'){
             $n['data'] = HouseTaxDeposite::with(['createdBy','updatedBy','ekhana','fYear','word','union'])
-            ->where('union_id',Auth::user()->word->union_id)
-            ->where('deleted_by',null)->orderBy('id','desc')
-            ->where('deposite_date','!=',null)
-            ->get();
+                        ->where('union_id',Auth::user()->union_id)
+                        ->where('deleted_by',null)->orderBy('id','desc')
+                        ->where('deposite_date','!=',null)
+                        ->get();
         }
         else{
             $n['data'] = HouseTaxDeposite::with(['createdBy','updatedBy','ekhana','fYear','word','union'])
-            ->where('union_id',Auth::user()->word->union_id)
-            ->where('word_id',Auth::user()->word_id)
-            ->where('deleted_by',null)
-            ->where('deposite_date','!=',null)
-            ->orderBy('id','desc')
-            ->get();
+                        ->where('union_id',Auth::user()->union_id)
+                        ->where('deleted_by',null)
+                        ->where('deposite_date','!=',null)
+                        ->orderBy('id','desc')
+                        ->get();
+
+                //word wise data fetch
+        $i = 1;
+        foreach(Auth::user()->uwbkdn as $word){
+            // dd($word);
+            if($i == 1){
+                    $n['data'] =  $n['data']->where('word_id',$word->word_id);
+            }else{
+                    $n['data'] =  $n['data']->orWhere('word_id',$word->word_id);
+            }
+            $i++;
         }
-        // $n['data'] = HouseTaxDeposite::with(['createdBy','updatedBy','ekhana','fYear'])->where('deleted_by',null)->orderBy('id','desc')->get();
+    //End word wise data fetch
+        }
         return Inertia::render('Tax/Calculation/HouseDeposite/Index',$n);
     }
 
@@ -53,10 +64,25 @@ class HTDepositeController extends Controller
             $n['ekhanas'] = Ekhana::with(['createdBy','updatedBy','village','edQuali','religion','profession','word','word.union'])->where('deleted_by',null)->orderBy('id','desc')->get();
         }
         elseif(Auth::user()->role->name == 'Union'){
-            $n['ekhanas'] = Ekhana::with(['createdBy','updatedBy','village','edQuali','religion','profession','word','word.union'])->where('union_id',Auth::user()->word->union_id)->where('deleted_by',null)->orderBy('id','desc')->get();
+            $n['ekhanas'] = Ekhana::with(['createdBy','updatedBy','village','edQuali','religion','profession','word','word.union'])->where('union_id',Auth::user()->union_id)->where('deleted_by',null)->orderBy('id','desc')->get();
         }
         else{
-            $n['ekhanas'] = Ekhana::with(['createdBy','updatedBy','village','edQuali','religion','profession','word','word.union'])->where('union_id',Auth::user()->word->union_id)->where('word_id',Auth::user()->word_id)->where('deleted_by',null)->orderBy('id','desc')->get();
+            $n['ekhanas'] = Ekhana::with(['createdBy','updatedBy','village','edQuali','religion','profession','word','word.union'])
+                            ->where('union_id',Auth::user()->union_id)
+                            ->orderBy('id','desc')->get();
+
+                  //word wise data fetch
+        $i = 1;
+        foreach(Auth::user()->uwbkdn as $word){
+            // dd($word);
+            if($i == 1){
+                    $n['ekhanas'] =  $n['ekhanas']->where('word_id',$word->word_id);
+            }else{
+                    $n['ekhanas'] =  $n['ekhanas']->orWhere('word_id',$word->word_id);
+            }
+            $i++;
+        }
+    //End word wise data fetch
         }
         $n['f_years'] = FinancialYear::where('deleted_by',null)->orderBy('id','desc')->get();
         $n['taxes'] = Tax::where('deleted_by',null)->orderBy('id','desc')->get();
@@ -105,16 +131,17 @@ class HTDepositeController extends Controller
 
     public function approvalIndex(){
         if(Auth::user()->role->name == 'Power'){
-            $n['data'] = HouseTaxDeposite::with(['createdBy','updatedBy','ekhana','fYear','word','union'])->where('deleted_by',null)->where('approval',2)->orderBy('id','desc')->get();
+            $n['data'] = HouseTaxDeposite::with(['createdBy','updatedBy','ekhana','fYear','word','union'])
+                        ->where('deleted_by',null)->where('approval',2)->orderBy('id','desc')->get();
         }
         elseif(Auth::user()->role->name == 'Union'){
-            $n['data'] = HouseTaxDeposite::with(['createdBy','updatedBy','ekhana','fYear','word','union'])->where('union_id',Auth::user()->word->union_id)->where('deleted_by',null)->where('approval',2)->orderBy('id','desc')->get();
+            $n['data'] = HouseTaxDeposite::with(['createdBy','updatedBy','ekhana','fYear','word','union'])
+                        ->where('union_id',Auth::user()->union_id)->where('deleted_by',null)->where('approval',2)->orderBy('id','desc')->get();
         }
         else{
-            // $n['data'] = HouseTaxDeposite::with(['createdBy','updatedBy','ekhana','fYear','word','union'])->where('union_id',Auth::user()->word->union_id)->where('word_id',Auth::user()->word_id)->where('deleted_by',null)->where('approval',2)->orderBy('id','desc')->get();
             $n['data'] = '';
         }
-        // $n['data'] = HouseTaxDeposite::with(['createdBy','updatedBy','ekhana','fYear'])->where('deleted_by',null)->orderBy('id','desc')->get();
+
         return Inertia::render('Approval/HouseTaxDeposite/Index',$n);
     }
 }

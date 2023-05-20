@@ -80,7 +80,7 @@ console.log(pro.bill)
                 <div class="w-[49%]">
                     <div class="flex items-center">
                         <img src="/default/images/bd-logo.svg" class="h-14" alt="BD Logo">
-                        <h1 class="ml-4 font-bold text-[24px]">{{ $page.props.auth.user.word.union.name  }}</h1>
+                        <h1 class="ml-4 font-bold text-[24px]">{{ $page.props.auth.user.union.name  }}</h1>
 
                     </div>
 
@@ -252,7 +252,7 @@ console.log(pro.bill)
                 <div class="w-[49%]">
                     <div class="flex items-center">
                         <img src="/default/images/bd-logo.svg" class="h-14" alt="BD Logo">
-                        <h1 class="ml-4 font-bold text-[24px]">{{ $page.props.auth.user.word.union.name  }}</h1>
+                        <h1 class="ml-4 font-bold text-[24px]">{{ $page.props.auth.user.union.name  }}</h1>
 
                     </div>
 

@@ -24,10 +24,25 @@ class WordController extends Controller
             $n['words'] = Word::with(['division','district','upazila','union','createdBy','updatedBy'])->where('deleted_by',null)->orderBy('id','desc')->get();
         }
         elseif(Auth::user()->role->name == 'Union'){
-            $n['words'] = Word::with(['division','district','upazila','union','createdBy','updatedBy'])->where('union_id',Auth::user()->word->union_id)->where('deleted_by',null)->orderBy('id','desc')->get();
+            $n['words'] = Word::with(['division','district','upazila','union','createdBy','updatedBy'])->where('union_id',Auth::user()->union_id)->where('deleted_by',null)->orderBy('id','desc')->get();
         }
         else{
-            $n['words'] = Word::with(['division','district','upazila','union','createdBy','updatedBy'])->where('id',Auth::user()->word_id)->where('deleted_by',null)->orderBy('id','desc')->get();
+            $n['words'] = Word::with(['division','district','upazila','union','createdBy','updatedBy'])
+                            // ->where('id',Auth::user()->word_id)
+                            ->where('deleted_by',null)
+                            ->orderBy('id','desc')->get();
+                //word wise data fetch
+                    $i = 1;
+                    foreach(Auth::user()->uwbkdn as $word){
+                        // dd($word);
+                        if($i == 1){
+                                $n['words'] =  $n['words']->where('word_id',$word->word_id);
+                        }else{
+                                $n['words'] =  $n['words']->orWhere('word_id',$word->word_id);
+                        }
+                        $i++;
+                    }
+                //End word wise data fetch
         }
         return Inertia::render('Setup/Word/Index',$n);
     }
