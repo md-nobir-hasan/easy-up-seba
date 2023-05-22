@@ -67,6 +67,15 @@ function befor10days(date) {
     }
     return date;
 }
+
+//english number to bangla word
+const bnmny = ref(null);
+function bnMoney(num){
+    axios.get(route('ajax.bnmoney',[num])).then(res=>{
+        bnmny.value = res.data;
+        console.log(res.data);
+    });
+}
 </script>
 <template>
 
@@ -214,7 +223,7 @@ function befor10days(date) {
                             </tr>
                             <tr>
                                 <th class="border border-[black] p-2">প্রাপ্ত টাকা কথায়</th>
-                                <td class="border border-[black] p-2"></td>
+                                <td class="border border-[black] p-2 text-[14px]" :id="bnMoney(Number(bill.paid_amount) + Number(bill.paid_prev_arrears ?? 0))">{{ bnmny }}</td>
                                 <td class="border border-[black] border-b-0 p-2 align-bottom"></td>
                             </tr>
                             <tr>
@@ -369,7 +378,7 @@ function befor10days(date) {
                             </tr>
                             <tr>
                                 <th class="border border-[black] p-2">প্রাপ্ত টাকা কথায়</th>
-                                <td class="border border-[black] p-2"></td>
+                                <td class="border border-[black] p-2 text-[14px]">{{ bnmny }}</td>
                                 <td class="border border-[black] border-b-0 p-2 align-bottom"></td>
                             </tr>
                             <tr>

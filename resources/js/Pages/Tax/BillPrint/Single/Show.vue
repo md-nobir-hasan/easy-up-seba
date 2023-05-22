@@ -67,6 +67,14 @@ function befor10days(date) {
     }
     return date;
 }
+
+//english number to bangla word
+const bnmny = ref(null);
+function bnMoney(num){
+    axios.get(route('ajax.bnmoney',[num])).then(res=>{
+        bnmny.value = res.data;
+    });
+}
 </script>
 
 <template>
@@ -93,7 +101,7 @@ function befor10days(date) {
                         <h4 class="text-[#060682] text-[16px]">ইউপি কপি</h4>
                     </div>
                     <div>
-                        <qrcode-vue :value="'Holding No: '+bill.holding_no+', name: '+ bill.bn_name + ', Phone: '+ bill.phone + ', Status: ' + ((bill.paid_amount+bill.paid_prev_arrears)> 0 ? 'Paid' : 'Please Paid Soon')" :size="size" level="H" />
+                        <qrcode-vue :value="'Holding No: '+bill.ekhana.holding_no+', name: '+ bill.ekhana.bn_name + ', Phone: '+ bill.ekhana.phone + ', Status: ' + ((bill.paid_amount+bill.paid_prev_arrears)> 0 ? 'Paid' : 'Please Paid Soon')" :size="size" level="H" />
                     </div>
                 </div>
 
@@ -190,14 +198,14 @@ function befor10days(date) {
                                 <th class="w-[50%]"></th>
                                 <td>{{en2bn( Number(bill.prev_arrears)+ Number(bill.total_amount) - Number(bill.paid_amount) ) }}</td>
                             </tr>
-                            <tr>
+                            <!-- <tr>
                                 <th>কথায়ঃ</th>
-                                <!-- <th class="w-[50%]"></th> -->
-                                <td>{{ bill.ekhana.village.name }}</td>
-                            </tr>
+                                <td :id="bnMoney(Number(bill.prev_arrears)+ Number(bill.total_amount) - Number(bill.paid_amount))">{{ bnmny  }}</td>
+                            </tr> -->
 
                         </tbody>
                     </table>
+                    <p :id="bnMoney(Number(bill.prev_arrears)+ Number(bill.total_amount) - Number(bill.paid_amount))">কথায়ঃ {{ bnmny  }}</p>
                 </div>
 
 
@@ -255,7 +263,7 @@ function befor10days(date) {
                         <h4 class="text-[#060682] text-[16px]">গ্রাহক কপি</h4>
                     </div>
                     <div>
-                        <qrcode-vue :value="'Holding No: '+bill.holding_no+', name: '+ bill.bn_name + ', Phone: '+ bill.phone + ', Status: ' + ((bill.paid_amount+bill.paid_prev_arrears)> 0 ? 'Paid' : 'Please Paid Soon')" :size="size" level="H" />
+                        <qrcode-vue :value="'Holding No: '+bill.ekhana.holding_no+', name: '+ bill.ekhana.bn_name + ', Phone: '+ bill.ekhana.phone + ', Status: ' + ((bill.paid_amount+bill.paid_prev_arrears)> 0 ? 'Paid' : 'Please Paid Soon')" :size="size" level="H" />
                     </div>
                 </div>
 
@@ -352,14 +360,15 @@ function befor10days(date) {
                                 <th class="w-[50%]"></th>
                                 <td>{{en2bn( Number(bill.prev_arrears)+ Number(bill.total_amount) - Number(bill.paid_amount) ) }}</td>
                             </tr>
-                            <tr>
+                            <!-- <tr>
                                 <th>কথায়ঃ</th>
-                                <!-- <th class="w-[50%]"></th> -->
-                                <td>{{ bill.ekhana.village.name }}</td>
-                            </tr>
+                                <th class="w-[50%]"></th>
+                                <td>{{ bnmny  }}</td>
+                            </tr> -->
 
                         </tbody>
                     </table>
+                    <p>কথায়ঃ {{ bnmny  }}</p>
                 </div>
 
 
