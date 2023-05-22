@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\ServiceProvider;
 use Inertia\Inertia;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -39,6 +40,9 @@ class AppServiceProvider extends ServiceProvider
         if(Schema::hasTable('notifications')){
              Notification::whereBetween('created_at',[now()->subDays(7),'!=',now()])->delete();
         }
+
+        JsonResource::withoutWrapping();
+
 
     }
 }

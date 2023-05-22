@@ -1,17 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
-use App\Enums\OwnershipType;
-use App\Enums\Status;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreTradeLicenseRequest;
 use App\Http\Requests\UpdateTradeLicenseRequest;
 use App\Http\Resources\TradeLicenseResource;
-use App\Models\BusinessType;
 use App\Models\Division;
 use App\Models\TradeLicense;
 use Illuminate\Support\Facades\DB;
-use Inertia\Inertia;
 
 class TradeLicenseController extends Controller
 {
@@ -20,9 +17,10 @@ class TradeLicenseController extends Controller
      */
     public function index()
     {
-        $n['data'] = TradeLicenseResource::collection(TradeLicense::with('addresses.village', 'addresses.union', 'addresses.upazila', 'addresses.district', 'businessType', 'businessCapital')->orderByDesc('id')->get());
-        return Inertia::render('TradeLicense/Index', $n);
-
+        return response()->json([
+            'message' => 'Trade license created successfully.',
+            'trade_licenses' => TradeLicenseResource::collection(TradeLicense::with('addresses.village', 'addresses.union', 'addresses.upazila', 'addresses.district', 'businessType', 'businessCapital')->orderByDesc('id')->get())
+        ], 200);
     }
 
     /**
@@ -30,11 +28,9 @@ class TradeLicenseController extends Controller
      */
     public function create()
     {
-        $divisions = Division::where('deleted_by', null)->orderBy('id', 'desc')->get();
-        $status = Status::values();
-        $ownerShipType = OwnershipType::values();
-        $businessType = BusinessType::all();
-        return Inertia::render('TradeLicense/Create', ['divisions' => $divisions, 'status'=> $status, 'ownershipType'=> $ownerShipType, 'businessType'=> $businessType]);
+        return response()->json([
+            'Division' => Division::with(['districts', 'districts.upazilas',  'districts.upazilas.unions',  'districts.upazilas.unions.villages', ])->get(),
+        ], 200);
     }
 
     /**
@@ -54,9 +50,10 @@ class TradeLicenseController extends Controller
 
             DB::commit();
 
-            $request->session()->flash('suc_msg', $request->name.' সফলভাবে সরক্ষণ করা হয়েছে');
-
-            return redirect()->route('admin.trade-license.index');
+            return response()->json([
+                'message' => 'Trade license created successfully.',
+                'trade_license' => $tradeLicenses
+            ], 201);
 
         } catch (\Exception $e) {
             DB::rollback();

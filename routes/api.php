@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\TradeLicenseController;
+use App\Http\Controllers\Api\TradeLicenseController;
 use Illuminate\Support\Facades\Route;
 
 /*

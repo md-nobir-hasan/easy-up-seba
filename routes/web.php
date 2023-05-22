@@ -53,9 +53,6 @@ Route::get('/', function () {
 });
 
 
-Route::resource('/trade-license', TradeLicenseController::class, ['except' => ['update']]);
-Route::post('/update', [TradeLicenseController::class,'index'])->name('update');
-
 Route::prefix('/ajax')->name('ajax.')->group(function () {
     Route::get('/fetch/{model}/{field}/{value}/{with?}/{field2?}/{value2?}', [AjaxController::class,'dataFetch'])->name('fetch');
     Route::post('/holding/fetch', [AjaxController::class,'holdingFetch'])->name('holding.fetch');
@@ -80,6 +77,10 @@ Route::middleware([
     'verified',
 ])->prefix('/admin')->name('admin.')->group(function () {
 
+
+    Route::resource('/trade-license', TradeLicenseController::class, ['except' => ['update']]);
+    Route::post('/update', [TradeLicenseController::class,'index'])->name('update');
+    
     //dashboar rendering
     Route::get('/dashboard', function () {
         if(Auth::user()->role->name == 'Power') {

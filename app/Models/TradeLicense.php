@@ -30,6 +30,7 @@ class TradeLicense extends Model
         'business_starting_date',
         'ownership',
         'business_space_rant',
+        'size_of_signboard',
         'status',
         'code_number'
     ];
