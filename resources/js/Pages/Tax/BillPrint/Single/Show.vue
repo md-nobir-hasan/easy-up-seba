@@ -72,7 +72,7 @@ function befor10days(date) {
 const bnmny = ref(null);
 function bnMoney(num){
     axios.get(route('ajax.bnmoney',[num])).then(res=>{
-        bnmny.value = res.data;
+        bnmny.value = res.data + ' মাত্র';
     });
 }
 </script>
