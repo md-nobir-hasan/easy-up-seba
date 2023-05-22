@@ -41,7 +41,7 @@ class BillPrintController extends Controller
     }
 
     public function singleShow(Request $req){
-        $n['bill'] = HouseTaxDeposite::query()->with(['fYear','ekhana','ekhana.word'])
+        $n['bill'] = HouseTaxDeposite::query()->with(['fYear','ekhana','ekhana.word','ekhana.village'])
                                         ->where('ekhana_id',$req->ekhana_id)
                                         ->where('f_year_id',$req->f_y_id)
                                         ->whereDate('deposite_date','=',$req->deposite_date)

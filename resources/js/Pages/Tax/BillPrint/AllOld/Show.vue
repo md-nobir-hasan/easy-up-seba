@@ -76,7 +76,7 @@ function befor10days(date) {
             <div class="flex justify-between">
                 <!-- Up copy  -->
                 <div class="w-[49%]">
-                    <div class="flex items-center justify-between">
+                    <div class="flex  justify-between">
                         <div class="flex">
                           <img src="/default/images/bd-logo.svg" class="h-14" alt="BD Logo">
                         </div>
