@@ -14,6 +14,7 @@ use App\Notifications\HTaxDepoDelAproval;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Rakibhstu\Banglanumber\NumberToBangla;
 
 class AjaxController extends Controller
 {
@@ -173,6 +174,7 @@ class AjaxController extends Controller
         $update->update($req->all());
         return response($update);
     }
+
     public function update(Request $req, $model){
         $model = '\\App\\Models\\'.$model;
             // return $model;
@@ -194,7 +196,7 @@ class AjaxController extends Controller
             }
         }
 
-        
+
         // if($req->kisti == 1){
         //     $housetax->paid_amount = $req->paid_amount;
         //     $housetax->f_kisti = $req->paid_amount;
@@ -245,6 +247,7 @@ class AjaxController extends Controller
 
         return  $housetax;
     }
+
     public function afieldUpdate(Request $req){
         $model = '\\App\\Models\\'.$req->model;
         // return $model;
@@ -272,7 +275,7 @@ class AjaxController extends Controller
         return response()->json($user->notifications);
     }
 
-  public  function notyRead(Request $req){
+    public  function notyRead(Request $req){
         $user  = Auth::user();
         foreach ($user->unreadNotifications as $notification) {
             $notification->markAsRead();
@@ -295,6 +298,7 @@ class AjaxController extends Controller
 
         return response()->json($n);
     }
+
     public function TolistLevy(Request $req){
         $f_year = FinancialYear::find($req->f_year_id);
 
@@ -344,7 +348,7 @@ class AjaxController extends Controller
             }
             $i++;
         }
-    //End word wise data fetch
+        //End word wise data fetch
         }
 
 
@@ -451,6 +455,13 @@ class AjaxController extends Controller
         ->select('house_tax_deposites.*','ekhanas.holding_no','ekhanas.bn_name','ekhanas.spouse_name','financial_years.from','financial_years.to','words.name as w_name')
         ->get();
         return response()->json($n);
+    }
+
+    public function bnMoney($num){
+        $numto = new NumberToBangla();
+        $text = $numto->bnMoney((int)$num);
+        return response()->json($text);
+
     }
 }
 

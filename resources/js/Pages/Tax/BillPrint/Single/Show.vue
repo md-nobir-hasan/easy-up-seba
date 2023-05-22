@@ -67,6 +67,14 @@ function befor10days(date) {
     }
     return date;
 }
+
+//english number to bangla word
+const bnmny = ref(null);
+function bnMoney(num){
+    axios.get(route('ajax.bnmoney',[num])).then(res=>{
+        bnmny.value = res.data + ' মাত্র';
+    });
+}
 </script>
 
 <template>
@@ -77,24 +85,23 @@ function befor10days(date) {
 
             <!-- Up copy  -->
             <div class="w-[49%]">
-                <div class="flex items-center">
+                <!-- <div class="flex items-center">
                     <img src="/default/images/bd-logo.svg" class="h-14" alt="BD Logo">
                     <h1 class="ml-4 font-bold text-[24px]">{{ $page.props.auth.user.union.name  }}</h1>
-                </div>
+                </div> -->
 
-                <div class="flex items-center justify-between mt-4 pl-[75px]">
-                    <div class="">
-                        <h4>ইউপি করের বিল</h4>
-                        <h4>ইউপি কপি</h4>
+                <div class="flex justify-between mt-4 mr-1 pl-[15px]">
+                    <div class="flex">
+                        <img src="/default/images/bd-logo.svg" class="h-14" alt="BD Logo">
                     </div>
-                    <div class="pl-8">
-                        <h4>
-                            <!-- বছর :  -->
-                            {{en2bn(ekhana.f_year.from) + '-' +en2bn(ekhana.f_year.to)}}</h4>
-                        <h4>
-                            <!-- কিস্তি : -->
-                            <span>৪র্থ</span>
-                        </h4>
+                    <div class="text-center">
+                        <p class="text-[#ec2929] text-[14px]">গনপ্রজাতন্ত্রী বাংলাদেশ সরকার (স্থানীয় সরকার বিভাগ)</p>
+                        <h1 class="ml-4 font-bold text-[18px] text-[#060682]">{{ $page.props.auth.user.union.name  }} পরিষদ কার্যালয় {{ $page.props.auth.user.union.upazila.name }}, {{ $page.props.auth.user.union.upazila.district.name }}</h1>
+                        <h2 class="font-bold text-[#ec2929] text-[16px]">ইউপি করের বিল</h2>
+                        <h4 class="text-[#060682] text-[16px]">ইউপি কপি</h4>
+                    </div>
+                    <div>
+                        <qrcode-vue :value="'Holding No: '+bill.ekhana.holding_no+', name: '+ bill.ekhana.bn_name + ', Phone: '+ bill.ekhana.phone + ', Status: ' + ((bill.paid_amount+bill.paid_prev_arrears)> 0 ? 'Paid' : 'Please Paid Soon')" :size="size" level="H" />
                     </div>
                 </div>
 
@@ -106,6 +113,11 @@ function befor10days(date) {
                                 <!-- <th>ওয়ার্ড</th> -->
                                 <th class="w-[50%]"></th>
                                 <td>{{ en2bn(bill.ekhana.word.name) }}</td>
+                            </tr>
+                            <tr>
+                                <!-- <th>ওয়ার্ড</th> -->
+                                <th class="w-[50%]"></th>
+                                <td>{{ en2bn(bill.f_year.from)+" - "+ en2bn(bill.f_year.to) }}</td>
                             </tr>
                             <tr>
                                 <!-- <th>হোল্ডিং নং</th> -->
@@ -122,19 +134,25 @@ function befor10days(date) {
                                 <th class="w-[50%]"></th>
                                 <td>{{ bill.ekhana.spouse_name }}</td>
                             </tr>
-                            <!-- <tr>
-                                <th>বিলের ঠিকানা</th>
-                                <td>{{ bill.ekhana.address }}</td>
-                            </tr> -->
+                            <tr>
+                                <!-- <th>পিতা/স্বামীর নাম</th> -->
+                                <th class="w-[50%]"></th>
+                                <td>{{en2bn( Number(bill.ekhana.paka_house ?? 0)+ Number(bill.ekhana.adhapaka_house ?? 0)+ Number(bill.ekhana.kasa_house ?? 0)) }}</td>
+                            </tr>
+                            <tr>
+                                <!-- <th>বিলের ঠিকানা</th> -->
+                                <th class="w-[50%]"></th>
+                                <td>{{ bill.ekhana.village.name }}</td>
+                            </tr>
                             <tr>
                                 <!-- <th>বিল ইস্যুর তারিখ</th> -->
                                 <th class="w-[50%]"></th>
-                                <td>{{ DateFormate(bill.deposite_date) }}</td>
+                                <td>{{ DateFormate(bill.deposite_date) }} ইং</td>
                             </tr>
                             <tr>
                                 <!-- <th>জমাদানের শেষ তারিখ</th> -->
                                 <th class="w-[50%]"></th>
-                                <td> {{ befor10days(bill.deposite_date) }}</td>
+                                <td> {{ befor10days(bill.deposite_date) }} ইং</td>
                             </tr>
                             <tr>
                                 <!-- <th>ব্যাংকের নাম ও হিসাব নাম্বার</th> -->
@@ -145,75 +163,52 @@ function befor10days(date) {
                     </table>
                 </div>
 
-                <!-- Tax information table  -->
-                <div class="text-left w-[100%] p-4">
-                    <table class="w-[100%] text-center border-collapse  p-2">
-                        <thead>
-                            <tr>
-                                <!-- <th rowspan="2" class=" p-2">করের বিবরণ</th>
-                                <th rowspan="2" class=" p-2">বকেয়া</th>
-                                <th colspan="5" class=" p-2">চলতি</th> -->
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                            </tr>
-                            <tr>
-                                <!-- <th class=" p-2">১ম কিস্তি</th>
-                                <th class=" p-2">২য় কিস্তি</th>
-                                <th class=" p-2">৩য় কিস্তি</th>
-                                <th class=" p-2">৪র্থ কিস্তি</th>
-                                <th class=" p-2">মোট</th> -->
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                            </tr>
-                        </thead>
+                <!-- Tax details  -->
+                <div class="text-left mt-1 w-[100%] p-4 pt-0">
+                    <h1 class="text-center">করের বিবরণ</h1>
+                    <table class="table w-[100%]">
                         <tbody>
                             <tr>
-                                <!-- <th class=" p-2">হোল্ডিং কর</th> -->
-                                <th></th>
-                                <td class=" p-2">{{ en2bn(bill.total_amount - bill.paid_amount) }}</td>
-                                <td class=" p-2">{{en2bn(bill.f_kisti)}}</td>
-                                <td class=" p-2">{{en2bn(bill.s_kisti)}}</td>
-                                <td class=" p-2">{{en2bn(bill.t_kisti)}}</td>
-                                <td class=" p-2">{{en2bn(bill.fo_kisti)}}</td>
-                                <td class=" p-2 ">{{en2bn(bill.paid_amount)}}</td>
+                                <!-- <th>বকেয়া বিল</th> -->
+                                <th class="w-[50%]"></th>
+                                <td>{{ en2bn(bill.prev_arrears) }}</td>
                             </tr>
                             <tr>
-                                <!-- <th class=" p-2">পূর্বের বকেয়া</th> -->
-                                <th></th>
-                                <td class=" p-2">{{ en2bn(bill.prev_arrears) }}</td>
-                                <td class=" p-2"></td>
-                                <td class=" p-2"></td>
-                                <td class=" p-2"></td>
-                                <td class=" p-2"></td>
-                                <td class=" p-2 ">{{ en2bn(Number(bill.paid_prev_arrears)) }}</td>
+                                <!-- <th>চলতি বিল</th> -->
+                                <th class="w-[50%]"></th>
+                                <td>{{ en2bn(bill.total_amount) }}</td>
                             </tr>
                             <tr>
-                                <!-- <th class=" p-2">দন্ড</th> -->
-                                <th></th>
-                                <td class=" p-2"></td>
-                                <td class=" p-2"></td>
-                                <td class=" p-2"></td>
-                                <td class=" p-2"></td>
-                                <td class=" p-2"></td>
-                                <td class=" p-2 "></td>
+                                <!-- <th>জরিমানা</th> -->
+                                <th class="w-[50%]"></th>
+                                <td>{{ en2bn(bill.fine) }}</td>
                             </tr>
-                            <tr class="">
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <!-- <th>সর্বমোট</th> -->
-                                <th></th>
-                                <th class=" p-2 ">{{en2bn(Number(bill.paid_amount) + Number(bill.paid_prev_arrears))}}</th>
+                            <tr>
+                                <!-- <th>মোট বকেয়া</th> -->
+                                <th class="w-[50%]"></th>
+                                <td>{{ en2bn(Number(bill.prev_arrears)+ Number(bill.total_amount)) }}</td>
                             </tr>
+                            <tr>
+                                <!-- <th>মোট পরিশোধ</th> -->
+                                <th class="w-[50%]"></th>
+                                <td>{{ en2bn(bill.paid_amount) }}</td>
+                            </tr>
+                            <tr>
+                                <!-- <th>বর্তমান বকেয়া</th> -->
+                                <th class="w-[50%]"></th>
+                                <td>{{en2bn( Number(bill.prev_arrears)+ Number(bill.total_amount) - Number(bill.paid_amount) ) }}</td>
+                            </tr>
+                            <!-- <tr>
+                                <th>কথায়ঃ</th>
+                                <td :id="bnMoney(Number(bill.prev_arrears)+ Number(bill.total_amount) - Number(bill.paid_amount))">{{ bnmny  }}</td>
+                            </tr> -->
+
                         </tbody>
                     </table>
+                    <p :id="bnMoney(Number(bill.prev_arrears)+ Number(bill.total_amount) - Number(bill.paid_amount))">কথায়ঃ {{ bnmny  }}</p>
                 </div>
+
+
 
                 <!-- Signature  table  -->
                 <div class="text-left  w-[100%] p-4  mt-10">
@@ -252,24 +247,23 @@ function befor10days(date) {
 
             <!-- User copy  -->
             <div class="w-[49%]">
-                <div class="flex items-center">
+                <!-- <div class="flex items-center">
                     <img src="/default/images/bd-logo.svg" class="h-14" alt="BD Logo">
                     <h1 class="ml-4 font-bold text-[24px]">{{ $page.props.auth.user.union.name  }}</h1>
-                </div>
+                </div> -->
 
-                <div class="flex items-center justify-between mt-4 pl-[75px]">
-                    <div class="">
-                        <h4>ইউপি করের বিল</h4>
-                        <h4>গ্রাহক কপি</h4>
+                <div class="flex justify-between mt-4 mr-1 pl-[15px]">
+                    <div class="flex">
+                        <img src="/default/images/bd-logo.svg" class="h-14" alt="BD Logo">
                     </div>
-                    <div class="pl-8">
-                        <h4>
-                            <!-- বছর :  -->
-                            {{en2bn(ekhana.f_year.from) + '-' +en2bn(ekhana.f_year.to)}}</h4>
-                        <h4>
-                            <!-- কিস্তি : -->
-                            <span>৪র্থ</span>
-                        </h4>
+                    <div class="text-center">
+                        <p class="text-[#ec2929] text-[14px]">গনপ্রজাতন্ত্রী বাংলাদেশ সরকার (স্থানীয় সরকার বিভাগ)</p>
+                        <h1 class="ml-4 font-bold text-[18px] text-[#060682]">{{ $page.props.auth.user.union.name  }} পরিষদ কার্যালয় {{ $page.props.auth.user.union.upazila.name }}, {{ $page.props.auth.user.union.upazila.district.name }}</h1>
+                        <h2 class="font-bold text-[#ec2929] text-[16px]">ইউপি করের বিল</h2>
+                        <h4 class="text-[#060682] text-[16px]">গ্রাহক কপি</h4>
+                    </div>
+                    <div>
+                        <qrcode-vue :value="'Holding No: '+bill.ekhana.holding_no+', name: '+ bill.ekhana.bn_name + ', Phone: '+ bill.ekhana.phone + ', Status: ' + ((bill.paid_amount+bill.paid_prev_arrears)> 0 ? 'Paid' : 'Please Paid Soon')" :size="size" level="H" />
                     </div>
                 </div>
 
@@ -281,6 +275,11 @@ function befor10days(date) {
                                 <!-- <th>ওয়ার্ড</th> -->
                                 <th class="w-[50%]"></th>
                                 <td>{{ en2bn(bill.ekhana.word.name) }}</td>
+                            </tr>
+                            <tr>
+                                <!-- <th>ওয়ার্ড</th> -->
+                                <th class="w-[50%]"></th>
+                                <td>{{ en2bn(bill.f_year.from)+" - "+ en2bn(bill.f_year.to) }}</td>
                             </tr>
                             <tr>
                                 <!-- <th>হোল্ডিং নং</th> -->
@@ -297,19 +296,25 @@ function befor10days(date) {
                                 <th class="w-[50%]"></th>
                                 <td>{{ bill.ekhana.spouse_name }}</td>
                             </tr>
-                            <!-- <tr>
-                                <th>বিলের ঠিকানা</th>
-                                <td>{{ bill.ekhana.address }}</td>
-                            </tr> -->
+                            <tr>
+                                <!-- <th>পিতা/স্বামীর নাম</th> -->
+                                <th class="w-[50%]"></th>
+                                <td>{{en2bn( Number(bill.ekhana.paka_house ?? 0)+ Number(bill.ekhana.adhapaka_house ?? 0)+ Number(bill.ekhana.kasa_house ?? 0)) }}</td>
+                            </tr>
+                            <tr>
+                                <!-- <th>বিলের ঠিকানা</th> -->
+                                <th class="w-[50%]"></th>
+                                <td>{{ bill.ekhana.village.name }}</td>
+                            </tr>
                             <tr>
                                 <!-- <th>বিল ইস্যুর তারিখ</th> -->
                                 <th class="w-[50%]"></th>
-                                <td>{{ DateFormate(bill.deposite_date) }}</td>
+                                <td>{{ DateFormate(bill.deposite_date) }} ইং</td>
                             </tr>
                             <tr>
                                 <!-- <th>জমাদানের শেষ তারিখ</th> -->
                                 <th class="w-[50%]"></th>
-                                <td> {{ befor10days(bill.deposite_date) }}</td>
+                                <td> {{ befor10days(bill.deposite_date) }} ইং</td>
                             </tr>
                             <tr>
                                 <!-- <th>ব্যাংকের নাম ও হিসাব নাম্বার</th> -->
@@ -320,75 +325,53 @@ function befor10days(date) {
                     </table>
                 </div>
 
-                <!-- Tax information table  -->
-                <div class="text-left w-[100%] p-4">
-                    <table class="w-[100%] text-center border-collapse  p-2">
-                        <thead>
-                            <tr>
-                                <!-- <th rowspan="2" class=" p-2">করের বিবরণ</th>
-                                <th rowspan="2" class=" p-2">বকেয়া</th>
-                                <th colspan="5" class=" p-2">চলতি</th> -->
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                            </tr>
-                            <tr>
-                                <!-- <th class=" p-2">১ম কিস্তি</th>
-                                <th class=" p-2">২য় কিস্তি</th>
-                                <th class=" p-2">৩য় কিস্তি</th>
-                                <th class=" p-2">৪র্থ কিস্তি</th>
-                                <th class=" p-2">মোট</th> -->
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                            </tr>
-                        </thead>
+                <!-- Tax details  -->
+                <div class="text-left mt-1 w-[100%] p-4 pt-0">
+                    <h1 class="text-center">করের বিবরণ</h1>
+                    <table class="table w-[100%]">
                         <tbody>
                             <tr>
-                                <!-- <th class=" p-2">হোল্ডিং কর</th> -->
-                                <th></th>
-                                <td class=" p-2">{{ en2bn(bill.total_amount - bill.paid_amount) }}</td>
-                                <td class=" p-2">{{en2bn(bill.f_kisti)}}</td>
-                                <td class=" p-2">{{en2bn(bill.s_kisti)}}</td>
-                                <td class=" p-2">{{en2bn(bill.t_kisti)}}</td>
-                                <td class=" p-2">{{en2bn(bill.fo_kisti)}}</td>
-                                <td class=" p-2 ">{{en2bn(bill.paid_amount)}}</td>
+                                <!-- <th>বকেয়া বিল</th> -->
+                                <th class="w-[50%]"></th>
+                                <td>{{ en2bn(bill.prev_arrears) }}</td>
                             </tr>
                             <tr>
-                                <!-- <th class=" p-2">পূর্বের বকেয়া</th> -->
-                                <th></th>
-                                <td class=" p-2">{{ en2bn(bill.prev_arrears) }}</td>
-                                <td class=" p-2"></td>
-                                <td class=" p-2"></td>
-                                <td class=" p-2"></td>
-                                <td class=" p-2"></td>
-                                <td class=" p-2 ">{{ en2bn(Number(bill.paid_prev_arrears)) }}</td>
+                                <!-- <th>চলতি বিল</th> -->
+                                <th class="w-[50%]"></th>
+                                <td>{{ en2bn(bill.total_amount) }}</td>
                             </tr>
                             <tr>
-                                <!-- <th class=" p-2">দন্ড</th> -->
-                                <th></th>
-                                <td class=" p-2"></td>
-                                <td class=" p-2"></td>
-                                <td class=" p-2"></td>
-                                <td class=" p-2"></td>
-                                <td class=" p-2"></td>
-                                <td class=" p-2 "></td>
+                                <!-- <th>জরিমানা</th> -->
+                                <th class="w-[50%]"></th>
+                                <td>{{ en2bn(bill.fine) }}</td>
                             </tr>
-                            <tr class="">
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <!-- <th>সর্বমোট</th> -->
-                                <th></th>
-                                <th class=" p-2 ">{{en2bn(Number(bill.paid_amount) + Number(bill.paid_prev_arrears))}}</th>
+                            <tr>
+                                <!-- <th>মোট বকেয়া</th> -->
+                                <th class="w-[50%]"></th>
+                                <td>{{ en2bn(Number(bill.prev_arrears)+ Number(bill.total_amount)) }}</td>
                             </tr>
+                            <tr>
+                                <!-- <th>মোট পরিশোধ</th> -->
+                                <th class="w-[50%]"></th>
+                                <td>{{ en2bn(bill.paid_amount) }}</td>
+                            </tr>
+                            <tr>
+                                <!-- <th>বর্তমান বকেয়া</th> -->
+                                <th class="w-[50%]"></th>
+                                <td>{{en2bn( Number(bill.prev_arrears)+ Number(bill.total_amount) - Number(bill.paid_amount) ) }}</td>
+                            </tr>
+                            <!-- <tr>
+                                <th>কথায়ঃ</th>
+                                <th class="w-[50%]"></th>
+                                <td>{{ bnmny  }}</td>
+                            </tr> -->
+
                         </tbody>
                     </table>
+                    <p>কথায়ঃ {{ bnmny  }}</p>
                 </div>
+
+
 
                 <!-- Signature  table  -->
                 <div class="text-left  w-[100%] p-4  mt-10">
@@ -428,7 +411,21 @@ function befor10days(date) {
         </div>
     </div>
 </template>
+<script>
+  import QrcodeVue from 'qrcode.vue'
 
+  export default {
+    data() {
+      return {
+        value: 'https://admin.easyupsheba.com/',
+        size: 120,
+      }
+    },
+    components: {
+      QrcodeVue,
+    },
+  }
+</script>
 <style>
     body{
         background: white;

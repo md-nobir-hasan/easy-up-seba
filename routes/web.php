@@ -69,6 +69,7 @@ Route::prefix('/ajax')->name('ajax.')->group(function(){
     Route::post('/ekhana/toplist/daily/posting',[AjaxController::class,'TolistDailyPosting'])->name('ekhana.toplist.daily.posting');
     Route::post('/ekhana/toplist/daily/posting/topsheet',[AjaxController::class,'TolistDailyPostingTopsheet'])->name('ekhana.toplist.daily.posting.topsheet');
     Route::post('/allbillcount',[AjaxController::class,'allBillcountOld'])->name('allbillcount');
+    Route::get('/bnmoney/{num}',[AjaxController::class,'bnMoney'])->name('bnmoney');
 });
 
 
