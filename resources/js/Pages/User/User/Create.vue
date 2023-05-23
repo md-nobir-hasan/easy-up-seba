@@ -69,7 +69,7 @@ const submit = () => {
         return false;
     }
     form.post(route('admin.user.user.store'), {
-        onFinish: () => form.reset('name', 'phone', 'email', 'password')
+        onFinish: () => form.reset()
     });
 };
 

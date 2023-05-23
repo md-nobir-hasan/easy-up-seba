@@ -21,6 +21,7 @@ class UserController extends Controller
      */
     public function index()
     {
+        dd(dd($wrd_arr));
         if(Auth::user()->role->name == 'Power'){
             $n['users'] = User::with(['createdBy','updatedBy','role','union','uwbkdn','uwbkdn.words'])->where('deleted_by',null)
                             ->orderBy('id','desc')->get();
@@ -68,6 +69,7 @@ class UserController extends Controller
         $insert->password = Hash::make($request->password);
         $insert->address = $request->address;
         $insert->role_id = $request->role_id;
+        $insert->union_id = $request->union_id;
 
         $insert->points = $request->points;
         $insert->created_by = Auth::user()->id;

@@ -36,21 +36,11 @@ class HTDepositeController extends Controller
                         ->where('union_id',Auth::user()->union_id)
                         ->where('deleted_by',null)
                         ->where('deposite_date','!=',null)
+                        ->whereIn('word_id',$this->aryExtrt())
                         ->orderBy('id','desc')
                         ->get();
 
-                //word wise data fetch
-        $i = 1;
-        foreach(Auth::user()->uwbkdn as $word){
-            // dd($word);
-            if($i == 1){
-                    $n['data'] =  $n['data']->where('word_id',$word->word_id);
-            }else{
-                    $n['data'] =  $n['data']->orWhere('word_id',$word->word_id);
-            }
-            $i++;
-        }
-    //End word wise data fetch
+
         }
         return Inertia::render('Tax/Calculation/HouseDeposite/Index',$n);
     }
@@ -69,20 +59,10 @@ class HTDepositeController extends Controller
         else{
             $n['ekhanas'] = Ekhana::with(['createdBy','updatedBy','village','edQuali','religion','profession','word','word.union'])
                             ->where('union_id',Auth::user()->union_id)
+                            ->whereIn('word_id',$this->aryExtrt())
                             ->orderBy('id','desc')->get();
 
-                  //word wise data fetch
-        $i = 1;
-        foreach(Auth::user()->uwbkdn as $word){
-            // dd($word);
-            if($i == 1){
-                    $n['ekhanas'] =  $n['ekhanas']->where('word_id',$word->word_id);
-            }else{
-                    $n['ekhanas'] =  $n['ekhanas']->orWhere('word_id',$word->word_id);
-            }
-            $i++;
-        }
-    //End word wise data fetch
+
         }
         $n['f_years'] = FinancialYear::where('deleted_by',null)->orderBy('id','desc')->get();
         $n['taxes'] = Tax::where('deleted_by',null)->orderBy('id','desc')->get();
