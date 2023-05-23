@@ -31,7 +31,7 @@ class TradeLicenseController extends Controller
      */
     public function create()
     {
-        $divisions = Division::where('deleted_by', null)->orderBy('id', 'desc')->get();
+        $divisions = Division::orderBy('id', 'desc')->get();
         $status = Status::values();
         $ownerShipType = OwnershipType::values();
         $businessType = BusinessType::all();
@@ -45,7 +45,7 @@ class TradeLicenseController extends Controller
     {
         try {
             DB::beginTransaction();
-            $tradeLicenses = TradeLicense::create($request->all());
+            $tradeLicenses = TradeLicense::create(array_merge(['created_by'=> auth()->user()->id], $request->all()));
 
             $tradeLicenses->addresses()->createMany([
                 $request->present_address,
@@ -100,7 +100,7 @@ class TradeLicenseController extends Controller
         try {
             DB::beginTransaction();
 
-            $tradeLicense->update($request->all());
+            $tradeLicense->update(array_merge(['updated_by'=> auth()->user()->id], $request->all()));
 
             $tradeLicense->addresses()
                 ->where('title', 'Present')
@@ -135,7 +135,7 @@ class TradeLicenseController extends Controller
     {
 
         if($tradeLicense->delete()) {
-
+            $tradeLicense->deleted_by = auth()->user()->id;
             $request->session()->flash('suc_msg', ' সফলভাবে ডিলেট হয়েছে');
 
             return redirect()->back();
@@ -144,7 +144,6 @@ class TradeLicenseController extends Controller
 
             return redirect()->back();
         }
-
 
     }
 }

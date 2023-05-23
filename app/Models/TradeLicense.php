@@ -32,7 +32,10 @@ class TradeLicense extends Model
         'business_space_rant',
         'size_of_signboard',
         'status',
-        'code_number'
+        'code_number',
+        'created_by',
+        'updated_by',
+        'deleted_by',
     ];
 
     protected $casts = [

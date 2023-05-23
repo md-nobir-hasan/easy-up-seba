@@ -386,7 +386,7 @@ const nuser = usePage().props.auth.user;
 const ncheck = (nmodule) => {
     let checked = false;
     usePage().props.permissions.forEach(function (val, key) {
-        if (val.module.name == nmodule && val.role_id == nuser.role_id) {
+        if (val.module?.name == nmodule && val.role_id == nuser.role_id) {
             checked = true;
         }
     });
@@ -480,25 +480,25 @@ function DateFormate(date) {
             class="fixed w-full sm:hidden text-center text-3xl bg-[#0edda2] z-50"
         >
             <h1
-                v-if="$page.props.auth.user.role.name == 'Power'"
+                v-if="$page.props.auth.user.role?.name == 'Power'"
                 class="font-extrabold p-3"
             >
                 Super Admin
             </h1>
             <h1
-                v-else-if="$page.props.auth.user.role.name == 'Union'"
+                v-else-if="$page.props.auth.user.role?.name == 'Union'"
                 class="font-extrabold p-3"
             >
-                {{ $page.props.auth.user.word.union.name }}
+                {{ $page.props.auth.user.word?.union?.name }}
             </h1>
             <h1 v-else class="font-extrabold p-3">
                 {{
-                    $page.props.auth.user.word.name +
+                    $page.props.auth.user.word?.name +
                     "নং" +
-                    $page.props.auth.user.word.union.name
+                    $page.props.auth.user.word?.union?.name
                 }}
             </h1>
-            <!-- <h1 v-else class="font-extrabold p-3">{{  ($page.props.auth.user.word ? $page.props.auth.user.word.union ? $page.props.auth.user.word.name + "নং" + $page.props.auth.user.word.union.name : "Super Admin" : 'Super Admin')}}</h1> -->
+            <!-- <h1 v-else class="font-extrabold p-3">{{  ($page.props.auth.user.word ? $page.props.auth.user.word?.union ? $page.props.auth.user.word?.name + "নং" + $page.props.auth.user.word?.union?.name : "Super Admin" : 'Super Admin')}}</h1> -->
         </div>
         <nav
             class="fixed top-0 max-sm:top-14 z-50 w-full max-sm:bg-white bg-[#0edda2] border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700"
@@ -538,24 +538,24 @@ function DateFormate(date) {
                         class="text-center text-3xl max-sm:hidden dark:text-gray-300"
                     >
                         <h1
-                            v-if="$page.props.auth.user.role.name == 'Power'"
+                            v-if="$page.props.auth.user.role?.name == 'Power'"
                             class="font-extrabold p-3"
                         >
                             Super Admin
                         </h1>
                         <h1
                             v-else-if="
-                                $page.props.auth.user.role.name == 'Union'
+                                $page.props.auth.user.role?.name == 'Union'
                             "
                             class="font-extrabold p-3"
                         >
-                            {{ $page.props.auth.user.word.union.name }}
+                            {{ $page.props.auth.user.word?.union?.name }}
                         </h1>
                         <h1 v-else class="font-extrabold p-3">
                             {{
-                                $page.props.auth.user.word.name +
+                                $page.props.auth.user.word?.name +
                                 "নং" +
-                                $page.props.auth.user.word.union.name
+                                $page.props.auth.user.word?.union?.name
                             }}
                         </h1>
                     </div>
@@ -588,7 +588,7 @@ function DateFormate(date) {
                                 <span
                                     class="absolute -mt-2.5 ml-2 rounded-full bg-red-600 py-[1px] px-1.5 text-[0.6rem] text-white"
                                     >{{
-                                        $page.props.noty_not_read.length
+                                        $page.props.noty_not_read?.length
                                     }}</span
                                 >
                             </a>
@@ -605,7 +605,7 @@ function DateFormate(date) {
                                 >
                                     <div
                                         v-if="
-                                            $page.props.noty_not_read.length > 0
+                                            $page.props.noty_not_read?.length > 0
                                         "
                                         class="p-2 mb-4"
                                     >
@@ -626,7 +626,7 @@ function DateFormate(date) {
                                                 <div
                                                     class="text-sm font-normal"
                                                 >
-                                                    {{ noty.data.name }}
+                                                    {{ noty.data?.name }}
                                                 </div>
                                                 <span
                                                     class="text-xs font-medium text-blue-600 dark:text-blue-500 block text-right"
@@ -641,7 +641,7 @@ function DateFormate(date) {
                                     </div>
                                     <hr
                                         v-if="
-                                            $page.props.noty_not_read.length > 0
+                                            $page.props.noty_not_read?.length > 0
                                         "
                                     />
                                     <div class="bg-gray-100 pb-4 p-2">
@@ -662,7 +662,7 @@ function DateFormate(date) {
                                                 <div
                                                     class="text-sm font-normal"
                                                 >
-                                                    {{ read_noty.data.name }}
+                                                    {{ read_noty.data?.name }}
                                                 </div>
                                                 <span
                                                     class="text-xs font-medium text-blue-600 dark:text-blue-500 block text-right mr-2"
@@ -710,7 +710,7 @@ function DateFormate(date) {
                                         class="text-sm text-gray-900 dark:text-white"
                                         role="none"
                                     >
-                                        {{ $page.props.auth.user.name }}
+                                        {{ $page.props.auth.user?.name }}
                                     </p>
                                     <p
                                         class="text-sm font-medium text-gray-900 truncate dark:text-gray-300"
