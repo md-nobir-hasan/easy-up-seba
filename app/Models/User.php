@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -58,19 +57,30 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
-      public function createdBy(){
-        return $this->belongsTo(User::class,'created_by');
+    public function createdBy()
+    {
+        return $this->belongsTo(User::class, 'created_by');
     }
-    public function updatedBy(){
-        return $this->belongsTo(User::class,'updated_by');
+    public function updatedBy()
+    {
+        return $this->belongsTo(User::class, 'updated_by');
     }
-    public function deletedBy(){
-        return $this->belongsTo(User::class,'deleted_by');
+    public function deletedBy()
+    {
+        return $this->belongsTo(User::class, 'deleted_by');
     }
-    public function role(){
-        return $this->belongsTo(Role::class,'role_id');
+    public function role()
+    {
+        return $this->belongsTo(Role::class, 'role_id');
     }
-    public function word(){
-        return $this->belongsTo(Word::class,'word_id');
+    public function word()
+    {
+        return $this->belongsTo(Word::class, 'word_id');
+    }
+
+
+    public function haveAdministrativeRole()
+    {
+        return in_array(auth()->user()?->role->name, ["Power", "Union"]);
     }
 }
