@@ -10,6 +10,7 @@ use App\Http\Resources\TradeLicenseResource;
 use App\Models\BusinessType;
 use App\Models\Division;
 use App\Models\TradeLicense;
+use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
@@ -60,11 +61,8 @@ class TradeLicenseController extends Controller
 
         } catch (\Exception $e) {
             DB::rollback();
-
-            return response()->json([
-                'message' => 'Trade license creation failed.',
-                'error' => $e->getMessage()
-            ], 500);
+            $request->session()->flash('suc_msg', $e->getMessage());
+            return redirect()->back(400);
         }
 
     }
@@ -118,17 +116,14 @@ class TradeLicenseController extends Controller
 
             DB::commit();
 
-            return response()->json([
-                'message' => 'Trade license updated successfully.',
-                'trade_license' => $tradeLicense->load('addresses.village', 'addresses.union', 'addresses.upazila', 'addresses.district', 'businessType', 'businessCapital')
-            ], 200);
+            $request->session()->flash('suc_msg', $request->name.' সফলভাবে আপডেট করা হয়েছে');
+
+            return redirect()->route('admin.trade-license.index');
+
         } catch (\Exception $e) {
             DB::rollback();
-
-            return response()->json([
-                'message' => 'Trade license update failed.',
-                'error' => $e->getMessage()
-            ], 500);
+            $request->session()->flash('suc_msg', $e->getMessage());
+            return redirect()->back(400);
         }
     }
 
@@ -136,14 +131,20 @@ class TradeLicenseController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(TradeLicense $tradeLicense)
+    public function destroy(Request $request, TradeLicense $tradeLicense)
     {
-        $tradeLicense->delete();
 
-        return response()->json([
-            'message' => 'Trade license deleted successfully.',
-            'trade_license' => $tradeLicense
-        ], 201);
+        if($tradeLicense->delete()) {
+
+            $request->session()->flash('suc_msg', ' সফলভাবে ডিলেট হয়েছে');
+
+            return redirect()->back();
+        } else {
+            $request->session()->flash('suc_msg', 'ডিলেট ব্যার্থ হয়েছে');
+
+            return redirect()->back();
+        }
+
 
     }
 }

@@ -14,7 +14,7 @@ defineProps({
 const permisions = ref({});
 const user = usePage().props.auth.user;
 usePage().props.permissions.forEach(function(val,key){
-    if(val.module.name == 'Village' && val.role_id == user.role_id){
+    if(val.module?.name == 'Village' && val.role_id == user.role_id){
         permisions.value = val;
     }
 })
@@ -125,7 +125,7 @@ const mdata = ref(usePage().props.data);
                         class="bg-white text-center border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
 
                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            {{ value.name }}
+                            {{ value?.name }}
                         </th>
                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             {{ value.fathers_name }}
