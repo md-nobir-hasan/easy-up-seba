@@ -10,6 +10,7 @@ use App\Http\Controllers\EdQualiController;
 use App\Http\Controllers\EkhanaController;
 use App\Http\Controllers\EkhanaReportController;
 use App\Http\Controllers\ExportController;
+use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\FYearController;
 use App\Http\Controllers\HouseStrucController;
 use App\Http\Controllers\HTDepositeController;
@@ -80,21 +81,7 @@ Route::middleware([
 ])->prefix('/admin')->name('admin.')->group(function () {
 
     //dashboar rendering
-    Route::get('/dashboard', function () {
-        if(Auth::user()->role->name == 'Power'){
-            $n['ekhanas'] = Ekhana::where('deleted_by',null)->orderBy('id','desc')->get();
-        }
-        elseif(Auth::user()->role->name == 'Union'){
-            $n['ekhanas'] = Ekhana::where('deleted_by',null)->where('union_id',Auth::user()->union_id)->orderBy('id','desc')->get();
-        }
-        else{
-            $n['ekhanas'] = Ekhana::get();
-            $n['ekhanas'] = wordFetch($n['ekhanas']);
-        }
-        $n['ksum'] = $n['ekhanas']->sum('yearly_income');
-        $n['kcount'] = count($n['ekhanas']);
-        return Inertia::render('Dashboard',$n);
-    })->name('dashboard');
+    Route::get('/dashboard',[FrontendController::class,'dashboard'])->name('dashboard');
 
     //Delete funtionality
     Route::get('/admin/{id}/{modal}',[DeleteController::class,'singleDelete'])->name('single.delete');

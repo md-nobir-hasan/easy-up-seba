@@ -60,7 +60,13 @@ class Controller extends BaseController
         //     }
         //     return  $data;
         // }
-
+        public function aryExtrt(){
+            $wrd_arr = array();
+            foreach(Auth::user()->uwbkdn as $word){
+                array_push($wrd_arr, $word->word_id);
+            }
+            return $wrd_arr;
+        }
 
 }
 

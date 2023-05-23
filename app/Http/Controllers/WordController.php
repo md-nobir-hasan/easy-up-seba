@@ -28,21 +28,10 @@ class WordController extends Controller
         }
         else{
             $n['words'] = Word::with(['division','district','upazila','union','createdBy','updatedBy'])
-                            // ->where('id',Auth::user()->word_id)
+                            ->whereIn('word_id',$this->aryExtrt())
                             ->where('deleted_by',null)
                             ->orderBy('id','desc')->get();
-                //word wise data fetch
-                    $i = 1;
-                    foreach(Auth::user()->uwbkdn as $word){
-                        // dd($word);
-                        if($i == 1){
-                                $n['words'] =  $n['words']->where('word_id',$word->word_id);
-                        }else{
-                                $n['words'] =  $n['words']->orWhere('word_id',$word->word_id);
-                        }
-                        $i++;
-                    }
-                //End word wise data fetch
+
         }
         return Inertia::render('Setup/Word/Index',$n);
     }

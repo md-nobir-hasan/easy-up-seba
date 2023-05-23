@@ -55,20 +55,8 @@ class AjaxController extends Controller
                             ->where($field,$val)
                             // ->where('id',Auth::user()->word_id)
                             ->where('deleted_by',null)
+                            ->whereIn('word_id',$this->aryExtrt())
                             ->orderBy('id','desc')->get();
-
-                        //word wise data fetch
-                        $i = 1;
-                        foreach(Auth::user()->uwbkdn as $word){
-                            // dd($word);
-                            if($i == 1){
-                                $data =  $data->where('word_id',$word->word_id);
-                            }else{
-                                $data =  $data->orWhere('word_id',$word->word_id);
-                            }
-                            $i++;
-                        }
-                    //End word wise data fetch
                 }
             }
             elseif($modal == 'Ekhana'){
@@ -335,20 +323,8 @@ class AjaxController extends Controller
                                             "prevTaxPaid" => function ($query) use ($req,$f_year) {$query->where('f_year_id','<', $req->f_year_id)->whereBetween('house_tax_deposites.updated_at',["01/01/$f_year->from","01/01/$f_year->to"]);},
                                             ])
                                             ->where('union_id',Auth::user()->union_id)
-                                            // ->where('word_id',Auth::user()->word_id)
+                                            ->whereIn('word_id',$this->aryExtrt())
                                             ->get();
-                //word wise data fetch
-        $i = 1;
-        foreach(Auth::user()->uwbkdn as $word){
-            // dd($word);
-            if($i == 1){
-                    $n['toplist_levy'] =  $n['toplist_levy']->where('word_id',$word->word_id);
-            }else{
-                    $n['toplist_levy'] =  $n['toplist_levy']->orWhere('word_id',$word->word_id);
-            }
-            $i++;
-        }
-        //End word wise data fetch
         }
 
 
@@ -412,20 +388,8 @@ class AjaxController extends Controller
                                         "houseTax.ekhana",
                                         "houseTax.ekhana.village",
                                         ])->where('union_id',Auth::user()->union_id)
-                                        // ->where('word_id',Auth::user()->word_id)
+                                        ->whereIn('word_id',$this->aryExtrt())
                                         ->get();
-                    //word wise data fetch
-                    $i = 1;
-                    foreach(Auth::user()->uwbkdn as $word){
-                        // dd($word);
-                        if($i == 1){
-                                $n['ajdata'] =  $n['ajdata']->where('word_id',$word->word_id);
-                        }else{
-                                $n['ajdata'] =  $n['ajdata']->orWhere('word_id',$word->word_id);
-                        }
-                        $i++;
-                    }
-                //End word wise data fetch
         }
 
 

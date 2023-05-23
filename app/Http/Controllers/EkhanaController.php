@@ -42,50 +42,16 @@ class EkhanaController extends Controller
         }
         else{
             $n['words'] = Word::with(['union'])->where('deleted_by',null)
-                        // ->where('id',Auth::user()->word_id)
+                        ->whereIn('id',$this->aryExtrt())
                         ->orderBy('name','asc')->get();
             $n['villages'] = Village::where('deleted_by',null)->where('union_id',Auth::user()->union_id)
-                                    // ->where('word_id',Auth::user()->word_id)
+                                    ->whereIn('word_id',$this->aryExtrt())
                                     ->orderBy('id','desc')->get();
             $n['data'] = Ekhana::with(['createdBy','updatedBy','village','edQuali','religion','profession','word'])
                                 ->where('union_id',Auth::user()->union_id)
+                                ->whereIn('word_id',$this->aryExtrt())
                                 ->where('deleted_by',null)->orderBy('id','desc')->get();
-        //word wise data fetch
-        $i = 1;
-        foreach(Auth::user()->uwbkdn as $word){
-            // dd($word);
-            if($i == 1){
-                    $n['words'] =  $n['words']->where('word_id',$word->word_id);
-            }else{
-                    $n['words'] =  $n['words']->orWhere('word_id',$word->word_id);
-            }
-            $i++;
-        }
-    //End word wise data fetch
-        //word wise data fetch
-        $i = 1;
-        foreach(Auth::user()->uwbkdn as $word){
-            // dd($word);
-            if($i == 1){
-                    $n['villages'] =  $n['villages']->where('word_id',$word->word_id);
-            }else{
-                    $n['villages'] =  $n['villages']->orWhere('word_id',$word->word_id);
-            }
-            $i++;
-        }
-    //End word wise data fetch
-        //word wise data fetch
-            $i = 1;
-            foreach(Auth::user()->uwbkdn as $word){
-                // dd($word);
-                if($i == 1){
-                        $n['data'] =  $n['data']->where('word_id',$word->word_id);
-                }else{
-                        $n['data'] =  $n['data']->orWhere('word_id',$word->word_id);
-                }
-                $i++;
-            }
-        //End word wise data fetch
+
         }
         $n['tax'] = Tax::latest()->first();
         $n['house_strucs'] = HouseStructure::where('deleted_by',null)->orderBy('id','desc')->get();
@@ -102,20 +68,9 @@ class EkhanaController extends Controller
             $n['words'] = Word::with(['union'])->where('deleted_by',null)->get();
             $n['villages'] = Village::where('deleted_by',null)
                             ->where('union_id',Auth::user()->union_id)
-                            // ->where('word_id',Auth::user()->word_id)
+                            ->whereIn('word_id',$this->aryExtrt())
                             ->orderBy('id','desc')->get();
-                //word wise data fetch
-        $i = 1;
-        foreach(Auth::user()->uwbkdn as $word){
-            // dd($word);
-            if($i == 1){
-                    $n['villages'] =  $n['villages']->where('word_id',$word->word_id);
-            }else{
-                    $n['villages'] =  $n['villages']->orWhere('word_id',$word->word_id);
-            }
-            $i++;
-        }
-    //End word wise data fetch
+
             $n['ekhanas'] = Ekhana::with(['createdBy','updatedBy','village','edQuali','religion','profession','word','word.union'])
                             ->where('deleted_by',null)->orderBy('id','desc')->get();
         }
@@ -123,20 +78,8 @@ class EkhanaController extends Controller
             $n['words'] = Word::with(['union'])->where('deleted_by',null)->where('union_id',Auth::user()->union_id)->get();
             $n['villages'] = Village::where('deleted_by',null)
                             ->where('union_id',Auth::user()->union_id)
-                            // ->where('word_id',Auth::user()->word_id)
+                            ->whereIn('word_id',$this->aryExtrt())
                             ->orderBy('id','desc')->get();
-                //word wise data fetch
-        $i = 1;
-        foreach(Auth::user()->uwbkdn as $word){
-            // dd($word);
-            if($i == 1){
-                    $n['villages'] =  $n['villages']->where('word_id',$word->word_id);
-            }else{
-                    $n['villages'] =  $n['villages']->orWhere('word_id',$word->word_id);
-            }
-            $i++;
-        }
-    //End word wise data fetch
 
 
             $n['ekhanas'] = Ekhana::with(['createdBy','updatedBy','village','edQuali','religion','profession','word','word.union'])
@@ -145,42 +88,19 @@ class EkhanaController extends Controller
         }
         else{
             $n['words'] = Word::with(['union'])->where('deleted_by',null)
-                            // ->where('id',Auth::user()->word_id)
+                            ->whereIn('word_id',$this->aryExtrt())
                             ->get();
             $n['villages'] = Village::where('deleted_by',null)
                             ->where('union_id',Auth::user()->union_id)
-                            // ->where('word_id',Auth::user()->word_id)
+                            ->whereIn('word_id',$this->aryExtrt())
                             ->orderBy('id','desc')->get();
             $n['ekhanas'] = Ekhana::with(['createdBy','updatedBy','village','edQuali','religion','profession','word','word.union'])
                                     ->where('union_id',Auth::user()->union_id)
+                                    ->whereIn('word_id',$this->aryExtrt())
                                     ->where('deleted_by',null)
                                     ->orderBy('id','desc')
                                     ->get();
 
-                //word wise data fetch
-        $i = 1;
-        foreach(Auth::user()->uwbkdn as $word){
-            // dd($word);
-            if($i == 1){
-                    $n['words'] =  $n['words']->where('word_id',$word->word_id);
-            }else{
-                    $n['words'] =  $n['words']->orWhere('word_id',$word->word_id);
-            }
-            $i++;
-        }
-    //End word wise data fetch
-        //word wise data fetch
-        $i = 1;
-        foreach(Auth::user()->uwbkdn as $word){
-            // dd($word);
-            if($i == 1){
-                    $n['villages'] =  $n['villages']->where('word_id',$word->word_id);
-            }else{
-                    $n['villages'] =  $n['villages']->orWhere('word_id',$word->word_id);
-            }
-            $i++;
-        }
-    //End word wise data fetch
         }
         // if(Auth::user()->role_id == 1){
         //     $n['words'] = Word::where('deleted_by',null)->orderBy('id','desc')->get();
@@ -300,20 +220,9 @@ public function store(StoreEkhanaRequest $request)
         $n['religions'] = Religion::where('deleted_by',null)->get();
         $n['professions'] = Profession::where('deleted_by',null)->orderBy('id','desc')->get();
         $n['villages'] = Village::where('deleted_by',null)
-                        // ->where('word_id',Auth::user()->word_id)
+                        ->whereIn('word_id',$this->aryExtrt())
                         ->orderBy('id','desc')->get();
-           //word wise data fetch
-        $i = 1;
-        foreach(Auth::user()->uwbkdn as $word){
-            // dd($word);
-            if($i == 1){
-                    $n['villages'] =  $n['villages']->where('word_id',$word->word_id);
-            }else{
-                    $n['villages'] =  $n['villages']->orWhere('word_id',$word->word_id);
-            }
-            $i++;
-        }
-    //End word wise data fetch
+
         $n['edqualis'] = EducationQualification::where('deleted_by',null)->orderBy('id','desc')->get();
         $n['house_strucs'] = HouseStructure::with(['createdBy','updatedBy'])->where('deleted_by',null)->orderBy('serial','asc')->get();
         return Inertia::render('Tax/Ekhana/Edit',$n);
