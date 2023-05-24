@@ -42,11 +42,13 @@ class JetstreamServiceProvider extends ServiceProvider
              //points check
             // $user = User::find($user->id);
             // dd($user->points);
+           if($user){
             if( $user->points != null){
                 if($user->points<1){
                     dd('কোন ক্রেডিট নাই।') ;
                 }
             }
+           }
         });
 
     }
