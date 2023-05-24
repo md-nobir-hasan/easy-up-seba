@@ -21,7 +21,6 @@ class UserController extends Controller
      */
     public function index()
     {
-        dd(dd($wrd_arr));
         if(Auth::user()->role->name == 'Power'){
             $n['users'] = User::with(['createdBy','updatedBy','role','union','uwbkdn','uwbkdn.words'])->where('deleted_by',null)
                             ->orderBy('id','desc')->get();

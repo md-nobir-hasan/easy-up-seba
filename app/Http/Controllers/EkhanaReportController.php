@@ -24,19 +24,18 @@ class EkhanaReportController extends Controller
         $n['words'] = Word::with(['union'])->where('deleted_by',null)
                         ->whereIn('word_id',$this->aryExtrt())
                         ->get();
+        }
+        
+        $n['f_years'] = FinancialYear::where('deleted_at',null)->orderBy('id','desc')->get();
+        $n['tax'] = Tax::where('deleted_at',null)->orderBy('id','desc')->first();
+        $n['villages'] = Village::where('deleted_at',null)
+                        ->whereIn('word_id',$this->aryExtrt())
+                        ->orderBy('id','desc')
+                        ->get();
 
+        return Inertia::render('Tax/Calculation/VillageLevy/Index',$n);
 
-    $n['f_years'] = FinancialYear::where('deleted_at',null)->orderBy('id','desc')->get();
-    $n['tax'] = Tax::where('deleted_at',null)->orderBy('id','desc')->first();
-    $n['villages'] = Village::where('deleted_at',null)
-                    ->whereIn('word_id',$this->aryExtrt())
-                    ->orderBy('id','desc')
-                    ->get();
-
-
-    return Inertia::render('Tax/Calculation/VillageLevy/Index',$n);
  }
-
  public function wordBasedLevy(){
     if(Auth::user()->role->name == 'Power'){
         $n['words'] = Word::with(['union'])->where('deleted_by',null)->get();

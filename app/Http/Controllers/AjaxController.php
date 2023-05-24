@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Ekhana;
 use App\Models\FinancialYear;
 use App\Models\HouseTaxDeposite;
+use App\Models\PointHistory;
 use App\Models\Tax;
 use App\Models\Union;
 use App\Models\User;
@@ -177,8 +178,19 @@ class AjaxController extends Controller
             }else{
                 if($user->points > $req->paid_amount){
                     $user->points = $user->points - $req->paid_amount;
+                    PointHistory::create([
+                        'name' => 'ই-খানা কর ডিপজিট ('. $req->ekhana_id.')',
+                        'user_id' => $user->id,
+                        'spent_points' => $req->paid_amount,
+                    ]);
+
                 }else{
                     $user->points = 0;
+                    PointHistory::create([
+                        'name' => 'ই-খানা কর ডিপজিট ('. $req->ekhana_id.')',
+                        'user_id' => $user->id,
+                        'spent_points' => $user->points,
+                    ]);
                 }
                 $user->save();
             }

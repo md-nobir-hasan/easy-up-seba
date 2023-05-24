@@ -32,8 +32,8 @@ class ModuleSeeder extends Seeder
                 ['name' => 'Role','a_union' => '1'],
                 ['name' => 'User','a_union' => '1'],
             ['name' => 'Tax','a_union' => '1'],
-                ['name' => 'E-Khana','a_union' => '1'],
-                ['name' => 'Calculation','a_union' => '1'],//20
+                ['name' => 'E-Khana','a_union' => '1'],//20
+                ['name' => 'Calculation','a_union' => '1'],
                     ['name' => 'House Tax Deposite','a_union' => '1'],
                     ['name' => 'House Tax Deposite List','a_union' => '1'],
                     ['name' => 'Village Based Levy','a_union' => '1'],
@@ -42,15 +42,15 @@ class ModuleSeeder extends Seeder
                     ['name' => 'ধার্য/আদায় টপশীট','a_union' => '1'],
                     ['name' => 'ডেইলি পোষ্টিং','a_union' => '1'],
                     ['name' => 'ডেইলি পোষ্টিং টপশিট','a_union' => '1'],
-                ['name' => 'বিল প্রিন্ট','a_union' => '1'],
-                    ['name' => 'সিঙ্গেল বিল প্রিন্ট','a_union' => '1'],//30
+                ['name' => 'বিল প্রিন্ট','a_union' => '1'],//30
+                    ['name' => 'সিঙ্গেল বিল প্রিন্ট','a_union' => '1'],
                     ['name' => 'সমস্ত বিল প্রিন্ট','a_union' => '1'],
                     ['name' => 'সিঙ্গেল বিল প্রিন্ট (পুরাতন)','a_union' => '1'],
                     ['name' => 'সমস্ত বিল প্রিন্ট (পুরাতন)','a_union' => '1'],
                     ['name' => 'সিঙ্গেল পোজ বিল','a_union' => '1'],
                     ['name' => 'সমস্ত পোজ বিল','a_union' => '1'],
             ['name' => 'Approval','a_union' => null],
-                ['name' => 'Tax Deposite Approval','a_union' => null],
+                ['name' => 'Tax Deposite Approval','a_union' => null],//38
         ];
 
         DB::table('modules')->insert($n);

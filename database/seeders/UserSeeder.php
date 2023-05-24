@@ -18,7 +18,7 @@ class UserSeeder extends Seeder
         $n =[
                 [
                     'name' => "Super Admin",
-                    'email' => "support@reshub.info",
+                    'email' => "admin@easyupseba.com",
                     'phone' => "01988406007",
                     'show_pass' => "CceANO98B@B1",
                     'role_id' => 1,
@@ -26,13 +26,22 @@ class UserSeeder extends Seeder
                     'password' => Hash::make('CceANO98B@B1'),
                 ],
                 [
-                    'name' => "Super Admin",
-                    'email' => "admin@easyupseba.com",
-                    'phone' => "01518460933",
-                    'show_pass' => "CceANO98B@B1",
+                    'name' => "Admin of Union",
+                    'email' => "union@easyupseba.com",
+                    'phone' => "1770001211",
+                    'show_pass' => "union2023",
                     'role_id' => 2,
                     'union_id' => 1,
-                    'password' => Hash::make('CceANO98B@B1'),
+                    'password' => Hash::make('union2023'),
+                ],
+                [
+                    'name' => "Md Raju",
+                    'email' => "word1@easyupseba.com",
+                    'phone' => "01518460933",
+                    'show_pass' => "union2023",
+                    'role_id' => 3,
+                    'union_id' => 1,
+                    'password' => Hash::make('word2023'),
                 ],
             ];
 
