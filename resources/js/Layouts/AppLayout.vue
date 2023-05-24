@@ -67,7 +67,9 @@ const submenueItem =[
                     ];
 //========= End Side menu ============
 
-
+//================  Language conversation =========================================
+let en2bn = n => String(n).replace(/\d/g, d => "০১২৩৪৫৬৭৮৯" [d]);
+// End Language conversation
 
 //========= frontend validation ============
 // const permisions = ref({});
@@ -169,7 +171,7 @@ function word(){
             words = words+", "+item.words.name;
         }
     });
-    return words;
+    return en2bn(words);
 }
 </script>
 
@@ -287,10 +289,13 @@ function word(){
                                 ম্যানেজ অ্যাকাউন্ট
                                 </div>
                                 <ul class="py-1" role="none">
-                                <li>
-                                    <Link :href="route('profile.show')" class="pl-4">প্রোফাইল</Link>
+                                <li class="mb-1">
+                                    <Link :href="route('profile.show')" class="pl-4 mb-1">প্রোফাইল</Link>
                                 </li>
                                 <li>
+                                    <Link :href="route('admin.profile.pointhistory')" class="pl-4">পয়েন্টস হিস্ট্রি</Link>
+                                </li>
+                                <li class="ml-1">
                                     <form @submit.prevent="logout">
                                         <DropdownLink as="button">
                                             লগ আউট

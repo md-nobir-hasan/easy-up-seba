@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminProfileController;
 use App\Http\Controllers\AjaxController;
 use App\Http\Controllers\BazarController;
 use App\Http\Controllers\BillPrintController;
@@ -83,9 +84,15 @@ Route::middleware([
     //dashboar rendering
     Route::get('/dashboard',[FrontendController::class,'dashboard'])->name('dashboard');
 
+    //Profile features
+    Route::prefix('/profile')->name('profile.')->group(function(){
+        Route::get('/point-histories',[AdminProfileController::class,'pointHistroy'])->name('pointhistory');
+    });
+
     //Delete funtionality
     Route::get('/admin/{id}/{modal}',[DeleteController::class,'singleDelete'])->name('single.delete');
     Route::get('/admin/delete/fetch/{id}/{modal}',[DeleteController::class,'singleDeleteFetch'])->name('single.delete.fetch');
+    Route::get('/admin/housetaxdepo/delete/{id}',[DeleteController::class,'houseTaxDepo'])->name('housetaxdepo.delete');
 
     //setup
     Route::prefix('/setup')->name('setup.')->group(function(){

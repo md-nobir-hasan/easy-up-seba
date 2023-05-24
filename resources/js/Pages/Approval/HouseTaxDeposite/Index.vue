@@ -57,7 +57,7 @@ return date;
         confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
         if (result.isConfirmed) {
-            axios.get(route('admin.single.delete.fetch',[id,modal])).then(res => {
+            axios.get(route('admin.housetaxdepo.delete',[id])).then(res => {
                 mdata.value = res.data;
 
                 Swal.fire(

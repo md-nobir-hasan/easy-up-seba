@@ -88,7 +88,7 @@ class EkhanaController extends Controller
         }
         else{
             $n['words'] = Word::with(['union'])->where('deleted_by',null)
-                            ->whereIn('word_id',$this->aryExtrt())
+                            ->whereIn('id',$this->aryExtrt())
                             ->get();
             $n['villages'] = Village::where('deleted_by',null)
                             ->where('union_id',Auth::user()->union_id)

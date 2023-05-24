@@ -82,4 +82,9 @@ class User extends Authenticatable
     public function uwbkdn(){
         return $this->hasMany(UserWordBkdn::class,'user_id');
     }
+
+    public function pointHistory(){
+        return $this->hasMany(PointHistory::class,'user_id');
+    }
+
 }
