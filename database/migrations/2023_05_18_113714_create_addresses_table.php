@@ -21,8 +21,8 @@ return new class () extends Migration {
             $table->text('title');
             $table->foreignIdFor(Village::class)->constrained(); 
             $table->foreignIdFor(Union::class)->constrained();
-            $table->string('postal_code', 100)->nullable();
-            $table->string('ward_number')->nullable();
+            $table->string('postal_code', 100)->nullable(); 
+            $table->foreignId('ward_id')->nullable()->constrained('words')->nullOnDelete();
             $table->foreignIdFor(Upazila::class)->constrained();
             $table->foreignIdFor(District::class)->constrained();
             $table->foreignIdFor(Division::class)->constrained();

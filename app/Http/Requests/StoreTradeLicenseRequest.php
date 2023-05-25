@@ -71,9 +71,9 @@ class StoreTradeLicenseRequest extends FormRequest
             'present_address.postal_code' => 'nullable|string|max:100|min:2',
             'permanent_address.postal_code' => 'nullable|string|max:100|min:2',
             'business_address.postal_code' => 'nullable|string|max:100|min:2',
-            'present_address.ward_number' => 'nullable|string|max:255|min:1',
-            'permanent_address.ward_number' => 'nullable|string|max:255|min:1',
-            'business_address.ward_number' => 'nullable|string|max:255|min:1',
+            'present_address.ward_id' => ['required', Rule::exists('words', 'id')],
+            'permanent_address.ward_id' => ['required', Rule::exists('words', 'id')],
+            'business_address.ward_id' => ['required', Rule::exists('words', 'id')],
         ];
     }
 }

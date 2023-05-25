@@ -8,13 +8,14 @@ import TextInput from "@/Components/TextInput.vue";
 import AppLayout from "@/Layouts/AppLayout.vue";
 import Address from "@/Pages/TradeLicense/Partials/Address.vue";
 import { Link, useForm } from "@inertiajs/vue3";
-import { ref } from "vue";
+import { computed, onMounted, ref, watch } from "vue";
 
-defineProps({
+const props = defineProps({
     divisions: Object,
     status: Object,
     ownershipType: Object,
     businessType: Object,
+    tradeLicense: Object,
 });
 
 const form = useForm({
@@ -22,33 +23,94 @@ const form = useForm({
     present_address: "",
     permanent_address: "",
     business_address: "",
-    name: "",
-    fathers_name: "",
-    mothers_name: "",
-    email: "",
-    phone: "",
-    nationality: "",
-    nid_number: "",
-    fee: "",
-    e_fee: "",
-    business_name: "",
-    business_type_id: "",
-    business_capital_id: "",
-    business_starting_date: "",
-    ownership: "",
-    business_space_rant: "",
-    size_of_signboard: "",
-    status: "",
+    name: props.tradeLicense?.name ?? "",
+    fathers_name: props.tradeLicense?.fathers_name ?? "",
+    mothers_name: props.tradeLicense?.mothers_name ?? "",
+    email: props.tradeLicense?.email ?? "",
+    phone: props.tradeLicense?.phone ?? "",
+    nationality: props.tradeLicense?.nationality ?? "",
+    nid_number: props.tradeLicense?.nid_number ?? "",
+    fee: props.tradeLicense?.fee ?? "",
+    e_fee: props.tradeLicense?.e_fee ?? "",
+    business_name: props.tradeLicense?.business_name ?? "",
+    business_type_id: props.tradeLicense?.business_type_id ?? "",
+    business_capital_id: props.tradeLicense?.business_capital_id ?? "",
+    business_starting_date: props.tradeLicense?.business_starting_date
+        ? new Date(props.tradeLicense?.business_starting_date)
+              .toISOString()
+              .split("T")[0]
+        : "",
+    ownership: props.tradeLicense?.ownership ?? "",
+    business_space_rant: props.tradeLicense?.business_space_rant ?? "",
+    size_of_signboard: props.tradeLicense?.size_of_signboard ?? "",
+    status: props.tradeLicense?.status ?? "",
 });
+
+const presentAddressValue = computed(() => {
+    return props.tradeLicense?.addresses?.find(
+        (address) => address.title === "Present"
+    );
+});
+
+const permanentAddressValue = computed(() => {
+    return props.tradeLicense?.addresses?.find(
+        (address) => address.title === "Permanent"
+    );
+});
+
+const businessAddressValue = computed(() => {
+    return props.tradeLicense?.addresses?.find(
+        (address) => address.title === "Business"
+    );
+});
+
+watch(
+    () => form.present_address,
+    (newVal) => {
+        form.present_address = newVal;
+    },
+    { deep: true }
+);
+
+watch(
+    () => form.permanent_address,
+    (newVal) => {
+        form.permanent_address = newVal;
+    },
+    { deep: true }
+);
+
+watch(
+    () => form.business_address,
+    (newVal) => {
+        form.business_address = newVal;
+    },
+    { deep: true }
+);
 
 const businessCapital = ref({});
 const businessCapitalDisable = ref(false);
 
 const submit = () => {
-    form.post(route("admin.trade-license.store"), {
-        onFinish: () => form.reset(),
-    });
+    if (props.tradeLicense?.id) {
+        form.post(route("admin.trade-license.update", props.tradeLicense.id), {
+            onFinish: () => form.reset(),
+        });
+    } else {
+        form.post(route("admin.trade-license.store"), {
+            onFinish: () => form.reset(),
+        });
+    }
 };
+
+onMounted(() => {
+    form.present_address = presentAddressValue.value;
+    form.permanent_address = permanentAddressValue.value;
+    form.business_address = businessAddressValue.value;
+    if (props.tradeLicense?.id) {
+        businessCapitalFetch();
+    }
+});
 
 const businessCapitalFetch = () => {
     axios
@@ -56,7 +118,7 @@ const businessCapitalFetch = () => {
             route("ajax.fetch", [
                 "BusinessCapital",
                 "business_type_id",
-                form.business_type_id,
+                form?.business_type_id,
             ]),
             form
         )
@@ -85,6 +147,7 @@ const businessCapitalFetch = () => {
                 </Link>
             </div>
             <hr class="mb-1" />
+
             <FormLayout class="bg-white">
                 <SucMesgShow :message="$page.props.flash.suc_msg"></SucMesgShow>
 
@@ -153,19 +216,44 @@ const businessCapitalFetch = () => {
                             />
                         </div>
                     </div>
-                    <Address
-                        v-model="form.present_address"
-                        label="বর্তমান ঠিকানাঃ"
-                        title="Present"
-                        :divisions="divisions"
-                    />
 
-                    <Address
-                        v-model="form.permanent_address"
-                        label="স্থায়ী ঠিকানাঃ"
-                        title="Permanent"
-                        :divisions="divisions"
-                    />
+                    <div class="grid grid-cols-6 gap-5 my-5">
+                        <InputLabel
+                            for="phone"
+                            value="বর্তমান ঠিকানাঃ"
+                            class="text-sm col-span-2"
+                        />
+                        <div class="col-span-4">
+                            <Address
+                                v-model="form.present_address"
+                                title="Present"
+                                :divisions="divisions"
+                            />
+                            <InputError
+                                class="mt-2"
+                                :message="form.errors.present_address"
+                            />
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-6 gap-5 my-5">
+                        <InputLabel
+                            for="phone"
+                            value="স্থায়ী ঠিকানাঃ"
+                            class="text-sm col-span-2"
+                        />
+                        <div class="col-span-4">
+                            <Address
+                                v-model="form.permanent_address"
+                                title="Permanent"
+                                :divisions="divisions"
+                            />
+                            <InputError
+                                class="mt-2"
+                                :message="form.errors.permanent_address"
+                            />
+                        </div>
+                    </div>
 
                     <div class="grid grid-cols-6 gap-5 my-2">
                         <InputLabel
@@ -315,12 +403,24 @@ const businessCapitalFetch = () => {
                         </div>
                     </div>
 
-                    <Address
-                        v-model="form.business_address"
-                        label="ব্যবসা প্রতিষ্ঠানের ঠিকানাঃ"
-                        title="Business"
-                        :divisions="divisions"
-                    />
+                    <div class="grid grid-cols-6 gap-5 my-5">
+                        <InputLabel
+                            for="phone"
+                            value="ব্যবসা প্রতিষ্ঠানের ঠিকানাঃ"
+                            class="text-sm col-span-2"
+                        />
+                        <div class="col-span-4">
+                            <Address
+                                v-model="form.business_address"
+                                title="Business"
+                                :divisions="divisions"
+                            />
+                            <InputError
+                                class="mt-2"
+                                :message="form.errors.business_address"
+                            />
+                        </div>
+                    </div>
 
                     <div class="grid grid-cols-6 gap-5 my-2">
                         <InputLabel
@@ -343,6 +443,7 @@ const businessCapitalFetch = () => {
                                     v-for="(bt, key) in businessType"
                                     :key="key"
                                     :value="bt.id"
+                                    :selected="form.business_type_id === bt.id"
                                 >
                                     {{ bt.name }}
                                 </option>
@@ -364,17 +465,25 @@ const businessCapitalFetch = () => {
                             <select
                                 v-model="form.business_capital_id"
                                 required
+                                :disabled="
+                                    businessCapitalDisable ||
+                                    !form.business_type_id
+                                "
                                 :class="[
                                     businessCapitalDisable
                                         ? 'disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none invalid:border-pink-500 invalid:text-pink-600'
                                         : '',
                                 ]"
-                                class="border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-50 dark:border-gray-600 dark:placeholder-gray-900 dark:text-gray-900 dark:focus:ring-blue-500 dark:focus:border-blue-500 min-w-max"
+                                class="border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             >
+                                <option value="">মূলধন নির্বাচন করুন</option>
                                 <option
                                     v-for="(bc, key) in businessCapital"
                                     :key="key"
                                     :value="bc.id"
+                                    :selected="
+                                        form.business_capital_id === bc.id
+                                    "
                                 >
                                     {{ bc.name }}
                                 </option>
@@ -425,6 +534,7 @@ const businessCapitalFetch = () => {
                                     v-for="(ownership, key) in ownershipType"
                                     :key="key"
                                     :value="ownership"
+                                    :selected="form.ownership === ownership"
                                 >
                                     {{ ownership }}
                                 </option>
@@ -496,6 +606,7 @@ const businessCapitalFetch = () => {
                                     v-for="(st, key) in status"
                                     :key="key"
                                     :value="st"
+                                    :selected="form.status === st"
                                 >
                                     {{ st }}
                                 </option>

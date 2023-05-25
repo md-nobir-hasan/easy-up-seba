@@ -35,7 +35,7 @@ class TradeLicenseController extends Controller
         $status = Status::values();
         $ownerShipType = OwnershipType::values();
         $businessType = BusinessType::all();
-        return Inertia::render('TradeLicense/Create', ['divisions' => $divisions, 'status'=> $status, 'ownershipType'=> $ownerShipType, 'businessType'=> $businessType]);
+        return Inertia::render('TradeLicense/Form', ['divisions' => $divisions, 'status'=> $status, 'ownershipType'=> $ownerShipType, 'businessType'=> $businessType]);
     }
 
     /**
@@ -84,11 +84,13 @@ class TradeLicenseController extends Controller
     public function edit(TradeLicense $tradeLicense)
     {
 
-        return response()->json([
-            'message' => 'Trade license retrieved successfully.',
-            'trade_license' => $tradeLicense->load('addresses.village', 'addresses.union', 'addresses.upazila', 'addresses.district', 'businessType', 'businessCapital'),
-            'Division' => Division::with(['districts', 'districts.upazilas',  'districts.upazilas.unions',  'districts.upazilas.unions.villages', ])->get(),
-        ], 200);
+        $divisions = Division::orderBy('id', 'desc')->get();
+        $status = Status::values();
+        $ownerShipType = OwnershipType::values();
+        $businessType = BusinessType::all();
+        $tradeLicense->load('addresses');
+
+        return Inertia::render('TradeLicense/Form', ['divisions' => $divisions, 'status'=> $status, 'ownershipType'=> $ownerShipType, 'businessType'=> $businessType, 'tradeLicense'=> $tradeLicense]);
     }
 
     /**

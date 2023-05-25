@@ -17,7 +17,7 @@ class Address extends Model
             'village_id',
             'union_id',
             'postal_code',
-            'ward_number',
+            'ward_id',
             'upazila_id',
             'district_id',
             'division_id',
@@ -28,7 +28,7 @@ class Address extends Model
     protected $casts = [
         'title' => AddressType::class,
     ];
-    
+
     public function village()
     {
         return $this->belongsTo(Village::class);
