@@ -10,6 +10,4 @@ yarn-error.log
 /.idea
 /.vscode
 /public/image
-/storage
-/node_modules
-/vendor
+/storage 
