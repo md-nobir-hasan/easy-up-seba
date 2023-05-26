@@ -110,27 +110,5 @@ class SetupSeeder extends Seeder
             ['name'=>'কাঁচা','price'=>3200,'serial'=>3],
         ];
         DB::table('house_structures')->insert($n);
-
-        //================  Bazar ==============================
-        //union seeder needed
-        // $bazar =[
-        //     ['name'=>'বাজার-১','code'=>84,'union_id'=>1],
-        //     ['name'=>'বাজার-২','code'=>44,'union_id'=>1],
-        // ];
-        // DB::table('bazars')->insert($bazar);
-
-          //============= User word bkdn seeder =================
-          $user_word_bkdns =[
-            [
-                'user_id' => 1,
-                'word_id' => 1,
-            ],
-            [
-                'user_id' => 2,
-                'word_id' => 1,
-            ],
-        ];
-
-        DB::table('user_word_bkdns')->insert($user_word_bkdns);
     }
 }

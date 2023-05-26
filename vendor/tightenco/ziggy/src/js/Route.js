@@ -26,13 +26,23 @@ export default class Route {
      * @return {String} Route template.
      */
     get template() {
+        return `${this.origin}/${this.definition.uri}`.replace(/\/+$/, '');
+    }
+
+    /**
+     * Get a template of the origin for this route.
+     *
+     * @example
+     * https://{team}.ziggy.dev/
+     *
+     * @return {String} Route origin template.
+     */
+    get origin() {
         // If  we're building just a path there's no origin, otherwise: if this route has a
         // domain configured we construct the origin with that, if not we use the app URL
-        const origin = !this.config.absolute ? '' : this.definition.domain
+        return !this.config.absolute ? '' : this.definition.domain
             ? `${this.config.url.match(/^\w+:\/\//)[0]}${this.definition.domain}${this.config.port ? `:${this.config.port}` : ''}`
             : this.config.url;
-
-        return `${origin}/${this.definition.uri}`.replace(/\/+$/, '');
     }
 
     /**
@@ -71,8 +81,15 @@ export default class Route {
         const [location, query] = url.replace(/^\w+:\/\//, '').split('?');
 
         const matches = new RegExp(`^${pattern}/?$`).exec(location);
+        
+        if (matches) {
+            for (const k in matches.groups) {
+                matches.groups[k] = typeof matches.groups[k] === 'string' ? decodeURIComponent(matches.groups[k]) : matches.groups[k];
+            }
+            return { params: matches.groups, query: parse(query) };
+        }
 
-        return matches ? { params: matches.groups, query: parse(query) } : false;
+        return false;
     }
 
     /**
@@ -101,6 +118,6 @@ export default class Route {
             }
 
             return encodeURIComponent(params[segment] ?? '');
-        }).replace(/\/+$/, '');
+        }).replace(`${this.origin}//`, `${this.origin}/`).replace(/\/+$/, '');
     }
 }
