@@ -508,7 +508,6 @@ const businessCapitalFetch = () => {
                                 v-model="form.business_starting_date"
                                 type="date"
                                 class="w-full"
-                                required
                                 autocomplete="business_starting_date"
                             />
                             <InputError
