@@ -15,75 +15,363 @@ defineProps({
     user: String,
 });
 
-
-
 //========= Side menu ============
 const submenueItem = [
-    { title: 'ড্যাসবোর্ড', name: 'Dashboard', route: route('admin.dashboard'), active: false, url: '/admin/dashboard', icon: HomeIcon, children: [] },
     {
-        title: 'সেটাপ', name: 'Setup', active: false, url: '/admin/setup', icon: AdjustmentsHorizontalIcon, children: [
-            { title: 'বিভাগ', name: 'Division', active: false, route: route('admin.setup.division.index'), url: '/admin/setup/division', icon: MinusIcon, children: [] },
-            { title: 'জেলা', name: 'District', active: false, route: route('admin.setup.district.index'), url: '/admin/setup/district', icon: MinusIcon, children: [] },
-            { title: 'উপজেলা', name: 'Upazila', active: false, route: route('admin.setup.upazila.index'), url: '/admin/setup/upazila', icon: MinusIcon, children: [] },
-            { title: 'ইউনিয়ন', name: 'Union', active: false, route: route('admin.setup.union.index'), url: '/admin/setup/union', icon: MinusIcon, children: [] },
-            { title: 'ওয়ার্ড', name: 'Word', active: false, route: route('admin.setup.word.index'), url: '/admin/setup/word', icon: MinusIcon, children: [] },
-            { title: 'গ্রাম', name: 'Village', active: false, route: route('admin.setup.village.index'), url: '/admin/setup/village', icon: MinusIcon, children: [] },
-            { title: 'কর', name: 'Tax', active: false, route: route('admin.setup.tax.index'), url: '/admin/setup/tax', icon: MinusIcon, children: [] },
-            { title: 'ধর্ম', name: 'Religion', active: false, route: route('admin.setup.religion.index'), url: '/admin/setup/religion', icon: MinusIcon, children: [] },
-            { title: 'পেশা', name: 'Profession', active: false, route: route('admin.setup.profession.index'), url: '/admin/setup/profession', icon: MinusIcon, children: [] },
-            { title: 'শিক্ষাগত যোগ্যতা', name: 'Education Qualification', active: false, route: route('admin.setup.education-qualification.index'), url: '/admin/setup/education-qualification', icon: MinusIcon, children: [] },
-            { title: 'অর্থ-বছর', name: 'Financial Year', active: false, route: route('admin.setup.financial-year.index'), url: '/admin/setup/finalcial-year', icon: MinusIcon, children: [] },
-            { title: 'অবকাঠামো কর', name: 'House Structure', active: false, route: route('admin.setup.house-structure.index'), url: '/admin/setup/house-structure', icon: MinusIcon, children: [] },
-            { title: 'বাজার', name: 'Bazar', active: false, route: route('admin.setup.bazar.index'), url: '/admin/setup/bazar', icon: MinusIcon, children: [] },
-        ]
+        title: "ড্যাসবোর্ড",
+        name: "Dashboard",
+        route: route("admin.dashboard"),
+        active: false,
+        url: "/admin/dashboard",
+        icon: HomeIcon,
+        children: [],
     },
     {
-        title: 'কর', name: 'Tax', active: false, url: '/admin/tax', icon: BanknotesIcon, children: [
-            { title: 'ই-খানা', name: 'E-Khana', active: false, route: route('admin.tax.ekhana.index'), url: '/admin/tax/ekhana', icon: UserPlusIcon, children: [] },
+        title: "সেটাপ",
+        name: "Setup",
+        active: false,
+        url: "/admin/setup",
+        icon: AdjustmentsHorizontalIcon,
+        children: [
             {
-                title: 'হিসাব', name: 'Calculation', active: false, route: '', url: '/admin/tax/calculation', icon: CalculatorIcon, children: [
-                    { title: 'কর জামা ফর্ম', name: 'House Tax Deposite', active: false, route: route('admin.tax.calculation.deposite.create'), url: '/admin/tax/calculation/deposite/create', icon: CircleStackIcon, children: [] },
-                    { title: 'কর জমা লিস্ট', name: 'House Tax Deposite List', active: false, route: route('admin.tax.calculation.deposite.index'), url: '/admin/tax/calculation/deposite/index', icon: ListBulletIcon, children: [] },
-                    { title: 'গ্রাম ভিত্তিক ধার্য', name: 'Village Based Levy', active: false, route: route('admin.tax.calculation.village-leavy.index'), url: '/admin/tax/calculation/village-leavy', icon: ChevronDoubleRightIcon, children: [] },
+                title: "বিভাগ",
+                name: "Division",
+                active: false,
+                route: route("admin.setup.division.index"),
+                url: "/admin/setup/division",
+                icon: MinusIcon,
+                children: [],
+            },
+            {
+                title: "জেলা",
+                name: "District",
+                active: false,
+                route: route("admin.setup.district.index"),
+                url: "/admin/setup/district",
+                icon: MinusIcon,
+                children: [],
+            },
+            {
+                title: "উপজেলা",
+                name: "Upazila",
+                active: false,
+                route: route("admin.setup.upazila.index"),
+                url: "/admin/setup/upazila",
+                icon: MinusIcon,
+                children: [],
+            },
+            {
+                title: "ইউনিয়ন",
+                name: "Union",
+                active: false,
+                route: route("admin.setup.union.index"),
+                url: "/admin/setup/union",
+                icon: MinusIcon,
+                children: [],
+            },
+            {
+                title: "ওয়ার্ড",
+                name: "Word",
+                active: false,
+                route: route("admin.setup.word.index"),
+                url: "/admin/setup/word",
+                icon: MinusIcon,
+                children: [],
+            },
+            {
+                title: "গ্রাম",
+                name: "Village",
+                active: false,
+                route: route("admin.setup.village.index"),
+                url: "/admin/setup/village",
+                icon: MinusIcon,
+                children: [],
+            },
+            {
+                title: "কর",
+                name: "Tax",
+                active: false,
+                route: route("admin.setup.tax.index"),
+                url: "/admin/setup/tax",
+                icon: MinusIcon,
+                children: [],
+            },
+            {
+                title: "ধর্ম",
+                name: "Religion",
+                active: false,
+                route: route("admin.setup.religion.index"),
+                url: "/admin/setup/religion",
+                icon: MinusIcon,
+                children: [],
+            },
+            {
+                title: "পেশা",
+                name: "Profession",
+                active: false,
+                route: route("admin.setup.profession.index"),
+                url: "/admin/setup/profession",
+                icon: MinusIcon,
+                children: [],
+            },
+            {
+                title: "শিক্ষাগত যোগ্যতা",
+                name: "Education Qualification",
+                active: false,
+                route: route("admin.setup.education-qualification.index"),
+                url: "/admin/setup/education-qualification",
+                icon: MinusIcon,
+                children: [],
+            },
+            {
+                title: "অর্থ-বছর",
+                name: "Financial Year",
+                active: false,
+                route: route("admin.setup.financial-year.index"),
+                url: "/admin/setup/finalcial-year",
+                icon: MinusIcon,
+                children: [],
+            },
+            {
+                title: "অবকাঠামো কর",
+                name: "House Structure",
+                active: false,
+                route: route("admin.setup.house-structure.index"),
+                url: "/admin/setup/house-structure",
+                icon: MinusIcon,
+                children: [],
+            },
+        ],
+    },
+    {
+        title: "কর",
+        name: "Tax",
+        active: false,
+        url: "/admin/tax",
+        icon: BanknotesIcon,
+        children: [
+            {
+                title: "ই-খানা",
+                name: "E-Khana",
+                active: false,
+                route: route("admin.tax.ekhana.index"),
+                url: "/admin/tax/ekhana",
+                icon: UserPlusIcon,
+                children: [],
+            },
+            {
+                title: "হিসাব",
+                name: "Calculation",
+                active: false,
+                route: "",
+                url: "/admin/tax/calculation",
+                icon: CalculatorIcon,
+                children: [
+                    {
+                        title: "কর জামা ফর্ম",
+                        name: "House Tax Deposite",
+                        active: false,
+                        route: route("admin.tax.calculation.deposite.create"),
+                        url: "/admin/tax/calculation/deposite/create",
+                        icon: CircleStackIcon,
+                        children: [],
+                    },
+                    {
+                        title: "কর জমা লিস্ট",
+                        name: "House Tax Deposite List",
+                        active: false,
+                        route: route("admin.tax.calculation.deposite.index"),
+                        url: "/admin/tax/calculation/deposite/index",
+                        icon: ListBulletIcon,
+                        children: [],
+                    },
+                    {
+                        title: "গ্রাম ভিত্তিক ধার্য",
+                        name: "Village Based Levy",
+                        active: false,
+                        route: route(
+                            "admin.tax.calculation.village-leavy.index"
+                        ),
+                        url: "/admin/tax/calculation/village-leavy",
+                        icon: ChevronDoubleRightIcon,
+                        children: [],
+                    },
                     // {title:'ওয়ার্ড ভিত্তিক ধার্য',name:'ওয়ার্ড ভিত্তিক ধার্য',active:false,route:route('admin.tax.calculation.word-leavy.index'),url:'/admin/tax/calculation/word-leavy/index',icon:ChevronDoubleRightIcon,children:[]},
-                ]
+                ],
             },
             {
-                title: 'টপলিষ্ট/ডেইলি পোষ্টিং', name: 'টপলিষ্ট/ডেইলি পোষ্টিং', active: false, route: '', url: '/admin/tax/toplist', icon: CalculatorIcon, children: [
-                    { title: 'ধার্য/আদায় টপশীট', name: 'ধার্য/আদায় টপশীট', active: false, route: route('admin.tax.toplist.levy'), url: '/admin/tax/toplist/levy', icon: CircleStackIcon, children: [] },
-                    { title: 'ডেইলি পোষ্টিং', name: 'ডেইলি পোষ্টিং', active: false, route: route('admin.tax.toplist.diily.posting'), url: '/admin/tax/toplist/daily/posting', icon: CircleStackIcon, children: [] },
-                    { title: 'ডেইলি পোষ্টিং টপশিট', name: 'ডেইলি পোষ্টিং টপশিট', active: false, route: route('admin.tax.toplist.diily.posting.topsheet'), url: '/admin/tax/toplist/daily/topsheet', icon: CircleStackIcon, children: [] },
-                ]
+                title: "টপলিষ্ট/ডেইলি পোষ্টিং",
+                name: "টপলিষ্ট/ডেইলি পোষ্টিং",
+                active: false,
+                route: "",
+                url: "/admin/tax/toplist",
+                icon: CalculatorIcon,
+                children: [
+                    {
+                        title: "ধার্য/আদায় টপশীট",
+                        name: "ধার্য/আদায় টপশীট",
+                        active: false,
+                        route: route("admin.tax.toplist.levy"),
+                        url: "/admin/tax/toplist/levy",
+                        icon: CircleStackIcon,
+                        children: [],
+                    },
+                    {
+                        title: "ডেইলি পোষ্টিং",
+                        name: "ডেইলি পোষ্টিং",
+                        active: false,
+                        route: route("admin.tax.toplist.diily.posting"),
+                        url: "/admin/tax/toplist/daily/posting",
+                        icon: CircleStackIcon,
+                        children: [],
+                    },
+                    {
+                        title: "ডেইলি পোষ্টিং টপশিট",
+                        name: "ডেইলি পোষ্টিং টপশিট",
+                        active: false,
+                        route: route(
+                            "admin.tax.toplist.diily.posting.topsheet"
+                        ),
+                        url: "/admin/tax/toplist/daily/topsheet",
+                        icon: CircleStackIcon,
+                        children: [],
+                    },
+                ],
             },
             {
-                title: 'বিল প্রিন্ট', name: 'বিল প্রিন্ট', active: false, route: '', url: '/admin/tax/bill-print', icon: CalculatorIcon, children: [
-                    { title: 'সিঙ্গেল বিল প্রিন্ট', name: 'সিঙ্গেল বিল প্রিন্ট', active: false, route: route('admin.tax.bill.print.single'), url: '/admin/tax/bill-print/single', icon: CircleStackIcon, children: [] },
-                    { title: 'সমস্ত বিল প্রিন্ট', name: 'সমস্ত বিল প্রিন্ট', active: false, route: route('admin.tax.bill.print.all'), url: '/admin/tax/bill-print/all', icon: CircleStackIcon, children: [] },
-                    { title: 'সিঙ্গেল বিল প্রিন্ট (পুরাতন)', name: 'সিঙ্গেল বিল প্রিন্ট (পুরাতন)', active: false, route: route('admin.tax.bill.print.single.old'), url: '/admin/tax/bill-print/old/single', icon: CircleStackIcon, children: [] },
-                    { title: 'সমস্ত বিল প্রিন্ট (পুরাতন)', name: 'সমস্ত বিল প্রিন্ট (পুরাতন)', active: false, route: route('admin.tax.bill.print.all.old'), url: '/admin/tax/bill-print/old/all', icon: CircleStackIcon, children: [] },
-                    { title: 'সিঙ্গেল পোজ বিল', name: 'সিঙ্গেল পোজ বিল', active: false, route: route('admin.tax.bill.print.single.pos'), url: '/admin/tax/bill-print/single/pos', icon: CircleStackIcon, children: [] },
-                    { title: 'সমস্ত পোজ বিল', name: 'সমস্ত পোজ বিল', active: false, route: route('admin.tax.bill.print.all.pos'), url: '/admin/tax/bill-print/all/pos', icon: CircleStackIcon, children: [] },
-                ]
+                title: "বিল প্রিন্ট",
+                name: "বিল প্রিন্ট",
+                active: false,
+                route: "",
+                url: "/admin/tax/bill-print",
+                icon: CalculatorIcon,
+                children: [
+                    {
+                        title: "সিঙ্গেল বিল প্রিন্ট",
+                        name: "সিঙ্গেল বিল প্রিন্ট",
+                        active: false,
+                        route: route("admin.tax.bill.print.single"),
+                        url: "/admin/tax/bill-print/single",
+                        icon: CircleStackIcon,
+                        children: [],
+                    },
+                    {
+                        title: "সমস্ত বিল প্রিন্ট",
+                        name: "সমস্ত বিল প্রিন্ট",
+                        active: false,
+                        route: route("admin.tax.bill.print.all"),
+                        url: "/admin/tax/bill-print/all",
+                        icon: CircleStackIcon,
+                        children: [],
+                    },
+                    {
+                        title: "সিঙ্গেল বিল প্রিন্ট (পুরাতন)",
+                        name: "সিঙ্গেল বিল প্রিন্ট (পুরাতন)",
+                        active: false,
+                        route: route("admin.tax.bill.print.single.old"),
+                        url: "/admin/tax/bill-print/old/single",
+                        icon: CircleStackIcon,
+                        children: [],
+                    },
+                    {
+                        title: "সমস্ত বিল প্রিন্ট (পুরাতন)",
+                        name: "সমস্ত বিল প্রিন্ট (পুরাতন)",
+                        active: false,
+                        route: route("admin.tax.bill.print.all.old"),
+                        url: "/admin/tax/bill-print/old/all",
+                        icon: CircleStackIcon,
+                        children: [],
+                    },
+                    {
+                        title: "সিঙ্গেল পোজ বিল",
+                        name: "সিঙ্গেল পোজ বিল",
+                        active: false,
+                        route: route("admin.tax.bill.print.single.pos"),
+                        url: "/admin/tax/bill-print/single/pos",
+                        icon: CircleStackIcon,
+                        children: [],
+                    },
+                    {
+                        title: "সমস্ত পোজ বিল",
+                        name: "সমস্ত পোজ বিল",
+                        active: false,
+                        route: route("admin.tax.bill.print.all.pos"),
+                        url: "/admin/tax/bill-print/all/pos",
+                        icon: CircleStackIcon,
+                        children: [],
+                    },
+                ],
             },
-        ]
+        ],
     },
     {
-        title: 'অনুমোদন', name: 'Approval', active: false, url: '/admin/approval', icon: CheckBadgeIcon, children:
-            [
-                { title: 'কর জমা ডিলেট', name: 'Tax Deposite Approval', active: false, route: route('admin.approval.tax-deposite.index'), url: '/admin/approval/tax-deposite', icon: MinusIcon, children: [] },
-            ]
+        title: "ট্রেড লাইসেন্স",
+        name: "Approval",
+        active: false,
+        url: "/admin/trade-license",
+        icon: CheckBadgeIcon,
+        children: [
+            {
+                title: "ট্রেড লাইসেন্স লিস্ট",
+                name: "Tax Deposite Approval",
+                active: false,
+                route: route("admin.trade-license.index"),
+                url: "/admin/trade-license",
+                icon: MinusIcon,
+                children: [],
+            },
+        ],
     },
     {
-        title: 'ইউজার ম্যানেজমেন্ট', name: 'User Management', active: false, url: '/admin/user', icon: UserIcon, children: [
-            { title: 'রোল', name: 'Role', active: false, route: route('admin.user.role.index'), url: '/admin/user/role', icon: ArrowsRightLeftIcon, children: [] },
-            { title: 'ইউজার', name: 'User', active: false, route: route('admin.user.user.index'), url: '/admin/user/user', icon: UserGroupIcon, children: [] },
-        ]
+        title: "অনুমোদন",
+        name: "Approval",
+        active: false,
+        url: "/admin/approval",
+        icon: CheckBadgeIcon,
+        children: [
+            {
+                title: "কর জমা ডিলেট",
+                name: "Tax Deposite Approval",
+                active: false,
+                route: route("admin.approval.tax-deposite.index"),
+                url: "/admin/approval/tax-deposite",
+                icon: MinusIcon,
+                children: [],
+            },
+        ],
+    },
+    {
+        title: "ইউজার ম্যানেজমেন্ট",
+        name: "User Management",
+        active: false,
+        url: "/admin/user",
+        icon: UserIcon,
+        children: [
+            {
+                title: "রোল",
+                name: "Role",
+                active: false,
+                route: route("admin.user.role.index"),
+                url: "/admin/user/role",
+                icon: ArrowsRightLeftIcon,
+                children: [],
+            },
+            {
+                title: "ইউজার",
+                name: "User",
+                active: false,
+                route: route("admin.user.user.index"),
+                url: "/admin/user/user",
+                icon: UserGroupIcon,
+                children: [],
+            },
+        ],
     },
 ];
 //========= End Side menu ============
 
 //================  Language conversation =========================================
-let en2bn = n => String(n).replace(/\d/g, d => "০১২৩৪৫৬৭৮৯"[d]);
+    let en2bn = n => String(n).replace(/\d/g, d => "০১২৩৪৫৬৭৮৯"[d]);
 // End Language conversation
 
 //========= frontend validation ============
@@ -92,27 +380,29 @@ const nuser = usePage().props.auth.user;
 const ncheck = (nmodule) => {
     let checked = false;
     usePage().props.permissions.forEach(function (val, key) {
-        if (val.module.name == nmodule && val.role_id == nuser.role_id) {
+        if (val.module?.name == nmodule && val.role_id == nuser.role_id) {
             checked = true;
         }
-    })
+    });
     return checked;
-
-}
+};
 //============ end frontend validation ============
 const showingNavigationDropdown = ref(false);
 
-
 const switchToTeam = (team) => {
-    router.put(route('current-team.update'), {
-        team_id: team.id,
-    }, {
-        preserveState: false,
-    });
+    router.put(
+        route("current-team.update"),
+        {
+            team_id: team.id,
+        },
+        {
+            preserveState: false,
+        }
+    );
 };
 
 const logout = () => {
-    router.post(route('logout'));
+    router.post(route("logout"));
 };
 
 // custom vue coding
@@ -120,10 +410,10 @@ const sidemenu = ref(false);
 const setup = ref(false);
 const user = ref(false);
 
-if (window.location.pathname.startsWith('/admin/setup')) {
+if (window.location.pathname.startsWith("/admin/setup")) {
     setup.value = true;
 }
-if (window.location.pathname.startsWith('/admin/user')) {
+if (window.location.pathname.startsWith("/admin/user")) {
     user.value = true;
 }
 
@@ -132,27 +422,26 @@ if (screen.width > 640) {
 }
 
 const sidemenuChange = () => {
-
     if (sidemenu.value) {
         sidemenu.value = false;
     } else {
         sidemenu.value = true;
     }
-}
+};
 const openClose = () => {
     if (setup.value) {
         setup.value = false;
     } else {
         setup.value = true;
     }
-}
+};
 const userOpenClose = () => {
     if (user.value) {
         user.value = false;
     } else {
         user.value = true;
     }
-}
+};
 const userMenu = ref(false);
 const notyshow = ref(false);
 const notyfunc = () => {
@@ -186,9 +475,18 @@ function word() {
             words = words + ", " + item.words.name;
         }
     });
-    return en2bn(words);
+};
+function DateFormate(date) {
+    if (date) {
+        const d = new Date(date);
+        let da = d.getDate();
+        let month = d.getMonth();
+        let year = d.getFullYear();
+        return da + "/" + month + "/" + year;
+    }
+    return date;
 }
-console.log(usePage().props.auth.user)
+
 </script>
 
 <template>
@@ -207,14 +505,24 @@ console.log(usePage().props.auth.user)
             <div class="px-3 py-3 lg:px-5 lg:pl-3">
                 <div class="flex items-center justify-between">
                     <div class="flex items-center justify-start sm:hidden">
-                        <button @click="sidemenuChange" type="button"
-                            class="inline-flex items-center text-sm text-gray-500 rounded-lg smphp sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
+                        <button
+                            @click="sidemenuChange"
+                            type="button"
+                            class="inline-flex items-center text-sm text-gray-500 rounded-lg smphp sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+                        >
                             <span class="sr-only">Open sidebar</span>
-                            <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path clip-rule="evenodd" fill-rule="evenodd"
-                                    d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z">
-                                </path>
+                            <svg
+                                class="w-6 h-6"
+                                aria-hidden="true"
+                                fill="currentColor"
+                                viewBox="0 0 20 20"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path
+                                    clip-rule="evenodd"
+                                    fill-rule="evenodd"
+                                    d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"
+                                ></path>
                             </svg>
                         </button>
                     </div>

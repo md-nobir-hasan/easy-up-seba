@@ -54,7 +54,6 @@ trait AssertsStatusCodes
     /**
      * Assert that the response has a 301 "Moved Permanently" status code.
      *
-     * @param  int  $status
      * @return $this
      */
     public function assertMovedPermanently()
@@ -65,7 +64,6 @@ trait AssertsStatusCodes
     /**
      * Assert that the response has a 302 "Found" status code.
      *
-     * @param  int  $status
      * @return $this
      */
     public function assertFound()
@@ -124,6 +122,16 @@ trait AssertsStatusCodes
     }
 
     /**
+     * Assert that the response has a 405 "Method Not Allowed" status code.
+     *
+     * @return $this
+     */
+    public function assertMethodNotAllowed()
+    {
+        return $this->assertStatus(405);
+    }
+
+    /**
      * Assert that the response has a 408 "Request Timeout" status code.
      *
      * @return $this
@@ -141,6 +149,16 @@ trait AssertsStatusCodes
     public function assertConflict()
     {
         return $this->assertStatus(409);
+    }
+
+    /**
+     * Assert that the response has a 410 "Gone" status code.
+     *
+     * @return $this
+     */
+    public function assertGone()
+    {
+        return $this->assertStatus(410);
     }
 
     /**
@@ -171,5 +189,25 @@ trait AssertsStatusCodes
     public function assertTooManyRequests()
     {
         return $this->assertStatus(429);
+    }
+
+    /**
+     * Assert that the response has a 500 "Internal Server Error" status code.
+     *
+     * @return $this
+     */
+    public function assertInternalServerError()
+    {
+        return $this->assertStatus(500);
+    }
+
+    /**
+     * Assert that the response has a 503 "Service Unavailable" status code.
+     *
+     * @return $this
+     */
+    public function assertServiceUnavailable()
+    {
+        return $this->assertStatus(503);
     }
 }

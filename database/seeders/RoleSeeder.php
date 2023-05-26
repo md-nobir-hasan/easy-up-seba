@@ -16,7 +16,7 @@ class RoleSeeder extends Seeder
         $n = [
             ['name' => 'Power'],
             ['name' => 'Union'],
-            ['name' => 'Word'],
+            ['name' => 'Hasan'],
         ];
 
         DB::table('roles')->insert($n);
