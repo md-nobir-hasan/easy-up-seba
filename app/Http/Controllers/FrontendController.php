@@ -23,4 +23,8 @@ class FrontendController extends Controller
         $n['kcount'] = count($n['ekhanas']);
         return Inertia::render('Dashboard',$n);
     }
+
+    public function pointErr(){
+        return Inertia::render('validationErr/Point');
+    }
 }

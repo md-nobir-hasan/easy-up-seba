@@ -173,7 +173,7 @@ class AjaxController extends Controller
         //points check
         $user = User::find(Auth::user()->id);
         if( $user->points != null){
-            if($user->points<1){
+            if($user->points<$req->paid_amount){
                 return 'কোন ক্রেডিট নাই।';
             }else{
                 if($user->points > $req->paid_amount){

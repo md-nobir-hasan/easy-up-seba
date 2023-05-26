@@ -74,11 +74,15 @@ Route::prefix('/ajax')->name('ajax.')->group(function(){
     Route::get('/bnmoney/{num}',[AjaxController::class,'bnMoney'])->name('bnmoney');
 });
 
+// Validation error page
+Route::prefix('/validation/error')->name('valid.err.')->group(function(){
+    Route::get('/points',[FrontendController::class,'pointErr'])->name('point');
+});
 
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
-    'verified',
+    'verified','point_check',
 ])->prefix('/admin')->name('admin.')->group(function () {
 
     //dashboar rendering
