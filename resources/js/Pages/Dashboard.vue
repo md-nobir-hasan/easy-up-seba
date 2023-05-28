@@ -23,7 +23,7 @@ const formatter = new Intl.NumberFormat('bn-BD', {
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-xl max-w-lg mx-auto rounded-lg">
                     <div class="p-6 lg:p-8 bg-white border-b border-gray-200">
-                        <h4 class="text-center font-extrabold">সর্বমোট খানাঃ {{ new Intl.NumberFormat('bn-BD').format(kcount) }}</h4>
+                        <h4 class="text-center font-extrabold">সর্বমোটs খানাঃ {{ new Intl.NumberFormat('bn-BD').format(kcount) }}</h4>
                     </div>
                 </div>
             </div>
