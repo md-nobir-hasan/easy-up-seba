@@ -27,7 +27,6 @@ class ModuleSeeder extends Seeder
                 ['name' => 'Religion','a_union' => '1'],
                 ['name' => 'Financial Year','a_union' => '1'],
                 ['name' => 'House Structure','a_union' => '1'],
-                ['name' => 'Bazar','a_union' => '1'],
             ['name' => 'User Management','a_union' => '1'],
                 ['name' => 'Role','a_union' => '1'],
                 ['name' => 'User','a_union' => '1'],

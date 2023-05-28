@@ -25,25 +25,10 @@ class VillageController extends Controller
             $n['villages'] = Village::with(['division','district','upazila','union','word','createdBy','updatedBy'])->where('deleted_by',null)->orderBy('id','desc')->get();
         }
         elseif(Auth::user()->role->name == "Union"){
-            $n['villages'] = Village::with(['division','district','upazila','union','word','createdBy','updatedBy'])->where('deleted_by',null)->where('union_id',Auth::user()->union_id)->orderBy('id','desc')->get();
+            $n['villages'] = Village::with(['division','district','upazila','union','word','createdBy','updatedBy'])->where('deleted_by',null)->where('union_id',Auth::user()->word->union_id)->orderBy('id','desc')->get();
         }
         else{
-            $n['villages'] = Village::with(['division','district','upazila','union','word','createdBy','updatedBy'])->where('deleted_by',null)
-                                ->where('union_id',Auth::user()->union_id)
-                                // ->where('word_id',Auth::user()->word_id)
-                                ->orderBy('id','desc')->get();
-                //word wise data fetch
-        $i = 1;
-        foreach(Auth::user()->uwbkdn as $word){
-            // dd($word);
-            if($i == 1){
-                    $n['villages'] =  $n['villages']->where('word_id',$word->word_id);
-            }else{
-                    $n['villages'] =  $n['villages']->orWhere('word_id',$word->word_id);
-            }
-            $i++;
-        }
-    //End word wise data fetch
+            $n['villages'] = Village::with(['division','district','upazila','union','word','createdBy','updatedBy'])->where('deleted_by',null)->where('union_id',Auth::user()->word->union_id)->where('word_id',Auth::user()->word_id)->orderBy('id','desc')->get();
 
         }
         // $n['villages'] = Village::with(['division','district','upazila','union','word','createdBy','updatedBy'])->where('deleted_by',null)->orderBy('id','desc')->get();

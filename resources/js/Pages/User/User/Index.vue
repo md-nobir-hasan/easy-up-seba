@@ -63,19 +63,6 @@ const mdata = ref(usePage().props.users);
     })
     }
 //End deleting
-console.log(usePage().props.auth.user);
-function word(){
-    let words = '';
-    let i = 1;
-    usePage().props.auth.user.uwbkdn.forEach((item,index)=>{
-        if(i==1){
-            words = item.words.name;
-        }else{
-            words = words+", "+item.words.name;
-        }
-    });
-    return words;
-}
 </script>
 
 <template>
@@ -137,7 +124,7 @@ function word(){
                                     </td>
                                     <td scope="row" v-if="$page.props.auth.user.id != 1"
                                         class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        {{ word() }}
+                                        {{ value.word ? value.word.name : "" }}
                                     </td>
                                     <td scope="row"
                                         class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
@@ -171,4 +158,3 @@ function word(){
         <!-- </div> -->
 </AppLayout>
 </template>
-

@@ -22,18 +22,12 @@ class BillPrintController extends Controller
             $n['ekhanas'] = Ekhana::with(['union','word'])->where('deleted_by',null)->get();
         }
         elseif(Auth::user()->role->name == 'Union'){
-            $n['words'] = Word::with(['union'])->where('deleted_by',null)->where('union_id',Auth::user()->union_id)->get();
-            $n['ekhanas'] = Ekhana::with(['union','word'])->where('deleted_by',null)->where('union_id',Auth::user()->union_id)->get();
+            $n['words'] = Word::with(['union'])->where('deleted_by',null)->where('union_id',Auth::user()->word->union_id)->get();
+            $n['ekhanas'] = Ekhana::with(['union','word'])->where('deleted_by',null)->where('union_id',Auth::user()->word->union_id)->get();
         }
         else{
-            $n['words'] = Word::with(['union'])->where('deleted_by',null)
-                        // ->where('id',Auth::user()->word_id)
-                        ->get();
-            $n['ekhanas'] = Ekhana::with(['union','word'])->where('deleted_by',null)
-                            // ->where('word_id',Auth::user()->word_id)
-                            ->get();
-            $n['words'] = wordFetch($n['words']);
-            $n['ekhanas'] = wordFetch($n['ekhanas']);
+            $n['words'] = Word::with(['union'])->where('deleted_by',null)->where('id',Auth::user()->word_id)->get();
+            $n['ekhanas'] = Ekhana::with(['union','word'])->where('deleted_by',null)->where('word_id',Auth::user()->word_id)->get();
         }
         $n['f_years'] = FinancialYear::where('deleted_at',null)->orderBy('id','desc')->get();
 
@@ -61,13 +55,10 @@ class BillPrintController extends Controller
             $n['words'] = Word::with(['union'])->where('deleted_by',null)->get();
         }
         elseif(Auth::user()->role->name == 'Union'){
-            $n['words'] = Word::with(['union'])->where('deleted_by',null)->where('union_id',Auth::user()->union_id)->get();
+            $n['words'] = Word::with(['union'])->where('deleted_by',null)->where('union_id',Auth::user()->word->union_id)->get();
         }
         else{
-            $n['words'] = Word::with(['union'])->where('deleted_by',null)
-                            // ->where('id',Auth::user()->word_id)
-                            ->get();
-            $n['words'] = wordFetch($n['words']);
+            $n['words'] = Word::with(['union'])->where('deleted_by',null)->where('id',Auth::user()->word_id)->get();
         }
         $n['f_years'] = FinancialYear::where('deleted_at',null)->orderBy('id','desc')->get();
 
@@ -114,18 +105,12 @@ class BillPrintController extends Controller
             $n['ekhanas'] = Ekhana::with(['union','word'])->where('deleted_by',null)->get();
         }
         elseif(Auth::user()->role->name == 'Union'){
-            $n['words'] = Word::with(['union'])->where('deleted_by',null)->where('union_id',Auth::user()->union_id)->get();
-            $n['ekhanas'] = Ekhana::with(['union','word'])->where('deleted_by',null)->where('union_id',Auth::user()->union_id)->get();
+            $n['words'] = Word::with(['union'])->where('deleted_by',null)->where('union_id',Auth::user()->word->union_id)->get();
+            $n['ekhanas'] = Ekhana::with(['union','word'])->where('deleted_by',null)->where('union_id',Auth::user()->word->union_id)->get();
         }
         else{
-            $n['words'] = Word::with(['union'])->where('deleted_by',null)
-                        // ->where('id',Auth::user()->word_id)
-                        ->get();
-            $n['ekhanas'] = Ekhana::with(['union','word'])->where('deleted_by',null)
-                            // ->where('word_id',Auth::user()->word_id)
-                            ->get();
-            $n['words'] = wordFetch($n['words']);
-            $n['ekhanas'] = wordFetch($n['ekhanas']);
+            $n['words'] = Word::with(['union'])->where('deleted_by',null)->where('id',Auth::user()->word_id)->get();
+            $n['ekhanas'] = Ekhana::with(['union','word'])->where('deleted_by',null)->where('word_id',Auth::user()->word_id)->get();
         }
         $n['f_years'] = FinancialYear::where('deleted_at',null)->orderBy('id','desc')->get();
 
@@ -152,13 +137,10 @@ class BillPrintController extends Controller
             $n['words'] = Word::with(['union'])->where('deleted_by',null)->get();
         }
         elseif(Auth::user()->role->name == 'Union'){
-            $n['words'] = Word::with(['union'])->where('deleted_by',null)->where('union_id',Auth::user()->union_id)->get();
+            $n['words'] = Word::with(['union'])->where('deleted_by',null)->where('union_id',Auth::user()->word->union_id)->get();
         }
         else{
-            $n['words'] = Word::with(['union'])->where('deleted_by',null)
-                            // ->where('id',Auth::user()->word_id)
-                            ->get();
-            $n['words'] = wordFetch($n['words']);
+            $n['words'] = Word::with(['union'])->where('deleted_by',null)->where('id',Auth::user()->word_id)->get();
         }
         $n['f_years'] = FinancialYear::where('deleted_at',null)->orderBy('id','desc')->get();
 
@@ -203,13 +185,10 @@ class BillPrintController extends Controller
             $n['words'] = Word::with(['union'])->where('deleted_by',null)->get();
         }
         elseif(Auth::user()->role->name == 'Union'){
-            $n['words'] = Word::with(['union'])->where('deleted_by',null)->where('union_id',Auth::user()->union_id)->get();
+            $n['words'] = Word::with(['union'])->where('deleted_by',null)->where('union_id',Auth::user()->word->union_id)->get();
         }
         else{
-            $n['words'] = Word::with(['union'])->where('deleted_by',null)
-                            // ->where('id',Auth::user()->word_id)
-                            ->get();
-            $n['words'] = wordFetch($n['words']);
+            $n['words'] = Word::with(['union'])->where('deleted_by',null)->where('id',Auth::user()->word_id)->get();
         }
         $n['f_years'] = FinancialYear::where('deleted_at',null)->orderBy('id','desc')->get();
 
@@ -224,18 +203,12 @@ class BillPrintController extends Controller
             $n['ekhanas'] = Ekhana::with(['union','word'])->where('deleted_by',null)->get();
         }
         elseif(Auth::user()->role->name == 'Union'){
-            $n['words'] = Word::with(['union'])->where('deleted_by',null)->where('union_id',Auth::user()->union_id)->get();
-            $n['ekhanas'] = Ekhana::with(['union','word'])->where('deleted_by',null)->where('union_id',Auth::user()->union_id)->get();
+            $n['words'] = Word::with(['union'])->where('deleted_by',null)->where('union_id',Auth::user()->word->union_id)->get();
+            $n['ekhanas'] = Ekhana::with(['union','word'])->where('deleted_by',null)->where('union_id',Auth::user()->word->union_id)->get();
         }
         else{
-            $n['words'] = Word::with(['union'])->where('deleted_by',null)
-                        ->where('id',Auth::user()->word_id)
-                        ->get();
-            $n['ekhanas'] = Ekhana::with(['union','word'])->where('deleted_by',null)
-                            ->where('word_id',Auth::user()->word_id)
-                            ->get();
-            $n['words'] = wordFetch($n['words']);
-            $n['ekhanas'] = wordFetch($n['ekhanas']);
+            $n['words'] = Word::with(['union'])->where('deleted_by',null)->where('id',Auth::user()->word_id)->get();
+            $n['ekhanas'] = Ekhana::with(['union','word'])->where('deleted_by',null)->where('word_id',Auth::user()->word_id)->get();
         }
         $n['f_years'] = FinancialYear::where('deleted_at',null)->orderBy('id','desc')->get();
 

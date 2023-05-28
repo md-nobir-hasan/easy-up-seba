@@ -23,7 +23,7 @@ const print = ref(false);
 const today = (date.getMonth() + 1)+'/'+date.getDate()+'/'+date.getFullYear();
 const form = useForm({
     f_year_id: '',
-    ekhana_id: '',
+    ekhana_id: String(usePage().props.auth.user.word.union.code+usePage().props.auth.user.word.code),
     paid_amount: 0,
     arrears: 0,
     fine: 0,
@@ -91,6 +91,8 @@ function DateFormate(date) {
         axios.post(route('ajax.ekhana.fetch'), form).then(res => {
             ekhana.value = res.data.ekhana;
             htdeposite.value = res.data.ht_deposite;
+            // form.paid_amount = Math.round(res.data.ht_deposite.total_amount/3);
+            // form.arrears = res.data.ht_deposite.total_amount - (res.data.ht_deposite.paid_amount >0 ? res.data.ht_deposite.paid_amount : 0);
             form.fine = Math.round(res.data.ht_deposite.fine ?? 0);
             form.id = res.data.ht_deposite.id ?? 0;
             deposite_date.value = res.data.ht_deposite.deposite_date;
@@ -153,8 +155,11 @@ function DateFormate(date) {
                 fo_kisti_checked.value = true;
                 break;
         }
-
+        // all_total.value = htdeposite.value.total_amount - htdeposite.value.paid_amount + htdeposite.value.prev_arrears;
+        // paid.value = (htdeposite.value.total_amount*kisti_no)/4;
+        // form.paid_amount = Number(paid.value) + Number(htdeposite.value.prev_arrears);
         form.kisti = kisti_no;
+        // return true;
     }
 
     const submitTax =()=>{

@@ -29,25 +29,10 @@ class ExportController extends Controller
             $ekhana = Ekhana::where('deleted_by',null)->orderBy('id','desc')->get();
         }
         elseif(Auth::user()->role->name == 'Union'){
-                $ekhana = Ekhana::where('union_id',Auth::user()->union_id)->where('deleted_by',null)->orderBy('id','desc')->get();
+                $ekhana = Ekhana::where('union_id',Auth::user()->word->union_id)->where('deleted_by',null)->orderBy('id','desc')->get();
         }
         else{
-            $ekhana = Ekhana::where('union_id',Auth::user()->union_id)
-                        // ->where('word_id',Auth::user()->word_id)
-                        ->where('deleted_by',null)
-                        ->orderBy('id','desc')->get();
-                           //word wise data fetch
-        $i = 1;
-        foreach(Auth::user()->uwbkdn as $word){
-            // dd($word);
-            if($i == 1){
-                    $ekhana =  $ekhana->where('word_id',$word->word_id);
-            }else{
-                    $ekhana =  $ekhana->orWhere('word_id',$word->word_id);
-            }
-            $i++;
-        }
-    //End word wise data fetch
+            $ekhana = Ekhana::where('union_id',Auth::user()->word->union_id)->where('word_id',Auth::user()->word_id)->where('deleted_by',null)->orderBy('id','desc')->get();
         }
 
         $html = '<html><head><style>body { font-family: siyam-rupali; }</style></head><body><p>আমি বাংলায় গান গাই।</p></body></html>';

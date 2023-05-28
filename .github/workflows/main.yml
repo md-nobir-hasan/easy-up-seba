@@ -1,16 +1,22 @@
-on: push
 name: 🚀 Deploy website on push
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - "main"
+      - "develop"
+
 jobs:
   web-deploy:
     name: 🎉 Deploy
     runs-on: ubuntu-latest
     steps:
-    - name: 🚚 Get latest code
-      uses: actions/checkout@v3
-    
-    - name: 📂 Sync files
-      uses: SamKirkland/FTP-Deploy-Action@4.3.3
-      with:
-        server: ftp.easyupsheba.com
-        username: easyupsheba@admin.easyupsheba.com
-        password: ${{ secrets.FTP_PASSWORD }}
+      - name: 🚚 Get latest code
+        uses: actions/checkout@v3
+
+      - name: 📂 Sync files
+        uses: SamKirkland/FTP-Deploy-Action@4.3.3
+        with:
+          server: ftp.easyupsheba.com
+          username: easyupsheba@admin.easyupsheba.com
+          password: ${{ secrets.FTP_PASSWORD }}

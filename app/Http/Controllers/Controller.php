@@ -48,19 +48,5 @@ class Controller extends BaseController
             }
 
     }
-        // public function wordFetch($data){
-        //     $i = 1;
-        //     foreach(Auth::user()->uwbkdn as $word){
-        //         if($i == 1){
-        //                 $data =  $data->where('word_id',$word->word->id);
-        //         }else{
-        //                 $data =  $data->orWhere('word_id',$word->word->id);
-        //         }
-        //         $i++;
-        //     }
-        //     return  $data;
-        // }
-
 
 }
-

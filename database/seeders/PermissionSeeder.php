@@ -55,7 +55,6 @@ class PermissionSeeder extends Seeder
             ['role_id' => 1,'module_id' => 35,'add' => '1','show' => '1','edit' => '1','delete' => '1'], //
             ['role_id' => 1,'module_id' => 36,'add' => '1','show' => '1','edit' => '1','delete' => '1'], //
             ['role_id' => 1,'module_id' => 37,'add' => '1','show' => '1','edit' => '1','delete' => '1'], //
-            ['role_id' => 1,'module_id' => 38,'add' => '1','show' => '1','edit' => '1','delete' => '1'], //
         ];
 
          //This for Unon
@@ -97,7 +96,6 @@ class PermissionSeeder extends Seeder
             ['role_id' => 2,'module_id' => 35,'add' => '1','show' => '1','edit' => '1','delete' => '1'],
             ['role_id' => 2,'module_id' => 36,'add' => '1','show' => '1','edit' => '1','delete' => '1'],
             ['role_id' => 2,'module_id' => 37,'add' => '1','show' => '1','edit' => '1','delete' => '1'],
-            ['role_id' => 2,'module_id' => 38,'add' => '1','show' => '1','edit' => '1','delete' => '1'],
         ];
 
          //This for hasan //word
