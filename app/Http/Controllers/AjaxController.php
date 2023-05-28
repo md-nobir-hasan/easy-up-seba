@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\BusinessCapital; 
+use App\Models\BusinessCapital;
 use App\Models\Ekhana;
 use App\Models\FinancialYear;
 use App\Models\HouseTaxDeposite;
@@ -160,6 +160,33 @@ class AjaxController extends Controller
         // return $model;
         // return response()->json($req->all());
         $housetax = $model::find($req->id);
+
+        //points check
+        $user = User::find(Auth::user()->id);
+        if( $user->points != null){
+            if($user->points<$req->paid_amount){
+                return 'কোন ক্রেডিট নাই।';
+            }else{
+                if($user->points > $req->paid_amount){
+                    $user->points = $user->points - $req->paid_amount;
+                    PointHistory::create([
+                        'name' => 'ই-খানা কর ডিপজিট ('. $req->ekhana_id.')',
+                        'user_id' => $user->id,
+                        'spent_points' => $req->paid_amount,
+                    ]);
+
+                }else{
+                    $user->points = 0;
+                    PointHistory::create([
+                        'name' => 'ই-খানা কর ডিপজিট ('. $req->ekhana_id.')',
+                        'user_id' => $user->id,
+                        'spent_points' => $user->points,
+                    ]);
+                }
+                $user->save();
+            }
+        }
+
 
         // if($req->kisti == 1){
         //     $housetax->paid_amount = $req->paid_amount;

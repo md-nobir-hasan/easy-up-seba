@@ -9,6 +9,7 @@ use App\Http\Controllers\EdQualiController;
 use App\Http\Controllers\EkhanaController;
 use App\Http\Controllers\EkhanaReportController;
 use App\Http\Controllers\ExportController;
+use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\FYearController;
 use App\Http\Controllers\HouseStrucController;
 use App\Http\Controllers\HTDepositeController;
@@ -70,11 +71,15 @@ Route::prefix('/ajax')->name('ajax.')->group(function () {
     Route::post('/allbillcount', [AjaxController::class,'allBillcountOld'])->name('allbillcount');
 });
 
+// Validation error page
+Route::prefix('/validation/error')->name('valid.err.')->group(function(){
+    Route::get('/points',[FrontendController::class,'pointErr'])->name('point');
+});
 
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
-    'verified',
+    'verified','point_check',
 ])->prefix('/admin')->name('admin.')->group(function () {
 
 

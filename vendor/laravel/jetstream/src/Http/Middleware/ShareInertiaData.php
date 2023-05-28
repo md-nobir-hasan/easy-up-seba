@@ -2,6 +2,8 @@
 
 namespace Laravel\Jetstream\Http\Middleware;
 
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Session;
 use Inertia\Inertia;
@@ -64,7 +66,13 @@ class ShareInertiaData
                 })->all();
             },
         ]));
-
+        if(Auth::user()){
+            $user = User::with(['union','role'])->find(Auth::user()->id);
+            Inertia::share('auth.user',$user);
+            $n['noty_not_read'] =  Auth::user()->unreadNotifications ;
+            $n['noty_read'] =  Auth::user()->readNotifications;
+            Inertia::share($n);
+        }
         return $next($request);
     }
 }
