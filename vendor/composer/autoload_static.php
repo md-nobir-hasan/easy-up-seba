@@ -406,8 +406,8 @@ class ComposerStaticInit57c41ecc22a22537f1e0d4e23c9e4c1c
         ),
         'Psr\\Http\\Message\\' => 
         array (
-            0 => __DIR__ . '/..' . '/psr/http-message/src',
-            1 => __DIR__ . '/..' . '/psr/http-factory/src',
+            0 => __DIR__ . '/..' . '/psr/http-factory/src',
+            1 => __DIR__ . '/..' . '/psr/http-message/src',
         ),
         'Psr\\Http\\Client\\' => 
         array (
@@ -716,6 +716,7 @@ class ComposerStaticInit57c41ecc22a22537f1e0d4e23c9e4c1c
         'App\\Http\\Controllers\\EkhanaReportController' => __DIR__ . '/../..' . '/app/Http/Controllers/EkhanaReportController.php',
         'App\\Http\\Controllers\\ExportController' => __DIR__ . '/../..' . '/app/Http/Controllers/ExportController.php',
         'App\\Http\\Controllers\\FYearController' => __DIR__ . '/../..' . '/app/Http/Controllers/FYearController.php',
+        'App\\Http\\Controllers\\FrontendController' => __DIR__ . '/../..' . '/app/Http/Controllers/FrontendController.php',
         'App\\Http\\Controllers\\HTDepositeController' => __DIR__ . '/../..' . '/app/Http/Controllers/HTDepositeController.php',
         'App\\Http\\Controllers\\HouseStrucController' => __DIR__ . '/../..' . '/app/Http/Controllers/HouseStrucController.php',
         'App\\Http\\Controllers\\PermissionController' => __DIR__ . '/../..' . '/app/Http/Controllers/PermissionController.php',
@@ -733,6 +734,7 @@ class ComposerStaticInit57c41ecc22a22537f1e0d4e23c9e4c1c
         'App\\Http\\Middleware\\Authenticate' => __DIR__ . '/../..' . '/app/Http/Middleware/Authenticate.php',
         'App\\Http\\Middleware\\EncryptCookies' => __DIR__ . '/../..' . '/app/Http/Middleware/EncryptCookies.php',
         'App\\Http\\Middleware\\HandleInertiaRequests' => __DIR__ . '/../..' . '/app/Http/Middleware/HandleInertiaRequests.php',
+        'App\\Http\\Middleware\\PointCheckMiddleware' => __DIR__ . '/../..' . '/app/Http/Middleware/PointCheckMiddleware.php',
         'App\\Http\\Middleware\\PreventRequestsDuringMaintenance' => __DIR__ . '/../..' . '/app/Http/Middleware/PreventRequestsDuringMaintenance.php',
         'App\\Http\\Middleware\\RedirectIfAuthenticated' => __DIR__ . '/../..' . '/app/Http/Middleware/RedirectIfAuthenticated.php',
         'App\\Http\\Middleware\\TrimStrings' => __DIR__ . '/../..' . '/app/Http/Middleware/TrimStrings.php',

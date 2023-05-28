@@ -9,6 +9,7 @@ use App\Http\Controllers\EdQualiController;
 use App\Http\Controllers\EkhanaController;
 use App\Http\Controllers\EkhanaReportController;
 use App\Http\Controllers\ExportController;
+use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\FYearController;
 use App\Http\Controllers\HouseStrucController;
 use App\Http\Controllers\HTDepositeController;

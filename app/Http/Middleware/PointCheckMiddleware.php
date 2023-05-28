@@ -17,12 +17,14 @@ class PointCheckMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
+        // dd(Auth::user());
         // if(Auth::user()){
-            // if(Auth::user()->points != null){
-            //     if(Auth::user()->points<1){
+            if(Auth::user()->points != null){
+                if(Auth::user()->points<1){
+
                     return redirect()->route('valid.err.point');
-            //     }
-            // }
+                }
+            }
         // }
         return $next($request);
     }

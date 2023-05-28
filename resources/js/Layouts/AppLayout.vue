@@ -476,16 +476,7 @@ function word() {
         }
     });
 };
-function DateFormate(date) {
-    if (date) {
-        const d = new Date(date);
-        let da = d.getDate();
-        let month = d.getMonth();
-        let year = d.getFullYear();
-        return da + "/" + month + "/" + year;
-    }
-    return date;
-}
+
 
 </script>
 
@@ -544,8 +535,7 @@ function DateFormate(date) {
                         <!-- Notifiction  -->
                         <div class="relative">
                             <a @click="notyfunc"
-                                class="mr-4 flex items-center text-gray-500 hover:text-gray-700 focus:text-gray-700"
-                                href="javascript:void(0)">
+                                class="mr-4 flex items-center text-gray-500 hover:text-gray-700 focus:text-gray-700">
                                 <span class="dark:text-gray-200 [&>svg]:w-3.5">
                                     <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="bell" role="img"
                                         xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
@@ -659,4 +649,5 @@ function DateFormate(date) {
         </div>
     </div>
 
-</div></template>
+</div>
+</template>
