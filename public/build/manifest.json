@@ -952,7 +952,7 @@
   },
   "resources/js/Pages/Tax/BillPrint/All/Index.css": {
     "file": "assets/Index-6cb34b82.css",
-    "src": "resources/js/Pages/Tax/BillPrint/Single/Index.css"
+    "src": "resources/js/Pages/Tax/BillPrint/AllOld/Index.css"
   },
   "resources/js/Pages/Tax/BillPrint/All/Index.vue": {
     "css": [
@@ -990,7 +990,7 @@
   },
   "resources/js/Pages/Tax/BillPrint/AllOld/Index.css": {
     "file": "assets/Index-6cb34b82.css",
-    "src": "resources/js/Pages/Tax/BillPrint/Single/Index.css"
+    "src": "resources/js/Pages/Tax/BillPrint/AllOld/Index.css"
   },
   "resources/js/Pages/Tax/BillPrint/AllOld/Index.vue": {
     "css": [
@@ -1028,7 +1028,7 @@
   },
   "resources/js/Pages/Tax/BillPrint/AllPos/Index.css": {
     "file": "assets/Index-6cb34b82.css",
-    "src": "resources/js/Pages/Tax/BillPrint/Single/Index.css"
+    "src": "resources/js/Pages/Tax/BillPrint/AllOld/Index.css"
   },
   "resources/js/Pages/Tax/BillPrint/AllPos/Index.vue": {
     "css": [
@@ -1066,7 +1066,7 @@
   },
   "resources/js/Pages/Tax/BillPrint/Single/Index.css": {
     "file": "assets/Index-6cb34b82.css",
-    "src": "resources/js/Pages/Tax/BillPrint/Single/Index.css"
+    "src": "resources/js/Pages/Tax/BillPrint/AllOld/Index.css"
   },
   "resources/js/Pages/Tax/BillPrint/Single/Index.vue": {
     "css": [
@@ -1104,7 +1104,7 @@
   },
   "resources/js/Pages/Tax/BillPrint/SingleOld/Index.css": {
     "file": "assets/Index-6cb34b82.css",
-    "src": "resources/js/Pages/Tax/BillPrint/Single/Index.css"
+    "src": "resources/js/Pages/Tax/BillPrint/AllOld/Index.css"
   },
   "resources/js/Pages/Tax/BillPrint/SingleOld/Index.vue": {
     "css": [
@@ -1142,7 +1142,7 @@
   },
   "resources/js/Pages/Tax/BillPrint/SinglePos/Index.css": {
     "file": "assets/Index-6cb34b82.css",
-    "src": "resources/js/Pages/Tax/BillPrint/Single/Index.css"
+    "src": "resources/js/Pages/Tax/BillPrint/AllOld/Index.css"
   },
   "resources/js/Pages/Tax/BillPrint/SinglePos/Index.vue": {
     "css": [
@@ -1205,7 +1205,7 @@
   },
   "resources/js/Pages/Tax/Calculation/VillageLevy/Index.css": {
     "file": "assets/Index-6cb34b82.css",
-    "src": "resources/js/Pages/Tax/BillPrint/Single/Index.css"
+    "src": "resources/js/Pages/Tax/BillPrint/AllOld/Index.css"
   },
   "resources/js/Pages/Tax/Calculation/VillageLevy/Index.vue": {
     "css": [
@@ -1226,7 +1226,7 @@
   },
   "resources/js/Pages/Tax/Calculation/WordLevy/Index.css": {
     "file": "assets/Index-6cb34b82.css",
-    "src": "resources/js/Pages/Tax/BillPrint/Single/Index.css"
+    "src": "resources/js/Pages/Tax/BillPrint/AllOld/Index.css"
   },
   "resources/js/Pages/Tax/Calculation/WordLevy/Index.vue": {
     "css": [
@@ -1289,7 +1289,7 @@
   },
   "resources/js/Pages/Tax/TopList/DailyPosting/Index.css": {
     "file": "assets/Index-6cb34b82.css",
-    "src": "resources/js/Pages/Tax/BillPrint/Single/Index.css"
+    "src": "resources/js/Pages/Tax/BillPrint/AllOld/Index.css"
   },
   "resources/js/Pages/Tax/TopList/DailyPosting/Index.vue": {
     "css": [
@@ -1308,7 +1308,7 @@
   },
   "resources/js/Pages/Tax/TopList/DailyPostingTopsheet/Index.css": {
     "file": "assets/Index-6cb34b82.css",
-    "src": "resources/js/Pages/Tax/BillPrint/Single/Index.css"
+    "src": "resources/js/Pages/Tax/BillPrint/AllOld/Index.css"
   },
   "resources/js/Pages/Tax/TopList/DailyPostingTopsheet/Index.vue": {
     "css": [
@@ -1327,7 +1327,7 @@
   },
   "resources/js/Pages/Tax/TopList/Levy/Index.css": {
     "file": "assets/Index-6cb34b82.css",
-    "src": "resources/js/Pages/Tax/BillPrint/Single/Index.css"
+    "src": "resources/js/Pages/Tax/BillPrint/AllOld/Index.css"
   },
   "resources/js/Pages/Tax/TopList/Levy/Index.vue": {
     "css": [
