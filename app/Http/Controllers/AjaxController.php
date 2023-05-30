@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\BusinessCapital;
+use App\Http\Resources\BusinessCapital;
 use App\Models\Ekhana;
 use App\Models\FinancialYear;
 use App\Models\HouseTaxDeposite;
+use App\Models\PointHistory;
 use App\Models\Tax;
 use App\Models\Union;
 use App\Models\User;
@@ -15,6 +16,7 @@ use App\Notifications\HTaxDepoDelAproval;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Rakibhstu\Banglanumber\NumberToBangla;
 
 class AjaxController extends Controller
 {
@@ -28,19 +30,43 @@ class AjaxController extends Controller
         // }else{
         if($modal == 'Union') {
             if(Auth::user()->role->name == 'Power') {
-                $data = Union::with(['division','district','upazila','createdBy','updatedBy'])->where($field, $val)->where('deleted_by', null)->orderBy('id', 'desc')->get();
+                $data = Union::with(['division','district','upazila','createdBy','updatedBy'])
+                         ->where($field, $val)->where('deleted_by', null)->orderBy('id', 'desc')->get();
             } elseif(Auth::user()->role->name == 'Union') {
-                $data = Union::with(['division','district','upazila','createdBy','updatedBy'])->where($field, $val)->where('id', Auth::user()->word->union_id)->where('deleted_by', null)->orderBy('id', 'desc')->get();
+                $data = Union::with(['division','district','upazila','createdBy','updatedBy'])
+                         ->where($field, $val)->where('id', Auth::user()->union_id)->where('deleted_by', null)->orderBy('id', 'desc')->get();
             } else {
-                $data = Union::with(['division','district','upazila','createdBy','updatedBy'])->where($field, $val)->where('id', Auth::user()->word->union_id)->where('deleted_by', null)->orderBy('id', 'desc')->get();
+                $data = Union::with(['division','district','upazila','createdBy','updatedBy'])
+                        ->where($field, $val)
+                        ->where('id', Auth::user()->union_id)
+                        ->where('deleted_by', null)->orderBy('id', 'desc')->get();
             }
         } elseif($modal == 'Word') {
             if(Auth::user()->role->name == 'Power') {
                 $data = Word::with(['division','district','upazila','union','createdBy','updatedBy'])->where($field, $val)->where('deleted_by', null)->orderBy('id', 'desc')->get();
             } elseif(Auth::user()->role->name == 'Union') {
-                $data = Word::with(['division','district','upazila','union','createdBy','updatedBy'])->where($field, $val)->where('union_id', Auth::user()->word->union_id)->where('deleted_by', null)->orderBy('id', 'desc')->get();
+                $data = Word::with(['division','district','upazila','union','createdBy','updatedBy'])
+                         ->where($field, $val)->where('union_id', Auth::user()->union_id)
+                         ->where('deleted_by', null)->orderBy('id', 'desc')->get();
             } else {
-                $data = Word::with(['division','district','upazila','union','createdBy','updatedBy'])->where($field, $val)->where('id', Auth::user()->word_id)->where('deleted_by', null)->orderBy('id', 'desc')->get();
+                $data = Word::with(['division','district','upazila','union','createdBy','updatedBy'])
+                         ->where($field, $val)
+                         // ->where('id',Auth::user()->word_id)
+                         ->where('deleted_by', null)
+                         ->whereIn('word_id', $this->aryExtrt())
+                         ->orderBy('id', 'desc')->get();
+            }
+        } elseif($modal == 'Ekhana') {
+
+            if($value2 == 'all') { //word_id
+                $data = $modalClass::with(['union','word','village','createdBy'])
+                        ->where('deleted_by', null)->orderBy('id', 'desc')->get();
+            } elseif($value == 'all') {
+                $data = $modalClass::with(['union','word','village','createdBy'])
+                        ->where($field2, $val2)->where('deleted_by', null)->orderBy('id', 'desc')->get();
+            } else {
+                $data = $modalClass::with(['union','word','village','createdBy'])
+                        ->where($field, $val)->where($field2, $val2)->where('deleted_by', null)->orderBy('id', 'desc')->get();
             }
         } elseif($modal == 'Village') {
             if(Auth::user()->role->name == 'Power') {
@@ -52,15 +78,6 @@ class AjaxController extends Controller
             }
         } elseif($modal == 'BusinessCapital') {
             $data = BusinessCapital::where($field, $val)->orderBy('id', 'desc')->get();
-        } elseif($modal == 'Ekhana') {
-
-            if($value2 == 'all') { //word_id
-                $data = $modalClass::with(['union','word','village','createdBy'])->where('deleted_by', null)->orderBy('id', 'desc')->get();
-            } elseif($value == 'all') {
-                $data = $modalClass::with(['union','word','village','createdBy'])->where($field2, $val2)->where('deleted_by', null)->orderBy('id', 'desc')->get();
-            } else {
-                $data = $modalClass::with(['union','word','village','createdBy'])->where($field, $val)->where($field2, $val2)->where('deleted_by', null)->orderBy('id', 'desc')->get();
-            }
         } else {
             $data = $modalClass::where($field, $val)->where('deleted_by', null)->orderBy('id', 'desc')->get();
         }
@@ -132,7 +149,8 @@ class AjaxController extends Controller
     {
         $n['ekhana'] = Ekhana::with(['village','word'])->where('holding_no', $req->ekhana_id)->first();
         $tax = Tax::latest()->first();
-        $n['ht_deposite'] = HouseTaxDeposite::where('ekhana_id', $n['ekhana']->id)->where('f_year_id', $req->f_year_id)->first();
+        $n['ht_deposite'] = HouseTaxDeposite::where('ekhana_id', $n['ekhana']->id)
+                             ->where('f_year_id', $req->f_year_id)->first();
         if(!$n['ht_deposite']) {
             $insert = new HouseTaxDeposite();
             $insert->union_id =  $n['ekhana']->union_id;
@@ -154,6 +172,7 @@ class AjaxController extends Controller
         $update->update($req->all());
         return response($update);
     }
+
     public function update(Request $req, $model)
     {
         $model = '\\App\\Models\\'.$model;
@@ -163,11 +182,11 @@ class AjaxController extends Controller
 
         //points check
         $user = User::find(Auth::user()->id);
-        if( $user->points != null){
-            if($user->points<$req->paid_amount){
+        if($user->points != null) {
+            if($user->points<1) {
                 return 'কোন ক্রেডিট নাই।';
-            }else{
-                if($user->points > $req->paid_amount){
+            } else {
+                if($user->points > $req->paid_amount) {
                     $user->points = $user->points - $req->paid_amount;
                     PointHistory::create([
                         'name' => 'ই-খানা কর ডিপজিট ('. $req->ekhana_id.')',
@@ -175,7 +194,7 @@ class AjaxController extends Controller
                         'spent_points' => $req->paid_amount,
                     ]);
 
-                }else{
+                } else {
                     $user->points = 0;
                     PointHistory::create([
                         'name' => 'ই-খানা কর ডিপজিট ('. $req->ekhana_id.')',
@@ -232,8 +251,13 @@ class AjaxController extends Controller
             $ekhana_update->tax_paid = $req->paid_amount;
             $ekhana_update->save();
         }
+
+
+
+
         return  $housetax;
     }
+
     public function afieldUpdate(Request $req)
     {
         $model = '\\App\\Models\\'.$req->model;
@@ -263,14 +287,14 @@ class AjaxController extends Controller
         return response()->json($user->notifications);
     }
 
-  public function notyRead(Request $req)
-  {
-      $user  = Auth::user();
-      foreach ($user->unreadNotifications as $notification) {
-          $notification->markAsRead();
-      }
-      return true;
-  }
+    public function notyRead(Request $req)
+    {
+        $user  = Auth::user();
+        foreach ($user->unreadNotifications as $notification) {
+            $notification->markAsRead();
+        }
+        return true;
+    }
 
     public function ekhanaVillLevy(Request $req)
     {
@@ -288,6 +312,7 @@ class AjaxController extends Controller
 
         return response()->json($n);
     }
+
     public function TolistLevy(Request $req)
     {
         $f_year = FinancialYear::find($req->f_year_id);
@@ -311,7 +336,7 @@ class AjaxController extends Controller
                                             "prevTaxUnpaid" => function ($query) use ($req) {$query->where('f_year_id', '<', $req->f_year_id);},
                                             "prevTaxPaid" => function ($query) use ($req, $f_year) {$query->where('f_year_id', '<', $req->f_year_id)->whereBetween('house_tax_deposites.updated_at', ["01/01/$f_year->from","01/01/$f_year->to"]);},
                                             ])
-                                            ->where('union_id', Auth::user()->word->union_id)
+                                            ->where('union_id', Auth::user()->union_id)
                                             ->get();
         } else {
             $n['toplist_levy'] = Word::with(["village",
@@ -322,8 +347,8 @@ class AjaxController extends Controller
                                             "prevTaxUnpaid" => function ($query) use ($req) {$query->where('f_year_id', '<', $req->f_year_id);},
                                             "prevTaxPaid" => function ($query) use ($req, $f_year) {$query->where('f_year_id', '<', $req->f_year_id)->whereBetween('house_tax_deposites.updated_at', ["01/01/$f_year->from","01/01/$f_year->to"]);},
                                             ])
-                                            ->where('union_id', Auth::user()->word->union_id)
-                                            ->where('word_id', Auth::user()->word_id)
+                                            ->where('union_id', Auth::user()->union_id)
+                                            ->whereIn('word_id', $this->aryExtrt())
                                             ->get();
         }
 
@@ -353,7 +378,7 @@ class AjaxController extends Controller
                                             "houseTax.ekhana.village",
                                             "houseTax.ekhana.word",
                                             ])
-                                            // ->where('union_id',Auth::user()->word->union_id)
+                                            // ->where('union_id',Auth::user()->union_id)
                                             // ->where('word_id',Auth::user()->word_id)
                                             ->find($req->word_id);
         }
@@ -379,17 +404,15 @@ class AjaxController extends Controller
                                              "houseTax.ekhana",
                                              "houseTax.ekhana.village",
                                              ])
-                                            ->where('union_id', Auth::user()->word->union_id)
+                                            ->where('union_id', Auth::user()->union_id)
                                             ->get();
         } else {
-            $n['ajdata'] = Word::with([
-                                            "houseTax" => function ($query) use ($req) {$query->where('f_year_id', $req->f_year_id)->whereBetween('deposite_date', [$req->from_date,$req->to_date]);},
-                                             "houseTax.ekhana",
-                                             "houseTax.ekhana.village",
-                                             ])
-                                            ->where('union_id', Auth::user()->word->union_id)
-                                            ->where('word_id', Auth::user()->word_id)
-                                            ->get();
+            $n['ajdata'] = Word::with(["houseTax" => function ($query) use ($req) {$query->where('f_year_id', $req->f_year_id)->whereBetween('deposite_date', [$req->from_date,$req->to_date]);},
+                                        "houseTax.ekhana",
+                                        "houseTax.ekhana.village",
+                                        ])->where('union_id', Auth::user()->union_id)
+                                        ->whereIn('word_id', $this->aryExtrt())
+                                        ->get();
         }
 
 
@@ -420,5 +443,13 @@ class AjaxController extends Controller
         ->select('house_tax_deposites.*', 'ekhanas.holding_no', 'ekhanas.bn_name', 'ekhanas.spouse_name', 'financial_years.from', 'financial_years.to', 'words.name as w_name')
         ->get();
         return response()->json($n);
+    }
+
+    public function bnMoney($num)
+    {
+        $numto = new NumberToBangla();
+        $text = $numto->bnMoney((int)$num);
+        return response()->json($text);
+
     }
 }

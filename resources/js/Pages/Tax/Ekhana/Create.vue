@@ -87,11 +87,11 @@ const villageFetching = ()=>{
 const submit = () => {
     form.post(route('admin.tax.ekhana.store'), {
         onFinish: () => {
-           let msg = form.bn_name+" সফলভাবে সরক্ষণ করা হয়েছে";
+           let msg = form.bn_name+", সফলভাবে সরক্ষণ করা হয়েছে";
             let timerInterval
             Swal.fire({
-                title: 'Auto close alert!',
-                html: msg,
+                title: msg,
+                // html: msg,
                 timer: 3000,
                 timerProgressBar: true,
                 // didOpen: () => {

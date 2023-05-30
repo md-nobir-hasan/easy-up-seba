@@ -79,7 +79,7 @@ function DateFormate(date) {
             <div class="">
                 <div class="text-center">
                     <img src="/default/images/bd-logo.svg" class="h-14 m-auto mb-4" alt="BD Logo">
-                    <h1 class="ml-4 font-bold text-[24px]">{{ $page.props.auth.user.word.union.name  }}</h1>
+                    <h1 class="ml-4 font-bold text-[24px]">{{ $page.props.auth.user.union.name  }}</h1>
 
                 </div>
 

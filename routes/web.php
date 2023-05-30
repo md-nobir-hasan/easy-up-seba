@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\AdminProfileController;
 use App\Http\Controllers\AjaxController;
+use App\Http\Controllers\BazarController;
 use App\Http\Controllers\BillPrintController;
 use App\Http\Controllers\DeleteController;
 use App\Http\Controllers\DistrictController;
@@ -23,7 +25,7 @@ use App\Http\Controllers\UpazilaController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VillageController;
 use App\Http\Controllers\WordController;
-use App\Models\Ekhana;
+use App\Models\User;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
@@ -48,8 +50,8 @@ Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
+        // 'laravelVersion' => Application::VERSION,
+        // 'phpVersion' => PHP_VERSION,
     ]);
 });
 
@@ -69,40 +71,30 @@ Route::prefix('/ajax')->name('ajax.')->group(function () {
     Route::post('/ekhana/toplist/daily/posting', [AjaxController::class,'TolistDailyPosting'])->name('ekhana.toplist.daily.posting');
     Route::post('/ekhana/toplist/daily/posting/topsheet', [AjaxController::class,'TolistDailyPostingTopsheet'])->name('ekhana.toplist.daily.posting.topsheet');
     Route::post('/allbillcount', [AjaxController::class,'allBillcountOld'])->name('allbillcount');
+    Route::get('/bnmoney/{num}', [AjaxController::class,'bnMoney'])->name('bnmoney');
 });
 
-// Validation error page
-Route::prefix('/validation/error')->name('valid.err.')->group(function(){
-    Route::get('/points',[FrontendController::class,'pointErr'])->name('point');
-});
 
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
-    'verified','point_check',
+    'verified',
 ])->prefix('/admin')->name('admin.')->group(function () {
-
 
     Route::resource('/trade-license', TradeLicenseController::class, ['except' => ['update']]);
     Route::post('/trade-license/update/{tradeLicense}', [TradeLicenseController::class,'update'])->name('trade-license.update');
-
     //dashboar rendering
-    Route::get('/dashboard', function () {
-        if(Auth::user()->role->name == 'Power') {
-            $n['ekhanas'] = Ekhana::where('deleted_by', null)->orderBy('id', 'desc')->get();
-        } elseif(Auth::user()->role->name == 'Union') {
-            $n['ekhanas'] = Ekhana::where('deleted_by', null)->where('union_id', Auth::user()->word->union_id)->orderBy('id', 'desc')->get();
-        } else {
-            $n['ekhanas'] = Ekhana::where('deleted_by', null)->where('word_id', Auth::user()->word_id)->orderBy('id', 'desc')->get();
-        }
-        $n['ksum'] = $n['ekhanas']->sum('yearly_income');
-        $n['kcount'] = count($n['ekhanas']);
-        return Inertia::render('Dashboard', $n);
-    })->name('dashboard');
+    Route::get('/dashboard', [FrontendController::class,'dashboard'])->name('dashboard');
+
+    //Profile features
+    Route::prefix('/profile')->name('profile.')->group(function () {
+        Route::get('/point-histories', [AdminProfileController::class,'pointHistroy'])->name('pointhistory');
+    });
 
     //Delete funtionality
     Route::get('/admin/{id}/{modal}', [DeleteController::class,'singleDelete'])->name('single.delete');
     Route::get('/admin/delete/fetch/{id}/{modal}', [DeleteController::class,'singleDeleteFetch'])->name('single.delete.fetch');
+    Route::get('/admin/housetaxdepo/delete/{id}', [DeleteController::class,'houseTaxDepo'])->name('housetaxdepo.delete');
 
     //setup
     Route::prefix('/setup')->name('setup.')->group(function () {
@@ -118,6 +110,7 @@ Route::middleware([
         Route::resource('/religion', ReligionController::class);
         Route::resource('/profession', ProfessionController::class);
         Route::resource('/financial-year', FYearController::class);
+        Route::resource('/bazar', BazarController::class);
 
     });
     //Tax Management

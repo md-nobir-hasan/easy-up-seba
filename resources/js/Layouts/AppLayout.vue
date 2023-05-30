@@ -1,14 +1,25 @@
 <script setup>
-import { ref } from 'vue';
-import { Head, Link, router, usePage } from '@inertiajs/vue3';
-import DropdownLink from '@/Components/DropdownLink.vue';
-import appLogo from '@/Components/ApplicationLogo.vue';
-import appLogo2 from '@/Components/AuthenticationCardLogo.vue';
-import submenue from '@/Components/submenue.vue';
+import { ref } from "vue";
+import { Head, Link, router, usePage } from "@inertiajs/vue3";
+import DropdownLink from "@/Components/DropdownLink.vue";
+import appLogo from "@/Components/ApplicationLogo.vue";
+import appLogo2 from "@/Components/AuthenticationCardLogo.vue";
+import submenue from "@/Components/submenue.vue";
 import {
-    HomeIcon, UserIcon, AdjustmentsHorizontalIcon, BanknotesIcon, CalculatorIcon, UserPlusIcon, CircleStackIcon,
-    ListBulletIcon, ArrowsRightLeftIcon, UserGroupIcon, MinusIcon, CheckBadgeIcon, ChevronDoubleRightIcon
-} from '@heroicons/vue/24/solid'
+    HomeIcon,
+    UserIcon,
+    AdjustmentsHorizontalIcon,
+    BanknotesIcon,
+    CalculatorIcon,
+    UserPlusIcon,
+    CircleStackIcon,
+    ListBulletIcon,
+    ArrowsRightLeftIcon,
+    UserGroupIcon,
+    MinusIcon,
+    CheckBadgeIcon,
+    ChevronDoubleRightIcon,
+} from "@heroicons/vue/24/solid";
 
 defineProps({
     title: String,
@@ -138,6 +149,15 @@ const submenueItem = [
                 active: false,
                 route: route("admin.setup.house-structure.index"),
                 url: "/admin/setup/house-structure",
+                icon: MinusIcon,
+                children: [],
+            },
+            {
+                title: "বাজার",
+                name: "Bazar",
+                active: false,
+                route: route("admin.setup.bazar.index"),
+                url: "/admin/setup/bazar",
                 icon: MinusIcon,
                 children: [],
             },
@@ -371,16 +391,17 @@ const submenueItem = [
 //========= End Side menu ============
 
 //================  Language conversation =========================================
-    let en2bn = n => String(n).replace(/\d/g, d => "০১২৩৪৫৬৭৮৯"[d]);
+let en2bn = (n) => String(n).replace(/\d/g, (d) => "০১২৩৪৫৬৭৮৯"[d]);
 // End Language conversation
 
 //========= frontend validation ============
 // const permisions = ref({});
 const nuser = usePage().props.auth.user;
+console.log(nuser);
 const ncheck = (nmodule) => {
     let checked = false;
     usePage().props.permissions.forEach(function (val, key) {
-        if (val.module?.name == nmodule && val.role_id == nuser.role_id) {
+        if (val.module.name == nmodule && val.role_id == nuser.role_id) {
             checked = true;
         }
     });
@@ -450,23 +471,22 @@ const notyfunc = () => {
     } else {
         notyshow.value = true;
     }
-    axios.post(route('ajax.noty.read')).then(function (res) {
+    axios.post(route("ajax.noty.read")).then(function (res) {
         console.log(res);
-    })
-}
+    });
+};
 function DateFormate(date) {
     if (date) {
         const d = new Date(date);
         let da = d.getDate();
         let month = d.getMonth();
         let year = d.getFullYear();
-        return da + '/' + month + '/' + year;
+        return da + "/" + month + "/" + year;
     }
     return date;
-
 }
 function word() {
-    let words = '';
+    let words = "";
     let i = 1;
     usePage().props.auth.user.uwbkdn.forEach((item, index) => {
         if (i == 1) {
@@ -475,24 +495,36 @@ function word() {
             words = words + ", " + item.words.name;
         }
     });
-};
-
-
+    return en2bn(words);
+}
 </script>
 
 <template>
     <div>
-
         <Head :title="title" />
-        <div class="fixed w-full sm:hidden text-center text-3xl bg-[#0edda2] z-50">
-            <h1 v-if="$page.props.auth.user.role.name == 'Power'" class="font-extrabold p-3">Super Admin</h1>
-            <h1 v-else-if="$page.props.auth.user.role.name == 'Union'" class="font-extrabold p-3">
-                {{ $page.props.auth.user.union.name }}</h1>
-            <h1 v-else class="font-extrabold p-3">{{ word() + " " + $page.props.auth.user.union.name }}</h1>
+        <div
+            class="fixed w-full sm:hidden text-center text-3xl bg-[#0edda2] z-50"
+        >
+            <h1
+                v-if="$page.props.auth.user.role.name == 'Power'"
+                class="font-extrabold p-3"
+            >
+                Super Admin
+            </h1>
+            <h1
+                v-else-if="$page.props.auth.user.role.name == 'Union'"
+                class="font-extrabold p-3"
+            >
+                {{ $page.props.auth.user.union.name }}
+            </h1>
+            <h1 v-else class="font-extrabold p-3">
+                {{ word() + " " + $page.props.auth.user.union.name }}
+            </h1>
             <!-- <h1 v-else class="font-extrabold p-3">{{  ($page.props.auth.user.word ? $page.props.auth.user.word.union ? $page.props.auth.user.word.name + "নং" + $page.props.auth.user.word.union.name : "Super Admin" : 'Super Admin')}}</h1> -->
         </div>
         <nav
-            class="fixed top-0 max-sm:top-14 z-50 w-full max-sm:bg-white bg-[#0edda2] border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+            class="fixed top-0 max-sm:top-14 z-50 w-full max-sm:bg-white bg-[#0edda2] border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700"
+        >
             <div class="px-3 py-3 lg:px-5 lg:pl-3">
                 <div class="flex items-center justify-between">
                     <div class="flex items-center justify-start sm:hidden">
@@ -519,65 +551,145 @@ function word() {
                     </div>
 
                     <div>
-                        <a href="#" class="flex ml-2  md:mr-24">
+                        <a href="#" class="flex ml-2 md:mr-24">
                             <appLogo class="block w-auto" />
                         </a>
                     </div>
 
                     <div class="text-center text-3xl max-sm:hidden">
-                        <h1 v-if="$page.props.auth.user.role.name == 'Power'" class="font-extrabold p-3">Super Admin</h1>
-                        <h1 v-else-if="$page.props.auth.user.role.name == 'Union'" class="font-extrabold p-3">
-                            {{ $page.props.auth.user.union.name }}</h1>
-                        <h1 v-else class="font-extrabold p-3">{{ word() + " " + $page.props.auth.user.union.name }}</h1>
+                        <h1
+                            v-if="$page.props.auth.user.role.name == 'Power'"
+                            class="font-extrabold p-3"
+                        >
+                            Super Admin
+                        </h1>
+                        <h1
+                            v-else-if="
+                                $page.props.auth.user.role.name == 'Union'
+                            "
+                            class="font-extrabold p-3"
+                        >
+                            {{ $page.props.auth.user.union.name }}
+                        </h1>
+                        <h1 v-else class="font-extrabold p-3">
+                            {{
+                                word() + " " + $page.props.auth.user.union.name
+                            }}
+                        </h1>
                     </div>
 
                     <div class="flex items-center">
                         <!-- Notifiction  -->
                         <div class="relative">
-                            <a @click="notyfunc"
-                                class="mr-4 flex items-center text-gray-500 hover:text-gray-700 focus:text-gray-700">
+                            <a
+                                @click="notyfunc"
+                                class="mr-4 flex items-center text-gray-500 hover:text-gray-700 focus:text-gray-700"
+                                href="javascript:void(0)"
+                            >
                                 <span class="dark:text-gray-200 [&>svg]:w-3.5">
-                                    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="bell" role="img"
-                                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
-                                        <path fill="currentColor"
-                                            d="M224 512c35.32 0 63.97-28.65 63.97-64H160.03c0 35.35 28.65 64 63.97 64zm215.39-149.71c-19.32-20.76-55.47-51.99-55.47-154.29 0-77.7-54.48-139.9-127.94-155.16V32c0-17.67-14.32-32-31.98-32s-31.98 14.33-31.98 32v20.84C118.56 68.1 64.08 130.3 64.08 208c0 102.3-36.15 133.53-55.47 154.29-6 6.45-8.66 14.16-8.61 21.71.11 16.4 12.98 32 32.1 32h383.8c19.12 0 32-15.6 32.1-32 .05-7.55-2.61-15.27-8.61-21.71z">
-                                        </path>
+                                    <svg
+                                        aria-hidden="true"
+                                        focusable="false"
+                                        data-prefix="fas"
+                                        data-icon="bell"
+                                        role="img"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 448 512"
+                                    >
+                                        <path
+                                            fill="currentColor"
+                                            d="M224 512c35.32 0 63.97-28.65 63.97-64H160.03c0 35.35 28.65 64 63.97 64zm215.39-149.71c-19.32-20.76-55.47-51.99-55.47-154.29 0-77.7-54.48-139.9-127.94-155.16V32c0-17.67-14.32-32-31.98-32s-31.98 14.33-31.98 32v20.84C118.56 68.1 64.08 130.3 64.08 208c0 102.3-36.15 133.53-55.47 154.29-6 6.45-8.66 14.16-8.61 21.71.11 16.4 12.98 32 32.1 32h383.8c19.12 0 32-15.6 32.1-32 .05-7.55-2.61-15.27-8.61-21.71z"
+                                        ></path>
                                     </svg>
                                 </span>
                                 <!-- {{ console.log($page.props.noty_not_read) }} -->
                                 <span
-                                    class="absolute -mt-2.5 ml-2 rounded-full bg-red-600 py-[1px] px-1.5 text-[0.6rem] text-white">{{ $page.props.noty_not_read.length }}</span>
+                                    class="absolute -mt-2.5 ml-2 rounded-full bg-red-600 py-[1px] px-1.5 text-[0.6rem] text-white"
+                                    >{{
+                                        $page.props.noty_not_read.length
+                                    }}</span
+                                >
                             </a>
-                            <ul id="notification_pan" @focusout="notyshow = false"
+                            <ul
+                                id="notification_pan"
+                                @focusout="notyshow = false"
                                 class="absolute left-auto top-[12px] right-[16px] z-[1000] overflow-scroll max-h-[500px] m-0 mt-1 min-w-[12rem] list-none overflow-hidden rounded-lg border-none bg-white bg-clip-padding text-left text-base shadow-lg dark:bg-zinc-700 [&[data-te-dropdown-show]]:block"
-                                :class="[notyshow ? 'block' : 'hidden']">
-                                <div id="toast-notification"
+                                :class="[notyshow ? 'block' : 'hidden']"
+                            >
+                                <div
+                                    id="toast-notification"
                                     class="w-full max-w-xs text-gray-900 bg-white rounded-lg shadow dark:bg-gray-800 dark:text-gray-300"
-                                    role="alert">
-                                    <div v-if="$page.props.noty_not_read.length > 0" class="p-2 mb-4">
-                                        <div v-for="(noty, key) in $page.props.noty_not_read" :key="key"
-                                            class="flex items-center ml-2 mb-3 mt-3">
-                                            <div class="ml-3 text-sm font-normal">
-                                                <div class="text-sm font-semibold text-gray-900 dark:text-white">{{
-                                                    noty.data.msg }}</div>
-                                                <div class="text-sm font-normal">{{ noty.data.name }}</div>
+                                    role="alert"
+                                >
+                                    <div
+                                        v-if="
+                                            $page.props.noty_not_read.length > 0
+                                        "
+                                        class="p-2 mb-4"
+                                    >
+                                        <div
+                                            v-for="(noty, key) in $page.props
+                                                .noty_not_read"
+                                            :key="key"
+                                            class="flex items-center ml-2 mb-3 mt-3"
+                                        >
+                                            <div
+                                                class="ml-3 text-sm font-normal"
+                                            >
+                                                <div
+                                                    class="text-sm font-semibold text-gray-900 dark:text-white"
+                                                >
+                                                    {{ noty.data.msg }}
+                                                </div>
+                                                <div
+                                                    class="text-sm font-normal"
+                                                >
+                                                    {{ noty.data.name }}
+                                                </div>
                                                 <span
-                                                    class="text-xs font-medium text-blue-600 dark:text-blue-500 block text-right">{{
-                                                        DateFormate(noty.created_at) }}</span>
+                                                    class="text-xs font-medium text-blue-600 dark:text-blue-500 block text-right"
+                                                    >{{
+                                                        DateFormate(
+                                                            noty.created_at
+                                                        )
+                                                    }}</span
+                                                >
                                             </div>
                                         </div>
                                     </div>
-                                    <hr v-if="$page.props.noty_not_read.length > 0">
+                                    <hr
+                                        v-if="
+                                            $page.props.noty_not_read.length > 0
+                                        "
+                                    />
                                     <div class="bg-gray-100 pb-4 p-2">
-                                        <div v-for="(read_noty, key) in $page.props.noty_read" :key="key"
-                                            class="flex items-center ml-2">
-                                            <div class="ml-3 text-sm font-normal">
-                                                <div class="text-sm font-semibold text-gray-900 dark:text-white">{{
-                                                    read_noty.data.msg }}</div>
-                                                <div class="text-sm font-normal">{{ read_noty.data.name }}</div>
+                                        <div
+                                            v-for="(read_noty, key) in $page
+                                                .props.noty_read"
+                                            :key="key"
+                                            class="flex items-center ml-2"
+                                        >
+                                            <div
+                                                class="ml-3 text-sm font-normal"
+                                            >
+                                                <div
+                                                    class="text-sm font-semibold text-gray-900 dark:text-white"
+                                                >
+                                                    {{ read_noty.data.msg }}
+                                                </div>
+                                                <div
+                                                    class="text-sm font-normal"
+                                                >
+                                                    {{ read_noty.data.name }}
+                                                </div>
                                                 <span
-                                                    class="text-xs font-medium text-blue-600 dark:text-blue-500 block text-right mr-2">{{
-                                                        DateFormate(read_noty.created_at) }}</span>
+                                                    class="text-xs font-medium text-blue-600 dark:text-blue-500 block text-right mr-2"
+                                                    >{{
+                                                        DateFormate(
+                                                            read_noty.created_at
+                                                        )
+                                                    }}</span
+                                                >
                                             </div>
                                         </div>
                                     </div>
@@ -587,35 +699,70 @@ function word() {
 
                         <div class="flex items-center ml-3">
                             <div>
-                                <button @click="userMenu == true ? userMenu = false : userMenu = true" type="button"
+                                <button
+                                    @click="
+                                        userMenu == true
+                                            ? (userMenu = false)
+                                            : (userMenu = true)
+                                    "
+                                    type="button"
                                     class="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
-                                    aria-expanded="false" data-dropdown-toggle="dropdown-user">
+                                    aria-expanded="false"
+                                    data-dropdown-toggle="dropdown-user"
+                                >
                                     <span class="sr-only">Open user menu</span>
-                                    <img class="h-10 rounded-full" src="/default/images/human.webp" alt="user photo">
+                                    <img
+                                        class="h-10 rounded-full"
+                                        src="/default/images/human.webp"
+                                        alt="user photo"
+                                    />
                                 </button>
                             </div>
-                            <div :class="[userMenu ? 'block' : 'hidden']"
+                            <div
+                                :class="[userMenu ? 'block' : 'hidden']"
                                 class="z-50 absolute top-10 right-0 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600"
-                                id="dropdown-user">
+                                id="dropdown-user"
+                            >
                                 <div class="px-4 py-3" role="none">
-                                    <p class="text-sm text-gray-900 dark:text-white" role="none">
+                                    <p
+                                        class="text-sm text-gray-900 dark:text-white"
+                                        role="none"
+                                    >
                                         {{ $page.props.auth.user.name }}
                                     </p>
-                                    <p class="text-sm font-medium text-gray-900 truncate dark:text-gray-300" role="none">
+                                    <p
+                                        class="text-sm font-medium text-gray-900 truncate dark:text-gray-300"
+                                        role="none"
+                                    >
                                         {{ $page.props.auth.user.phone }}
                                     </p>
-                                    <hr class="h-1 bg-green-800 border-0 rounded dark:bg-gray-700">
+                                    <hr
+                                        class="h-1 bg-green-800 border-0 rounded dark:bg-gray-700"
+                                    />
                                 </div>
-                                <div class="block px-4 py-2 text-xs text-gray-400">
+                                <div
+                                    class="block px-4 py-2 text-xs text-gray-400"
+                                >
                                     ম্যানেজ অ্যাকাউন্ট
                                 </div>
                                 <ul class="py-1" role="none">
                                     <li class="mb-1">
-                                        <Link :href="route('profile.show')" class="pl-4 mb-1">প্রোফাইল</Link>
+                                        <Link
+                                            :href="route('profile.show')"
+                                            class="pl-4 mb-1"
+                                            >প্রোফাইল</Link
+                                        >
                                     </li>
-                                    <li v-if="$page.props.auth.user.points != null">
-                                        <Link :href="route('admin.profile.pointhistory')" class="pl-4">পয়েন্টস হিস্ট্রি
-                                        </Link>
+                                    <li>
+                                        <Link
+                                            :href="
+                                                route(
+                                                    'admin.profile.pointhistory'
+                                                )
+                                            "
+                                            class="pl-4"
+                                            >পয়েন্টস হিস্ট্রি</Link
+                                        >
                                     </li>
                                     <li class="ml-1">
                                         <form @submit.prevent="logout">
@@ -630,24 +777,32 @@ function word() {
                     </div>
                 </div>
             </div>
-    </nav>
+        </nav>
 
-    <aside id="logo-sidebar"
-        class="fixed  top-[85px] max-sm:top-[128px] bg-[#0edda2] pb-[84px] max-sm:pb-[112px] left-0 z-40 w-64 h-screen transition-transform border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700 "
-        :class="[sidemenu ? 'block' : '-translate-x-full']" aria-label="Sidebar">
-        <div class="h-full pb-4 overflow-y-auto dark:bg-gray-800">
-            <ul>
-                <submenue v-for="(subitem, subkey) in submenueItem" :key="subkey" :items=subitem :ncheck="ncheck" />
-            </ul>
-        </div>
-    </aside>
+        <aside
+            id="logo-sidebar"
+            class="fixed top-[85px] max-sm:top-[128px] bg-[#0edda2] pb-[84px] max-sm:pb-[112px] left-0 z-40 w-64 h-screen transition-transform border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700"
+            :class="[sidemenu ? 'block' : '-translate-x-full']"
+            aria-label="Sidebar"
+        >
+            <div class="h-full pb-4 overflow-y-auto dark:bg-gray-800">
+                <ul>
+                    <submenue
+                        v-for="(subitem, subkey) in submenueItem"
+                        :key="subkey"
+                        :items="subitem"
+                        :ncheck="ncheck"
+                    />
+                </ul>
+            </div>
+        </aside>
 
-    <div class="p-4 max-sm:p-[2px] sm:ml-64 pt-[21px] max-sm:pt-[82px]">
-        <div class="p-4 max-sm:p-[2px] border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-14">
-
-            <slot />
+        <div class="p-4 max-sm:p-[2px] sm:ml-64 pt-[21px] max-sm:pt-[82px]">
+            <div
+                class="p-4 max-sm:p-[2px] border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-14"
+            >
+                <slot />
+            </div>
         </div>
     </div>
-
-</div>
 </template>

@@ -25,7 +25,7 @@ import { ChevronDownIcon} from '@heroicons/vue/24/solid'
         </Link>
     </div>
     <Disclosure v-else-if="$page.props.auth.user && ncheck(items.name)" v-slot="{open}" :default-open="$page.url.startsWith(items.url)" >
-        <DisclosureButton class="py-2 flex pl-2 items-center w-full hover:bg-gray-100" :class="[open ? 'font-bold text-[white] bg-[black] hover:bg-[black] hover:text-[black]': 'text-[black] dark:text-gray-300 hover:text-[black] font-medium']">
+        <DisclosureButton class="py-2 flex pl-2 items-center w-full hover:bg-gray-100" :class="[open ? 'font-bold text-[white] bg-[black] hover:bg-[black] hover:text-[black]': 'text-[black] font-medium']">
             <component :is="items.icon" v-if="items.icon" class="h-6 mr-1"></component>
             <span class="flex-1 text-left block">{{ items.title }}</span>
             <ChevronDownIcon class="h-5 w-6 shrink-0 mr-1" :class="[open? '-rotate-180' : '']"/>

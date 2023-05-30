@@ -28,9 +28,4 @@ class Union extends Model
     public function upazila(){
         return $this->belongsTo(Upazila::class,'upazila_id');
     }
-
-    public function villages()
-    {
-        return $this->hasMany(Village::class);
-    }
 }
