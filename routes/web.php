@@ -20,6 +20,7 @@ use App\Http\Controllers\ProfessionController;
 use App\Http\Controllers\ReligionController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\TaxController;
+use App\Http\Controllers\TradeLicenseController;
 use App\Http\Controllers\UnionController;
 use App\Http\Controllers\UpazilaController;
 use App\Http\Controllers\UserController;

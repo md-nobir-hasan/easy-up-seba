@@ -12,4 +12,4 @@ yarn-error.log
 /public/image
 /storage 
 /vendor
-/node_modules
+/node_modules 
