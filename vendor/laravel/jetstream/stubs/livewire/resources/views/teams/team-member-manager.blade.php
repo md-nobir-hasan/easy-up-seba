@@ -133,13 +133,13 @@
                         @foreach ($team->users->sortBy('name') as $user)
                             <div class="flex items-center justify-between">
                                 <div class="flex items-center">
-                                    <img class="w-8 h-8 rounded-full" src="{{ $user->profile_photo_url }}" alt="{{ $user->name }}">
+                                    <img class="w-8 h-8 rounded-full object-cover" src="{{ $user->profile_photo_url }}" alt="{{ $user->name }}">
                                     <div class="ml-4 dark:text-white">{{ $user->name }}</div>
                                 </div>
 
                                 <div class="flex items-center">
                                     <!-- Manage Team Member Role -->
-                                    @if (Gate::check('addTeamMember', $team) && Laravel\Jetstream\Jetstream::hasRoles())
+                                    @if (Gate::check('updateTeamMember', $team) && Laravel\Jetstream\Jetstream::hasRoles())
                                         <button class="ml-2 text-sm text-gray-400 underline" wire:click="manageRole('{{ $user->id }}')">
                                             {{ Laravel\Jetstream\Jetstream::findRole($user->membership->role)->name }}
                                         </button>
