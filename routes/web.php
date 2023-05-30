@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminProfileController;
 use App\Http\Controllers\AjaxController;
+use App\Http\Controllers\Api\TradeLicenseController;
 use App\Http\Controllers\BazarController;
 use App\Http\Controllers\BillPrintController;
 use App\Http\Controllers\DeleteController;
