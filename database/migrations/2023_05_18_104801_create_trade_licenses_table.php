@@ -18,6 +18,7 @@ return new class () extends Migration {
             $table->string('fathers_name');
             $table->string('mothers_name');
             $table->string('email', 100)->unique();
+            $table->string('code_number', 100)->unique();
             $table->string('phone', 100);
             $table->string('nationality', 100);
             $table->string('nid_number', 100);
@@ -26,11 +27,11 @@ return new class () extends Migration {
             $table->string('business_name');
             $table->foreignIdFor(BusinessType::class)->nullable()->constrained()->nullOnDelete();
             $table->foreignIdFor(BusinessCapital::class)->nullable()->constrained()->nullOnDelete();
+            $table->integer('quantity')->default(1);
             $table->dateTime('business_starting_date')->nullable();
             $table->string('ownership')->nullable();
             $table->decimal('business_space_rant', 8, 2)->nullable();
             $table->string('size_of_signboard')->nullable();
-            $table->string('code_number');
             $table->string('status')->default('Pending');
             $table->foreignId('created_by')->nullable()->constrained('users')->nullOnDelete();
             $table->foreignId('updated_by')->nullable()->constrained('users')->nullOnDelete();

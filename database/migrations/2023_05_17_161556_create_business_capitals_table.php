@@ -15,6 +15,7 @@ return new class () extends Migration {
             $table->id();
             $table->string('name');
             $table->decimal('tax')->nullable();
+            $table->tinyInteger('quantifiable')->default(0);
             $table->foreignIdFor(BusinessType::class)->constrained()->cascadeOnDelete();
             $table->timestamps();
             $table->softDeletes();

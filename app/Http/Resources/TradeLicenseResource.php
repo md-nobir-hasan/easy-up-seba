@@ -34,6 +34,7 @@ class TradeLicenseResource extends JsonResource
             "business_type"=>$this->whenLoaded('businessType', function () {
                 return $this->businessType->name;
             }),
+            "quantity"=> $this->quantity,
             'business_capital' => $this->whenLoaded('businessCapital', function () {
                 return $this->businessCapital->name;
             }),

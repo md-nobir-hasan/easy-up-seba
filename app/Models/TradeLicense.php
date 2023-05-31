@@ -36,26 +36,14 @@ class TradeLicense extends Model
         'created_by',
         'updated_by',
         'deleted_by',
+        'quantity',
     ];
 
     protected $casts = [
         'business_starting_date' => 'datetime',
         'status' => Status::class,
         'ownership' => OwnershipType::class,
-    ];
-
-
-    /**
-     * Override the default boot method to register some extra stuff for every child model.
-     */
-    protected static function boot()
-    {
-        static::creating(function ($model) {
-            $model->code_number = Uuid::uuid4()->toString();
-        });
-
-        parent::boot();
-    }
+    ];  
 
     public function addresses()
     {

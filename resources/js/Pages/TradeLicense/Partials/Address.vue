@@ -1,6 +1,6 @@
 <script setup>
 import { reactive, ref, watch } from "vue";
-const emit = defineEmits(["update:modelValue"]);
+const emit = defineEmits(["update:modelValue", "codeUpdate"]);
 
 const props = defineProps({
     title: {
@@ -21,6 +21,7 @@ const form = reactive({
     upazila_id: props.modelValue.upazila_id ?? "",
     union_id: props.modelValue.union_id ?? "",
     ward_id: props.modelValue.ward_id ?? "",
+    bazar_id: props.modelValue.bazar_id ?? "",
     village_id: props.modelValue.village_id ?? "",
 });
 
@@ -32,6 +33,8 @@ const union = ref({});
 const unionDisable = ref(true);
 const wards = ref({});
 const wardDisable = ref(true);
+const bazar = ref({});
+const bazarDisable = ref(true);
 const villege = ref({});
 const villageDisable = ref(true);
 
@@ -47,11 +50,13 @@ const districtFetch = (resetFormValues = false) => {
                 form.upazila_id = "";
                 form.union_id = "";
                 form.ward_id = "";
+                form.bazar_id = "";
                 form.village_id = "";
                 upzilaDisable.value = true;
                 unionDisable.value = true;
                 wardDisable.value = true;
                 villageDisable.value = true;
+                bazarDisable.value = true;
             }
             district.value = res.data;
             districtDisable.value = district.value.length === 0;
@@ -75,10 +80,12 @@ const upazilaFetch = (resetFormValues = false) => {
                 form.upazila_id = "";
                 form.union_id = "";
                 form.ward_id = "";
+                form.bazar_id = "";
                 form.village_id = "";
                 unionDisable.value = true;
                 wardDisable.value = true;
                 villageDisable.value = true;
+                bazarDisable.value = true;
             }
             upazila.value = res.data;
             upzilaDisable.value = upazila.value.length === 0;
@@ -101,9 +108,11 @@ const unionFetch = (resetFormValues = false) => {
             if (resetFormValues) {
                 form.union_id = "";
                 form.ward_id = "";
+                form.bazar_id = "";
                 form.village_id = "";
                 wardDisable.value = true;
                 villageDisable.value = true;
+                bazarDisable.value = true;
             }
             union.value = res.data;
             unionDisable.value = union.value.length === 0;
@@ -135,6 +144,26 @@ const wardFetch = (resetFormValues = false) => {
             console.log("ward fetch done");
         });
 };
+const bazarFetch = (resetFormValues = false) => {
+    if (props.title !== "Business") {
+        return false;
+    }
+    axios
+        .get(route("ajax.fetch", ["Bazar", "union_id", form.union_id]), form)
+        .then((res) => {
+            if (resetFormValues) {
+                form.bazar_id = "";
+            }
+            bazar.value = res.data;
+            bazarDisable.value = bazar.value.length === 0;
+        })
+        .catch((err) => {
+            console.error(err);
+        })
+        .finally(() => {
+            console.log("Bazar fetch done");
+        });
+};
 
 const villageFetch = () => {
     axios
@@ -159,32 +188,71 @@ watch(
         form.upazila_id = newValue?.upazila_id ?? "";
         form.union_id = newValue?.union_id ?? "";
         form.ward_id = newValue?.ward_id ?? "";
+        form.bazar_id = newValue?.bazar_id ?? "";
         form.village_id = newValue?.village_id ?? "";
 
-        if (newValue?.division_id !== oldValue?.division_id && form.district_id) {
+        if (
+            newValue?.division_id !== oldValue?.division_id &&
+            form.district_id
+        ) {
             districtFetch();
         }
 
-        if (newValue?.district_id !== oldValue?.district_id && form.upazila_id) {
+        if (
+            newValue?.district_id !== oldValue?.district_id &&
+            form.upazila_id
+        ) {
             upazilaFetch();
         }
 
-        if (newValue?.upazila_id !== oldValue?.upazila_id && form.union_id) { 
+        if (newValue?.upazila_id !== oldValue?.upazila_id && form.union_id) {
             unionFetch();
         }
 
         if (newValue?.union_id !== oldValue?.union_id && form.ward_id) {
             wardFetch();
+            bazarFetch();
             villageFetch();
         }
     },
     { deep: true, immediate: true }
 );
 
+function updateCodeNumber() {}
 watch(
     () => form,
     (newValue) => {
         emit("update:modelValue", { ...newValue });
+    
+        if (
+            props.title == "Business" &&
+            newValue?.bazar_id &&
+            district.value?.length > 0
+        ) {
+            const districtObj = district?.value?.find(
+                (item) => item.id === newValue?.district_id
+            );
+            const upazilaObj = upazila?.value?.find(
+                (item) => item.id === newValue?.upazila_id
+            );
+            const unionObj = union?.value?.find(
+                (item) => item.id === newValue?.union_id
+            );
+            const bazarObj = bazar?.value?.find(
+                (item) => item.id === newValue?.bazar_id
+            );
+            emit(
+                "codeUpdate",
+                districtObj?.code +
+                    "" +
+                    upazilaObj?.code +
+                    "" +
+                    unionObj?.code +
+                    "" +
+                    bazarObj?.code +
+                    Date.now()
+            );
+        }
     },
     { deep: true }
 );
@@ -260,7 +328,7 @@ watch(
         <div>
             <select
                 v-model="form.union_id"
-                @change="wardFetch(true)"
+                @change="wardFetch(true), bazarFetch(true)"
                 :disabled="unionDisable"
                 required
                 :class="[
@@ -297,6 +365,30 @@ watch(
                     :selected="form.ward_id === wrd.id"
                 >
                     {{ wrd.name }}
+                </option>
+            </select>
+        </div>
+        <div v-if="title == 'Business'">
+            <select
+                v-model="form.bazar_id"
+                @change="villageFetch"
+                :disabled="bazarDisable"
+                required
+                :class="[
+                    bazarDisable
+                        ? 'disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none invalid:border-pink-500 invalid:text-pink-600'
+                        : '',
+                ]"
+                class="border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            >
+                <option value="">বাজার নির্বাচন করুন</option>
+                <option
+                    v-for="(bzr, key) in bazar"
+                    :key="key"
+                    :value="bzr.id"
+                    :selected="form.bazar_id === bzr.id"
+                >
+                    {{ bzr.name }}
                 </option>
             </select>
         </div>

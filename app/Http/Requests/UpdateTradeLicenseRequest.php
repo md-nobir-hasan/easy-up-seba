@@ -5,8 +5,8 @@ namespace App\Http\Requests;
 use App\Enums\AddressType;
 use App\Enums\OwnershipType;
 use App\Enums\Status;
-use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Enum;
 
 class UpdateTradeLicenseRequest extends FormRequest
@@ -28,20 +28,31 @@ class UpdateTradeLicenseRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:250|min:2',
-            'email' => 'required|email:rfc,dns|max:255|unique:trade_licenses,email,'.optional($this->tradeLicense)->id,
+            'email' => [
+                'required',
+                'email:rfc,dns',
+                'max:100',
+                Rule::unique('trade_licenses', 'email')->ignore(optional($this->tradeLicense)->id)
+            ],
+            'code_number' => [
+                'required', 
+                'max:100',
+                Rule::unique('trade_licenses', 'code_number')->ignore(optional($this->tradeLicense)->id)
+            ],
             'fathers_name' => 'required|string|max:250|min:2',
             'mothers_name' => 'required|string|max:250|min:2',
-            'phone' => 'required|string|max:100|min:2',
+            'phone' => 'required|string|max:100|min:10',
             'nationality' => 'required|string|max:100|min:2',
             'nid_number' => 'required|string|max:100|min:2',
-            'fee' => 'nullable|string|max:250|min:2',
-            'e_fee' => 'nullable|string|max:250|min:2',
+            'fee' => 'nullable|string|max:250',
+            'e_fee' => 'nullable|string|max:250',
             'business_name' => 'required|string|max:250|min:2',
             'business_type_id' => 'required',
             'business_capital_id' => 'required',
-            'business_starting_date' => 'nullable|string|max:250|min:2',
-            'business_space_rant' => 'nullable|string|max:250|min:2',
-            'size_of_signboard' => 'nullable|string|max:250|min:2',
+            'quantity' => 'nullable',
+            'business_starting_date' => 'nullable|string|max:250',
+            'business_space_rant' => 'nullable|string|max:250',
+            'size_of_signboard' => 'nullable|string|max:250',
             'ownership' => ['required', new Enum(OwnershipType::class)],
             'status' => ['required', new Enum(Status::class)],
             'present_address' => 'required|array',
@@ -71,9 +82,12 @@ class UpdateTradeLicenseRequest extends FormRequest
             'present_address.postal_code' => 'nullable|string|max:100|min:2',
             'permanent_address.postal_code' => 'nullable|string|max:100|min:2',
             'business_address.postal_code' => 'nullable|string|max:100|min:2',
-            'present_address.ward_id' => ['required', Rule::exists('words', 'id')],
-            'permanent_address.ward_id' => ['required', Rule::exists('words', 'id')],
-            'business_address.ward_id' => ['required', Rule::exists('words', 'id')],
+            'present_address.ward_id' => ['nullable', Rule::exists('words', 'id')],
+            'permanent_address.ward_id' => ['nullable', Rule::exists('words', 'id')],
+            'business_address.ward_id' => ['nullable', Rule::exists('words', 'id')],
+            'present_address.bazar_id' => ['nullable', Rule::exists('bazars', 'id')],
+            'permanent_address.bazar_id' => ['nullable', Rule::exists('bazars', 'id')],
+            'business_address.bazar_id' => ['nullable', Rule::exists('bazars', 'id')],
         ];
     }
 }

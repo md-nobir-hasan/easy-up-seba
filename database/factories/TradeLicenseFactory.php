@@ -6,6 +6,7 @@ use App\Enums\OwnershipType;
 use App\Models\BusinessCapital;
 use App\Models\BusinessType;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Ramsey\Uuid\Uuid;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\TradeLicense>
@@ -26,6 +27,7 @@ class TradeLicenseFactory extends Factory
             'fathers_name' => $this->faker->name(),
             'mothers_name' => $this->faker->name(),
             'email' => $this->faker->unique()->safeEmail(),
+            'code_number' => Uuid::uuid4()->toString(),
             'phone' => $this->faker->phoneNumber(),
             'nationality' => $this->faker->country(),
             'nid_number' => $this->faker->numberBetween(999991231, 9231239812938),

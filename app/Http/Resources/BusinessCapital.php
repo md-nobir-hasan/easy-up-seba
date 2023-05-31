@@ -16,8 +16,9 @@ class BusinessCapital extends JsonResource
     {
         return [
             'id' => $this->id,
-            "name"=> $this->name,
-            "tax"=> $this->tax,
+            "name" => $this->name,
+            "tax" => $this->tax,
+            "quantifiable" => $this->quantifiable,
         ];
     }
 }

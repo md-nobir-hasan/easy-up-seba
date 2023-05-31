@@ -23,6 +23,7 @@ const form = useForm({
     present_address: "",
     permanent_address: "",
     business_address: "",
+    code_number: props.tradeLicense?.code_number ?? "",
     name: props.tradeLicense?.name ?? "",
     fathers_name: props.tradeLicense?.fathers_name ?? "",
     mothers_name: props.tradeLicense?.mothers_name ?? "",
@@ -35,6 +36,7 @@ const form = useForm({
     business_name: props.tradeLicense?.business_name ?? "",
     business_type_id: props.tradeLicense?.business_type_id ?? "",
     business_capital_id: props.tradeLicense?.business_capital_id ?? "",
+    quantity: props.tradeLicense?.quantity ?? false,
     business_starting_date: props.tradeLicense?.business_starting_date
         ? new Date(props.tradeLicense?.business_starting_date)
               .toISOString()
@@ -46,6 +48,9 @@ const form = useForm({
     status: props.tradeLicense?.status ?? "",
 });
 
+function codeUpdate(data) {
+    form.code_number = data;
+}
 const presentAddressValue = computed(() => {
     return props.tradeLicense?.addresses?.find(
         (address) => address.title === "Present"
@@ -90,6 +95,7 @@ watch(
 
 const businessCapital = ref({});
 const businessCapitalDisable = ref(false);
+const quantifiable = ref(false);
 
 const submit = () => {
     if (props.tradeLicense?.id) {
@@ -111,6 +117,19 @@ onMounted(() => {
         businessCapitalFetch();
     }
 });
+
+watch(
+    () => form.business_capital_id,
+    (newVal) => {
+        quantifiable.value =
+            businessCapital?.value?.some(
+                (obj) =>
+                    obj.id === form?.business_capital_id &&
+                    obj.quantifiable === 1
+            ) || false;
+    },
+    { deep: true }
+);
 
 const businessCapitalFetch = () => {
     axios
@@ -150,7 +169,6 @@ const businessCapitalFetch = () => {
 
             <FormLayout class="bg-white">
                 <SucMesgShow :message="$page.props.flash.suc_msg"></SucMesgShow>
-
                 <form @submit.prevent="submit" class="bg-white p-8 text-2lg">
                     <div class="grid grid-cols-6 gap-5 my-2">
                         <InputLabel
@@ -402,7 +420,6 @@ const businessCapitalFetch = () => {
                             />
                         </div>
                     </div>
-
                     <div class="grid grid-cols-6 gap-5 my-5">
                         <InputLabel
                             for="phone"
@@ -414,6 +431,7 @@ const businessCapitalFetch = () => {
                                 v-model="form.business_address"
                                 title="Business"
                                 :divisions="divisions"
+                                @codeUpdate="codeUpdate"
                             />
                             <InputError
                                 class="mt-2"
@@ -492,6 +510,29 @@ const businessCapitalFetch = () => {
                             <InputError
                                 class="mt-2"
                                 :message="form.errors.business_capital_id"
+                            />
+                        </div>
+                    </div>
+                    <div
+                        class="grid grid-cols-6 gap-5 my-2"
+                        v-if="quantifiable"
+                    >
+                        <InputLabel
+                            for="quantity"
+                            value="পরিমাণ/সংখ্যাঃ"
+                            class="text-sm col-span-2"
+                        />
+                        <div class="col-span-4">
+                            <TextInput
+                                id="quantity"
+                                v-model="form.quantity"
+                                type="number"
+                                class="w-full"
+                                autocomplete="quantity"
+                            />
+                            <InputError
+                                class="mt-2"
+                                :message="form.errors.quantity"
                             />
                         </div>
                     </div>
@@ -625,9 +666,10 @@ const businessCapitalFetch = () => {
                             :class="{ 'opacity-25': form.processing }"
                             :disabled="form.processing"
                         >
-                            সংরক্ষণ
+                            {{ !tradeLicense?.id ? "সংরক্ষণ" : "আপডেট করুন" }}
                         </PrimaryButton>
                         <PrimaryButton
+                            v-if="!tradeLicense?.id"
                             @click="form.submit_btn = 'new'"
                             class="ml-4"
                             :class="{ 'opacity-25': form.processing }"
