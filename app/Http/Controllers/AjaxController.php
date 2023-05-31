@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\BusinessCapital;
+use App\Models\BusinessCapital;
 use App\Models\Ekhana;
 use App\Models\FinancialYear;
 use App\Models\HouseTaxDeposite;
