@@ -2,7 +2,10 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
 use Inertia\Middleware;
 
 class HandleInertiaRequests extends Middleware
@@ -36,6 +39,13 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        if(Auth::user()){
+            $user = User::with(['uwbkdn','role','union','union.upazila','uwbkdn.words','union.upazila.district'])->find(Auth::user()->id);
+            Inertia::share('auth.user',$user);
+            $n['noty_not_read'] =  Auth::user()->unreadNotifications ;
+            $n['noty_read'] =  Auth::user()->readNotifications;
+            Inertia::share($n);
+        }
         return array_merge(parent::share($request), [
             'flash' => [
                 'msg' => fn () => $request->session()->get('msg')
