@@ -1,1 +1,0 @@
-import{e as t,b as s,u as n,a as e,o,X as r}from"./app-6337db89.js";const a=e("div",{class:"flex justify-center items-center h-screen"},[e("h1",null,"Contact with ......")],-1),_={__name:"Point",props:{ksum:String,kcount:String},setup(c){return(i,l)=>(o(),t("div",null,[s(n(r),{title:"No points - FYH"}),a]))}};export{_ as default};

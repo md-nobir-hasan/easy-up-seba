@@ -23,7 +23,7 @@ jobs:
       - name: Install Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '18'  # Change this to your desired Node.js version
+          node-version: '16'  # Change this to your desired Node.js version
 
       - name: Install npm dependencies
         run: npm ci
@@ -33,12 +33,12 @@ jobs:
 
       - name: Set environment variables
         run: |
-          echo "DB_DATABASE=${{ secrets.NOBIR_DATABASE }}" >> .env
-          echo "DB_USERNAME=${{ secrets.NOBIR_DB_USERNAME }}" >> .env
-          echo "DB_PASSWORD=${{ secrets.NOBIR_DB_PASSWORD }}" >> .env
-          echo "APP_URL=${{ secrets.N_APP_URL }}" >> .env
-          echo "ASSET_URL=${{ secrets.N_ASSET_URL }}" >> .env
-          echo "PUBLIC_URL=${{ secrets.N_PUBLIC_URL }}" >> .env
+          echo "DB_DATABASE=${{ secrets.DB_DATABASE }}" >> .env
+          echo "DB_USERNAME=${{ secrets.DB_USERNAME }}" >> .env
+          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
+          echo "APP_URL=${{ secrets.APP_URL }}" >> .env
+          echo "ASSET_URL=${{ secrets.ASSET_URL }}" >> .env
+          echo "PUBLIC_URL=${{ secrets.PUBLIC_URL }}" >> .env
           echo "APP_ENV=production" >> .env
           echo "APP_DEBUG=false" >> .env
           echo "TELESCOPE_ENABLED=false" >> .env
@@ -48,11 +48,11 @@ jobs:
 
       - name: Create storage directories on FTP server
         run: |
-          echo "mkdir storage/app" | ftp -n ${{ secrets.N_FTP_SERVER }}
-          echo "mkdir storage/framework" | ftp -n ${{ secrets.N_FTP_SERVER }}
-          echo "mkdir storage/logs" | ftp -n ${{ secrets.N_FTP_SERVER }}
-          echo "mkdir storage/temp" | ftp -n ${{ secrets.N_FTP_SERVER }}
-          echo "mkdir storage/debugbar" | ftp -n ${{ secrets.N_FTP_SERVER }}
+          echo "mkdir storage/app" | ftp -n ${{ secrets.FTP_SERVER }}
+          echo "mkdir storage/framework" | ftp -n ${{ secrets.FTP_SERVER }}
+          echo "mkdir storage/logs" | ftp -n ${{ secrets.FTP_SERVER }}
+          echo "mkdir storage/temp" | ftp -n ${{ secrets.FTP_SERVER }}
+          echo "mkdir storage/debugbar" | ftp -n ${{ secrets.FTP_SERVER }}
 
       - name: Storage Link
         run: php artisan storage:link
@@ -68,17 +68,16 @@ jobs:
       - name: Deploy to FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
-          server: ${{ secrets.N_FTP_SERVER }}
-          username: ${{ secrets.N_FTP_USERNAME }}
-          password: ${{ secrets.MY_PASS }}
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
           protocol: ftps
           port: 21
-          # server_dir: /public_html  # Change this to the desired deployment directory
-          # local_dir: ./public
+          server_dir: /public_html  # Change this to the desired deployment directory
+          local_dir: ./public
           dangerous-clean-slate: true
           synchronize: true
           exclude: |
             */.git
             */.git/**
             */node_modules/*
-
