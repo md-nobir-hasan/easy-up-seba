@@ -1,4 +1,4 @@
-name: Deploy to Nobir by FTP
+name: 🚀 Deploy to Nobir by FTP
 on:
   push:
     branches:
@@ -10,7 +10,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
@@ -21,7 +21,7 @@ jobs:
         run: composer install --no-dev --prefer-dist --no-scripts --no-progress --no-interaction
 
       - name: Install Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: '18'  # Change this to your desired Node.js version
 
@@ -37,8 +37,6 @@ jobs:
           echo "DB_USERNAME=${{ secrets.NOBIR_DB_USERNAME }}" >> .env
           echo "DB_PASSWORD=${{ secrets.NOBIR_DB_PASSWORD }}" >> .env
           echo "APP_URL=${{ secrets.N_APP_URL }}" >> .env
-          echo "ASSET_URL=${{ secrets.N_ASSET_URL }}" >> .env
-          echo "PUBLIC_URL=${{ secrets.N_PUBLIC_URL }}" >> .env
           echo "APP_ENV=production" >> .env
           echo "APP_DEBUG=false" >> .env
           echo "TELESCOPE_ENABLED=false" >> .env
@@ -65,7 +63,7 @@ jobs:
           rm -rf node_modules
           echo "node_modules/" >> .gitignore
 
-      - name: Deploy to FTP
+      - name: 📂 Sync files
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
           server: ${{ secrets.N_FTP_SERVER }}
