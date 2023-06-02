@@ -1,4 +1,4 @@
-name: Deploy to FTP
+name: Deploy to Nobir by FTP
 on:
   push:
     branches:
@@ -43,8 +43,8 @@ jobs:
           echo "APP_DEBUG=false" >> .env
           echo "TELESCOPE_ENABLED=false" >> .env
 
-      - name: Generate application key
-        run: php artisan key:generate
+      # - name: Generate application key
+      #   run: php artisan key:generate
 
       - name: Create storage directories on FTP server
         run: |
