@@ -46,7 +46,11 @@ class TradeLicenseController extends Controller
     {
         try {
             DB::beginTransaction();
-            $tradeLicenses = TradeLicense::create(array_merge(['created_by'=> auth()->user()->id], $request->all()));
+            if(auth()->user()) {
+                $tradeLicenses = TradeLicense::create(array_merge(['created_by'=> auth()->user()->id], $request->all()));
+            } else {
+                $tradeLicenses = TradeLicense::create($request->all());
+            }
 
             $tradeLicenses->addresses()->createMany([
                 $request->present_address,
@@ -145,6 +149,15 @@ class TradeLicenseController extends Controller
             return redirect()->back();
         }
 
+    }
+
+    public function tradeLicense()
+    {
+        $divisions = Division::orderBy('id', 'desc')->get();
+        $status = Status::values();
+        $ownerShipType = OwnershipType::values();
+        $businessType = BusinessType::all();
+        return Inertia::render('TradeLicense/PublicForm', ['divisions' => $divisions, 'status'=> $status, 'ownershipType'=> $ownerShipType, 'businessType'=> $businessType]);
     }
 
     public function exportPdf(TradeLicense $tradeLicense)

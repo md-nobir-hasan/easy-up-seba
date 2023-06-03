@@ -26,7 +26,6 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\VillageController;
 use App\Http\Controllers\WordController;
 use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -51,7 +50,9 @@ Route::get('/', function () {
         // 'laravelVersion' => Application::VERSION,
         // 'phpVersion' => PHP_VERSION,
     ]);
-});
+})->name('home');
+Route::get('/trade-license', [TradeLicenseController::class, 'tradeLicense'])->name('trade-license');
+Route::post('/trade-license', [TradeLicenseController::class, 'store'])->name('trade-license.post');
 
 
 Route::prefix('/ajax')->name('ajax.')->group(function () {
