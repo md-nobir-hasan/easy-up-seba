@@ -17,8 +17,8 @@ jobs:
         with:
           php-version: '8.2'  # Change this to your desired PHP version
 
-      # - name: Install Composer dependencies
-      #   run: composer install --no-dev --prefer-dist --no-scripts --no-progress --no-interaction
+      - name: Install Composer dependencies
+        run: composer install #--no-dev --prefer-dist --no-scripts --no-progress --no-interaction
 
       - name: Install Node.js
         uses: actions/setup-node@v3
@@ -52,8 +52,8 @@ jobs:
           echo "mkdir storage/temp" | ftp -n ${{ secrets.N_FTP_SERVER }}
           echo "mkdir storage/debugbar" | ftp -n ${{ secrets.N_FTP_SERVER }}
 
-      # - name: Storage Link
-      #   run: php artisan storage:link
+      - name: Storage Link
+        run: php artisan storage:link
 
       - name: Build assets with npm
         run: npm run build
