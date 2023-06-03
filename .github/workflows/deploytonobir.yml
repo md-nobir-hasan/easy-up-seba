@@ -52,8 +52,8 @@ jobs:
           echo "mkdir storage/temp" | ftp -n ${{ secrets.N_FTP_SERVER }}
           echo "mkdir storage/debugbar" | ftp -n ${{ secrets.N_FTP_SERVER }}
 
-      - name: Storage Link
-        run: php artisan storage:link
+      # - name: Storage Link
+      #   run: php artisan storage:link
 
       - name: Build assets with npm
         run: npm run build
