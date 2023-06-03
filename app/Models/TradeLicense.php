@@ -7,7 +7,6 @@ use App\Enums\Status;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Ramsey\Uuid\Uuid;
 
 class TradeLicense extends Model
 {
@@ -24,6 +23,7 @@ class TradeLicense extends Model
         'nid_number',
         'fee',
         'e_fee',
+        'tin_number',
         'business_name',
         'business_type_id',
         'business_capital_id',
@@ -43,7 +43,7 @@ class TradeLicense extends Model
         'business_starting_date' => 'datetime',
         'status' => Status::class,
         'ownership' => OwnershipType::class,
-    ];  
+    ];
 
     public function addresses()
     {

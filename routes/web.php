@@ -25,8 +25,6 @@ use App\Http\Controllers\UpazilaController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VillageController;
 use App\Http\Controllers\WordController;
-use App\Models\User;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -83,6 +81,8 @@ Route::middleware([
 
     Route::resource('/trade-license', TradeLicenseController::class, ['except' => ['update']]);
     Route::post('/trade-license/update/{tradeLicense}', [TradeLicenseController::class,'update'])->name('trade-license.update');
+    Route::get('/trade-license/export/{tradeLicense}/pdf', [TradeLicenseController::class, 'exportPdf'])->name('tradeLicense.export');
+
     //dashboar rendering
     Route::get('/dashboard', [FrontendController::class,'dashboard'])->name('dashboard');
 

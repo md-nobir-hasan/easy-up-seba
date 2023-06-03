@@ -10,6 +10,7 @@ use App\Http\Resources\TradeLicenseResource;
 use App\Models\BusinessType;
 use App\Models\Division;
 use App\Models\TradeLicense;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
@@ -72,10 +73,7 @@ class TradeLicenseController extends Controller
      */
     public function show(TradeLicense $tradeLicense)
     {
-        return response()->json([
-            'message' => 'Trade license retrieved successfully.',
-            'trade_license' => new TradeLicenseResource($tradeLicense->load('addresses.village', 'addresses.union', 'addresses.upazila', 'addresses.district', 'businessType', 'businessCapital'))
-        ], 200);
+        return Inertia::render('TradeLicense/Show', ['trade_license' => new TradeLicenseResource($tradeLicense->load('addresses.village', 'addresses.union', 'addresses.ward', 'addresses.bazar', 'addresses.upazila', 'addresses.district', 'businessType', 'businessCapital'))]);
     }
 
     /**
@@ -147,5 +145,17 @@ class TradeLicenseController extends Controller
             return redirect()->back();
         }
 
+    }
+
+    public function exportPdf(TradeLicense $tradeLicense)
+    {
+
+        $tradeLicense = new TradeLicenseResource($tradeLicense->load('addresses.village', 'addresses.union', 'addresses.ward', 'addresses.bazar', 'addresses.upazila', 'addresses.district', 'businessType', 'businessCapital'));
+
+
+
+        $html = '<html><head><style>body { font-family: siyam-rupali; }</style></head><body><p>আমি বাংলায় গান গাই।</p></body></html>';
+        $pdf = Pdf::loadHTML($html);
+        return $pdf->stream();
     }
 }

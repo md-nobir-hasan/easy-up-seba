@@ -24,6 +24,7 @@ return new class () extends Migration {
             $table->string('nid_number', 100);
             $table->decimal('fee', 8, 2)->nullable();
             $table->decimal('e_fee', 8, 2)->nullable();
+            $table->string('tin_number', 100)->nullable();
             $table->string('business_name');
             $table->foreignIdFor(BusinessType::class)->nullable()->constrained()->nullOnDelete();
             $table->foreignIdFor(BusinessCapital::class)->nullable()->constrained()->nullOnDelete();

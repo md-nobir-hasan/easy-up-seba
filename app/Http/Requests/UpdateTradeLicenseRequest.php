@@ -35,7 +35,7 @@ class UpdateTradeLicenseRequest extends FormRequest
                 Rule::unique('trade_licenses', 'email')->ignore(optional($this->tradeLicense)->id)
             ],
             'code_number' => [
-                'required', 
+                'required',
                 'max:100',
                 Rule::unique('trade_licenses', 'code_number')->ignore(optional($this->tradeLicense)->id)
             ],
@@ -44,8 +44,9 @@ class UpdateTradeLicenseRequest extends FormRequest
             'phone' => 'required|string|max:100|min:10',
             'nationality' => 'required|string|max:100|min:2',
             'nid_number' => 'required|string|max:100|min:2',
-            'fee' => 'nullable|string|max:250',
-            'e_fee' => 'nullable|string|max:250',
+            'fee' => 'nullable|string|max:10',
+            'e_fee' => 'nullable|string|max:10',
+            'tin_number' => 'nullable|string|max:100',
             'business_name' => 'required|string|max:250|min:2',
             'business_type_id' => 'required',
             'business_capital_id' => 'required',

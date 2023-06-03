@@ -33,6 +33,7 @@ const form = useForm({
     nid_number: props.tradeLicense?.nid_number ?? "",
     fee: props.tradeLicense?.fee ?? "",
     e_fee: props.tradeLicense?.e_fee ?? "",
+    tin_number: props.tradeLicense?.tin_number ?? "",
     business_name: props.tradeLicense?.business_name ?? "",
     business_type_id: props.tradeLicense?.business_type_id ?? "",
     business_capital_id: props.tradeLicense?.business_capital_id ?? "",
@@ -358,7 +359,7 @@ const businessCapitalFetch = () => {
                                 :message="form.errors.nid_number"
                             />
                         </div>
-                    </div>
+                    </div> 
                     <div class="grid grid-cols-6 gap-5 my-2">
                         <InputLabel
                             for="fee"
@@ -400,6 +401,26 @@ const businessCapitalFetch = () => {
                         </div>
                     </div>
                     <div class="grid grid-cols-6 gap-5 my-2">
+                        <InputLabel
+                            for="tin_number"
+                            value="টিন নাম্বার"
+                            class="text-sm col-span-2"
+                        />
+                        <div class="col-span-4">
+                            <TextInput
+                                id="tin_number"
+                                v-model="form.tin_number"
+                                type="text"
+                                class="w-full"
+                                required
+                                autocomplete="tin_number"
+                            />
+                            <InputError
+                                class="mt-2"
+                                :message="form.errors.tin_number"
+                            />
+                        </div>
+                    </div><div class="grid grid-cols-6 gap-5 my-2">
                         <InputLabel
                             for="business_name"
                             value="ব্যবসা প্রতিষ্ঠানের নামঃ"

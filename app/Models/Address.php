@@ -44,6 +44,10 @@ class Address extends Model
     {
         return $this->belongsTo(Bazar::class);
     }
+    public function ward()
+    {
+        return $this->belongsTo(Word::class, 'ward_id', 'id');
+    }
 
     public function upazila()
     {

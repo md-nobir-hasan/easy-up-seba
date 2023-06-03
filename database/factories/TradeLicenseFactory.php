@@ -33,12 +33,14 @@ class TradeLicenseFactory extends Factory
             'nid_number' => $this->faker->numberBetween(999991231, 9231239812938),
             'fee' => $this->faker->randomFloat(2, 100, 9999),
             'e_fee' => $this->faker->randomFloat(2, 100, 9999),
+            'tin_number' => $this->faker->randomFloat(2, 100, 9999),
             'business_name' => $this->faker->name(),
             'business_type_id' => $this->faker->randomElement(BusinessType::pluck('id')->toArray()),
             'business_capital_id' => $this->faker->randomElement(BusinessCapital::pluck('id')->toArray()),
             'business_starting_date' => $this->faker->dateTime(),
             'ownership' =>  $this->faker->randomElement($ownershipType),
             'business_space_rant' => $this->faker->randomFloat(2, 100, 9999),
+            'size_of_signboard' => $this->faker->randomFloat(2, 100, 9999),
         ];
     }
 }

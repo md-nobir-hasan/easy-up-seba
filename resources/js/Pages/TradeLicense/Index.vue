@@ -77,11 +77,13 @@ function deleting(id, modal) {
 </script>
 
 <template>
-    <AppLayout title="গ্রাম">
+    <AppLayout title="ট্রেড লাইসেন্স">
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
             <SucMesgShow :message="$page.props.flash.suc_msg"></SucMesgShow>
             <div class="bg-white flex justify-between p-4">
-                <h2 class="float-left text-4xl font-extrabold">গ্রাম</h2>
+                <h2 class="float-left text-4xl font-extrabold">
+                    ট্রেড লাইসেন্স
+                </h2>
                 <Link :href="route('admin.trade-license.create')">
                     <PrimaryButton v-if="ncheck('add')" class="font-extrabold">
                         ট্রেড লাইসেন্স যোগকরুন
@@ -96,9 +98,9 @@ function deleting(id, modal) {
                     class="text-md text-center text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
                 >
                     <tr>
+                        <th scope="col" class="px-6 py-3">কোড নাম্বার</th>
                         <th scope="col" class="px-6 py-3">নাম</th>
                         <th scope="col" class="px-6 py-3">বাবার নাম</th>
-                        <th scope="col" class="px-6 py-3">কোড নাম্বার</th>
                         <th scope="col" class="px-6 py-3">মোবাইল নাম্বার</th>
                         <th scope="col" class="px-6 py-3">ইমেইল</th>
                         <th scope="col" class="px-6 py-3">
@@ -115,54 +117,65 @@ function deleting(id, modal) {
                         :key="key"
                         class="bg-white text-center border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                     >
-                        <th
+                        <td
                             scope="row"
                             class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                         >
-                            {{ value?.name }}
-                        </th>
-                        <th
+                            <Link
+                                :href="
+                                    route('admin.trade-license.show', value?.id)
+                                "
+                                >{{ value?.code_number }}
+                            </Link>
+                        </td>
+                        <td
+                            scope="row"
+                            class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                        >
+                            <Link
+                                :href="
+                                    route('admin.trade-license.show', value?.id)
+                                "
+                                >{{ value?.name }}
+                            </Link>
+                        </td>
+                        <td
                             scope="row"
                             class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                         >
                             {{ value.fathers_name }}
-                        </th>
-                        <th
-                            scope="row"
-                            class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                        >
-                            {{ value.code_number }}
-                        </th>
-                        <th
+                            cd
+                        </td>
+                        <td
                             scope="row"
                             class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                         >
                             {{ value.phone }}
-                        </th>
-                        <th
+                        </td>
+                        <td
                             scope="row"
                             class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                         >
                             {{ value.email }}
-                        </th>
-                        <th
+                        </td>
+                        <td
                             scope="row"
                             class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                         >
                             {{ value.business_name }}
-                        </th>
-                        <th
+                        </td>
+                        <td
                             scope="row"
                             class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                         >
                             {{ value.status }}
-                        </th>
-                        <th
+                        </td>
+                        <td
                             scope="row"
                             class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                         >
                             {{ value.created_at }}
-                        </th>
+                        </td>
 
                         <td
                             class="px-6 py-4 flex item-center justify-center"
