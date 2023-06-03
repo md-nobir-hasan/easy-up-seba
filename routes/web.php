@@ -51,7 +51,7 @@ Route::get('/', function () {
         // 'phpVersion' => PHP_VERSION,
     ]);
 })->name('home');
-Route::get('/trade-license', [TradeLicenseController::class, 'tradeLicense'])->name('trade-license');
+Route::get('/trade-license-form', [TradeLicenseController::class, 'createTradeLicense'])->name('trade-license');
 Route::post('/trade-license', [TradeLicenseController::class, 'store'])->name('trade-license.post');
 
 

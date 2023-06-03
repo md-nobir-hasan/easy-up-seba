@@ -22,7 +22,7 @@ class TradeLicenseController extends Controller
      */
     public function index()
     {
-        $n['data'] = TradeLicenseResource::collection(TradeLicense::with('addresses.village', 'addresses.union', 'addresses.upazila', 'addresses.district', 'businessType', 'businessCapital')->orderByDesc('id')->get());
+        $n['data'] = TradeLicenseResource::collection(TradeLicense::with('addresses.village', 'addresses.union', 'addresses.upazila', 'addresses.district', 'addresses.division', 'businessType', 'businessCapital')->orderByDesc('id')->get());
         return Inertia::render('TradeLicense/Index', $n);
 
     }
@@ -77,7 +77,7 @@ class TradeLicenseController extends Controller
      */
     public function show(TradeLicense $tradeLicense)
     {
-        return Inertia::render('TradeLicense/Show', ['trade_license' => new TradeLicenseResource($tradeLicense->load('addresses.village', 'addresses.union', 'addresses.ward', 'addresses.bazar', 'addresses.upazila', 'addresses.district', 'businessType', 'businessCapital'))]);
+        return Inertia::render('TradeLicense/Show', ['trade_license' => new TradeLicenseResource($tradeLicense->load('addresses.village', 'addresses.union', 'addresses.ward', 'addresses.bazar', 'addresses.upazila', 'addresses.district', 'addresses.division', 'businessType', 'businessCapital'))]);
     }
 
     /**
@@ -151,7 +151,7 @@ class TradeLicenseController extends Controller
 
     }
 
-    public function tradeLicense()
+    public function createTradeLicense()
     {
         $divisions = Division::orderBy('id', 'desc')->get();
         $status = Status::values();
@@ -162,13 +162,12 @@ class TradeLicenseController extends Controller
 
     public function exportPdf(TradeLicense $tradeLicense)
     {
+        $tradeLicense = (new TradeLicenseResource($tradeLicense->load('addresses.village', 'addresses.union', 'addresses.ward', 'addresses.bazar', 'addresses.upazila', 'addresses.district', 'addresses.division', 'businessType', 'businessCapital')))->resolve();
 
-        $tradeLicense = new TradeLicenseResource($tradeLicense->load('addresses.village', 'addresses.union', 'addresses.ward', 'addresses.bazar', 'addresses.upazila', 'addresses.district', 'businessType', 'businessCapital'));
+        $tl = json_decode(json_encode($tradeLicense), false) ;
 
-
-
-        $html = '<html><head><style>body { font-family: siyam-rupali; }</style></head><body><p>আমি বাংলায় গান গাই।</p></body></html>';
-        $pdf = Pdf::loadHTML($html);
-        return $pdf->stream();
+        $pdf = Pdf::loadView('exports.tradeLicense', ['tradeLicense'=> $tl]);
+        return $pdf->download($tl->name.'.pdf');
     }
+
 }

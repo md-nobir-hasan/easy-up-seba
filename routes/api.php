@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Api\TradeLicenseController;
+use App\Http\Controllers\TradeLicenseController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,5 +14,4 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::resource('/trade-license', TradeLicenseController::class, ['except' => ['update']]);
-Route::post('/trade-license/update/{tradeLicense}', [TradeLicenseController::class,'update'])->name('update');
+Route::get('/trade-license/export/{tradeLicense}/pdf', [TradeLicenseController::class, 'exportPdf'])->name('tradeLicense.export');

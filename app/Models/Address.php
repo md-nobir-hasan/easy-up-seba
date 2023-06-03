@@ -58,6 +58,10 @@ class Address extends Model
     {
         return $this->belongsTo(District::class);
     }
+    public function division()
+    {
+        return $this->belongsTo(Division::class);
+    }
 
     public function tradeLicense()
     {

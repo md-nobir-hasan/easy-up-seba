@@ -27,7 +27,7 @@ return new class () extends Migration {
             $table->foreignIdFor(Upazila::class)->constrained();
             $table->foreignIdFor(District::class)->constrained();
             $table->foreignIdFor(Division::class)->constrained();
-            $table->string('country', 100)->default('Bangladesh');
+            $table->string('country', 100)->default('বাংলাদেশ');
             $table->foreignIdFor(TradeLicense::class)->constrained()->cascadeOnDelete();
             $table->softDeletes();
             $table->timestamps();
