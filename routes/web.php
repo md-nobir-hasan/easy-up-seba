@@ -84,6 +84,8 @@ Route::middleware([
     Route::post('/trade-license/update/{tradeLicense}', [TradeLicenseController::class,'update'])->name('trade-license.update');
     Route::get('/trade-license/export/{tradeLicense}/pdf', [TradeLicenseController::class, 'exportPdf'])->name('tradeLicense.export');
 
+    Route::get('/trade-licenses/report', [TradeLicenseController::class,'report'])->name('trade-licenses.report');
+
     //dashboar rendering
     Route::get('/dashboard', [FrontendController::class,'dashboard'])->name('dashboard');
 

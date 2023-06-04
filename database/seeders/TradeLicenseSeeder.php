@@ -17,6 +17,6 @@ class TradeLicenseSeeder extends Seeder
         Schema::disableForeignKeyConstraints();
         TradeLicense::truncate();
         Schema::enableForeignKeyConstraints();
-        TradeLicense::factory()->has(Address::factory()->count(3))->count(10)->create();
+        TradeLicense::factory()->has(Address::factory()->count(3))->count(12)->create();
     }
 }

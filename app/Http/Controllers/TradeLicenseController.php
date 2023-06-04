@@ -187,4 +187,11 @@ class TradeLicenseController extends Controller
         return $pdf->download($tl->name.'.pdf');
     }
 
+
+    public function report()
+    {
+        $report = [];
+        return Inertia::render('TradeLicense/Report')->with(['report' => $report]);
+    }
+
 }
