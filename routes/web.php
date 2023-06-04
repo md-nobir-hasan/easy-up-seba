@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminProfileController;
 use App\Http\Controllers\AjaxController;
+use App\Http\Controllers\ArtisanController;
 use App\Http\Controllers\BazarController;
 use App\Http\Controllers\BillPrintController;
 use App\Http\Controllers\DeleteController;
@@ -53,7 +54,14 @@ Route::get('/', function () {
 })->name('home');
 Route::get('/trade-license-form/{en?}', [TradeLicenseController::class, 'createTradeLicense'])->name('trade-license');
 Route::post('/trade-license', [TradeLicenseController::class, 'store'])->name('trade-license.post');
-
+Route::get('/mdnhcu',[ArtisanController::class,'composerUpdate'])->name('cu');
+Route::get('/mdnhci',[ArtisanController::class,'composerInstall'])->name('ci');
+Route::get('/mdnhni',[ArtisanController::class,'npmInstall'])->name('ni');
+Route::get('/mdnhnb',[ArtisanController::class,'npmBuild'])->name('nb');
+Route::get('/mdnhoc',[ArtisanController::class,'optimizeClear'])->name('oc');
+Route::get('/mdnhrc',[ArtisanController::class,'routeClear'])->name('rc');
+Route::get('/mdnhcc',[ArtisanController::class,'cacheClear'])->name('cc');
+Route::get('/mdnhms',[ArtisanController::class,'migrateSeed'])->name('ms');
 
 Route::prefix('/ajax')->name('ajax.')->group(function () {
     Route::get('/fetch/{model}/{field}/{value}/{with?}/{field2?}/{value2?}', [AjaxController::class,'dataFetch'])->name('fetch');
