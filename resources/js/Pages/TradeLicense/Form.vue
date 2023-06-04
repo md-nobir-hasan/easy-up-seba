@@ -414,7 +414,6 @@ const businessCapitalFetch = () => {
                                 v-model="form.tin_number"
                                 type="text"
                                 class="w-full"
-                                required
                                 autocomplete="tin_number"
                             />
                             <InputError

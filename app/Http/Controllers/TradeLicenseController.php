@@ -11,7 +11,7 @@ use App\Models\BusinessType;
 use App\Models\Division;
 use App\Models\TradeLicense;
 use Barryvdh\DomPDF\Facade\Pdf;
-use Illuminate\Http\Client\Request;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
@@ -20,10 +20,23 @@ class TradeLicenseController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $n['data'] = TradeLicenseResource::collection(TradeLicense::with('addresses.village', 'addresses.union', 'addresses.upazila', 'addresses.district', 'addresses.division', 'businessType', 'businessCapital')->orderByDesc('id')->get());
-        return Inertia::render('TradeLicense/Index', $n);
+        $search = $request->get('search', '');
+
+        $tradeLicenses = TradeLicense::with('addresses.village', 'addresses.union', 'addresses.upazila', 'addresses.district', 'addresses.division', 'businessType', 'businessCapital')
+            ->orderByDesc('id')
+            ->when(!empty($search), function ($query) use ($search) {
+                $query->where(function ($subQuery) use ($search) {
+                    $subQuery->where('code_number', 'LIKE', '%' . $search . '%')
+                        ->orWhere('name', 'LIKE', '%' . $search . '%')
+                        ->orWhere('phone', 'LIKE', '%' . $search . '%')
+                        ->orWhere('email', 'LIKE', '%' . $search . '%')
+                        ->orWhere('business_name', 'LIKE', '%' . $search . '%');
+                });
+            })->paginate(10);
+
+        return Inertia::render('TradeLicense/Index')->with(['tradeLicenses' => TradeLicenseResource::collection($tradeLicenses)]);
 
     }
 
