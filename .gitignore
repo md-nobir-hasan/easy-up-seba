@@ -15,4 +15,5 @@ yarn-error.log
 /node_modules
 /public/build
 /public/hot
+/public\hot
 
