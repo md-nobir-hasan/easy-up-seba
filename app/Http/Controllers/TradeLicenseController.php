@@ -164,14 +164,18 @@ class TradeLicenseController extends Controller
 
     }
 
-    public function createTradeLicense()
+    public function createTradeLicense($en = null)
     {
         $divisions = Division::orderBy('id', 'desc')->get();
         $status = Status::values();
         $ownerShipType = OwnershipType::values();
         $businessType = BusinessType::all();
-        return Inertia::render('TradeLicense/PublicForm', ['divisions' => $divisions, 'status'=> $status, 'ownershipType'=> $ownerShipType, 'businessType'=> $businessType]);
+
+        $view = ($en === 'en') ? 'TradeLicense/PublicFormEnglish' : 'TradeLicense/PublicForm';
+
+        return Inertia::render($view, ['divisions' => $divisions, 'status' => $status, 'ownershipType' => $ownerShipType, 'businessType' => $businessType]);
     }
+
 
     public function exportPdf(TradeLicense $tradeLicense)
     {

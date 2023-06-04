@@ -6,7 +6,7 @@ import PrimaryButton from "@/Components/PrimaryButton.vue";
 import SucMesgShow from "@/Components/SucMesgShow.vue";
 import TextInput from "@/Components/TextInput.vue";
 import GuestLayout from "@/Layouts/GuestLayout.vue";
-import Address from "@/Pages/TradeLicense/Partials/Address.vue";
+import Address from "@/Pages/TradeLicense/Partials/AddressEnglish.vue";
 import { Link, useForm } from "@inertiajs/vue3";
 import { computed, onMounted, ref, watch } from "vue";
 
@@ -92,21 +92,21 @@ const businessCapitalFetch = () => {
 </script>
 
 <template>
-    <GuestLayout title="ট্রেড লাইসেন্স">
+    <GuestLayout title="Trade License">
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
             <div class="bg-white flex justify-between p-4">
                 <h2 class="float-left text-3xl font-extrabold">
-                    ট্রেড লাইসেন্স আবেদন ফর্ম
+                    Trade License Application Form
                 </h2>
                 <div class="flex gap-3">
-                    <Link :href="route('trade-license', 'en')">
+                    <Link :href="route('trade-license')">
                         <PrimaryButton class="font-extrabold">
-                            Application with English
+                            বাংলায় আবেদন করুন
                         </PrimaryButton>
                     </Link>
                     <Link :href="route('home')">
                         <PrimaryButton class="font-extrabold">
-                            হোমে ফিরে যান
+                            Go Home
                         </PrimaryButton>
                     </Link>
                 </div>
@@ -119,7 +119,7 @@ const businessCapitalFetch = () => {
                     <div class="grid grid-cols-6 gap-5 my-2">
                         <InputLabel
                             for="name"
-                            value="আবেদনকারীর নামঃ"
+                            value="Applicant's Name:"
                             class="text-sm col-span-2"
                         />
                         <div class="col-span-4">
@@ -140,7 +140,7 @@ const businessCapitalFetch = () => {
                     <div class="grid grid-cols-6 gap-5 my-2">
                         <InputLabel
                             for="fathers_name"
-                            value="পিতা/স্বামীর নামঃ"
+                            value="Father's/Husband's Name:"
                             class="text-sm col-span-2"
                         />
                         <div class="col-span-4">
@@ -162,7 +162,7 @@ const businessCapitalFetch = () => {
                     <div class="grid grid-cols-6 gap-5 my-2">
                         <InputLabel
                             for="mothers_name"
-                            value="মাতার নামঃ"
+                            value="Mother's Name:"
                             class="text-sm col-span-2"
                         />
                         <div class="col-span-4">
@@ -183,8 +183,8 @@ const businessCapitalFetch = () => {
 
                     <div class="grid grid-cols-6 gap-5 my-5">
                         <InputLabel
-                            for="phone"
-                            value="বর্তমান ঠিকানাঃ"
+                            for="present_address"
+                            value="Present Address:"
                             class="text-sm col-span-2"
                         />
                         <div class="col-span-4">
@@ -202,8 +202,8 @@ const businessCapitalFetch = () => {
 
                     <div class="grid grid-cols-6 gap-5 my-5">
                         <InputLabel
-                            for="phone"
-                            value="স্থায়ী ঠিকানাঃ"
+                            for="permanent_address"
+                            value="Permanent Address:"
                             class="text-sm col-span-2"
                         />
                         <div class="col-span-4">
@@ -222,7 +222,7 @@ const businessCapitalFetch = () => {
                     <div class="grid grid-cols-6 gap-5 my-2">
                         <InputLabel
                             for="phone"
-                            value="মোবাইল নাম্বারঃ"
+                            value="Mobile Number:"
                             class="text-sm col-span-2"
                         />
                         <div class="col-span-4">
@@ -244,7 +244,7 @@ const businessCapitalFetch = () => {
                     <div class="grid grid-cols-6 gap-5 my-2">
                         <InputLabel
                             for="email"
-                            value="ইমেইলঃ"
+                            value="Email:"
                             class="text-sm col-span-2"
                         />
                         <div class="col-span-4">
@@ -266,7 +266,7 @@ const businessCapitalFetch = () => {
                     <div class="grid grid-cols-6 gap-5 my-2">
                         <InputLabel
                             for="nationality"
-                            value="জাতীয়তা"
+                            value="Nationality:"
                             class="text-sm col-span-2"
                         />
                         <div class="col-span-4">
@@ -287,7 +287,7 @@ const businessCapitalFetch = () => {
                     <div class="grid grid-cols-6 gap-5 my-2">
                         <InputLabel
                             for="nid_number"
-                            value="জন্ম নিবন্ধন/এনআইডি/পাসপোর্ট নাম্বারঃ"
+                            value="Birth Registration/NID/Passport Number:"
                             class="text-sm col-span-2"
                         />
                         <div class="col-span-4">
@@ -308,7 +308,7 @@ const businessCapitalFetch = () => {
                     <div class="grid grid-cols-6 gap-5 my-2">
                         <InputLabel
                             for="fee"
-                            value="ফিঃ"
+                            value="Fee:"
                             class="text-sm col-span-2"
                         />
                         <div class="col-span-4">
@@ -328,7 +328,7 @@ const businessCapitalFetch = () => {
                     <div class="grid grid-cols-6 gap-5 my-2">
                         <InputLabel
                             for="e_fee"
-                            value="ই-ফিঃ"
+                            value="E-Fee:"
                             class="text-sm col-span-2"
                         />
                         <div class="col-span-4">
@@ -348,7 +348,7 @@ const businessCapitalFetch = () => {
                     <div class="grid grid-cols-6 gap-5 my-2">
                         <InputLabel
                             for="tin_number"
-                            value="টিন নাম্বার"
+                            value="TIN Number:"
                             class="text-sm col-span-2"
                         />
                         <div class="col-span-4">
@@ -369,7 +369,7 @@ const businessCapitalFetch = () => {
                     <div class="grid grid-cols-6 gap-5 my-2">
                         <InputLabel
                             for="business_name"
-                            value="ব্যবসা প্রতিষ্ঠানের নামঃ"
+                            value="Business Name:"
                             class="text-sm col-span-2"
                         />
                         <div class="col-span-4">
@@ -390,7 +390,7 @@ const businessCapitalFetch = () => {
                     <div class="grid grid-cols-6 gap-5 my-5">
                         <InputLabel
                             for="phone"
-                            value="ব্যবসা প্রতিষ্ঠানের ঠিকানাঃ"
+                            value="Business Address:"
                             class="text-sm col-span-2"
                         />
                         <div class="col-span-4">
@@ -410,7 +410,7 @@ const businessCapitalFetch = () => {
                     <div class="grid grid-cols-6 gap-5 my-2">
                         <InputLabel
                             for="business_type_id"
-                            value="ব্যবসার ধরণঃ"
+                            value="Business Type:"
                             class="text-sm col-span-2"
                         />
 
@@ -421,9 +421,7 @@ const businessCapitalFetch = () => {
                                 @change="businessCapitalFetch"
                                 class="border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-50 dark:border-gray-600 dark:placeholder-gray-900 dark:text-gray-900 dark:focus:ring-blue-500 dark:focus:border-blue-500 min-w-max"
                             >
-                                <option value="">
-                                    ব্যবসার ধরণ নির্বাচন করুন
-                                </option>
+                                <option value="">Select Business Type</option>
                                 <option
                                     v-for="(bt, key) in businessType"
                                     :key="key"
@@ -443,7 +441,7 @@ const businessCapitalFetch = () => {
                     <div class="grid grid-cols-6 gap-5 my-2">
                         <InputLabel
                             for="business_capital_id"
-                            value="ব্যবসার মূলধন"
+                            value="Business Capital:"
                             class="text-sm col-span-2"
                         />
                         <div class="col-span-4">
@@ -461,7 +459,9 @@ const businessCapitalFetch = () => {
                                 ]"
                                 class="border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             >
-                                <option value="">মূলধন নির্বাচন করুন</option>
+                                <option value="">
+                                    Select Business Capital
+                                </option>
                                 <option
                                     v-for="(bc, key) in businessCapital"
                                     :key="key"
@@ -486,7 +486,7 @@ const businessCapitalFetch = () => {
                     >
                         <InputLabel
                             for="quantity"
-                            value="পরিমাণ/সংখ্যাঃ"
+                            value="Quantity:"
                             class="text-sm col-span-2"
                         />
                         <div class="col-span-4">
@@ -503,11 +503,10 @@ const businessCapitalFetch = () => {
                             />
                         </div>
                     </div>
-
                     <div class="grid grid-cols-6 gap-5 my-2">
                         <InputLabel
                             for="business_starting_date"
-                            value="ব্যাবসা আরম্ব করার সাম্ভাব্য তারিখ"
+                            value="Expected Date of Starting Business"
                             class="text-sm col-span-2"
                         />
                         <div class="col-span-4">
@@ -527,7 +526,7 @@ const businessCapitalFetch = () => {
                     <div class="grid grid-cols-6 gap-5 my-2">
                         <InputLabel
                             for="ownership"
-                            value="ব্যবসা প্রতিষ্ঠান/দোকান মালিকানা (নিজস্ব/ভাড়া)"
+                            value="Business Ownership (Owned/Rented)"
                             class="text-sm col-span-2"
                         />
                         <div class="col-span-4">
@@ -536,7 +535,7 @@ const businessCapitalFetch = () => {
                                 required
                                 class="border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-50 dark:border-gray-600 dark:placeholder-gray-900 dark:text-gray-900 dark:focus:ring-blue-500 dark:focus:border-blue-500 min-w-max"
                             >
-                                <option value="">ধরন নির্বাচন করুন</option>
+                                <option value="">Select Ownership Type</option>
                                 <option
                                     v-for="(ownership, key) in ownershipType"
                                     :key="key"
@@ -556,7 +555,7 @@ const businessCapitalFetch = () => {
                     <div class="grid grid-cols-6 gap-5 my-4">
                         <InputLabel
                             for="business_space_rant"
-                            value="ভাড়াঃ"
+                            value="Rent Amount"
                             class="text-sm col-span-2"
                         />
                         <div class="col-span-4">
@@ -576,7 +575,7 @@ const businessCapitalFetch = () => {
                     <div class="grid grid-cols-6 gap-5 my-5">
                         <InputLabel
                             for="size_of_signboard"
-                            value="পরিচিতি মূলক সাইনবোর্ডের আয়তনঃ (প্রযোজ্য ক্ষেত্রে)"
+                            value="Size of Recognizable Signboard (if applicable)"
                             class="text-sm col-span-2"
                         />
                         <div class="col-span-4">
@@ -601,7 +600,7 @@ const businessCapitalFetch = () => {
                             :class="{ 'opacity-25': form.processing }"
                             :disabled="form.processing"
                         >
-                            আবেদন করুন
+                            Submit Application
                         </PrimaryButton>
                     </div>
                 </form>
