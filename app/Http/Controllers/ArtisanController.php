@@ -8,7 +8,8 @@ use Illuminate\Support\Facades\Artisan;
 class ArtisanController extends Controller
 {
     public function composerUpdate(){
-        Artisan::call('exec', ['command' => 'composer update']);
+        // Artisan::call('composer:update');
+        shell_exec('composer update');
         echo 'Successfully composer updated';
     }
     public function composerInstall(){
