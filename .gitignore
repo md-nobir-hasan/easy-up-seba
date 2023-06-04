@@ -13,3 +13,4 @@ yarn-error.log
 /storage 
 /vendor
 /node_modules
+/public/build
