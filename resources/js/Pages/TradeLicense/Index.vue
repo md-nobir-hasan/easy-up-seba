@@ -59,7 +59,7 @@ function deleting(id, modal) {
             axios
                 .get(route("admin.single.delete.fetch", [id, modal]))
                 .then((res) => {
-                    tradeLicenseData.value = res.data.tradeLicenses;
+                    tradeLicenseData.value.data = res.data;
 
                     Swal.fire(
                         "Deleted!",
