@@ -8,19 +8,19 @@ use Illuminate\Support\Facades\Artisan;
 class ArtisanController extends Controller
 {
     public function composerUpdate(){
-        Artisan::call('composer update');
+        Artisan::call('composer:update');
         echo 'Successfully composer updated';
     }
     public function composerInstall(){
-        Artisan::call('composer install');
+        Artisan::call('composer:install');
         echo 'Successfully composer installed';
     }
     public function npmInstall(){
-        Artisan::call('npm install');
+        Artisan::call('npm:install');
         echo 'Successfully npm installed';
     }
     public function npmBuild(){
-        Artisan::call('npm build');
+        Artisan::call('npm:build');
         echo 'Successfully npm builded';
     }
     public function optimizeClear(){
