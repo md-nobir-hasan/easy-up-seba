@@ -25,7 +25,13 @@ class AddressResource extends JsonResource
                 return $this->union->name;
             }),
             "postal_code"=> $this->postal_code,
-            "ward_id"=> $this->ward_id,
+
+            "ward"=> $this->whenLoaded('ward', function () {
+                return $this->ward->name;
+            }),
+            "bazar"=> $this->whenLoaded('bazar', function () {
+                return $this->bazar->name;
+            }),
             "upazila"=> $this->whenLoaded('upazila', function () {
                 return $this->upazila->name;
             }),

@@ -340,6 +340,15 @@ const submenueItem = [
                 icon: MinusIcon,
                 children: [],
             },
+            {
+                title: "রিপোর্ট",
+                name: "Tax Deposite Approval",
+                active: false,
+                route: route("admin.trade-licenses.report"),
+                url: "/admin/trade-licenses.report",
+                icon: MinusIcon,
+                children: [],
+            },
         ],
     },
     {

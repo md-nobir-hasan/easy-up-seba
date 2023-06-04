@@ -21,6 +21,7 @@ class BusinessCapitalFactory extends Factory
             'name' => $this->faker->name(),
             'tax' => $this->faker->randomFloat(2, 50, 2000),
             'business_type_id' => BusinessType::all(['id'])->random(),
+            'quantifiable' => $this->faker->numberBetween(0,1)
         ];
     }
 }

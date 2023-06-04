@@ -267,7 +267,7 @@ watch(
                 required
                 class="border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             >
-                <option value="">বিভাগ নির্বাচন করুন</option>
+                <option value="">Select Division</option>
                 <option
                     v-for="(division, key) in divisions"
                     :key="key"
@@ -291,7 +291,7 @@ watch(
                 ]"
                 class="border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             >
-                <option value="">জেলা নির্বাচন করুন</option>
+                <option value="">Select District</option>
                 <option
                     v-for="(district, key) in district"
                     :key="key"
@@ -315,7 +315,7 @@ watch(
                 ]"
                 class="border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             >
-                <option value="">উপজেলা নির্বাচন করুন</option>
+                <option value="">Select Upazila</option>
                 <option
                     v-for="(upzil, key) in upazila"
                     :key="key"
@@ -339,7 +339,7 @@ watch(
                 ]"
                 class="border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             >
-                <option value="">ইউনিয়ন নির্বাচন করুন</option>
+                <option value="">Select Union</option>
                 <option v-for="(un, key) in union" :key="key" :value="un.id">
                     {{ un.name }}
                 </option>
@@ -358,7 +358,7 @@ watch(
                 ]"
                 class="border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             >
-                <option value="">ওয়ার্ড নির্বাচন করুন</option>
+                <option value="">Select Ward</option>
                 <option
                     v-for="(wrd, key) in wards"
                     :key="key"
@@ -382,7 +382,7 @@ watch(
                 ]"
                 class="border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             >
-                <option value="">বাজার নির্বাচন করুন</option>
+                <option value="">Select Bazar</option>
                 <option
                     v-for="(bzr, key) in bazar"
                     :key="key"
@@ -405,7 +405,7 @@ watch(
                 ]"
                 class="border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             >
-                <option value="">গ্রাম নির্বাচন করুন</option>
+                <option value="">Select Village</option>
                 <option
                     v-for="(vill, key) in villege"
                     :key="key"

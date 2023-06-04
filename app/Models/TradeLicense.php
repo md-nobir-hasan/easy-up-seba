@@ -7,7 +7,6 @@ use App\Enums\Status;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Ramsey\Uuid\Uuid;
 
 class TradeLicense extends Model
 {
@@ -24,6 +23,7 @@ class TradeLicense extends Model
         'nid_number',
         'fee',
         'e_fee',
+        'tin_number',
         'business_name',
         'business_type_id',
         'business_capital_id',
@@ -36,6 +36,7 @@ class TradeLicense extends Model
         'created_by',
         'updated_by',
         'deleted_by',
+        'quantity',
     ];
 
     protected $casts = [
@@ -43,19 +44,6 @@ class TradeLicense extends Model
         'status' => Status::class,
         'ownership' => OwnershipType::class,
     ];
-
-
-    /**
-     * Override the default boot method to register some extra stuff for every child model.
-     */
-    protected static function boot()
-    {
-        static::creating(function ($model) {
-            $model->code_number = Uuid::uuid4()->toString();
-        });
-
-        parent::boot();
-    }
 
     public function addresses()
     {

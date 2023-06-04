@@ -5,10 +5,9 @@ namespace App\Http\Controllers;
 use App\Exports\EkhanaExport;
 use App\Exports\VillLevyExpExl;
 use App\Models\Ekhana;
-use Illuminate\Http\Request;
-use Maatwebsite\Excel\Facades\Excel;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ExportController extends Controller
 {

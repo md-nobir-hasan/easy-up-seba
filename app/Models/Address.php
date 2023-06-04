@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\AddressType;
+use App\Models\Bazar;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -18,6 +19,7 @@ class Address extends Model
             'union_id',
             'postal_code',
             'ward_id',
+            'bazar_id',
             'upazila_id',
             'district_id',
             'division_id',
@@ -38,6 +40,14 @@ class Address extends Model
     {
         return $this->belongsTo(Union::class);
     }
+    public function bazar()
+    {
+        return $this->belongsTo(Bazar::class);
+    }
+    public function ward()
+    {
+        return $this->belongsTo(Word::class, 'ward_id', 'id');
+    }
 
     public function upazila()
     {
@@ -47,6 +57,10 @@ class Address extends Model
     public function district()
     {
         return $this->belongsTo(District::class);
+    }
+    public function division()
+    {
+        return $this->belongsTo(Division::class);
     }
 
     public function tradeLicense()

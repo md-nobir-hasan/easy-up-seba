@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Enums\AddressType;
+use App\Models\Bazar;
 use App\Models\District;
 use App\Models\Division;
 use App\Models\TradeLicense;
@@ -32,6 +33,7 @@ class AddressFactory extends Factory
             'union_id' => Union::all(['id'])->random(),
             'postal_code' => $this->faker->postcode(),
             'ward_id' => Word::all(['id'])->random(),
+            'bazar_id' => Bazar::all(['id'])->random(),
             'upazila_id' => Upazila::all(['id'])->random(),
             'district_id' => District::all(['id'])->random(),
             'division_id' => Division::all(['id'])->random(),

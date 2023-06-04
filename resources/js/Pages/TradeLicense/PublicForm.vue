@@ -5,7 +5,7 @@ import InputLabel from "@/Components/InputLabel.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import SucMesgShow from "@/Components/SucMesgShow.vue";
 import TextInput from "@/Components/TextInput.vue";
-import AppLayout from "@/Layouts/AppLayout.vue";
+import GuestLayout from "@/Layouts/GuestLayout.vue";
 import Address from "@/Pages/TradeLicense/Partials/Address.vue";
 import { Link, useForm } from "@inertiajs/vue3";
 import { computed, onMounted, ref, watch } from "vue";
@@ -15,7 +15,6 @@ const props = defineProps({
     status: Object,
     ownershipType: Object,
     businessType: Object,
-    tradeLicense: Object,
 });
 
 const form = useForm({
@@ -23,101 +22,39 @@ const form = useForm({
     present_address: "",
     permanent_address: "",
     business_address: "",
-    code_number: props.tradeLicense?.code_number ?? "",
-    name: props.tradeLicense?.name ?? "",
-    fathers_name: props.tradeLicense?.fathers_name ?? "",
-    mothers_name: props.tradeLicense?.mothers_name ?? "",
-    email: props.tradeLicense?.email ?? "",
-    phone: props.tradeLicense?.phone ?? "",
-    nationality: props.tradeLicense?.nationality ?? "",
-    nid_number: props.tradeLicense?.nid_number ?? "",
-    fee: props.tradeLicense?.fee ?? "",
-    e_fee: props.tradeLicense?.e_fee ?? "",
-    tin_number: props.tradeLicense?.tin_number ?? "",
-    business_name: props.tradeLicense?.business_name ?? "",
-    business_type_id: props.tradeLicense?.business_type_id ?? "",
-    business_capital_id: props.tradeLicense?.business_capital_id ?? "",
-    quantity: props.tradeLicense?.quantity ?? false,
-    business_starting_date: props.tradeLicense?.business_starting_date
-        ? new Date(props.tradeLicense?.business_starting_date)
-              .toISOString()
-              .split("T")[0]
-        : "",
-    ownership: props.tradeLicense?.ownership ?? "",
-    business_space_rant: props.tradeLicense?.business_space_rant ?? "",
-    size_of_signboard: props.tradeLicense?.size_of_signboard ?? "",
-    status: props.tradeLicense?.status ?? "",
+    code_number: "",
+    name: "",
+    fathers_name: "",
+    mothers_name: "",
+    email: "",
+    phone: "",
+    nationality: "",
+    nid_number: "",
+    fee: "",
+    e_fee: "",
+    tin_number: "",
+    business_name: "",
+    business_type_id: "",
+    business_capital_id: "",
+    quantity: false,
+    business_starting_date: "",
+    ownership: "",
+    business_space_rant: "",
+    size_of_signboard: "",
 });
 
 function codeUpdate(data) {
     form.code_number = data;
 }
-const presentAddressValue = computed(() => {
-    return props.tradeLicense?.addresses?.find(
-        (address) => address.title === "Present"
-    );
-});
-
-const permanentAddressValue = computed(() => {
-    return props.tradeLicense?.addresses?.find(
-        (address) => address.title === "Permanent"
-    );
-});
-
-const businessAddressValue = computed(() => {
-    return props.tradeLicense?.addresses?.find(
-        (address) => address.title === "Business"
-    );
-});
-
-watch(
-    () => form.present_address,
-    (newVal) => {
-        form.present_address = newVal;
-    },
-    { deep: true }
-);
-
-watch(
-    () => form.permanent_address,
-    (newVal) => {
-        form.permanent_address = newVal;
-    },
-    { deep: true }
-);
-
-watch(
-    () => form.business_address,
-    (newVal) => {
-        form.business_address = newVal;
-    },
-    { deep: true }
-);
-
 const businessCapital = ref({});
 const businessCapitalDisable = ref(false);
 const quantifiable = ref(false);
 
 const submit = () => {
-    if (props.tradeLicense?.id) {
-        form.post(route("admin.trade-license.update", props.tradeLicense.id), {
-            onFinish: () => form.reset(),
-        });
-    } else {
-        form.post(route("admin.trade-license.store"), {
-            onFinish: () => form.reset(),
-        });
-    }
+    form.post(route("trade-license.post"), {
+        onFinish: () => form.reset(),
+    });
 };
-
-onMounted(() => {
-    form.present_address = presentAddressValue.value;
-    form.permanent_address = permanentAddressValue.value;
-    form.business_address = businessAddressValue.value;
-    if (props.tradeLicense?.id) {
-        businessCapitalFetch();
-    }
-});
 
 watch(
     () => form.business_capital_id,
@@ -131,7 +68,6 @@ watch(
     },
     { deep: true }
 );
-
 const businessCapitalFetch = () => {
     axios
         .get(
@@ -156,17 +92,24 @@ const businessCapitalFetch = () => {
 </script>
 
 <template>
-    <AppLayout title="ট্রেড লাইসেন্স">
+    <GuestLayout title="ট্রেড লাইসেন্স">
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
             <div class="bg-white flex justify-between p-4">
                 <h2 class="float-left text-3xl font-extrabold">
-                    ট্রেড লাইসেন্ যোগ
+                    ট্রেড লাইসেন্স আবেদন ফর্ম
                 </h2>
-                <Link :href="route('admin.trade-license.index')">
-                    <PrimaryButton class="font-extrabold">
-                        ফিরে যান
-                    </PrimaryButton>
-                </Link>
+                <div class="flex gap-3">
+                    <Link :href="route('trade-license', 'en')">
+                        <PrimaryButton class="font-extrabold">
+                            Application with English
+                        </PrimaryButton>
+                    </Link>
+                    <Link :href="route('home')">
+                        <PrimaryButton class="font-extrabold">
+                            হোমে ফিরে যান
+                        </PrimaryButton>
+                    </Link>
+                </div>
             </div>
             <hr class="mb-1" />
 
@@ -414,6 +357,7 @@ const businessCapitalFetch = () => {
                                 v-model="form.tin_number"
                                 type="text"
                                 class="w-full"
+                                required
                                 autocomplete="tin_number"
                             />
                             <InputError
@@ -649,38 +593,6 @@ const businessCapitalFetch = () => {
                             />
                         </div>
                     </div>
-                    <div class="grid grid-cols-6 gap-5 my-2">
-                        <InputLabel
-                            for="status"
-                            value="স্ট্যাটাসঃ"
-                            class="text-sm col-span-2"
-                        />
-
-                        <div class="col-span-4">
-                            <select
-                                v-model="form.status"
-                                required
-                                class="border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-50 dark:border-gray-600 dark:placeholder-gray-900 dark:text-gray-900 dark:focus:ring-blue-500 dark:focus:border-blue-500 min-w-max"
-                            >
-                                <option value="">
-                                    স্ট্যাটাস নির্বাচন করুন
-                                </option>
-                                <option
-                                    v-for="(st, key) in status"
-                                    :key="key"
-                                    :value="st"
-                                    :selected="form.status === st"
-                                >
-                                    {{ st }}
-                                </option>
-                            </select>
-
-                            <InputError
-                                class="mt-2"
-                                :message="form.errors.status"
-                            />
-                        </div>
-                    </div>
 
                     <div class="flex items-center justify-center mt-4">
                         <PrimaryButton
@@ -689,20 +601,11 @@ const businessCapitalFetch = () => {
                             :class="{ 'opacity-25': form.processing }"
                             :disabled="form.processing"
                         >
-                            {{ !tradeLicense?.id ? "সংরক্ষণ" : "আপডেট করুন" }}
-                        </PrimaryButton>
-                        <PrimaryButton
-                            v-if="!tradeLicense?.id"
-                            @click="form.submit_btn = 'new'"
-                            class="ml-4"
-                            :class="{ 'opacity-25': form.processing }"
-                            :disabled="form.processing"
-                        >
-                            সংরক্ষণ এবং নতুন
+                            আবেদন করুন
                         </PrimaryButton>
                     </div>
                 </form>
             </FormLayout>
         </div>
-    </AppLayout>
+    </GuestLayout>
 </template>

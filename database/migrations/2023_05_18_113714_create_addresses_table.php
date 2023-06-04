@@ -19,14 +19,15 @@ return new class () extends Migration {
         Schema::create('addresses', function (Blueprint $table) {
             $table->id();
             $table->text('title');
-            $table->foreignIdFor(Village::class)->constrained(); 
+            $table->foreignIdFor(Village::class)->constrained();
             $table->foreignIdFor(Union::class)->constrained();
-            $table->string('postal_code', 100)->nullable(); 
+            $table->string('postal_code', 100)->nullable();
             $table->foreignId('ward_id')->nullable()->constrained('words')->nullOnDelete();
+            $table->foreignId('bazar_id')->nullable()->constrained('bazars')->nullOnDelete();
             $table->foreignIdFor(Upazila::class)->constrained();
             $table->foreignIdFor(District::class)->constrained();
             $table->foreignIdFor(Division::class)->constrained();
-            $table->string('country', 100)->default('Bangladesh');
+            $table->string('country', 100)->default('বাংলাদেশ');
             $table->foreignIdFor(TradeLicense::class)->constrained()->cascadeOnDelete();
             $table->softDeletes();
             $table->timestamps();

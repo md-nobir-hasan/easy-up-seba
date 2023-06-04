@@ -5,8 +5,8 @@ import InputLabel from "@/Components/InputLabel.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import SucMesgShow from "@/Components/SucMesgShow.vue";
 import TextInput from "@/Components/TextInput.vue";
-import AppLayout from "@/Layouts/AppLayout.vue";
-import Address from "@/Pages/TradeLicense/Partials/Address.vue";
+import GuestLayout from "@/Layouts/GuestLayout.vue";
+import Address from "@/Pages/TradeLicense/Partials/AddressEnglish.vue";
 import { Link, useForm } from "@inertiajs/vue3";
 import { computed, onMounted, ref, watch } from "vue";
 
@@ -15,7 +15,6 @@ const props = defineProps({
     status: Object,
     ownershipType: Object,
     businessType: Object,
-    tradeLicense: Object,
 });
 
 const form = useForm({
@@ -23,101 +22,39 @@ const form = useForm({
     present_address: "",
     permanent_address: "",
     business_address: "",
-    code_number: props.tradeLicense?.code_number ?? "",
-    name: props.tradeLicense?.name ?? "",
-    fathers_name: props.tradeLicense?.fathers_name ?? "",
-    mothers_name: props.tradeLicense?.mothers_name ?? "",
-    email: props.tradeLicense?.email ?? "",
-    phone: props.tradeLicense?.phone ?? "",
-    nationality: props.tradeLicense?.nationality ?? "",
-    nid_number: props.tradeLicense?.nid_number ?? "",
-    fee: props.tradeLicense?.fee ?? "",
-    e_fee: props.tradeLicense?.e_fee ?? "",
-    tin_number: props.tradeLicense?.tin_number ?? "",
-    business_name: props.tradeLicense?.business_name ?? "",
-    business_type_id: props.tradeLicense?.business_type_id ?? "",
-    business_capital_id: props.tradeLicense?.business_capital_id ?? "",
-    quantity: props.tradeLicense?.quantity ?? false,
-    business_starting_date: props.tradeLicense?.business_starting_date
-        ? new Date(props.tradeLicense?.business_starting_date)
-              .toISOString()
-              .split("T")[0]
-        : "",
-    ownership: props.tradeLicense?.ownership ?? "",
-    business_space_rant: props.tradeLicense?.business_space_rant ?? "",
-    size_of_signboard: props.tradeLicense?.size_of_signboard ?? "",
-    status: props.tradeLicense?.status ?? "",
+    code_number: "",
+    name: "",
+    fathers_name: "",
+    mothers_name: "",
+    email: "",
+    phone: "",
+    nationality: "",
+    nid_number: "",
+    fee: "",
+    e_fee: "",
+    tin_number: "",
+    business_name: "",
+    business_type_id: "",
+    business_capital_id: "",
+    quantity: false,
+    business_starting_date: "",
+    ownership: "",
+    business_space_rant: "",
+    size_of_signboard: "",
 });
 
 function codeUpdate(data) {
     form.code_number = data;
 }
-const presentAddressValue = computed(() => {
-    return props.tradeLicense?.addresses?.find(
-        (address) => address.title === "Present"
-    );
-});
-
-const permanentAddressValue = computed(() => {
-    return props.tradeLicense?.addresses?.find(
-        (address) => address.title === "Permanent"
-    );
-});
-
-const businessAddressValue = computed(() => {
-    return props.tradeLicense?.addresses?.find(
-        (address) => address.title === "Business"
-    );
-});
-
-watch(
-    () => form.present_address,
-    (newVal) => {
-        form.present_address = newVal;
-    },
-    { deep: true }
-);
-
-watch(
-    () => form.permanent_address,
-    (newVal) => {
-        form.permanent_address = newVal;
-    },
-    { deep: true }
-);
-
-watch(
-    () => form.business_address,
-    (newVal) => {
-        form.business_address = newVal;
-    },
-    { deep: true }
-);
-
 const businessCapital = ref({});
 const businessCapitalDisable = ref(false);
 const quantifiable = ref(false);
 
 const submit = () => {
-    if (props.tradeLicense?.id) {
-        form.post(route("admin.trade-license.update", props.tradeLicense.id), {
-            onFinish: () => form.reset(),
-        });
-    } else {
-        form.post(route("admin.trade-license.store"), {
-            onFinish: () => form.reset(),
-        });
-    }
+    form.post(route("trade-license.post"), {
+        onFinish: () => form.reset(),
+    });
 };
-
-onMounted(() => {
-    form.present_address = presentAddressValue.value;
-    form.permanent_address = permanentAddressValue.value;
-    form.business_address = businessAddressValue.value;
-    if (props.tradeLicense?.id) {
-        businessCapitalFetch();
-    }
-});
 
 watch(
     () => form.business_capital_id,
@@ -131,7 +68,6 @@ watch(
     },
     { deep: true }
 );
-
 const businessCapitalFetch = () => {
     axios
         .get(
@@ -156,17 +92,24 @@ const businessCapitalFetch = () => {
 </script>
 
 <template>
-    <AppLayout title="ট্রেড লাইসেন্স">
+    <GuestLayout title="Trade License">
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
             <div class="bg-white flex justify-between p-4">
                 <h2 class="float-left text-3xl font-extrabold">
-                    ট্রেড লাইসেন্ যোগ
+                    Trade License Application Form
                 </h2>
-                <Link :href="route('admin.trade-license.index')">
-                    <PrimaryButton class="font-extrabold">
-                        ফিরে যান
-                    </PrimaryButton>
-                </Link>
+                <div class="flex gap-3">
+                    <Link :href="route('trade-license')">
+                        <PrimaryButton class="font-extrabold">
+                            বাংলায় আবেদন করুন
+                        </PrimaryButton>
+                    </Link>
+                    <Link :href="route('home')">
+                        <PrimaryButton class="font-extrabold">
+                            Go Home
+                        </PrimaryButton>
+                    </Link>
+                </div>
             </div>
             <hr class="mb-1" />
 
@@ -176,7 +119,7 @@ const businessCapitalFetch = () => {
                     <div class="grid grid-cols-6 gap-5 my-2">
                         <InputLabel
                             for="name"
-                            value="আবেদনকারীর নামঃ"
+                            value="Applicant's Name:"
                             class="text-sm col-span-2"
                         />
                         <div class="col-span-4">
@@ -197,7 +140,7 @@ const businessCapitalFetch = () => {
                     <div class="grid grid-cols-6 gap-5 my-2">
                         <InputLabel
                             for="fathers_name"
-                            value="পিতা/স্বামীর নামঃ"
+                            value="Father's/Husband's Name:"
                             class="text-sm col-span-2"
                         />
                         <div class="col-span-4">
@@ -219,7 +162,7 @@ const businessCapitalFetch = () => {
                     <div class="grid grid-cols-6 gap-5 my-2">
                         <InputLabel
                             for="mothers_name"
-                            value="মাতার নামঃ"
+                            value="Mother's Name:"
                             class="text-sm col-span-2"
                         />
                         <div class="col-span-4">
@@ -240,8 +183,8 @@ const businessCapitalFetch = () => {
 
                     <div class="grid grid-cols-6 gap-5 my-5">
                         <InputLabel
-                            for="phone"
-                            value="বর্তমান ঠিকানাঃ"
+                            for="present_address"
+                            value="Present Address:"
                             class="text-sm col-span-2"
                         />
                         <div class="col-span-4">
@@ -259,8 +202,8 @@ const businessCapitalFetch = () => {
 
                     <div class="grid grid-cols-6 gap-5 my-5">
                         <InputLabel
-                            for="phone"
-                            value="স্থায়ী ঠিকানাঃ"
+                            for="permanent_address"
+                            value="Permanent Address:"
                             class="text-sm col-span-2"
                         />
                         <div class="col-span-4">
@@ -279,7 +222,7 @@ const businessCapitalFetch = () => {
                     <div class="grid grid-cols-6 gap-5 my-2">
                         <InputLabel
                             for="phone"
-                            value="মোবাইল নাম্বারঃ"
+                            value="Mobile Number:"
                             class="text-sm col-span-2"
                         />
                         <div class="col-span-4">
@@ -301,7 +244,7 @@ const businessCapitalFetch = () => {
                     <div class="grid grid-cols-6 gap-5 my-2">
                         <InputLabel
                             for="email"
-                            value="ইমেইলঃ"
+                            value="Email:"
                             class="text-sm col-span-2"
                         />
                         <div class="col-span-4">
@@ -323,7 +266,7 @@ const businessCapitalFetch = () => {
                     <div class="grid grid-cols-6 gap-5 my-2">
                         <InputLabel
                             for="nationality"
-                            value="জাতীয়তা"
+                            value="Nationality:"
                             class="text-sm col-span-2"
                         />
                         <div class="col-span-4">
@@ -344,7 +287,7 @@ const businessCapitalFetch = () => {
                     <div class="grid grid-cols-6 gap-5 my-2">
                         <InputLabel
                             for="nid_number"
-                            value="জন্ম নিবন্ধন/এনআইডি/পাসপোর্ট নাম্বারঃ"
+                            value="Birth Registration/NID/Passport Number:"
                             class="text-sm col-span-2"
                         />
                         <div class="col-span-4">
@@ -365,7 +308,7 @@ const businessCapitalFetch = () => {
                     <div class="grid grid-cols-6 gap-5 my-2">
                         <InputLabel
                             for="fee"
-                            value="ফিঃ"
+                            value="Fee:"
                             class="text-sm col-span-2"
                         />
                         <div class="col-span-4">
@@ -385,7 +328,7 @@ const businessCapitalFetch = () => {
                     <div class="grid grid-cols-6 gap-5 my-2">
                         <InputLabel
                             for="e_fee"
-                            value="ই-ফিঃ"
+                            value="E-Fee:"
                             class="text-sm col-span-2"
                         />
                         <div class="col-span-4">
@@ -405,7 +348,7 @@ const businessCapitalFetch = () => {
                     <div class="grid grid-cols-6 gap-5 my-2">
                         <InputLabel
                             for="tin_number"
-                            value="টিন নাম্বার"
+                            value="TIN Number:"
                             class="text-sm col-span-2"
                         />
                         <div class="col-span-4">
@@ -414,6 +357,7 @@ const businessCapitalFetch = () => {
                                 v-model="form.tin_number"
                                 type="text"
                                 class="w-full"
+                                required
                                 autocomplete="tin_number"
                             />
                             <InputError
@@ -425,7 +369,7 @@ const businessCapitalFetch = () => {
                     <div class="grid grid-cols-6 gap-5 my-2">
                         <InputLabel
                             for="business_name"
-                            value="ব্যবসা প্রতিষ্ঠানের নামঃ"
+                            value="Business Name:"
                             class="text-sm col-span-2"
                         />
                         <div class="col-span-4">
@@ -446,7 +390,7 @@ const businessCapitalFetch = () => {
                     <div class="grid grid-cols-6 gap-5 my-5">
                         <InputLabel
                             for="phone"
-                            value="ব্যবসা প্রতিষ্ঠানের ঠিকানাঃ"
+                            value="Business Address:"
                             class="text-sm col-span-2"
                         />
                         <div class="col-span-4">
@@ -466,7 +410,7 @@ const businessCapitalFetch = () => {
                     <div class="grid grid-cols-6 gap-5 my-2">
                         <InputLabel
                             for="business_type_id"
-                            value="ব্যবসার ধরণঃ"
+                            value="Business Type:"
                             class="text-sm col-span-2"
                         />
 
@@ -477,9 +421,7 @@ const businessCapitalFetch = () => {
                                 @change="businessCapitalFetch"
                                 class="border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-50 dark:border-gray-600 dark:placeholder-gray-900 dark:text-gray-900 dark:focus:ring-blue-500 dark:focus:border-blue-500 min-w-max"
                             >
-                                <option value="">
-                                    ব্যবসার ধরণ নির্বাচন করুন
-                                </option>
+                                <option value="">Select Business Type</option>
                                 <option
                                     v-for="(bt, key) in businessType"
                                     :key="key"
@@ -499,7 +441,7 @@ const businessCapitalFetch = () => {
                     <div class="grid grid-cols-6 gap-5 my-2">
                         <InputLabel
                             for="business_capital_id"
-                            value="ব্যবসার মূলধন"
+                            value="Business Capital:"
                             class="text-sm col-span-2"
                         />
                         <div class="col-span-4">
@@ -517,7 +459,9 @@ const businessCapitalFetch = () => {
                                 ]"
                                 class="border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             >
-                                <option value="">মূলধন নির্বাচন করুন</option>
+                                <option value="">
+                                    Select Business Capital
+                                </option>
                                 <option
                                     v-for="(bc, key) in businessCapital"
                                     :key="key"
@@ -542,7 +486,7 @@ const businessCapitalFetch = () => {
                     >
                         <InputLabel
                             for="quantity"
-                            value="পরিমাণ/সংখ্যাঃ"
+                            value="Quantity:"
                             class="text-sm col-span-2"
                         />
                         <div class="col-span-4">
@@ -559,11 +503,10 @@ const businessCapitalFetch = () => {
                             />
                         </div>
                     </div>
-
                     <div class="grid grid-cols-6 gap-5 my-2">
                         <InputLabel
                             for="business_starting_date"
-                            value="ব্যাবসা আরম্ব করার সাম্ভাব্য তারিখ"
+                            value="Expected Date of Starting Business"
                             class="text-sm col-span-2"
                         />
                         <div class="col-span-4">
@@ -583,7 +526,7 @@ const businessCapitalFetch = () => {
                     <div class="grid grid-cols-6 gap-5 my-2">
                         <InputLabel
                             for="ownership"
-                            value="ব্যবসা প্রতিষ্ঠান/দোকান মালিকানা (নিজস্ব/ভাড়া)"
+                            value="Business Ownership (Owned/Rented)"
                             class="text-sm col-span-2"
                         />
                         <div class="col-span-4">
@@ -592,7 +535,7 @@ const businessCapitalFetch = () => {
                                 required
                                 class="border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-50 dark:border-gray-600 dark:placeholder-gray-900 dark:text-gray-900 dark:focus:ring-blue-500 dark:focus:border-blue-500 min-w-max"
                             >
-                                <option value="">ধরন নির্বাচন করুন</option>
+                                <option value="">Select Ownership Type</option>
                                 <option
                                     v-for="(ownership, key) in ownershipType"
                                     :key="key"
@@ -612,7 +555,7 @@ const businessCapitalFetch = () => {
                     <div class="grid grid-cols-6 gap-5 my-4">
                         <InputLabel
                             for="business_space_rant"
-                            value="ভাড়াঃ"
+                            value="Rent Amount"
                             class="text-sm col-span-2"
                         />
                         <div class="col-span-4">
@@ -632,7 +575,7 @@ const businessCapitalFetch = () => {
                     <div class="grid grid-cols-6 gap-5 my-5">
                         <InputLabel
                             for="size_of_signboard"
-                            value="পরিচিতি মূলক সাইনবোর্ডের আয়তনঃ (প্রযোজ্য ক্ষেত্রে)"
+                            value="Size of Recognizable Signboard (if applicable)"
                             class="text-sm col-span-2"
                         />
                         <div class="col-span-4">
@@ -649,38 +592,6 @@ const businessCapitalFetch = () => {
                             />
                         </div>
                     </div>
-                    <div class="grid grid-cols-6 gap-5 my-2">
-                        <InputLabel
-                            for="status"
-                            value="স্ট্যাটাসঃ"
-                            class="text-sm col-span-2"
-                        />
-
-                        <div class="col-span-4">
-                            <select
-                                v-model="form.status"
-                                required
-                                class="border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-50 dark:border-gray-600 dark:placeholder-gray-900 dark:text-gray-900 dark:focus:ring-blue-500 dark:focus:border-blue-500 min-w-max"
-                            >
-                                <option value="">
-                                    স্ট্যাটাস নির্বাচন করুন
-                                </option>
-                                <option
-                                    v-for="(st, key) in status"
-                                    :key="key"
-                                    :value="st"
-                                    :selected="form.status === st"
-                                >
-                                    {{ st }}
-                                </option>
-                            </select>
-
-                            <InputError
-                                class="mt-2"
-                                :message="form.errors.status"
-                            />
-                        </div>
-                    </div>
 
                     <div class="flex items-center justify-center mt-4">
                         <PrimaryButton
@@ -689,20 +600,11 @@ const businessCapitalFetch = () => {
                             :class="{ 'opacity-25': form.processing }"
                             :disabled="form.processing"
                         >
-                            {{ !tradeLicense?.id ? "সংরক্ষণ" : "আপডেট করুন" }}
-                        </PrimaryButton>
-                        <PrimaryButton
-                            v-if="!tradeLicense?.id"
-                            @click="form.submit_btn = 'new'"
-                            class="ml-4"
-                            :class="{ 'opacity-25': form.processing }"
-                            :disabled="form.processing"
-                        >
-                            সংরক্ষণ এবং নতুন
+                            Submit Application
                         </PrimaryButton>
                     </div>
                 </form>
             </FormLayout>
         </div>
-    </AppLayout>
+    </GuestLayout>
 </template>

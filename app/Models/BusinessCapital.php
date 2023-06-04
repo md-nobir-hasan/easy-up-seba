@@ -12,7 +12,7 @@ class BusinessCapital extends Model
     use SoftDeletes;
 
 
-    protected $fillable = ['name', 'tax', 'business_type_id'];
+    protected $fillable = ['name', 'tax', 'business_type_id', 'quantifiable'];
 
     public function businessType()
     {

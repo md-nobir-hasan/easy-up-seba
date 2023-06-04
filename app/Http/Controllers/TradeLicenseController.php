@@ -10,7 +10,8 @@ use App\Http\Resources\TradeLicenseResource;
 use App\Models\BusinessType;
 use App\Models\Division;
 use App\Models\TradeLicense;
-use Illuminate\Http\Client\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
@@ -19,10 +20,23 @@ class TradeLicenseController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $n['data'] = TradeLicenseResource::collection(TradeLicense::with('addresses.village', 'addresses.union', 'addresses.upazila', 'addresses.district', 'businessType', 'businessCapital')->orderByDesc('id')->get());
-        return Inertia::render('TradeLicense/Index', $n);
+        $search = $request->get('search', '');
+
+        $tradeLicenses = TradeLicense::with('addresses.village', 'addresses.union', 'addresses.upazila', 'addresses.district', 'addresses.division', 'businessType', 'businessCapital')
+            ->orderByDesc('id')
+            ->when(!empty($search), function ($query) use ($search) {
+                $query->where(function ($subQuery) use ($search) {
+                    $subQuery->where('code_number', 'LIKE', '%' . $search . '%')
+                        ->orWhere('name', 'LIKE', '%' . $search . '%')
+                        ->orWhere('phone', 'LIKE', '%' . $search . '%')
+                        ->orWhere('email', 'LIKE', '%' . $search . '%')
+                        ->orWhere('business_name', 'LIKE', '%' . $search . '%');
+                });
+            })->paginate(10);
+
+        return Inertia::render('TradeLicense/Index')->with(['tradeLicenses' => TradeLicenseResource::collection($tradeLicenses)]);
 
     }
 
@@ -45,7 +59,11 @@ class TradeLicenseController extends Controller
     {
         try {
             DB::beginTransaction();
-            $tradeLicenses = TradeLicense::create(array_merge(['created_by'=> auth()->user()->id], $request->all()));
+            if(auth()->user()) {
+                $tradeLicenses = TradeLicense::create(array_merge(['created_by'=> auth()->user()->id], $request->all()));
+            } else {
+                $tradeLicenses = TradeLicense::create($request->all());
+            }
 
             $tradeLicenses->addresses()->createMany([
                 $request->present_address,
@@ -72,10 +90,7 @@ class TradeLicenseController extends Controller
      */
     public function show(TradeLicense $tradeLicense)
     {
-        return response()->json([
-            'message' => 'Trade license retrieved successfully.',
-            'trade_license' => new TradeLicenseResource($tradeLicense->load('addresses.village', 'addresses.union', 'addresses.upazila', 'addresses.district', 'businessType', 'businessCapital'))
-        ], 200);
+        return Inertia::render('TradeLicense/Show', ['trade_license' => new TradeLicenseResource($tradeLicense->load('addresses.village', 'addresses.union', 'addresses.ward', 'addresses.bazar', 'addresses.upazila', 'addresses.district', 'addresses.division', 'businessType', 'businessCapital'))]);
     }
 
     /**
@@ -148,4 +163,35 @@ class TradeLicenseController extends Controller
         }
 
     }
+
+    public function createTradeLicense($en = null)
+    {
+        $divisions = Division::orderBy('id', 'desc')->get();
+        $status = Status::values();
+        $ownerShipType = OwnershipType::values();
+        $businessType = BusinessType::all();
+
+        $view = ($en === 'en') ? 'TradeLicense/PublicFormEnglish' : 'TradeLicense/PublicForm';
+
+        return Inertia::render($view, ['divisions' => $divisions, 'status' => $status, 'ownershipType' => $ownerShipType, 'businessType' => $businessType]);
+    }
+
+
+    public function exportPdf(TradeLicense $tradeLicense)
+    {
+        $tradeLicense = (new TradeLicenseResource($tradeLicense->load('addresses.village', 'addresses.union', 'addresses.ward', 'addresses.bazar', 'addresses.upazila', 'addresses.district', 'addresses.division', 'businessType', 'businessCapital')))->resolve();
+
+        $tl = json_decode(json_encode($tradeLicense), false) ;
+
+        $pdf = Pdf::loadView('exports.tradeLicense', ['tradeLicense'=> $tl]);
+        return $pdf->download($tl->name.'.pdf');
+    }
+
+
+    public function report()
+    {
+        $report = [];
+        return Inertia::render('TradeLicense/Report')->with(['report' => $report]);
+    }
+
 }
