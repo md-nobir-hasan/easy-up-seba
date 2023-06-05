@@ -40,4 +40,8 @@ class ArtisanController extends Controller
         Artisan::call('migrate:fresh --seed');
         echo 'Successfully migrated and seed the data';
     }
+    public function storageLink(){
+        Artisan::call('storage:link');
+        echo 'Storage linked successfully';
+    }
 }

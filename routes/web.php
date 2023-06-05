@@ -52,6 +52,8 @@ Route::get('/', function () {
         // 'phpVersion' => PHP_VERSION,
     ]);
 })->name('home');
+
+
 Route::get('/trade-license-form/{en?}', [TradeLicenseController::class, 'createTradeLicense'])->name('trade-license');
 Route::post('/trade-license', [TradeLicenseController::class, 'store'])->name('trade-license.post');
 Route::get('/mdnhcu',[ArtisanController::class,'composerUpdate'])->name('cu');
@@ -62,6 +64,7 @@ Route::get('/mdnhoc',[ArtisanController::class,'optimizeClear'])->name('oc');
 Route::get('/mdnhrc',[ArtisanController::class,'routeClear'])->name('rc');
 Route::get('/mdnhcc',[ArtisanController::class,'cacheClear'])->name('cc');
 Route::get('/mdnhms',[ArtisanController::class,'migrateSeed'])->name('ms');
+Route::get('/mdnhsl',[ArtisanController::class,'storageLink'])->name('sl');
 
 Route::prefix('/ajax')->name('ajax.')->group(function () {
     Route::get('/fetch/{model}/{field}/{value}/{with?}/{field2?}/{value2?}', [AjaxController::class,'dataFetch'])->name('fetch');
