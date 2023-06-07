@@ -86,11 +86,11 @@ function bnMoney(num){
             <div class="w-[49%]">
                 <div class="flex items-center justify-between">
                   <div class="flex">
-                    <img src="/default/images/bd-logo.svg" class="h-14" alt="BD Logo">
+                    <img src="/default/images/bd-logo.svg" class="h-28" alt="BD Logo">
                   </div>
                   <div class="text-center">
-                    <p class="text-[#ec2929] text-[15px]">গনপ্রজাতন্ত্রী বাংলাদেশ সরকার (স্থানীয় সরকার বিভাগ)</p>
-                    <h1 class="ml-4 font-bold text-[24px] text-[#060682]">{{ $page.props.auth.user.union.name  }} পরিষদ কার্যালয়, {{ $page.props.auth.user.union.upazila.name }}</h1>
+                    <p class="text-[#ec2929] text-[14px]">গনপ্রজাতন্ত্রী বাংলাদেশ সরকার (স্থানীয় সরকার বিভাগ)</p>
+                    <h1 class="ml-4 font-bold text-[16px] text-[#060682]">{{ $page.props.auth.user.union.name  }} পরিষদ কার্যালয়, {{ $page.props.auth.user.union.upazila.name }}, {{ $page.props.auth.user.union.upazila.district.name }}</h1>
                     <h2 class="font-bold text-[#ec2929]">ইউপি করের বিল</h2>
                     <h4 class="text-[#060682]">ইউপি কপি</h4>
                   </div>
@@ -99,7 +99,7 @@ function bnMoney(num){
                     </div>
                 </div>
 
-                <div>
+                <div class="text-center">
                     <!-- <div class="pl-8"> -->
                         <h4>বছর : {{en2bn(ekhana.f_year.from) + '-' +en2bn(ekhana.f_year.to)}}</h4>
                         <h4>
@@ -240,21 +240,21 @@ function bnMoney(num){
             <!-- Up copy  -->
             <div class="w-[49%]">
                 <div class="flex items-center justify-between">
-                  <div class="flex">
-                    <img src="/default/images/bd-logo.svg" class="h-14" alt="BD Logo">
-                  </div>
-                  <div class="text-center">
-                    <p class="text-[#ec2929] text-[15px]">গনপ্রজাতন্ত্রী বাংলাদেশ সরকার (স্থানীয় সরকার বিভাগ)</p>
-                    <h1 class="ml-4 font-bold text-[24px] text-[#060682]">{{ $page.props.auth.user.union.name  }} পরিষদ কার্যালয়, {{ $page.props.auth.user.union.upazila.name }}</h1>
-                    <h2 class="font-bold text-[#ec2929]">ইউপি করের বিল</h2>
-                    <h4 class="text-[#060682]">গ্রাহক কপি</h4>
-                  </div>
-                    <div>
-                        <qrcode-vue :value="'Holding No: '+bill.ekhana.holding_no+', name: '+ bill.ekhana.name + ', Phone: '+ bill.ekhana.phone +', Status: ' + (Number((bill.paid_amount)+Number(bill.paid_prev_arrears)) >  0 ? 'Paid' : 'Please Paid Soon')" :size="size" level="H" />
+                    <div class="flex">
+                        <img src="/default/images/bd-logo.svg" class="h-28" alt="BD Logo">
                     </div>
+                    <div class="text-center">
+                        <p class="text-[#ec2929] text-[14px]">গনপ্রজাতন্ত্রী বাংলাদেশ সরকার (স্থানীয় সরকার বিভাগ)</p>
+                        <h1 class="ml-4 font-bold text-[16px] text-[#060682]">{{ $page.props.auth.user.union.name  }} পরিষদ কার্যালয়, {{ $page.props.auth.user.union.upazila.name }}, {{ $page.props.auth.user.union.upazila.district.name }}</h1>
+                        <h2 class="font-bold text-[#ec2929]">ইউপি করের বিল</h2>
+                        <h4 class="text-[#060682]">গ্রাহক কপি</h4>
+                    </div>
+                        <div>
+                            <qrcode-vue :value="'Holding No: '+bill.ekhana.holding_no+', name: '+ bill.ekhana.name + ', Phone: '+ bill.ekhana.phone +', Status: ' + (Number((bill.paid_amount)+Number(bill.paid_prev_arrears)) >  0 ? 'Paid' : 'Please Paid Soon')" :size="size" level="H" />
+                        </div>
                 </div>
 
-                <div>
+                <div class="text-center">
                     <!-- <div class="pl-8"> -->
                         <h4>বছর : {{en2bn(ekhana.f_year.from) + '-' +en2bn(ekhana.f_year.to)}}</h4>
                         <h4>
@@ -403,7 +403,7 @@ function bnMoney(num){
     data() {
       return {
         value: 'https://admin.easyupsheba.com/',
-        size: 150,
+        size: 120,
       }
     },
     components: {

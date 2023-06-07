@@ -18,6 +18,8 @@ const pro = defineProps({
     ekhanas: Object,
 });
 
+console.log(pro.ekhanas);
+console.log("pro.ekhanas");
 //Extrace user
 const usr = usePage().props.auth.user;
 const form = useForm({

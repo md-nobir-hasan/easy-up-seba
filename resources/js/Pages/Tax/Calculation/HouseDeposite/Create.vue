@@ -158,7 +158,6 @@ function DateFormate(date) {
     }
 
     const submitTax =()=>{
-        console.log(form);
         if(!form.deposite_date){
             alert('জমার তারিখ নির্বাচন করুন');
             return false;
@@ -168,6 +167,9 @@ function DateFormate(date) {
         //     return false;
         // }
         axios.post(route('ajax.update',['HouseTaxDeposite']), form).then(res => {
+            if(res.data == 'nopoints'){
+                alert('আপনার প্রযাপ্ত পরিমাণ পোয়েন্টস নাই।')
+            }else{
             htdeposite.value = res.data;
             console.log(res.data);
             // form.paid_amount = Math.round(res.data.total_amount/3);
@@ -180,6 +182,7 @@ function DateFormate(date) {
             form.arrears = res.data.total_amount - (res.data.paid_amount >0 ? res.data.paid_amount : 0);
             form.fine = Math.round(res.data.fine ?? 0);
             alert('সফলভাবে কর জমা হয়েছে');
+        }
         }).catch(err =>{
             console.error(err)
         }).finally(() => {
