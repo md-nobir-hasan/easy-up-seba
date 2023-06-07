@@ -1,4 +1,4 @@
-name: 🚀 Deploy website on push
+name: 🚀 Deploy to easyupseba on push
 on:
   workflow_dispatch:
   push:
