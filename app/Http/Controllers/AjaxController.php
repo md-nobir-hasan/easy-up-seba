@@ -195,7 +195,7 @@ class AjaxController extends Controller
                     ]);
 
                 } else {
-                    return 'nopoints'
+                    return 'nopoints';
                     // $user->points = 0;
                     // PointHistory::create([
                     //     'name' => 'ই-খানা কর ডিপজিট ('. $req->ekhana_id.')',
