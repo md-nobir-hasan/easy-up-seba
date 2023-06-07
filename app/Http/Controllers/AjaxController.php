@@ -195,12 +195,13 @@ class AjaxController extends Controller
                     ]);
 
                 } else {
-                    $user->points = 0;
-                    PointHistory::create([
-                        'name' => 'ই-খানা কর ডিপজিট ('. $req->ekhana_id.')',
-                        'user_id' => $user->id,
-                        'spent_points' => $user->points,
-                    ]);
+                    return 'nopoints'
+                    // $user->points = 0;
+                    // PointHistory::create([
+                    //     'name' => 'ই-খানা কর ডিপজিট ('. $req->ekhana_id.')',
+                    //     'user_id' => $user->id,
+                    //     'spent_points' => $user->points,
+                    // ]);
                 }
                 $user->save();
             }

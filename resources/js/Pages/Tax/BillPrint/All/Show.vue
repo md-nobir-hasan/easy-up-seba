@@ -93,17 +93,26 @@ function bnMoney(num){
 
                     <div class="flex justify-between mt-4 mr-1 pl-[15px]">
                         <div class="flex">
-                            <img src="/default/images/bd-logo.svg" class="h-14" alt="BD Logo">
+                            <img src="/default/images/bd-logo.svg" class="h-28" alt="BD Logo">
                         </div>
                         <div class="text-center">
                             <p class="text-[#ec2929] text-[14px]">গনপ্রজাতন্ত্রী বাংলাদেশ সরকার (স্থানীয় সরকার বিভাগ)</p>
-                            <h1 class="ml-4 font-bold text-[18px] text-[#060682]">{{ $page.props.auth.user.union.name  }} পরিষদ কার্যালয় {{ $page.props.auth.user.union.upazila.name }}, {{ $page.props.auth.user.union.upazila.district.name }}</h1>
+                            <h1 class="ml-4 font-bold text-[16px] text-[#060682]">{{ $page.props.auth.user.union.name  }} পরিষদ কার্যালয় {{ $page.props.auth.user.union.upazila.name }}, {{ $page.props.auth.user.union.upazila.district.name }}, {{ $page.props.auth.user.union.upazila.district.name }}</h1>
                             <h2 class="font-bold text-[#ec2929] text-[16px]">ইউপি করের বিল</h2>
                             <h4 class="text-[#060682] text-[16px]">ইউপি কপি</h4>
                         </div>
                         <div>
                             <qrcode-vue :value="'Holding No: '+bill.holding_no+', name: '+ bill.bn_name + ', Phone: '+ bill.phone + ', Status: ' + ((bill.paid_amount+bill.paid_prev_arrears)> 0 ? 'Paid' : 'Please Paid Soon')" :size="size" level="H" />
                         </div>
+                    </div>
+                    <div class="text-center">
+                        <!-- <div class="pl-8"> -->
+                            <h4>বছর : {{en2bn(bill.from) + '-' +en2bn(bill.to)}}</h4>
+                            <h4>
+                                কিস্তি :
+                                <span>৪র্থ</span>
+                            </h4>
+                        <!-- </div> -->
                     </div>
 
                     <!-- Ekhana information table  -->
@@ -259,7 +268,7 @@ function bnMoney(num){
                         </div>
                         <div class="text-center">
                             <p class="text-[#ec2929] text-[14px]">গনপ্রজাতন্ত্রী বাংলাদেশ সরকার (স্থানীয় সরকার বিভাগ)</p>
-                            <h1 class="ml-4 font-bold text-[18px] text-[#060682]">{{ $page.props.auth.user.union.name  }} পরিষদ কার্যালয় {{ $page.props.auth.user.union.upazila.name }}, {{ $page.props.auth.user.union.upazila.district.name }}</h1>
+                            <h1 class="ml-4 font-bold text-[16px] text-[#060682]">{{ $page.props.auth.user.union.name  }} পরিষদ কার্যালয় {{ $page.props.auth.user.union.upazila.name }}, {{ $page.props.auth.user.union.upazila.district.name }}, {{ $page.props.auth.user.union.upazila.district.name }}</h1>
                             <h2 class="font-bold text-[#ec2929] text-[16px]">ইউপি করের বিল</h2>
                             <h4 class="text-[#060682] text-[16px]">গ্রাহক কপি</h4>
                         </div>
@@ -267,7 +276,15 @@ function bnMoney(num){
                             <qrcode-vue :value="'Holding No: '+bill.holding_no+', name: '+ bill.bn_name + ', Phone: '+ bill.phone + ', Status: ' + ((bill.paid_amount+bill.paid_prev_arrears)> 0 ? 'Paid' : 'Please Paid Soon')" :size="size" level="H" />
                         </div>
                     </div>
-
+                    <div class="text-center">
+                        <!-- <div class="pl-8"> -->
+                            <h4>বছর : {{en2bn(bill.from) + '-' +en2bn(bill.to)}}</h4>
+                            <h4>
+                                কিস্তি :
+                                <span>৪র্থ</span>
+                            </h4>
+                        <!-- </div> -->
+                    </div>
                     <!-- Ekhana information table  -->
                     <div class="text-left mt-4 w-[100%] p-4">
                         <table class="table w-[100%]">

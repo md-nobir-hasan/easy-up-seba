@@ -17,6 +17,6 @@ jobs:
       - name: 📂 Sync files
         uses: SamKirkland/FTP-Deploy-Action@4.3.3
         with:
-          server: ftp.easyupsheba.coms
+          server: ftp.easyupsheba.com
           username: easyupsheba@admin.easyupsheba.com
           password: ${{ secrets.FTP_PASSWORD }}
