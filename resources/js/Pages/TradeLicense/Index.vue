@@ -76,7 +76,7 @@ function deleting(id, modal) {
         }
     });
 }
-//End deleting
+ 
 </script>
 
 <template>
