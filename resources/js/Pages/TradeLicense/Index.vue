@@ -61,7 +61,6 @@ function deleting(id, modal) {
                 .then((res) => {
                     tradeLicenseData.value.data = res.data;
 
-
                     Swal.fire(
                         "Deleted!",
                         "Your file has been deleted.",
