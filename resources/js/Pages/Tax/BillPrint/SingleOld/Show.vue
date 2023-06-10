@@ -220,7 +220,7 @@ function bnMoney(num){
                                     <span>চেয়ারম্যান স্বাক্ষর</span>
                                 </td>
                             </tr>
-                            <tr>
+                            <tr  class="h-[105px]">
                                 <th class="border border-[black] p-2">প্রাপ্ত টাকা কথায়</th>
                                 <td class="border border-[black] p-2 text-[14px]" :id="bnMoney(Number(bill.paid_amount) + Number(bill.paid_prev_arrears ?? 0))">{{ bnmny }}</td>
                                 <td class="border border-[black] border-b-0 p-2 align-bottom"></td>
@@ -367,7 +367,7 @@ function bnMoney(num){
                     <table class="w-[100%] bg-[#ffc8c8d9] text-center border-collapse border border-[black] p-2">
 
                         <tbody>
-                            <tr>
+                            <tr >
                                 <th class="border border-[black] p-2">প্রাপ্ত টাকা</th>
                                 <td class="border border-[black] p-2">{{en2bn(Number(bill.paid_amount) + Number(bill.paid_previous_arrears ?? 0))}}/-</td>
                                 <td class="border border-[black] p-2">
@@ -375,7 +375,7 @@ function bnMoney(num){
                                     <span>চেয়ারম্যান স্বাক্ষর</span>
                                 </td>
                             </tr>
-                            <tr>
+                            <tr class="h-[105px]">
                                 <th class="border border-[black] p-2">প্রাপ্ত টাকা কথায়</th>
                                 <td class="border border-[black] p-2 text-[14px]">{{ bnmny }}</td>
                                 <td class="border border-[black] border-b-0 p-2 align-bottom"></td>

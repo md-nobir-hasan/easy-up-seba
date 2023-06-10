@@ -219,7 +219,7 @@ console.log(pro.bills);
                                         <span>চেয়ারম্যান স্বাক্ষর</span>
                                     </td>
                                 </tr>
-                                <tr>
+                                <tr  class="h-[105px]">
                                     <th class="border border-[black] p-2">প্রাপ্ত টাকা কথায়</th>
                                     <td class="border border-[black] p-2 text-[14px]" :id="bnMoney(Number(bill.paid_amount) + Number(bill.paid_prev_arrears))">{{ bnmny }}</td>
                                     <td class="border border-[black] border-b-0 p-2 align-bottom"></td>
@@ -373,7 +373,7 @@ console.log(pro.bills);
                                         <span>চেয়ারম্যান স্বাক্ষর</span>
                                     </td>
                                 </tr>
-                                <tr>
+                                <tr  class="h-[105px]">
                                     <th class="border border-[black] p-2">প্রাপ্ত টাকা কথায়</th>
                                     <td class="border border-[black] p-2 text-[14px]">{{ bnmny }}</td>
                                     <td class="border border-[black] border-b-0 p-2 align-bottom"></td>
