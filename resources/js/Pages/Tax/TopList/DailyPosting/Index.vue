@@ -209,7 +209,7 @@ let total_paid = 0;
             <div v-if="ekhana.house_tax">
                 <div id="table" v-if="ekhana.house_tax.length>0">
                     <div>
-                        <h4 class="bg-[#f73532c2] text-white block p-[8px] font-extrabold text-[20px] text-center h1div">{{ en2bn($page.props.auth.user.word.name)+' নং '+$page.props.auth.user.word.union.name}}</h4>
+                        <h4 class="bg-[#f73532c2] text-white block p-[8px] font-extrabold text-[20px] text-center h1div">{{ en2bn($page.props.auth.user.union.name)}}</h4>
                     </div>
                     <table id="my-table" class="text-center">
                         <caption class="bg-[yellow] p-[8px] font-extrabold text-[20px] text-center">ডেইলি পোষ্টিং-({{ year_range }})</caption>

@@ -228,7 +228,7 @@ let total_num = 0;
 
             <div id="table" v-if="ekhana.length>0">
                 <div>
-                    <h4 class="bg-[#f73532c2] text-white block p-[8px] font-extrabold text-[20px] text-center h1div">{{ en2bn($page.props.auth.user.word.name)+' নং '+$page.props.auth.user.word.union.name}}</h4>
+                    <h4 class="bg-[#f73532c2] text-white block p-[8px] font-extrabold text-[20px] text-center h1div">{{ en2bn($page.props.auth.user.union.name)}}</h4>
                 </div>
                 <table id="my-table" class="text-center">
                     <caption class="bg-[yellow] p-[8px] font-extrabold text-[20px] text-center">ওয়ার্ড ভিত্তিক ধার্য কর ও আদায়ের টপশীট-({{ year_range }})</caption>

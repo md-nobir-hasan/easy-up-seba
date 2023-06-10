@@ -225,7 +225,7 @@ function bnMoney(num){
                                     <span></span>
                                 </td>
                             </tr>
-                            <tr>
+                            <tr  class="h-[105px]">
                                 <!-- <th class=" p-2">প্রাপ্ত টাকা কথায়</th> -->
                                 <th></th>
                                 <td class=" p-2"></td>
@@ -388,7 +388,7 @@ function bnMoney(num){
                                     <span></span>
                                 </td>
                             </tr>
-                            <tr>
+                            <tr  class="h-[105px]">
                                 <!-- <th class=" p-2">প্রাপ্ত টাকা কথায়</th> -->
                                 <th></th>
                                 <td class=" p-2"></td>

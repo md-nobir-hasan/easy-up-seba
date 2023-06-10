@@ -41,6 +41,6 @@ class BusinessTypeSeeder extends Seeder
           ['name' => ''],
           ['name' => ''],
           ['name' => ''],
-        ],
+        ];
     }
 }
